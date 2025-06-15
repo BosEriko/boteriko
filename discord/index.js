@@ -30,6 +30,8 @@ client.on('ready', () => {
 client.on('messageCreate', message => {
   if (message.author.bot) return;
 
+  if (message.guild?.id !== process.env.DISCORD_SERVER_ID) return;
+
   if (message.content === '!ping') {
     message.reply('Pong!');
   }
