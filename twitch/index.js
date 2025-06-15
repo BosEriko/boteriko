@@ -36,6 +36,6 @@ client.on('message', async (channel, tags, message, self) => {
   const lowerMsg = msg.toLowerCase();
 
   if (lowerMsg === '!ping') {
-    client.say(channel, `@${tags.username}, Pong!`);
+    client.say(channel, 'Pong!');
   }
 });
