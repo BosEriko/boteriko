@@ -28,9 +28,14 @@ client.on('ready', () => {
 
 // --- Chat Commands ---
 client.on('messageCreate', message => {
+  // Ignore messages from bots
   if (message.author.bot) return;
 
+  // Ensure the message is from the correct server
   if (message.guild?.id !== process.env.DISCORD_SERVER_ID) return;
+
+  // Ignore messages from webhooks
+  if (message.webhookId) return;
 
   if (message.content === '!ping') {
     message.reply('Pong!');
