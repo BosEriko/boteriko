@@ -3,7 +3,7 @@ const axios = require('axios');
 const firebaseUtility = require('../../global/utilities/firebase');
 
 const router = express.Router();
-const db = firebase.firestore();
+const db = firebaseUtility.firestore();
 
 router.get('/twitch', async (req, res) => {
   const code = req.query.code;
@@ -34,14 +34,14 @@ router.get('/twitch', async (req, res) => {
 
     if (twitchUser.email) {
       try {
-        await firebase.auth().updateUser(uid, {
+        await firebaseUtility.auth().updateUser(uid, {
           email: twitchUser.email,
           displayName: twitchUser.display_name,
           photoURL: twitchUser.profile_image_url,
         });
       } catch (err) {
         if (err.code === 'auth/user-not-found') {
-          await firebase.auth().createUser({
+          await firebaseUtility.auth().createUser({
             uid,
             email: twitchUser.email,
             displayName: twitchUser.display_name,
@@ -53,7 +53,7 @@ router.get('/twitch', async (req, res) => {
       }
     }
 
-    const customToken = await firebase.auth().createCustomToken(uid, {
+    const customToken = await firebaseUtility.auth().createCustomToken(uid, {
       displayName: twitchUser.display_name,
       profileImage: twitchUser.profile_image_url,
     });

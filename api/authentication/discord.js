@@ -3,7 +3,7 @@ const axios = require('axios');
 const firebaseUtility = require('../../global/utilities/firebase');
 
 const router = express.Router();
-const db = firebase.firestore();
+const db = firebaseUtility.firestore();
 
 router.get('/discord', async (req, res) => {
   const { code, state } = req.query;
@@ -13,7 +13,7 @@ router.get('/discord', async (req, res) => {
   }
 
   try {
-    const decodedToken = await firebase.auth().verifyIdToken(state);
+    const decodedToken = await firebaseUtility.auth().verifyIdToken(state);
     const uid = decodedToken.uid;
 
     const tokenRes = await axios.post(
