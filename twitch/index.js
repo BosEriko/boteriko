@@ -27,3 +27,30 @@ client.on('message', async (channel, tags, message, self) => {
     client.say(channel, pingCommand());
   }
 });
+
+// --- Event Handlers ---
+client.on('raided', (channel, username, viewers) => {
+  client.say(channel, `${username} is raiding with ${viewers} viewers!`);
+});
+
+client.on('cheer', (channel, userstate, message) => {
+  const username = userstate['display-name'];
+  const bits = userstate['bits'];
+  client.say(channel, `${username} cheered ${bits} bits: ${message}`);
+});
+
+client.on('subscription', (channel, username, method, message, userstate) => {
+  client.say(channel, `${username} just subscribed!`);
+});
+
+client.on('resub', (channel, username, months, message, userstate, methods) => {
+  client.say(channel, `${username} resubscribed for ${months} months!`);
+});
+
+client.on('subgift', (channel, username, streakMonths, recipient, methods, userstate) => {
+  client.say(channel, `${username} gifted a sub to ${recipient}`);
+});
+
+client.on('hosted', (channel, username, viewers, autohost) => {
+  client.say(channel, `${username} is hosting you with ${viewers} viewers`);
+});
