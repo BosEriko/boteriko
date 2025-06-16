@@ -1,4 +1,9 @@
 const tmi = require('tmi.js');
+
+// --- Utilities ---
+const { handleInformationUtility } = require('./utilities/information');
+
+// --- Commands ---
 const pingCommand = require("../global/commands/ping.js");
 
 // --- Twitch Bot Setup ---
@@ -54,3 +59,6 @@ client.on('subgift', (channel, username, streakMonths, recipient, methods, users
 client.on('hosted', (channel, username, viewers, autohost) => {
   client.say(channel, `${username} is hosting you with ${viewers} viewers`);
 });
+
+// --- Information Rotator ---
+setInterval(() => handleInformationUtility(client, process.env.CHANNEL_USERNAME), 10 * 60 * 1000);
