@@ -1,5 +1,5 @@
 const { Client, GatewayIntentBits } = require('discord.js');
-const firebase = require('../utilities/firebase');
+const firebase = require('../global/utilities/firebase');
 
 // --- Discord Bot Setup ---
 const client = new Client({

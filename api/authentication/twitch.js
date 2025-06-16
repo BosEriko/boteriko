@@ -1,6 +1,6 @@
 const express = require('express');
 const axios = require('axios');
-const firebase = require('../../utilities/firebase');
+const firebase = require('../../global/utilities/firebase');
 
 const router = express.Router();
 const db = firebase.firestore();

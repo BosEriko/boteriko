@@ -1,5 +1,5 @@
 const tmi = require('tmi.js');
-const firebase = require('../utilities/firebase');
+const firebase = require('../global/utilities/firebase');
 
 // --- Twitch Bot Setup ---
 const client = new tmi.Client({
