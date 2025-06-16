@@ -1,5 +1,5 @@
 const { Client, GatewayIntentBits } = require('discord.js');
-const firebase = require('../global/utilities/firebase');
+const pingCommand = require("../global/commands/ping.js");
 
 // --- Discord Bot Setup ---
 const client = new Client({
@@ -26,7 +26,7 @@ client.on('messageCreate', message => {
   if (message.webhookId) return;
 
   if (message.content === '!ping') {
-    message.reply('Pong!');
+    message.reply(pingCommand());
   }
 });
 

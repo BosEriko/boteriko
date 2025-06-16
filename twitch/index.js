@@ -1,5 +1,5 @@
 const tmi = require('tmi.js');
-const firebase = require('../global/utilities/firebase');
+const pingCommand = require("../global/commands/ping.js");
 
 // --- Twitch Bot Setup ---
 const client = new tmi.Client({
@@ -24,6 +24,6 @@ client.on('message', async (channel, tags, message, self) => {
   const lowerMsg = msg.toLowerCase();
 
   if (lowerMsg === '!ping') {
-    client.say(channel, 'Pong!');
+    client.say(channel, pingCommand());
   }
 });
