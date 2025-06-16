@@ -18,11 +18,11 @@ function shuffle(array) {
 
 shuffle(messages);
 
-function handleInformationUtility(client, username) {
+function handleInformationUtility(client) {
   const message = messages[messageIndex];
-  client.say(`#${username}`, `📢 ${message}`);
+  client.say(`#${process.env.CHANNEL_USERNAME}`, `📢 ${message}`);
 
   messageIndex = (messageIndex + 1) % messages.length;
 }
 
-module.exports = { handleInformationUtility };
+module.exports = handleInformationUtility;

@@ -1,7 +1,8 @@
 const tmi = require('tmi.js');
 
 // --- Utilities ---
-const { handleInformationUtility } = require('./utilities/information');
+const isStreamingUtility = require("../global/utilities/isStreaming");
+const handleInformationUtility = require('./utilities/information');
 
 // --- Commands ---
 const pingCommand = require("../global/commands/ping.js");
@@ -61,4 +62,4 @@ client.on('hosted', (channel, username, viewers, autohost) => {
 });
 
 // --- Information Rotator ---
-setInterval(() => handleInformationUtility(client, process.env.CHANNEL_USERNAME), 10 * 60 * 1000);
+setInterval(() => isStreamingUtility() && handleInformationUtility(client), 10 * 60 * 1000);
