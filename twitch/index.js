@@ -34,7 +34,7 @@ client.on('message', async (channel, tags, message, self) => {
   const msg = message.trim();
   const lowerMsg = msg.toLowerCase();
 
-  // Ping
+  // Ping Command
   if (lowerMsg === '!ping') {
     client.say(channel, pingCommand());
   }

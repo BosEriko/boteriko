@@ -1,9 +1,10 @@
 const { Client, GatewayIntentBits } = require('discord.js');
 
-// --- Commands ---
+// Commands
 const pingCommand = require("../global/commands/ping.js");
 
-// --- Discord Bot Setup ---
+// -------------------------------------- Discord Bot Setup ----------------------------------------
+
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -16,7 +17,8 @@ client.on('ready', () => {
   console.log(`✅ Connected to Discord server.`);
 });
 
-// --- Chat Commands ---
+// ----------------------------------------- Chat Commands -----------------------------------------
+
 client.on('messageCreate', message => {
   // Ignore messages from bots
   if (message.author.bot) return;
@@ -27,6 +29,7 @@ client.on('messageCreate', message => {
   // Ignore messages from webhooks
   if (message.webhookId) return;
 
+  // Ping Command
   if (message.content === '!ping') {
     message.reply(pingCommand());
   }
