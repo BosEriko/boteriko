@@ -62,4 +62,4 @@ client.on('hosted', (channel, username, viewers, autohost) => {
 });
 
 // --- Information Rotator ---
-setInterval(() => isStreamingUtility() && handleInformationUtility(client), 10 * 60 * 1000);
+setInterval(() => isStreamingUtility() && handleInformationUtility(client, process.env.CHANNEL_USERNAME), 10 * 60 * 1000);

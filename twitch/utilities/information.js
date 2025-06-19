@@ -18,9 +18,9 @@ function shuffle(array) {
 
 shuffle(messages);
 
-function handleInformationUtility(client) {
+function handleInformationUtility(client, username) {
   const message = messages[messageIndex];
-  client.say(`#${process.env.CHANNEL_USERNAME}`, `📢 ${message}`);
+  client.say(`#${username}`, `📢 ${message}`);
 
   messageIndex = (messageIndex + 1) % messages.length;
 }
