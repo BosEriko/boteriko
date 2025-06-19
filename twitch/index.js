@@ -1,4 +1,5 @@
 const tmi = require('tmi.js');
+const cron = require('node-cron');
 
 // --- Utilities ---
 const isStreamingUtility = require("../global/utilities/isStreaming");
@@ -63,3 +64,18 @@ client.on('hosted', (channel, username, viewers, autohost) => {
 
 // --- Information Rotator ---
 setInterval(() => isStreamingUtility() && handleInformationUtility(client, process.env.CHANNEL_USERNAME), 10 * 60 * 1000);
+
+// Every 1 minute
+cron.schedule('* * * * *', () => {
+  console.log('Running every 1 minute');
+});
+
+// Every 5 minutes
+cron.schedule('*/5 * * * *', () => {
+  console.log('Running every 5 minutes');
+});
+
+// Every 10 minutes
+cron.schedule('*/10 * * * *', () => {
+  console.log('Running every 10 minutes');
+});
