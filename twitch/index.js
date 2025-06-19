@@ -63,7 +63,16 @@ client.on('hosted', (channel, username, viewers, autohost) => {
 });
 
 // --- Information Rotator ---
-setInterval(() => isStreamingUtility() && handleInformationUtility(client, process.env.CHANNEL_USERNAME), 10 * 60 * 1000);
+async function checkStreamAndRunInformationUtility() {
+  try {
+    const isStreaming = await isStreamingUtility();
+    if (isStreaming) {
+      handleInformationUtility(client, process.env.CHANNEL_USERNAME);
+    }
+  } catch (error) {
+    console.error("Stream check failed:", error.message);
+  }
+}
 
 // Every 1 minute
 cron.schedule('* * * * *', () => {
@@ -77,5 +86,5 @@ cron.schedule('*/5 * * * *', () => {
 
 // Every 10 minutes
 cron.schedule('*/10 * * * *', () => {
-  console.log('Running every 10 minutes');
+  checkStreamAndRunInformationUtility();
 });
