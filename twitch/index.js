@@ -45,7 +45,11 @@ client.on('message', async (channel, tags, message, self) => {
 // Information Rotator
 async function checkStreamAndRunInformationUtility() {
   try {
-    const isStreaming = await isStreamingUtility(process.env.CHANNEL_USERNAME, process.env.BOT_CLIENT_ID, process.env.BOT_ACCESS_TOKEN);
+    const isStreaming = await isStreamingUtility(
+      process.env.CHANNEL_USERNAME,
+      process.env.BOT_CLIENT_ID,
+      process.env.BOT_ACCESS_TOKEN
+    );
     if (isStreaming) {
       handleInformationUtility(client, process.env.CHANNEL_USERNAME);
     }
