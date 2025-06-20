@@ -12,10 +12,10 @@ const pingCommand = require("../global/commands/ping.js");
 
 const client = new tmi.Client({
   identity: {
-    username: process.env.BOT_USERNAME,
-    password: process.env.BOT_ACCESS_TOKEN
+    username: process.env.TWITCH_BOT_USERNAME,
+    password: process.env.TWITCH_BOT_ACCESS_TOKEN
   },
-  channels: [ process.env.CHANNEL_USERNAME ]
+  channels: [ process.env.TWITCH_CHANNEL_USERNAME ]
 });
 
 client.connect();
@@ -46,12 +46,12 @@ client.on('message', async (channel, tags, message, self) => {
 async function checkStreamAndRunInformationUtility() {
   try {
     const isStreaming = await isStreamingUtility(
-      process.env.CHANNEL_USERNAME,
-      process.env.BOT_CLIENT_ID,
-      process.env.BOT_ACCESS_TOKEN
+      process.env.TWITCH_CHANNEL_USERNAME,
+      process.env.TWITCH_BOT_CLIENT_ID,
+      process.env.TWITCH_BOT_ACCESS_TOKEN
     );
     if (isStreaming) {
-      handleInformationUtility(client, process.env.CHANNEL_USERNAME);
+      handleInformationUtility(client, process.env.TWITCH_CHANNEL_USERNAME);
     }
   } catch (error) {
     console.error("Stream check failed:", error.message);
