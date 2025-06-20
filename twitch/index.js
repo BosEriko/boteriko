@@ -6,7 +6,7 @@ const isStreamingUtility = require("../global/utilities/isStreaming");
 const handleInformationUtility = require('./utilities/information');
 
 // Commands
-const pingCommand = require("../global/commands/ping.js");
+const pingCommand = require("@global/ping.js");
 
 // --------------------------------------- Twitch Bot Setup ----------------------------------------
 
