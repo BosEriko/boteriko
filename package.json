@@ -24,6 +24,6 @@
     "@global": "global/commands",
     "@twitch": "twitch/commands",
     "@discord": "discord/commands",
-    "@api": "api/commands"
+    "@api": "api"
   }
 }

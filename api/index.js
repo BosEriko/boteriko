@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
-const discordRouter = require('./authentication/discord');
-const twitchRouter = require('./authentication/twitch');
+const discordRouter = require('@api/authentication/discord');
+const twitchRouter = require('@api/authentication/twitch');
 
 const app = express();
 
