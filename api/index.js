@@ -13,8 +13,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Route mounting
-app.use('/api/authentication', discordRouter);
-app.use('/api/authentication', twitchRouter);
+app.use('/api', discordRouter);
+app.use('/api', twitchRouter);
 
 // Heroku provides PORT via environment variable
 const PORT = process.env.PORT || 3000;

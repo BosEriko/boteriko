@@ -6,7 +6,7 @@ const router = express.Router();
 const db = firebaseUtility.firestore();
 
 // URL: /api/authentication/discord
-router.get('/discord', async (req, res) => {
+router.get('/authentication/discord', async (req, res) => {
   const { code, state } = req.query;
 
   if (!code || !state) {
