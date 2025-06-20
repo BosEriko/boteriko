@@ -13,11 +13,11 @@ router.get('/twitch', async (req, res) => {
     const tokenRes = await axios.post('https://id.twitch.tv/oauth2/token', null, {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       params: {
-        client_id: process.env.TWITCH_CLIENT_ID,
-        client_secret: process.env.TWITCH_CLIENT_SECRET,
+        client_id: process.env.TWITCH_APP_CLIENT_ID,
+        client_secret: process.env.TWITCH_APP_CLIENT_SECRET,
         code,
         grant_type: 'authorization_code',
-        redirect_uri: process.env.TWITCH_REDIRECT_URI,
+        redirect_uri: process.env.TWITCH_APP_REDIRECT_URL,
       },
     });
 
@@ -26,7 +26,7 @@ router.get('/twitch', async (req, res) => {
     const userRes = await axios.get('https://api.twitch.tv/helix/users', {
       headers: {
         Authorization: `Bearer ${access_token}`,
-        'Client-Id': process.env.TWITCH_CLIENT_ID,
+        'Client-Id': process.env.TWITCH_APP_CLIENT_ID,
       },
     });
 
