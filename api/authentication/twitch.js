@@ -5,6 +5,7 @@ const firebaseUtility = require('../../global/utilities/firebase');
 const router = express.Router();
 const db = firebaseUtility.firestore();
 
+// URL: /api/authentication/twitch
 router.get('/twitch', async (req, res) => {
   const code = req.query.code;
 
