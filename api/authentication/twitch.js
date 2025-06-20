@@ -64,7 +64,7 @@ router.get('/authentication/twitch', async (req, res) => {
       profileImage: twitchUser.profile_image_url,
     }, { merge: true });
 
-    res.redirect(`/authenticate?token=${customToken}`);
+    res.redirect(`${process.env.APP_CLIENT_URL}/authenticate?token=${customToken}`);
   } catch (error) {
     console.error('OAuth error:', error);
     res.status(500).json({ error: 'Authentication failed' });

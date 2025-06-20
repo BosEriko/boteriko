@@ -41,7 +41,7 @@ router.get('/authentication/discord', async (req, res) => {
       discordId: discordUser.id,
     }, { merge: true });
 
-    return res.redirect('/?discord_connected=1');
+    return res.redirect(`${process.env.APP_CLIENT_URL}/?discord_connected=1`);
   } catch (err) {
     console.error('Discord OAuth error:', err);
     return res.status(500).json({ error: 'Discord connection failed' });
