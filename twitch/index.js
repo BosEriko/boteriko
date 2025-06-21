@@ -1,12 +1,12 @@
 const tmi = require('tmi.js');
 const cron = require('node-cron');
 const env = require('@global/utilities/env');
-const axios = require('axios');
 
 // Utilities
 const isStreamingUtility = require("@global/utilities/isStreaming");
 const handleInformationUtility = require('@twitch/utilities/information');
 const handleFollowUtility = require('@twitch/utilities/follow');
+const { handleUserUtility, handleUserCacheClearUtility } = require('@twitch/utilities/user');
 
 // Commands
 const pingCommand = require("@global/commands/ping");
@@ -32,7 +32,6 @@ client.on('connected', (address, port) => {
 
 let isStreaming = false;
 let lastMessageTimestamp = Date.now();
-const twitchUserCache = new Map();
 
 // ----------------------------------------- Chat Commands -----------------------------------------
 
@@ -41,7 +40,11 @@ client.on('message', async (channel, tags, message, self) => {
   if (self) return;
 
   // Fetch Twitch user information
-  const user = await getTwitchUser(tags['display-name']);
+  const user = await handleUserUtility(
+    tags['display-name'],
+    env.twitch.bot.clientId,
+    env.twitch.bot.accessToken
+  );
 
   // Ensure the message is not empty and trim whitespace
   const msg = message.trim();
@@ -90,33 +93,6 @@ async function runConversationUtility() {
     client.say(`#${env.twitch.channel.username}`, `💭 ${await topicCommand(env.openrouter.apiKey)}`);
     lastMessageTimestamp = now;
   }
-}
-
-// Get Twitch User
-async function getTwitchUser(username) {
-  if (twitchUserCache.has(username)) {
-    return twitchUserCache.get(username);
-  }
-
-  try {
-    const res = await axios.get('https://api.twitch.tv/helix/users', {
-      headers: {
-        'Client-ID': env.twitch.bot.clientId,
-        'Authorization': `Bearer ${env.twitch.bot.accessToken}`,
-      },
-      params: { login: username },
-    });
-
-    const user = res.data.data[0];
-    if (user) {
-      twitchUserCache.set(username, user);
-      return user;
-    }
-  } catch (err) {
-    console.warn(`Failed to fetch Twitch user for ${username}: ${err.message}`);
-  }
-
-  return null;
 }
 
 // ---------------------------------------- Event Handlers -----------------------------------------
@@ -173,5 +149,5 @@ cron.schedule('*/10 * * * *', () => {
 
 // Every 24 hours
 cron.schedule('0 0 * * *', () => {
-  twitchUserCache.clear();
+  handleUserCacheClearUtility();
 });
