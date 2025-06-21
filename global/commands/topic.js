@@ -1,5 +1,5 @@
 const llmUtility = require('@global/utilities/llm');
-const topicConstant = require('@global/constants/topics');
+const topicConstant = require('@global/constants/topic');
 
 function getRandomTopic(topics) {
   const index = Math.floor(Math.random() * topics.length);
