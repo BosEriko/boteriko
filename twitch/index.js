@@ -1,6 +1,7 @@
 const tmi = require('tmi.js');
 const cron = require('node-cron');
 const env = require('@global/utilities/env');
+const axios = require('axios');
 
 // Utilities
 const isStreamingUtility = require("@global/utilities/isStreaming");
@@ -31,12 +32,16 @@ client.on('connected', (address, port) => {
 
 let isStreaming = false;
 let lastMessageTimestamp = Date.now();
+const twitchUserCache = new Map();
 
 // ----------------------------------------- Chat Commands -----------------------------------------
 
 client.on('message', async (channel, tags, message, self) => {
   // Ignore messages from the bot itself
   if (self) return;
+
+  // Fetch Twitch user information
+  const user = await getTwitchUser(tags['display-name']);
 
   // Ensure the message is not empty and trim whitespace
   const msg = message.trim();
@@ -85,6 +90,33 @@ async function runConversationUtility() {
     client.say(`#${env.twitch.channel.username}`, `💭 ${await topicCommand(env.openrouter.apiKey)}`);
     lastMessageTimestamp = now;
   }
+}
+
+// Get Twitch User
+async function getTwitchUser(username) {
+  if (twitchUserCache.has(username)) {
+    return twitchUserCache.get(username);
+  }
+
+  try {
+    const res = await axios.get('https://api.twitch.tv/helix/users', {
+      headers: {
+        'Client-ID': env.twitch.bot.clientId,
+        'Authorization': `Bearer ${env.twitch.bot.accessToken}`,
+      },
+      params: { login: username },
+    });
+
+    const user = res.data.data[0];
+    if (user) {
+      twitchUserCache.set(username, user);
+      return user;
+    }
+  } catch (err) {
+    console.warn(`Failed to fetch Twitch user for ${username}: ${err.message}`);
+  }
+
+  return null;
 }
 
 // ---------------------------------------- Event Handlers -----------------------------------------
