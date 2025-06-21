@@ -7,6 +7,7 @@ const isStreamingUtility = require("@global/utilities/isStreaming");
 const handleInformationUtility = require('@twitch/utilities/information');
 const handleFollowUtility = require('@twitch/utilities/follow');
 const { handleUserUtility, handleUserCacheClearUtility } = require('@twitch/utilities/user');
+const handleChatUtility = require('@twitch/utilities/chat');
 
 // Commands
 const pingCommand = require("@global/commands/ping");
@@ -49,6 +50,9 @@ client.on('message', async (channel, tags, message, self) => {
   // Ensure the message is not empty and trim whitespace
   const msg = message.trim();
   const lowerMsg = msg.toLowerCase();
+
+  // Chat Utility
+  handleChatUtility(user, message, env.discord.webhook.streaming);
 
   // Topic Command
   if (lowerMsg === '!topic') client.say(channel, await topicCommand(env.openrouter.apiKey));
