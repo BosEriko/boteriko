@@ -1,6 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const firebaseUtility = require('@global/utilities/firebase');
+const env = require('@global/utilities/env');
 
 const router = express.Router();
 const db = firebaseUtility.firestore();
@@ -13,11 +14,11 @@ router.get('/authentication/twitch', async (req, res) => {
     const tokenRes = await axios.post('https://id.twitch.tv/oauth2/token', null, {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       params: {
-        client_id: process.env.TWITCH_APP_CLIENT_ID,
-        client_secret: process.env.TWITCH_APP_CLIENT_SECRET,
+        client_id: env.twitch.app.clientId,
+        client_secret: env.twitch.app.clientSecret,
         code,
         grant_type: 'authorization_code',
-        redirect_uri: process.env.TWITCH_APP_REDIRECT_URL,
+        redirect_uri: env.twitch.app.redirectUrl,
       },
     });
 
@@ -26,7 +27,7 @@ router.get('/authentication/twitch', async (req, res) => {
     const userRes = await axios.get('https://api.twitch.tv/helix/users', {
       headers: {
         Authorization: `Bearer ${access_token}`,
-        'Client-Id': process.env.TWITCH_APP_CLIENT_ID,
+        'Client-Id': env.twitch.app.clientId,
       },
     });
 
@@ -64,7 +65,7 @@ router.get('/authentication/twitch', async (req, res) => {
       profileImage: twitchUser.profile_image_url,
     }, { merge: true });
 
-    res.redirect(`${process.env.APP_CLIENT_URL}/authenticate?token=${customToken}`);
+    res.redirect(`${env.app.clientUrl}/authenticate?token=${customToken}`);
   } catch (error) {
     console.error('OAuth error:', error);
     res.status(500).json({ error: 'Authentication failed' });

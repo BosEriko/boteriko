@@ -1,6 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const firebaseUtility = require('@global/utilities/firebase');
+const env = require('@global/utilities/env');
 
 const router = express.Router();
 const db = firebaseUtility.firestore();
@@ -20,11 +21,11 @@ router.get('/authentication/discord', async (req, res) => {
     const tokenRes = await axios.post(
       'https://discord.com/api/oauth2/token',
       new URLSearchParams({
-        client_id: process.env.DISCORD_APP_CLIENT_ID,
-        client_secret: process.env.DISCORD_APP_CLIENT_SECRET,
+        client_id: env.discord.app.clientId,
+        client_secret: env.discord.app.clientSecret,
         code,
         grant_type: 'authorization_code',
-        redirect_uri: process.env.DISCORD_APP_REDIRECT_URL,
+        redirect_uri: env.discord.app.redirectUrl,
       }),
       { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
     );
@@ -41,7 +42,7 @@ router.get('/authentication/discord', async (req, res) => {
       discordId: discordUser.id,
     }, { merge: true });
 
-    return res.redirect(`${process.env.APP_CLIENT_URL}/?discord_connected=1`);
+    return res.redirect(`${env.app.clientUrl}/?discord_connected=1`);
   } catch (err) {
     console.error('Discord OAuth error:', err);
     return res.status(500).json({ error: 'Discord connection failed' });

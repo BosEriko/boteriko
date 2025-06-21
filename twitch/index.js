@@ -1,5 +1,6 @@
 const tmi = require('tmi.js');
 const cron = require('node-cron');
+const env = require('@global/utilities/env');
 
 // Utilities
 const isStreamingUtility = require("@global/utilities/isStreaming");
@@ -14,10 +15,10 @@ const topicCommand = require('@global/commands/topic');
 
 const client = new tmi.Client({
   identity: {
-    username: process.env.TWITCH_BOT_USERNAME,
-    password: process.env.TWITCH_BOT_ACCESS_TOKEN
+    username: env.twitch.bot.username,
+    password: env.twitch.bot.accessToken
   },
-  channels: [ process.env.TWITCH_CHANNEL_USERNAME ]
+  channels: [env.twitch.channel.username]
 });
 
 client.connect();
@@ -41,9 +42,8 @@ client.on('message', async (channel, tags, message, self) => {
   const msg = message.trim();
   const lowerMsg = msg.toLowerCase();
 
-
   // Topic Command
-  if (lowerMsg === '!topic') client.say(channel, await topicCommand(process.env.OPENROUTER_API_KEY));
+  if (lowerMsg === '!topic') client.say(channel, await topicCommand(env.openrouter.apiKey));
 
   // Ping Command
   if (lowerMsg === '!ping') client.say(channel, pingCommand());
@@ -55,9 +55,9 @@ client.on('message', async (channel, tags, message, self) => {
 async function checkStreamAvailability() {
   try {
     isStreaming = await isStreamingUtility(
-      process.env.TWITCH_CHANNEL_USERNAME,
-      process.env.TWITCH_BOT_CLIENT_ID,
-      process.env.TWITCH_BOT_ACCESS_TOKEN
+      env.twitch.channel.username,
+      env.twitch.bot.clientId,
+      env.twitch.bot.accessToken
     );
   } catch (error) {
     console.error("Error checking stream availability:", error.message);
@@ -67,11 +67,11 @@ async function checkStreamAvailability() {
 // follow Utility
 function checkNewFollowers() {
   handleFollowUtility(
-    process.env.TWITCH_CHANNEL_ID,
-    process.env.TWITCH_BOT_CLIENT_ID,
-    process.env.TWITCH_BOT_ACCESS_TOKEN,
+    env.twitch.channel.id,
+    env.twitch.bot.clientId,
+    env.twitch.bot.accessToken,
     (newFollower) => {
-      client.say(`#${process.env.TWITCH_CHANNEL_USERNAME}`, `${newFollower} just followed!`);
+      client.say(`#${env.twitch.channel.username}`, `${newFollower} just followed!`);
     }
   );
 }
@@ -82,7 +82,7 @@ async function runConversationUtility() {
   const fiveMinutes = 5 * 60 * 1000;
 
   if (now - lastMessageTimestamp >= fiveMinutes) {
-    client.say(`#${process.env.TWITCH_CHANNEL_USERNAME}`, `💭 ${await topicCommand(process.env.OPENROUTER_API_KEY)}`);
+    client.say(`#${env.twitch.channel.username}`, `💭 ${await topicCommand(env.openrouter.apiKey)}`);
     lastMessageTimestamp = now;
   }
 }
@@ -136,5 +136,5 @@ cron.schedule('*/5 * * * *', () => {
 
 // Every 10 minutes
 cron.schedule('*/10 * * * *', () => {
-  if (isStreaming) handleInformationUtility(client, process.env.TWITCH_CHANNEL_USERNAME);
+  if (isStreaming) handleInformationUtility(client, env.twitch.channel.username);
 });

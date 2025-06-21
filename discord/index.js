@@ -4,6 +4,9 @@ const { Client, GatewayIntentBits } = require('discord.js');
 const pingCommand = require("@global/commands/ping.js");
 const topicCommand = require('@global/commands/topic');
 
+// Environment
+const env = require('@global/utilities/env');
+
 // -------------------------------------- Discord Bot Setup ----------------------------------------
 
 const client = new Client({
@@ -25,14 +28,14 @@ client.on('messageCreate', async message => {
   if (message.author.bot) return;
 
   // Ensure the message is from the correct server
-  if (message.guild?.id !== process.env.DISCORD_SERVER_ID) return;
+  if (message.guild?.id !== env.discord.server.id) return;
 
   // Ignore messages from webhooks
   if (message.webhookId) return;
 
   // Topic Command
   if (message.content === '!topic') {
-    message.reply(await topicCommand(process.env.OPENROUTER_API_KEY));
+    message.reply(await topicCommand(env.openrouter.apiKey));
   }
 
   // Ping Command
@@ -41,4 +44,4 @@ client.on('messageCreate', async message => {
   }
 });
 
-client.login(process.env.DISCORD_BOT_TOKEN);
+client.login(env.discord.bot.token);

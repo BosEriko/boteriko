@@ -1,3 +1,4 @@
+require('dotenv').config();
 const env = {
     app: {
         clientUrl: process.env.APP_CLIENT_URL
@@ -20,8 +21,12 @@ const env = {
         }
     },
     discord: {
-        serverId: process.env.DISCORD_SERVER_ID,
-        botToken: process.env.DISCORD_BOT_TOKEN,
+        server: {
+            id: process.env.DISCORD_SERVER_ID
+        },
+        bot: {
+            token: process.env.DISCORD_BOT_TOKEN,
+        },
         app: {
             clientId: process.env.DISCORD_APP_CLIENT_ID,
             clientSecret: process.env.DISCORD_APP_CLIENT_SECRET,
