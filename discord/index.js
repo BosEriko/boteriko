@@ -1,7 +1,7 @@
 const { Client, GatewayIntentBits } = require('discord.js');
 
 // Commands
-const pingCommand = require("@global/ping.js");
+const pingCommand = require("@global/commands/ping.js");
 
 // -------------------------------------- Discord Bot Setup ----------------------------------------
 

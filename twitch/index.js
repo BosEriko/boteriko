@@ -2,11 +2,11 @@ const tmi = require('tmi.js');
 const cron = require('node-cron');
 
 // Utilities
-const isStreamingUtility = require("../global/utilities/isStreaming");
-const handleInformationUtility = require('./utilities/information');
+const isStreamingUtility = require("@global/utilities/isStreaming");
+const handleInformationUtility = require('@twitch/utilities/information');
 
 // Commands
-const pingCommand = require("@global/ping.js");
+const pingCommand = require("@global/commands/ping.js");
 
 // --------------------------------------- Twitch Bot Setup ----------------------------------------
 

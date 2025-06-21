@@ -21,9 +21,9 @@
     "ws": "^8.18.1"
   },
   "_moduleAliases": {
-    "@global": "global/commands",
-    "@twitch": "twitch/commands",
-    "@discord": "discord/commands",
+    "@global": "global",
+    "@twitch": "twitch",
+    "@discord": "discord",
     "@api": "api"
   }
 }
