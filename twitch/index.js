@@ -110,7 +110,7 @@ client.on('hosted', (channel, username, viewers, autohost) => {
 
 // Every 1 minute
 cron.schedule('* * * * *', () => {
-  checkNewFollowers();
+  if (isStreaming) checkNewFollowers();
 });
 
 // Every 5 minutes
