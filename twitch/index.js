@@ -4,7 +4,7 @@ const cron = require('node-cron');
 // Utilities
 const isStreamingUtility = require("@global/utilities/isStreaming");
 const handleInformationUtility = require('@twitch/utilities/information');
-const handleConversationUtility = require('@twitch/utilities/conversation');
+const handleConversationUtility = require('@global/utilities/conversation');
 const handleFollowUtility = require('@twitch/utilities/follow');
 
 // Commands
@@ -80,11 +80,7 @@ function runConversationUtility() {
   const fiveMinutes = 5 * 60 * 1000;
 
   if (now - lastMessageTimestamp >= fiveMinutes) {
-    handleConversationUtility(
-      client,
-      process.env.TWITCH_CHANNEL_USERNAME,
-      process.env.OPENROUTER_API_KEY
-    );
+    client.say(`#${process.env.TWITCH_CHANNEL_USERNAME}`, `💭 ${handleConversationUtility(process.env.OPENROUTER_API_KEY)}`);
     lastMessageTimestamp = now;
   }
 }

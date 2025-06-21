@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-async function llmUtility(aiKey, personality, topic) {
+async function llmUtility(apiKey, personality, topic) {
     const aiResponse = await axios.post(
         'https://openrouter.ai/api/v1/chat/completions',
         {
@@ -10,7 +10,7 @@ async function llmUtility(aiKey, personality, topic) {
         },
         {
             headers: {
-                Authorization: `Bearer ${aiKey}`,
+                Authorization: `Bearer ${apiKey}`,
                 'Content-Type': 'application/json',
             },
         }
