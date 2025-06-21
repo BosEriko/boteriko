@@ -170,3 +170,8 @@ cron.schedule('*/5 * * * *', () => {
 cron.schedule('*/10 * * * *', () => {
   if (isStreaming) handleInformationUtility(client, env.twitch.channel.username);
 });
+
+// Every 24 hours
+cron.schedule('0 0 * * *', () => {
+  twitchUserCache.clear();
+});
