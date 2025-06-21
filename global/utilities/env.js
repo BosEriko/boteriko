@@ -31,6 +31,9 @@ const env = {
             clientId: process.env.DISCORD_APP_CLIENT_ID,
             clientSecret: process.env.DISCORD_APP_CLIENT_SECRET,
             redirectUrl: process.env.DISCORD_APP_REDIRECT_URL
+        },
+        webhook: {
+            streaming: process.env.DISCORD_WEBHOOK_STREAMING
         }
     },
     openrouter: {
