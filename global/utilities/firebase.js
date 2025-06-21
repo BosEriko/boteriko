@@ -8,6 +8,7 @@ if (!firebase.apps.length) {
       clientEmail: env.firebase.clientEmail,
       privateKey: env.firebase.privateKey,
     }),
+    databaseURL: `https://${env.firebase.projectId}-default-rtdb.asia-southeast1.firebasedatabase.app/`
   });
 }
 

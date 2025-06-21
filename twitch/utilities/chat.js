@@ -1,3 +1,4 @@
+const { getDatabase } = require('firebase-admin/database');
 const axios = require('axios');
 const broadcastToClient = require('@global/utilities/websocket');
 const firebaseUtility = require('@global/utilities/firebase');
@@ -31,17 +32,20 @@ async function sendToDiscord(user, message, webhookUrl) {
   }
 }
 
-async function saveToFirestore(user, db) {
-  const firestore = db.firestore();
+async function saveToRealtimeDatabase(user, db) {
+  const rtdb = getDatabase();
   const auth = db.auth();
-  const docRef = firestore.collection('users').doc(user.id);
+  const userRef = rtdb.ref(`users/${user.id}`);
 
-  await docRef.set({
-    displayName: user.display_name,
-    profileImage: user.profile_image_url,
-    twitchMessageCount: db.firestore.FieldValue.increment(1),
-    points: db.firestore.FieldValue.increment(1)
-  }, { merge: true });
+  const snapshot = await userRef.once('value');
+  const existingData = snapshot.val() || {};
+
+  const updatedData = {
+    twitchMessageCount: (existingData.twitchMessageCount || 0) + 1,
+    coins: (existingData.coins || 0) + 1
+  };
+
+  await userRef.update(updatedData);
 
   try {
     await auth.updateUser(user.id, {
@@ -58,23 +62,22 @@ async function saveToFirestore(user, db) {
     }
   }
 
-  const messagesCountsRef = firestore.collection('messages_counts').doc(user.id);
   const today = new Date().toISOString().slice(0, 10);
-  const doc = await messagesCountsRef.get();
+  const messageCountRef = rtdb.ref(`messages_counts/${user.id}/content`);
+  const messageSnapshot = await messageCountRef.once('value');
+  const content = messageSnapshot.val() || [];
 
-  let content = [];
-  if (doc.exists) {
-    content = doc.data().content || [];
-  }
+  let updatedContent = Array.isArray(content) ? [...content] : [];
+  const todayIndex = updatedContent.findIndex(entry => entry.timestamp === today);
 
-  const todayIndex = content.findIndex(entry => entry.timestamp === today);
   if (todayIndex > -1) {
-    content[todayIndex].twitchMessageCount = (content[todayIndex].twitchMessageCount || 0) + 1;
+    updatedContent[todayIndex].twitchMessageCount =
+      (updatedContent[todayIndex].twitchMessageCount || 0) + 1;
   } else {
-    content.push({ timestamp: today, twitchMessageCount: 1 });
+    updatedContent.push({ timestamp: today, twitchMessageCount: 1 });
   }
 
-  await messagesCountsRef.set({ content }, { merge: true });
+  await messageCountRef.set(updatedContent);
 }
 
 async function handleChatUtility(user, message, webhookUrl) {
@@ -84,7 +87,7 @@ async function handleChatUtility(user, message, webhookUrl) {
 
   await Promise.all([
     sendToDiscord(user, message, webhookUrl),
-    saveToFirestore(user, firebaseUtility)
+    saveToRealtimeDatabase(user, firebaseUtility)
   ]);
 }
 
