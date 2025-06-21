@@ -17,3 +17,4 @@ Here are the commands that are currently available.
 |          | Twitch        | Discord       |
 |----------|---------------|---------------|
 | !ping    | Available     | Available     |
+| !topic   | Available     | Available     |

@@ -1,6 +1,6 @@
 const llmUtility = require('@global/utilities/llm');
 
-async function handleConversationUtility(apiKey) {
+async function topicCommand(apiKey) {
   const preferredTopics = [
     'Tetris',
     'Programming',
@@ -23,4 +23,4 @@ async function handleConversationUtility(apiKey) {
   }
 }
 
-module.exports = handleConversationUtility;
+module.exports = topicCommand;

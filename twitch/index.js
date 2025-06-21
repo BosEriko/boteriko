@@ -4,11 +4,11 @@ const cron = require('node-cron');
 // Utilities
 const isStreamingUtility = require("@global/utilities/isStreaming");
 const handleInformationUtility = require('@twitch/utilities/information');
-const handleConversationUtility = require('@global/utilities/conversation');
 const handleFollowUtility = require('@twitch/utilities/follow');
 
 // Commands
-const pingCommand = require("@global/commands/ping.js");
+const pingCommand = require("@global/commands/ping");
+const topicCommand = require('@global/commands/topic');
 
 // --------------------------------------- Twitch Bot Setup ----------------------------------------
 
@@ -41,10 +41,12 @@ client.on('message', async (channel, tags, message, self) => {
   const msg = message.trim();
   const lowerMsg = msg.toLowerCase();
 
+
+  // Topic Command
+  if (lowerMsg === '!topic') client.say(channel, topicCommand(process.env.OPENROUTER_API_KEY));
+
   // Ping Command
-  if (lowerMsg === '!ping') {
-    client.say(channel, pingCommand());
-  }
+  if (lowerMsg === '!ping') client.say(channel, pingCommand());
 });
 
 // ------------------------------------------- Functions -------------------------------------------
@@ -80,7 +82,7 @@ function runConversationUtility() {
   const fiveMinutes = 5 * 60 * 1000;
 
   if (now - lastMessageTimestamp >= fiveMinutes) {
-    client.say(`#${process.env.TWITCH_CHANNEL_USERNAME}`, `💭 ${handleConversationUtility(process.env.OPENROUTER_API_KEY)}`);
+    client.say(`#${process.env.TWITCH_CHANNEL_USERNAME}`, `💭 ${topicCommand(process.env.OPENROUTER_API_KEY)}`);
     lastMessageTimestamp = now;
   }
 }
