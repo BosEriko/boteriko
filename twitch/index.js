@@ -4,6 +4,7 @@ const cron = require('node-cron');
 // Utilities
 const isStreamingUtility = require("@global/utilities/isStreaming");
 const handleInformationUtility = require('@twitch/utilities/information');
+const handleFollowUtility = require('@twitch/utilities/follow');
 
 // Commands
 const pingCommand = require("@global/commands/ping.js");
@@ -59,6 +60,18 @@ async function checkStreamAvailability() {
   }
 }
 
+// follow Utility
+function checkNewFollowers() {
+  handleFollowUtility(
+    process.env.TWITCH_CHANNEL_ID,
+    process.env.TWITCH_BOT_CLIENT_ID,
+    process.env.TWITCH_BOT_ACCESS_TOKEN,
+    (newFollower) => {
+      client.say(`#${process.env.TWITCH_CHANNEL_USERNAME}`, `${newFollower} just followed!`);
+    }
+  );
+}
+
 // ---------------------------------------- Event Handlers -----------------------------------------
 
 // Raids
@@ -97,12 +110,12 @@ client.on('hosted', (channel, username, viewers, autohost) => {
 
 // Every 1 minute
 cron.schedule('* * * * *', () => {
-  checkStreamAvailability();
+  checkNewFollowers();
 });
 
 // Every 5 minutes
 cron.schedule('*/5 * * * *', () => {
-  console.log('Running every 5 minutes');
+  checkStreamAvailability();
 });
 
 // Every 10 minutes
