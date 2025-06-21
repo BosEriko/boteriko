@@ -43,7 +43,7 @@ client.on('message', async (channel, tags, message, self) => {
 
 
   // Topic Command
-  if (lowerMsg === '!topic') client.say(channel, topicCommand(process.env.OPENROUTER_API_KEY));
+  if (lowerMsg === '!topic') client.say(channel, await topicCommand(process.env.OPENROUTER_API_KEY));
 
   // Ping Command
   if (lowerMsg === '!ping') client.say(channel, pingCommand());
@@ -77,12 +77,12 @@ function checkNewFollowers() {
 }
 
 // Conversation Utility
-function runConversationUtility() {
+async function runConversationUtility() {
   const now = Date.now();
   const fiveMinutes = 5 * 60 * 1000;
 
   if (now - lastMessageTimestamp >= fiveMinutes) {
-    client.say(`#${process.env.TWITCH_CHANNEL_USERNAME}`, `💭 ${topicCommand(process.env.OPENROUTER_API_KEY)}`);
+    client.say(`#${process.env.TWITCH_CHANNEL_USERNAME}`, `💭 ${await topicCommand(process.env.OPENROUTER_API_KEY)}`);
     lastMessageTimestamp = now;
   }
 }

@@ -1,4 +1,3 @@
-
 const pingCommand = function() {
     return "Pong!";
 }
