@@ -1,6 +1,7 @@
 const informationConstant = require('@global/constants/information');
 
 let informationIndex = 0;
+let lastShuffleDate = null;
 
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -9,9 +10,18 @@ function shuffle(array) {
   }
 }
 
-shuffle(informationConstant);
+function isNewDay() {
+  const today = new Date().toDateString();
+  return lastShuffleDate !== today;
+}
 
 function handleInformationUtility(client, username) {
+  if (isNewDay()) {
+    shuffle(informationConstant);
+    informationIndex = 0;
+    lastShuffleDate = new Date().toDateString();
+  }
+
   const message = informationConstant[informationIndex];
   client.say(`#${username}`, `📢 ${message}`);
 
