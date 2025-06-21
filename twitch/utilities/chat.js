@@ -1,4 +1,3 @@
-const { getDatabase } = require('firebase-admin/database');
 const axios = require('axios');
 const broadcastToClient = require('@global/utilities/websocket');
 const firebaseUtility = require('@global/utilities/firebase');
@@ -32,9 +31,9 @@ async function sendToDiscord(user, message, webhookUrl) {
   }
 }
 
-async function saveToRealtimeDatabase(user, db) {
-  const rtdb = getDatabase();
-  const auth = db.auth();
+async function saveToRealtimeDatabase(user) {
+  const rtdb = firebaseUtility.database();
+  const auth = firebaseUtility.auth();
   const userRef = rtdb.ref(`users/${user.id}`);
 
   const snapshot = await userRef.once('value');
@@ -87,7 +86,7 @@ async function handleChatUtility(user, message, webhookUrl) {
 
   await Promise.all([
     sendToDiscord(user, message, webhookUrl),
-    saveToRealtimeDatabase(user, firebaseUtility)
+    saveToRealtimeDatabase(user)
   ]);
 }
 

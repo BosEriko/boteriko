@@ -1,8 +1,11 @@
 const { Client, GatewayIntentBits } = require('discord.js');
 
 // Commands
-const pingCommand = require("@global/commands/ping.js");
+const pingCommand = require("@global/commands/ping");
 const topicCommand = require('@global/commands/topic');
+
+// Utilities
+const handleChatUtility = require('@discord/utilities/chat');
 
 // Environment
 const env = require('@global/utilities/env');
@@ -32,6 +35,9 @@ client.on('messageCreate', async message => {
 
   // Ignore messages from webhooks
   if (message.webhookId) return;
+
+  // Chat Utility
+  handleChatUtility(message.author.id);
 
   // Topic Command
   if (message.content === '!topic') {
