@@ -11,3 +11,9 @@ Invite the discord bot on [production](https://discord.com/oauth2/authorize?clie
 
 ## Host it on Heroku
 Check it out [here](https://heroku.com/).
+
+## Commands
+Here are the commands that are currently available.
+|          | Twitch        | Discord       |
+|----------|---------------|---------------|
+| !ping    | Available     | Available     |

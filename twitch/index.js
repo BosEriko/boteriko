@@ -4,6 +4,7 @@ const cron = require('node-cron');
 // Utilities
 const isStreamingUtility = require("@global/utilities/isStreaming");
 const handleInformationUtility = require('@twitch/utilities/information');
+const handleConversationUtility = require('@twitch/utilities/conversation');
 const handleFollowUtility = require('@twitch/utilities/follow');
 
 // Commands
@@ -28,6 +29,7 @@ client.on('connected', (address, port) => {
 // --------------------------------------- Global Variables ----------------------------------------
 
 let isStreaming = false;
+let lastMessageTimestamp = Date.now();
 
 // ----------------------------------------- Chat Commands -----------------------------------------
 
@@ -72,6 +74,21 @@ function checkNewFollowers() {
   );
 }
 
+// Conversation Utility
+function runConversationUtility() {
+  const now = Date.now();
+  const fiveMinutes = 5 * 60 * 1000;
+
+  if (now - lastMessageTimestamp >= fiveMinutes) {
+    handleConversationUtility(
+      client,
+      process.env.TWITCH_CHANNEL_USERNAME,
+      process.env.OPENROUTER_API_KEY
+    );
+    lastMessageTimestamp = now;
+  }
+}
+
 // ---------------------------------------- Event Handlers -----------------------------------------
 
 // Raids
@@ -111,6 +128,7 @@ client.on('hosted', (channel, username, viewers, autohost) => {
 // Every 1 minute
 cron.schedule('* * * * *', () => {
   if (isStreaming) checkNewFollowers();
+  if (isStreaming) runConversationUtility();
 });
 
 // Every 5 minutes
