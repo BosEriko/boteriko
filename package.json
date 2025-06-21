@@ -18,7 +18,7 @@
     "module-alias": "^2.2.3",
     "node-cron": "^4.1.0",
     "tmi.js": "^1.8.5",
-    "ws": "^8.18.1"
+    "ws": "^8.18.2"
   },
   "_moduleAliases": {
     "@global": "global",
