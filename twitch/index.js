@@ -24,6 +24,10 @@ client.on('connected', (address, port) => {
   console.log(`✅ Connected to Twitch chat.`);
 });
 
+// --------------------------------------- Global Variables ----------------------------------------
+
+let isStreaming = false;
+
 // ----------------------------------------- Chat Commands -----------------------------------------
 
 client.on('message', async (channel, tags, message, self) => {
@@ -42,19 +46,16 @@ client.on('message', async (channel, tags, message, self) => {
 
 // ------------------------------------------- Functions -------------------------------------------
 
-// Information Rotator
-async function checkStreamAndRunInformationUtility() {
+// isStreaming Utility
+async function checkStreamAvailability() {
   try {
-    const isStreaming = await isStreamingUtility(
+    isStreaming = await isStreamingUtility(
       process.env.TWITCH_CHANNEL_USERNAME,
       process.env.TWITCH_BOT_CLIENT_ID,
       process.env.TWITCH_BOT_ACCESS_TOKEN
     );
-    if (isStreaming) {
-      handleInformationUtility(client, process.env.TWITCH_CHANNEL_USERNAME);
-    }
   } catch (error) {
-    console.error("Stream check failed:", error.message);
+    console.error("Error checking stream availability:", error.message);
   }
 }
 
@@ -96,7 +97,7 @@ client.on('hosted', (channel, username, viewers, autohost) => {
 
 // Every 1 minute
 cron.schedule('* * * * *', () => {
-  console.log('Running every 1 minute');
+  checkStreamAvailability();
 });
 
 // Every 5 minutes
@@ -106,5 +107,5 @@ cron.schedule('*/5 * * * *', () => {
 
 // Every 10 minutes
 cron.schedule('*/10 * * * *', () => {
-  checkStreamAndRunInformationUtility();
+  if (isStreaming) handleInformationUtility(client, process.env.TWITCH_CHANNEL_USERNAME);
 });
