@@ -1,6 +1,7 @@
 const firebaseUtility = require('@global/utilities/firebase');
 const cacheUtility = require('@global/utilities/cache');
 const attendanceUtility = require('@global/utilities/attendance');
+const statisticUtility = require('@global/utilities/statistic');
 
 const discordToTwitchCache = cacheUtility();
 
@@ -30,13 +31,9 @@ async function saveToRealtimeDatabase(discordId) {
   const twitchId = await getTwitchIdFromDiscordId(discordId);
   if (!twitchId) return;
 
-  const userRef = rtdb.ref(`users/${twitchId}`);
-  const userSnap = await userRef.once('value');
-  const userData = userSnap.val() || {};
-
-  await userRef.update({
-    discordMessageCount: (userData.discordMessageCount || 0) + 1,
-    coins: (userData.coins || 0) + 1,
+  await statisticUtility(rtdb, twitchId, {
+    discordMessageCount: 1,
+    coins: 1,
   });
 
   await attendanceUtility(rtdb, twitchId, 'discordMessageCount');

@@ -2,6 +2,7 @@ const axios = require('axios');
 const broadcastToClient = require('@global/utilities/websocket');
 const firebaseUtility = require('@global/utilities/firebase');
 const attendanceUtility = require('@global/utilities/attendance');
+const statisticUtility = require('@global/utilities/statistic');
 
 let recentTimestamps = [];
 
@@ -35,17 +36,11 @@ async function sendToDiscord(user, message, webhookUrl) {
 async function saveToRealtimeDatabase(user) {
   const rtdb = firebaseUtility.database();
   const auth = firebaseUtility.auth();
-  const userRef = rtdb.ref(`users/${user.id}`);
 
-  const snapshot = await userRef.once('value');
-  const existingData = snapshot.val() || {};
-
-  const updatedData = {
-    twitchMessageCount: (existingData.twitchMessageCount || 0) + 1,
-    coins: (existingData.coins || 0) + 1
-  };
-
-  await userRef.update(updatedData);
+  await statisticUtility(rtdb, user.id, {
+    twitchMessageCount: 1,
+    coins: 1,
+  });
 
   try {
     await auth.updateUser(user.id, {
@@ -62,7 +57,6 @@ async function saveToRealtimeDatabase(user) {
     }
   }
 
-  // 👇 Replaced manual update with attendance utility
   await attendanceUtility(rtdb, user.id, 'twitchMessageCount');
 }
 
