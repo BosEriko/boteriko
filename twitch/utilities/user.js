@@ -46,8 +46,4 @@ async function handleUserUtility(username, clientId, accessToken) {
   return null;
 }
 
-function handleUserCacheClearUtility() {
-  twitchUserCache.clear();
-}
-
 module.exports = handleUserUtility;
