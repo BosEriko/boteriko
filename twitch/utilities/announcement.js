@@ -19,8 +19,6 @@ async function announcementUtility(message, color = 'primary') {
         }
       }
     );
-
-    console.log('✅ Announcement sent:', response.status);
   } catch (error) {
     console.error('❌ Failed to send announcement:', error.response?.data || error.message);
   }
