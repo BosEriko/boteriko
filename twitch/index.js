@@ -3,7 +3,7 @@ const cron = require('node-cron');
 const env = require('@global/utilities/env');
 
 // Utilities
-const isStreamingUtility = require("@global/utilities/isStreaming");
+const handleIsStreamingUtility = require("@global/utilities/isStreaming");
 const handleInformationUtility = require('@twitch/utilities/information');
 const handleFollowUtility = require('@twitch/utilities/follow');
 const handleUserUtility = require('@twitch/utilities/user');
@@ -75,7 +75,7 @@ client.on('message', async (channel, tags, message, self) => {
 // isStreaming Utility
 async function checkStreamAvailability() {
   try {
-    isStreaming = await isStreamingUtility(
+    isStreaming = await handleIsStreamingUtility(
       env.twitch.channel.username,
       env.twitch.bot.clientId,
       env.twitch.bot.accessToken

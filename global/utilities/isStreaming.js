@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-async function isStreamingUtility(channelName, clientId, accessToken) {
+async function handleIsStreamingUtility(channelName, clientId, accessToken) {
   try {
       const url = `https://api.twitch.tv/helix/streams?user_login=${channelName}`;
       const response = await axios.get(url, {
@@ -17,4 +17,4 @@ async function isStreamingUtility(channelName, clientId, accessToken) {
   }
 }
 
-module.exports = isStreamingUtility;
+module.exports = handleIsStreamingUtility;
