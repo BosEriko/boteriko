@@ -57,11 +57,7 @@ client.on('message', async (channel, tags, message, self) => {
 // isStreaming Utility
 async function checkStreamAvailability() {
   try {
-    isStreaming = await handleIsStreamingUtility(
-      env.twitch.channel.username,
-      env.twitch.bot.clientId,
-      env.twitch.bot.accessToken
-    );
+    isStreaming = await handleIsStreamingUtility();
   } catch (error) {
     console.error("Error checking stream availability:", error.message);
   }
