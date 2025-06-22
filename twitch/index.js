@@ -40,15 +40,10 @@ client.on('message', async (channel, tags, message, self) => {
   const lowerMsg = msg.toLowerCase();
 
   // Chat Utility
-  handleChatUtility(user, message, env.discord.webhook.streaming);
+  handleChatUtility(user, message);
 
   // Shoutout Utility
-  handleShoutoutUtility(
-    tags.mod === true || tags.badges?.moderator === '1',
-    tags.badges?.broadcaster === '1',
-    user,
-    env.openrouter.apiKey
-  );
+  handleShoutoutUtility(tags.mod === true || tags.badges?.moderator === '1', tags.badges?.broadcaster === '1', user);
 
   // Topic Command
   if (lowerMsg === '!topic') client.say(channel, await topicCommand(env.openrouter.apiKey));

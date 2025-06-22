@@ -1,3 +1,4 @@
+const env = require('@global/utilities/env');
 const broadcastToClient = require('@global/utilities/websocket');
 const firebaseUtility = require('@global/utilities/firebase');
 const attendanceUtility = require('@global/utilities/attendance');
@@ -14,13 +15,13 @@ async function saveToRealtimeDatabase(user) {
   await attendanceUtility(rtdb, user.id, 'twitchMessageCount');
 }
 
-async function handleChatUtility(user, message, webhookUrl) {
+async function handleChatUtility(user, message) {
   broadcastToClient({ type: 'NEW_CHAT', username: user.display_name, message });
 
   if (!user) return;
 
   await Promise.all([
-    sendToDiscordUtility(user, message, webhookUrl),
+    sendToDiscordUtility(user, message, env.discord.webhook.streaming),
     saveToRealtimeDatabase(user)
   ]);
 }
