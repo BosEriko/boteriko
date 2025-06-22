@@ -9,6 +9,7 @@ const handleFollowUtility = require('@twitch/utilities/follow');
 const handleUserUtility = require('@twitch/utilities/user');
 const handleChatUtility = require('@twitch/utilities/chat');
 const handleShoutoutUtility = require('@twitch/utilities/shoutout');
+const handleEventUtility = require('@twitch/utilities/event');
 
 // Commands
 const pingCommand = require("@global/commands/ping");
@@ -25,6 +26,10 @@ client.on('connected', (address, port) => {
 
 let isStreaming = false;
 let lastMessageTimestamp = Date.now();
+
+// ---------------------------------------- Event Handlers -----------------------------------------
+
+handleEventUtility(client);
 
 // ----------------------------------------- Chat Commands -----------------------------------------
 
@@ -74,45 +79,11 @@ async function runConversationUtility() {
   }
 }
 
-// ---------------------------------------- Event Handlers -----------------------------------------
-
 // follow Utility
 function checkNewFollowers() {
   const username = env.twitch.channel.username;
   handleFollowUtility(newFollower => client.say(`#${username}`, `${newFollower} just followed!`));
 }
-
-// Raids
-client.on('raided', (channel, username, viewers) => {
-  client.say(channel, `${username} is raiding with ${viewers} viewers!`);
-});
-
-// Cheers
-client.on('cheer', (channel, userstate, message) => {
-  const username = userstate['display-name'];
-  const bits = userstate['bits'];
-  client.say(channel, `${username} cheered ${bits} bits: ${message}`);
-});
-
-// Subscriptions
-client.on('subscription', (channel, username, method, message, userstate) => {
-  client.say(channel, `${username} just subscribed!`);
-});
-
-// Resubscriptions
-client.on('resub', (channel, username, months, message, userstate, methods) => {
-  client.say(channel, `${username} resubscribed for ${months} months!`);
-});
-
-// Gifted Subscriptions
-client.on('subgift', (channel, username, streakMonths, recipient, methods, userstate) => {
-  client.say(channel, `${username} gifted a sub to ${recipient}`);
-});
-
-// Host
-client.on('hosted', (channel, username, viewers, autohost) => {
-  client.say(channel, `${username} is hosting you with ${viewers} viewers`);
-});
 
 // ------------------------------------------- Cron Jobs -------------------------------------------
 
