@@ -1,5 +1,5 @@
 const DEFAULT_TTL_MS = 24 * 60 * 60 * 1000;
-const MAX_ITEMS = 20;
+const MAX_ITEMS = 100;
 
 function cacheUtility(ttlMs = DEFAULT_TTL_MS) {
   const cache = new Map();
