@@ -6,7 +6,7 @@ const env = require('@global/utilities/env');
 const isStreamingUtility = require("@global/utilities/isStreaming");
 const handleInformationUtility = require('@twitch/utilities/information');
 const handleFollowUtility = require('@twitch/utilities/follow');
-const { handleUserUtility, handleUserCacheClearUtility } = require('@twitch/utilities/user');
+const handleUserUtility = require('@twitch/utilities/user');
 const handleChatUtility = require('@twitch/utilities/chat');
 
 // Commands
@@ -149,9 +149,4 @@ cron.schedule('*/5 * * * *', () => {
 // Every 10 minutes
 cron.schedule('*/10 * * * *', () => {
   if (isStreaming) handleInformationUtility(client, env.twitch.channel.username);
-});
-
-// Every 24 hours
-cron.schedule('0 0 * * *', () => {
-  handleUserCacheClearUtility();
 });

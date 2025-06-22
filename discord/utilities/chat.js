@@ -1,13 +1,14 @@
 const firebaseUtility = require('@global/utilities/firebase');
 
 const discordToTwitchCache = new Map();
+const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
 
 function getCacheKey(discordId) {
   return `discord-${discordId}`;
 }
 
 function cacheTwitchId(discordId, twitchId) {
-  const expiresAt = Date.now() + 24 * 60 * 60 * 1000;
+  const expiresAt = Date.now() + CACHE_TTL_MS;
   discordToTwitchCache.set(getCacheKey(discordId), { twitchId, expiresAt });
 }
 
