@@ -10,7 +10,7 @@ const handleUserUtility = require('@twitch/utilities/user');
 const handleChatUtility = require('@twitch/utilities/chat');
 const handleShoutoutUtility = require('@twitch/utilities/shoutout');
 const handleEventUtility = require('@twitch/utilities/event');
-const handleSetupUtility = require('@twitch/utilities/title');
+const handleSetupUtility = require('@twitch/utilities/setup');
 
 // Commands
 const pingCommand = require("@global/commands/ping");
