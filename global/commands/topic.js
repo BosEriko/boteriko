@@ -1,3 +1,4 @@
+const env = require('@global/utilities/env');
 const llmUtility = require('@global/utilities/llm');
 const topicConstant = require('@global/constants/topic');
 
@@ -6,12 +7,12 @@ function getRandomTopic(topics) {
   return topics[index];
 }
 
-async function topicCommand(apiKey) {
+async function topicCommand() {
   const topic = getRandomTopic(topicConstant);
 
   try {
     return await llmUtility(
-        apiKey,
+        env.openrouter.apiKey,
         'You are a helpful assistant for a Twitch streamer. Your job is to suggest fun and casual conversation starters when the chat goes quiet.',
         `Give me a short, stream-friendly conversation starter (1 sentence max) about ${topic}.`
     );

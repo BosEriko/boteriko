@@ -33,7 +33,7 @@ client.on('messageCreate', async message => {
 
   // Topic Command
   if (message.content === '!topic') {
-    message.reply(await topicCommand(env.openrouter.apiKey));
+    message.reply(await topicCommand());
   }
 
   // Ping Command

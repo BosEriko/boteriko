@@ -46,7 +46,7 @@ client.on('message', async (channel, tags, message, self) => {
   handleShoutoutUtility(tags.mod === true || tags.badges?.moderator === '1', tags.badges?.broadcaster === '1', user);
 
   // Topic Command
-  if (lowerMsg === '!topic') client.say(channel, await topicCommand(env.openrouter.apiKey));
+  if (lowerMsg === '!topic') client.say(channel, await topicCommand());
 
   // Ping Command
   if (lowerMsg === '!ping') client.say(channel, pingCommand());
@@ -69,7 +69,7 @@ async function runConversationUtility() {
   const fiveMinutes = 5 * 60 * 1000;
 
   if (now - lastMessageTimestamp >= fiveMinutes) {
-    client.say(`#${env.twitch.channel.username}`, `💭 ${await topicCommand(env.openrouter.apiKey)}`);
+    client.say(`#${env.twitch.channel.username}`, `💭 ${await topicCommand()}`);
     lastMessageTimestamp = now;
   }
 }
