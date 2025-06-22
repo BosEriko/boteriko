@@ -1,11 +1,12 @@
 const broadcastToClient = require('@global/utilities/websocket');
 const llmUtility = require('@global/utilities/llm');
 const cacheUtility = require('@global/utilities/cache');
+const announcementUtility = require('@twitch/utilities/announcement.js');
 
 const TWELVE_HOURS_MS = 12 * 60 * 60 * 1000;
 const shoutoutCache = cacheUtility(TWELVE_HOURS_MS);
 
-async function handleShoutoutUtility(client, channel, isMod, isBroadcaster, user, apiKey) {
+async function handleShoutoutUtility(isMod, isBroadcaster, user, apiKey) {
   const username = user.login;
   const cachedShoutout = shoutoutCache.get(username, 'shoutouts');
   if (cachedShoutout || isMod || isBroadcaster || !['affiliate', 'partner'].includes(user.broadcaster_type)) return;
@@ -21,10 +22,10 @@ async function handleShoutoutUtility(client, channel, isMod, isBroadcaster, user
 
     shoutoutCache.set(username, shoutoutMessage, 'shoutouts');
     broadcastToClient({ type: 'SHOUTOUT_DETAILS', url: user?.profile_image_url || null, username: username });
-    client.say(channel, `🤖 ${shoutoutMessage}`);
+    await announcementUtility(`🤖 ${shoutoutMessage}`);
   } catch (err) {
     console.error('❌ Shoutout error:', err?.response?.data || err.message);
-    client.say(channel, `Shoutout to @${username}! Thanks for dropping by!`);
+    await announcementUtility(`Shoutout to @${username}! Thanks for dropping by!`);
   }
 }
 

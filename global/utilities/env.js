@@ -9,6 +9,7 @@ const env = {
             id: process.env.TWITCH_CHANNEL_ID
         },
         bot: {
+            id: process.env.TWITCH_BOT_ID,
             username: process.env.TWITCH_BOT_USERNAME,
             accessToken: process.env.TWITCH_BOT_ACCESS_TOKEN,
             refreshToken: process.env.TWITCH_BOT_REFRESH_TOKEN,

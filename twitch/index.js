@@ -57,8 +57,6 @@ client.on('message', async (channel, tags, message, self) => {
 
   // Shoutout Utility
   handleShoutoutUtility(
-    client,
-    channel,
     tags.mod === true || tags.badges?.moderator === '1',
     tags.badges?.broadcaster === '1',
     user,
