@@ -1,8 +1,5 @@
 const firebaseUtility = require('@global/utilities/firebase');
 
-const firestore = firebaseUtility.firestore();
-const rtdb = firebaseUtility.database();
-
 const discordToTwitchCache = new Map();
 
 function getCacheKey(discordId) {
@@ -24,6 +21,7 @@ function getCachedTwitchId(discordId) {
 }
 
 async function getTwitchIdFromDiscord(discordId) {
+  const firestore = firebaseUtility.firestore();
   const cached = getCachedTwitchId(discordId);
   if (cached) return cached;
 
@@ -44,6 +42,7 @@ async function getTwitchIdFromDiscord(discordId) {
 }
 
 async function saveToRealtimeDatabase(discordId) {
+  const rtdb = firebaseUtility.database();
   const twitchId = await getTwitchIdFromDiscord(discordId);
   if (!twitchId) return;
 
