@@ -1,4 +1,5 @@
 const DEFAULT_TTL_MS = 24 * 60 * 60 * 1000;
+const MAX_ITEMS = 20;
 
 function createCache(ttlMs = DEFAULT_TTL_MS) {
   const cache = new Map();
@@ -8,8 +9,15 @@ function createCache(ttlMs = DEFAULT_TTL_MS) {
   }
 
   function set(id, value, namespace = '') {
+    const key = getKey(id, namespace);
     const expiresAt = Date.now() + ttlMs;
-    cache.set(getKey(id, namespace), { value, expiresAt });
+
+    if (!cache.has(key) && cache.size >= MAX_ITEMS) {
+      const oldestKey = cache.keys().next().value;
+      cache.delete(oldestKey);
+    }
+
+    cache.set(key, { value, expiresAt });
   }
 
   function get(id, namespace = '') {
