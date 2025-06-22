@@ -1,7 +1,7 @@
 const env = require('@global/utilities/env');
 const broadcastToClient = require('@global/utilities/websocket');
 const firebaseUtility = require('@global/utilities/firebase');
-const attendanceUtility = require('@global/utilities/attendance');
+const dailyUtility = require('@global/utilities/daily');
 const statisticUtility = require('@global/utilities/statistic');
 const syncUserUtility = require('@global/utilities/syncUser');
 const sendToDiscordUtility = require('@twitch/utilities/sendToDiscord');
@@ -12,7 +12,7 @@ async function saveToRealtimeDatabase(user) {
 
   await syncUserUtility(auth, user);
   await statisticUtility(rtdb, user.id, { twitchMessageCount: 1, coins: 1 });
-  await attendanceUtility(rtdb, user.id, 'twitchMessageCount');
+  await dailyUtility(rtdb, user.id, 'twitchMessageCount');
 }
 
 async function handleChatUtility(user, message) {
