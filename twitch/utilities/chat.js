@@ -62,21 +62,13 @@ async function saveToRealtimeDatabase(user) {
   }
 
   const today = new Date().toISOString().slice(0, 10);
-  const messageCountRef = rtdb.ref(`messages_counts/${user.id}/content`);
+  const messageCountRef = rtdb.ref(`messages_counts/${user.id}/content/${today}`);
   const messageSnapshot = await messageCountRef.once('value');
-  const content = messageSnapshot.val() || [];
+  const existingCount = messageSnapshot.val()?.twitchMessageCount || 0;
 
-  let updatedContent = Array.isArray(content) ? [...content] : [];
-  const todayIndex = updatedContent.findIndex(entry => entry.timestamp === today);
-
-  if (todayIndex > -1) {
-    updatedContent[todayIndex].twitchMessageCount =
-      (updatedContent[todayIndex].twitchMessageCount || 0) + 1;
-  } else {
-    updatedContent.push({ timestamp: today, twitchMessageCount: 1 });
-  }
-
-  await messageCountRef.set(updatedContent);
+  await messageCountRef.update({
+    twitchMessageCount: existingCount + 1
+  });
 }
 
 async function handleChatUtility(user, message, webhookUrl) {

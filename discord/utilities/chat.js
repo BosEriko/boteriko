@@ -57,21 +57,13 @@ async function saveToRealtimeDatabase(discordId) {
   });
 
   const today = new Date().toISOString().slice(0, 10);
-  const messagesCountRef = rtdb.ref(`messages_counts/${twitchId}/content`);
-  const messagesSnap = await messagesCountRef.once('value');
-  const content = messagesSnap.val() || [];
+  const messageCountRef = rtdb.ref(`messages_counts/${twitchId}/content/${today}`);
+  const existingSnapshot = await messageCountRef.once('value');
+  const existingCount = existingSnapshot.val()?.discordMessageCount || 0;
 
-  const updatedContent = Array.isArray(content) ? [...content] : [];
-  const todayIndex = updatedContent.findIndex(entry => entry.timestamp === today);
-
-  if (todayIndex > -1) {
-    updatedContent[todayIndex].discordMessageCount =
-      (updatedContent[todayIndex].discordMessageCount || 0) + 1;
-  } else {
-    updatedContent.push({ timestamp: today, discordMessageCount: 1 });
-  }
-
-  await messagesCountRef.set(updatedContent);
+  await messageCountRef.update({
+    discordMessageCount: existingCount + 1
+  });
 }
 
 async function handleChatUtility(discordId) {
