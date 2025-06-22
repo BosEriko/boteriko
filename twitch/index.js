@@ -48,7 +48,9 @@ client.on('message', async (channel, tags, message, self) => {
   handleChatUtility(user, message);
 
   // Shoutout Utility
-  handleShoutoutUtility(tags.mod === true || tags.badges?.moderator === '1', tags.badges?.broadcaster === '1', user);
+  const isMod = tags.mod === true || tags.badges?.moderator === '1';
+  const isBroadcaster = tags.badges?.broadcaster === '1';
+  handleShoutoutUtility(isMod, isBroadcaster, user);
 
   // Topic Command
   if (lowerMsg === '!topic') client.say(channel, await topicCommand());
