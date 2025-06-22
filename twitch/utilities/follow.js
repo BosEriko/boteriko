@@ -1,18 +1,19 @@
 const axios = require('axios');
+const env = require('@global/utilities/env');
 
 let initialized = false;
 let knownFollowerIds = new Set();
 
-async function handleFollowUtility(broadcasterId, clientId, accessToken, callback) {
+async function handleFollowUtility(callback) {
   try {
     const res = await axios.get(`https://api.twitch.tv/helix/channels/followers`, {
       params: {
-        broadcaster_id: broadcasterId,
+        broadcaster_id: env.twitch.channel.id,
         first: 10
       },
       headers: {
-        'Client-ID': clientId,
-        'Authorization': `Bearer ${accessToken}`
+        'Client-ID': env.twitch.bot.clientId,
+        'Authorization': `Bearer ${env.twitch.bot.accessToken}`
       }
     });
 

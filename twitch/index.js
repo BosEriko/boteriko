@@ -67,18 +67,6 @@ async function checkStreamAvailability() {
   }
 }
 
-// follow Utility
-function checkNewFollowers() {
-  handleFollowUtility(
-    env.twitch.channel.id,
-    env.twitch.bot.clientId,
-    env.twitch.bot.accessToken,
-    (newFollower) => {
-      client.say(`#${env.twitch.channel.username}`, `${newFollower} just followed!`);
-    }
-  );
-}
-
 // Conversation Utility
 async function runConversationUtility() {
   const now = Date.now();
@@ -91,6 +79,12 @@ async function runConversationUtility() {
 }
 
 // ---------------------------------------- Event Handlers -----------------------------------------
+
+// follow Utility
+function checkNewFollowers() {
+  const username = env.twitch.channel.username;
+  handleFollowUtility(newFollower => client.say(`#${username}`, `${newFollower} just followed!`));
+}
 
 // Raids
 client.on('raided', (channel, username, viewers) => {
