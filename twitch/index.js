@@ -129,5 +129,5 @@ cron.schedule('*/5 * * * *', () => {
 
 // Every 10 minutes
 cron.schedule('*/10 * * * *', () => {
-  if (isStreaming) handleInformationUtility(client, env.twitch.channel.username);
+  if (isStreaming) handleInformationUtility(client);
 });

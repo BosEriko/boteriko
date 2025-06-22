@@ -1,3 +1,4 @@
+const env = require('@global/utilities/env');
 const informationConstant = require('@global/constants/information');
 
 let informationIndex = 0;
@@ -15,7 +16,7 @@ function isNewDay() {
   return lastShuffleDate !== today;
 }
 
-function handleInformationUtility(client, username) {
+function handleInformationUtility(client) {
   if (isNewDay()) {
     shuffle(informationConstant);
     informationIndex = 0;
@@ -23,7 +24,7 @@ function handleInformationUtility(client, username) {
   }
 
   const message = informationConstant[informationIndex];
-  client.say(`#${username}`, `📢 ${message}`);
+  client.say(`#${env.twitch.channel.username}`, `📢 ${message}`);
 
   informationIndex = (informationIndex + 1) % informationConstant.length;
 }
