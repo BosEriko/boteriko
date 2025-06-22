@@ -8,6 +8,7 @@ const handleInformationUtility = require('@twitch/utilities/information');
 const handleFollowUtility = require('@twitch/utilities/follow');
 const handleUserUtility = require('@twitch/utilities/user');
 const handleChatUtility = require('@twitch/utilities/chat');
+const handleShoutoutUtility = require('@twitch/utilities/shoutout');
 
 // Commands
 const pingCommand = require("@global/commands/ping");
@@ -53,6 +54,9 @@ client.on('message', async (channel, tags, message, self) => {
 
   // Chat Utility
   handleChatUtility(user, message, env.discord.webhook.streaming);
+
+  // Shoutout Utility
+  handleShoutoutUtility(client, channel, tags, user, env.openrouter.apiKey);
 
   // Topic Command
   if (lowerMsg === '!topic') client.say(channel, await topicCommand(env.openrouter.apiKey));
