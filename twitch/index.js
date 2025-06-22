@@ -10,6 +10,7 @@ const handleUserUtility = require('@twitch/utilities/user');
 const handleChatUtility = require('@twitch/utilities/chat');
 const handleShoutoutUtility = require('@twitch/utilities/shoutout');
 const handleEventUtility = require('@twitch/utilities/event');
+const handleSetupUtility = require('@twitch/utilities/title');
 
 // Commands
 const pingCommand = require("@global/commands/ping");
@@ -91,6 +92,7 @@ function checkNewFollowers() {
 
 // Every 1 minute
 cron.schedule('* * * * *', () => {
+  handleSetupUtility(client);
   if (isStreaming) checkNewFollowers();
   if (isStreaming) runConversationUtility();
 });
