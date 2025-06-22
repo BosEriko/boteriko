@@ -1,4 +1,4 @@
-const client = require('@twitch/utilities/tmi');
+const client = require('@twitch/utilities/client');
 const cron = require('node-cron');
 const env = require('@global/utilities/env');
 
@@ -33,11 +33,7 @@ client.on('message', async (channel, tags, message, self) => {
   if (self) return;
 
   // Fetch Twitch user information
-  const user = await handleUserUtility(
-    tags['display-name'],
-    env.twitch.bot.clientId,
-    env.twitch.bot.accessToken
-  );
+  const user = await handleUserUtility(tags['display-name']);
 
   // Ensure the message is not empty and trim whitespace
   const msg = message.trim();

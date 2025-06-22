@@ -1,17 +1,18 @@
 const axios = require('axios');
+const env = require('@global/utilities/env');
 const cacheUtility = require('@global/utilities/cache');
 
 const twitchUserCache = cacheUtility();
 
-async function handleUserUtility(username, clientId, accessToken) {
+async function handleUserUtility(username) {
   const cachedUser = twitchUserCache.get(username, 'twitch-user');
   if (cachedUser) return cachedUser;
 
   try {
     const res = await axios.get('https://api.twitch.tv/helix/users', {
       headers: {
-        'Client-ID': clientId,
-        'Authorization': `Bearer ${accessToken}`,
+        'Client-ID': env.twitch.bot.clientId,
+        'Authorization': `Bearer ${env.twitch.bot.accessToken}`,
       },
       params: { login: username },
     });

@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits } = require('discord.js');
+const client = require('@discord/utilities/client');
 
 // Commands
 const pingCommand = require("@global/commands/ping");
@@ -11,14 +11,6 @@ const handleChatUtility = require('@discord/utilities/chat');
 const env = require('@global/utilities/env');
 
 // -------------------------------------- Discord Bot Setup ----------------------------------------
-
-const client = new Client({
-  intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent
-  ],
-});
 
 client.on('ready', () => {
   console.log(`✅ Connected to Discord server.`);
