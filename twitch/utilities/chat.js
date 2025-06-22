@@ -1,6 +1,7 @@
 const axios = require('axios');
 const broadcastToClient = require('@global/utilities/websocket');
 const firebaseUtility = require('@global/utilities/firebase');
+const attendanceUtility = require('@global/utilities/attendance');
 
 let recentTimestamps = [];
 
@@ -61,14 +62,8 @@ async function saveToRealtimeDatabase(user) {
     }
   }
 
-  const today = new Date().toISOString().slice(0, 10);
-  const messageCountRef = rtdb.ref(`messages_counts/${user.id}/content/${today}`);
-  const messageSnapshot = await messageCountRef.once('value');
-  const existingCount = messageSnapshot.val()?.twitchMessageCount || 0;
-
-  await messageCountRef.update({
-    twitchMessageCount: existingCount + 1
-  });
+  // 👇 Replaced manual update with attendance utility
+  await attendanceUtility(rtdb, user.id, 'twitchMessageCount');
 }
 
 async function handleChatUtility(user, message, webhookUrl) {

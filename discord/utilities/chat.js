@@ -1,5 +1,6 @@
 const firebaseUtility = require('@global/utilities/firebase');
 const cacheUtility = require('@global/utilities/cache');
+const attendanceUtility = require('@global/utilities/attendance');
 
 const discordToTwitchCache = cacheUtility();
 
@@ -38,14 +39,7 @@ async function saveToRealtimeDatabase(discordId) {
     coins: (userData.coins || 0) + 1,
   });
 
-  const today = new Date().toISOString().slice(0, 10);
-  const messageCountRef = rtdb.ref(`messages_counts/${twitchId}/content/${today}`);
-  const existingSnapshot = await messageCountRef.once('value');
-  const existingCount = existingSnapshot.val()?.discordMessageCount || 0;
-
-  await messageCountRef.update({
-    discordMessageCount: existingCount + 1
-  });
+  await attendanceUtility(rtdb, twitchId, 'discordMessageCount');
 }
 
 async function handleChatUtility(discordId) {
