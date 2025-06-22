@@ -3,6 +3,7 @@ const broadcastToClient = require('@global/utilities/websocket');
 const firebaseUtility = require('@global/utilities/firebase');
 const attendanceUtility = require('@global/utilities/attendance');
 const statisticUtility = require('@global/utilities/statistic');
+const syncUserUtility = require('@global/utilities/syncUser');
 
 let recentTimestamps = [];
 
@@ -37,25 +38,9 @@ async function saveToRealtimeDatabase(user) {
   const rtdb = firebaseUtility.database();
   const auth = firebaseUtility.auth();
 
-  await statisticUtility(rtdb, user.id, {
-    twitchMessageCount: 1,
-    coins: 1,
-  });
+  await syncUserUtility(auth, user);
 
-  try {
-    await auth.updateUser(user.id, {
-      displayName: user.display_name
-    });
-  } catch (error) {
-    if (error.code === 'auth/user-not-found') {
-      await auth.createUser({
-        uid: user.id,
-        displayName: user.display_name
-      });
-    } else {
-      console.error(`Failed to update/create auth user: ${error.message}`);
-    }
-  }
+  await statisticUtility(rtdb, user.id, { twitchMessageCount: 1, coins: 1 });
 
   await attendanceUtility(rtdb, user.id, 'twitchMessageCount');
 }
