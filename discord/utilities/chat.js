@@ -31,11 +31,7 @@ async function saveToRealtimeDatabase(discordId) {
   const twitchId = await getTwitchIdFromDiscordId(discordId);
   if (!twitchId) return;
 
-  await statisticUtility(rtdb, twitchId, {
-    discordMessageCount: 1,
-    coins: 1,
-  });
-
+  await statisticUtility(rtdb, twitchId, { discordMessageCount: 1, coins: 1 });
   await attendanceUtility(rtdb, twitchId, 'discordMessageCount');
 }
 
