@@ -21,7 +21,7 @@ function getCachedTwitchId(discordId) {
   return null;
 }
 
-async function getTwitchIdFromDiscord(discordId) {
+async function getTwitchIdFromDiscordId(discordId) {
   const firestore = firebaseUtility.firestore();
   const cached = getCachedTwitchId(discordId);
   if (cached) return cached;
@@ -44,7 +44,7 @@ async function getTwitchIdFromDiscord(discordId) {
 
 async function saveToRealtimeDatabase(discordId) {
   const rtdb = firebaseUtility.database();
-  const twitchId = await getTwitchIdFromDiscord(discordId);
+  const twitchId = await getTwitchIdFromDiscordId(discordId);
   if (!twitchId) return;
 
   const userRef = rtdb.ref(`users/${twitchId}`);
