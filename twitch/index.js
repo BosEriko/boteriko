@@ -56,7 +56,14 @@ client.on('message', async (channel, tags, message, self) => {
   handleChatUtility(user, message, env.discord.webhook.streaming);
 
   // Shoutout Utility
-  handleShoutoutUtility(client, channel, tags, user, env.openrouter.apiKey);
+  handleShoutoutUtility(
+    client,
+    channel,
+    tags.mod === true || tags.badges?.moderator === '1',
+    tags.badges?.broadcaster === '1',
+    user,
+    env.openrouter.apiKey
+  );
 
   // Topic Command
   if (lowerMsg === '!topic') client.say(channel, await topicCommand(env.openrouter.apiKey));
