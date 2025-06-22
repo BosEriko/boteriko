@@ -1,5 +1,5 @@
-const axios = require('axios');
 const broadcastToClient = require('@global/utilities/websocket');
+const llmUtility = require('@global/utilities/llm');
 const cacheUtility = require('@global/utilities/cache');
 
 const TWELVE_HOURS_MS = 12 * 60 * 60 * 1000;
@@ -33,34 +33,14 @@ async function handleShoutoutUtility(client, channel, tags, user, apiKey) {
     const description = user?.description || "a mysterious guest with no description";
     const profileImageUrl = user?.profile_image_url || null;
 
-    const aiResponse = await axios.post(
-      'https://openrouter.ai/api/v1/chat/completions',
-      {
-        model: 'openai/gpt-3.5-turbo',
-        messages: [
-          {
-            role: 'system',
-            content: 'You are a friendly and funny shoutout bot for Twitch chat. Your job is to make viewers feel welcome based on their bio.',
-          },
-          {
-            role: 'user',
-            content: `Create a Twitch shoutout message for a streamer named ${displayName}. Their about section says: "${description}". Make it engaging but short — maximum 350 characters. End the message cleanly.`,
-          }
-        ],
-        max_tokens: 60,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          'Content-Type': 'application/json',
-        },
-      }
+    const shoutoutMessage = await llmUtility(
+      apiKey,
+      'You are a friendly and funny shoutout bot for Twitch chat. Your job is to make viewers feel welcome based on their bio.',
+      `Create a Twitch shoutout message for a streamer named ${displayName}. Their about section says: "${description}". Make it engaging but short — maximum 350 characters. End the message cleanly.`
     );
 
-    const shoutoutMessage = aiResponse.data.choices[0].message.content.trim();
     shoutoutCache.set(username, shoutoutMessage, 'shoutouts');
     broadcastToClient({ type: 'SHOUTOUT_DETAILS', url: profileImageUrl || null, username: username });
-
     client.say(channel, `🤖 ${shoutoutMessage}`);
   } catch (err) {
     console.error('❌ Shoutout error:', err?.response?.data || err.message);
