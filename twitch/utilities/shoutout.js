@@ -1,7 +1,9 @@
 const axios = require('axios');
 const broadcastToClient = require('@global/utilities/websocket');
+const cacheUtility = require('@global/utilities/cache');
 
-const shoutedOutUsers = new Set();
+const TWELVE_HOURS_MS = 12 * 60 * 60 * 1000;
+const shoutoutCache = cacheUtility(TWELVE_HOURS_MS);
 
 async function handleShoutoutUtility(client, channel, tags, user, apiKey) {
   const username = tags.username;
@@ -15,8 +17,11 @@ async function handleShoutoutUtility(client, channel, tags, user, apiKey) {
     return;
   }
 
-  if (shoutedOutUsers.has(username)) return;
-  shoutedOutUsers.add(username);
+  const cachedShoutout = shoutoutCache.get(username, 'shoutouts');
+  if (cachedShoutout) {
+    console.log(`Skipping shoutout for ${username} — within 12-hour cooldown.`);
+    return;
+  }
 
   try {
     const isStreamer = ['affiliate', 'partner'].includes(user?.broadcaster_type);
@@ -53,6 +58,7 @@ async function handleShoutoutUtility(client, channel, tags, user, apiKey) {
     );
 
     const shoutoutMessage = aiResponse.data.choices[0].message.content.trim();
+    shoutoutCache.set(username, shoutoutMessage, 'shoutouts');
     broadcastToClient({ type: 'SHOUTOUT_DETAILS', url: profileImageUrl || null, username: username });
 
     client.say(channel, `🤖 ${shoutoutMessage}`);
