@@ -1,28 +1,10 @@
 const axios = require('axios');
+const createCache = require('@global/utilities/cache');
 
-const twitchUserCache = new Map();
-const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
-
-function getCacheKey(username) {
-  return `twitch-${username}`;
-}
-
-function cacheTwitchUser(username, userData) {
-  const expiresAt = Date.now() + CACHE_TTL_MS;
-  twitchUserCache.set(getCacheKey(username), { userData, expiresAt });
-}
-
-function getCachedTwitchUser(username) {
-  const cached = twitchUserCache.get(getCacheKey(username));
-  if (cached && cached.expiresAt > Date.now()) {
-    return cached.userData;
-  }
-  twitchUserCache.delete(getCacheKey(username));
-  return null;
-}
+const twitchUserCache = createCache();
 
 async function handleUserUtility(username, clientId, accessToken) {
-  const cachedUser = getCachedTwitchUser(username);
+  const cachedUser = twitchUserCache.get(username, 'twitch-user');
   if (cachedUser) return cachedUser;
 
   try {
@@ -36,7 +18,7 @@ async function handleUserUtility(username, clientId, accessToken) {
 
     const user = res.data.data[0];
     if (user) {
-      cacheTwitchUser(username, user);
+      twitchUserCache.set(username, user, 'twitch-user');
       return user;
     }
   } catch (err) {

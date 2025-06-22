@@ -1,31 +1,13 @@
 const firebaseUtility = require('@global/utilities/firebase');
+const createCache = require('@global/utilities/cache');
 
-const discordToTwitchCache = new Map();
-const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
-
-function getCacheKey(discordId) {
-  return `discord-${discordId}`;
-}
-
-function cacheTwitchId(discordId, twitchId) {
-  const expiresAt = Date.now() + CACHE_TTL_MS;
-  discordToTwitchCache.set(getCacheKey(discordId), { twitchId, expiresAt });
-}
-
-function getCachedTwitchId(discordId) {
-  const cached = discordToTwitchCache.get(getCacheKey(discordId));
-  if (cached && cached.expiresAt > Date.now()) {
-    return cached.twitchId;
-  }
-  discordToTwitchCache.delete(getCacheKey(discordId));
-  return null;
-}
+const discordToTwitchCache = createCache();
 
 async function getTwitchIdFromDiscordId(discordId) {
-  const firestore = firebaseUtility.firestore();
-  const cached = getCachedTwitchId(discordId);
+  const cached = discordToTwitchCache.get(discordId, 'discord-to-twitch');
   if (cached) return cached;
 
+  const firestore = firebaseUtility.firestore();
   const usersRef = firestore.collection('users');
   const snapshot = await usersRef.where('discordId', '==', discordId).limit(1).get();
 
@@ -37,7 +19,7 @@ async function getTwitchIdFromDiscordId(discordId) {
   const doc = snapshot.docs[0];
   const twitchId = doc.id;
 
-  cacheTwitchId(discordId, twitchId);
+  discordToTwitchCache.set(discordId, twitchId, 'discord-to-twitch');
 
   return twitchId;
 }
