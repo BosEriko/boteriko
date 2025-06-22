@@ -1,7 +1,7 @@
 const axios = require('axios');
-const createCache = require('@global/utilities/cache');
+const cacheUtility = require('@global/utilities/cache');
 
-const twitchUserCache = createCache();
+const twitchUserCache = cacheUtility();
 
 async function handleUserUtility(username, clientId, accessToken) {
   const cachedUser = twitchUserCache.get(username, 'twitch-user');

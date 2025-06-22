@@ -1,7 +1,7 @@
 const firebaseUtility = require('@global/utilities/firebase');
-const createCache = require('@global/utilities/cache');
+const cacheUtility = require('@global/utilities/cache');
 
-const discordToTwitchCache = createCache();
+const discordToTwitchCache = cacheUtility();
 
 async function getTwitchIdFromDiscordId(discordId) {
   const cached = discordToTwitchCache.get(discordId, 'discord-to-twitch');

@@ -1,7 +1,7 @@
 const DEFAULT_TTL_MS = 24 * 60 * 60 * 1000;
 const MAX_ITEMS = 20;
 
-function createCache(ttlMs = DEFAULT_TTL_MS) {
+function cacheUtility(ttlMs = DEFAULT_TTL_MS) {
   const cache = new Map();
 
   function getKey(id, namespace = '') {
@@ -35,4 +35,4 @@ function createCache(ttlMs = DEFAULT_TTL_MS) {
   return { set, get, _raw: cache };
 }
 
-module.exports = createCache;
+module.exports = cacheUtility;
