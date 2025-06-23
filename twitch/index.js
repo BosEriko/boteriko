@@ -13,8 +13,10 @@ const handlePingCommand = require("@global/commands/ping");
 const handleTopicCommand = require('@global/commands/topic');
 const handleBrbCommand = require('@twitch/commands/brb');
 const handleSoundCommand = require('@twitch/commands/sound');
+const handleAskCommand = require('@global/commands/ask');
 
 // Constants
+const commandConstant = require('@global/constants/command');
 const profanityConstant = require('@global/constants/profanity');
 
 // --------------------------------------- Twitch Bot Setup ----------------------------------------
@@ -23,14 +25,6 @@ client.connect();
 client.on('connected', (address, port) => {
   console.log(`✅ Connected to Twitch chat.`);
 });
-
-// --------------------------------------- Global Variables ----------------------------------------
-
-const commands = [
-  { command: 'topic', restricted: false },
-  { command: 'ping', restricted: false },
-  { command: 'brb', restricted: true },
-];
 
 // ----------------------------------------- Block Import ------------------------------------------
 
@@ -67,8 +61,8 @@ client.on('message', async (channel, tags, message, self) => {
     const channelName = env.twitch.channel.username;
     const commandName = lowerMsg.split(' ')[0].replace('!', '');
     const commandArgs = msg.includes(' ') ? msg.slice(msg.indexOf(' ') + 1).trim() : '';
-    const availableCommands = commands.map(c => c.command);
-    const restrictedCommands = commands.filter(c => c.restricted).map(c => c.command);
+    const availableCommands = commandConstant.map(c => c.command);
+    const restrictedCommands = commandConstant.filter(c => c.restricted).map(c => c.command);
 
     // Check if the command is available
     if (!availableCommands.includes(commandName)) {
@@ -81,6 +75,9 @@ client.on('message', async (channel, tags, message, self) => {
       client.say(channel, `Only ${channelName} can control the ${commandName} command. ❌`);
       return;
     }
+
+    // Ask Command
+    if (commandName === 'ask') client.say(channel, `🤖 @${tags.username} ${await handleAskCommand(commandArgs)}`);
 
     // BRB Command
     if (commandName === 'brb') handleBrbCommand(client, channel, commandArgs);
