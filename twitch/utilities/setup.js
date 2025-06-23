@@ -64,15 +64,35 @@ async function generateTitleFromHoliday(holidayName) {
   }
 }
 
+async function generateTitleFromDayOfWeek(dayOfWeek) {
+  try {
+    const response = await llmUtility(
+      env.openrouter.apiKey,
+      'You are a funny and clever Twitch title generator. Your job is to make short and catchy stream titles.',
+      `Create a Twitch stream title or pick-up line inspired by it being a ${dayOfWeek}. Make it casual or funny. Reply with the title only.`
+    );
+
+    return response.replace(/^["']|["']$/g, '').trim();
+  } catch (err) {
+    console.error("❌ Failed to generate title from day of week:", err.response?.data || err.message);
+    return "Just Chatting Vibes 😎";
+  }
+}
+
 async function handleSetupUtility(client) {
   if (!isNewDay()) return;
 
-  let title = "Just Chatting Stream";
-  const today = new Date().toISOString().split('T')[0];
+  const today = new Date();
+  const isoDate = today.toISOString().split('T')[0];
+  const dayOfWeek = today.toLocaleDateString('en-US', { weekday: 'long' });
 
-  const holidayName = await getHolidayName(today);
+  let title;
+  const holidayName = await getHolidayName(isoDate);
+
   if (holidayName) {
     title = await generateTitleFromHoliday(holidayName);
+  } else {
+    title = await generateTitleFromDayOfWeek(dayOfWeek);
   }
 
   const gameId = await getCategoryIdByName("Just Chatting");
