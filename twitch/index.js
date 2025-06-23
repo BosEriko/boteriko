@@ -56,8 +56,14 @@ client.on('message', async (channel, tags, message, self) => {
   // Additional checks for command execution
   const channelName = env.twitch.channel.username;
   const commandName = lowerMsg.split(' ')[0].replace('!', '');
+  const isCommand = lowerMsg.startsWith('!') && lowerMsg.length > 1;
+  const availableCommands = ['topic', 'ping', 'pomodoro', 'brb'];
   const restrictedCommands = ['pomodoro', 'brb'];
-  if (message.startsWith('!') && restrictedCommands.includes(commandName) && tags['display-name'] !== channelName) {
+  if (isCommand && !availableCommands.includes(commandName)) {
+    client.say(channel, `${commandName} is not a command. ❌`);
+    return;
+  };
+  if (isCommand && restrictedCommands.includes(commandName) && tags['display-name'] !== channelName) {
     client.say(channel, `Only ${channelName} can control the ${commandName} command. ❌`);
     return;
   }
