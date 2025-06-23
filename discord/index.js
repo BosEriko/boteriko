@@ -3,9 +3,13 @@ const client = require('@discord/utilities/client');
 // Commands
 const handlePingCommand = require("@global/commands/ping");
 const handleTopicCommand = require('@global/commands/topic');
+const handleAskCommand = require('@global/commands/ask');
 
 // Utilities
 const handleChatUtility = require('@discord/utilities/chat');
+
+// Constants
+const commandConstant = require('@global/constants/command');
 
 // Environment
 const env = require('@global/utilities/env');
@@ -19,27 +23,38 @@ client.on('ready', () => {
 // ----------------------------------------- Chat Commands -----------------------------------------
 
 client.on('messageCreate', async message => {
-  // Ignore messages from bots
-  if (message.author.bot) return;
-
-  // Ensure the message is from the correct server
+  if (message.author.bot || message.webhookId) return;
   if (message.guild?.id !== env.discord.server.id) return;
-
-  // Ignore messages from webhooks
-  if (message.webhookId) return;
 
   // Chat Utility
   handleChatUtility(message.author.id);
 
-  // Topic Command
-  if (message.content === '!topic') {
-    message.reply(await handleTopicCommand());
+  const msg = message.content.trim();
+  const lowerMsg = msg.toLowerCase();
+
+  // Command Handling
+  const isCommand = lowerMsg.startsWith('!') && lowerMsg.length > 1;
+  if (!isCommand) return;
+
+  const commandName = lowerMsg.split(' ')[0].replace('!', '');
+  const commandArgs = msg.includes(' ') ? msg.slice(msg.indexOf(' ') + 1).trim() : '';
+
+  const availableCommands = commandConstant.map(c => c.command);
+
+  // Check if the command is available
+  if (!availableCommands.includes(commandName)) {
+    message.reply(`❌ \`${commandName}\` is not a command.`);
+    return;
   }
 
+  // Ask Command
+  if (commandName === 'ask') return message.reply(`🤖 ${await handleAskCommand(commandArgs)}`);
+
+  // Topic Command
+  if (commandName === 'topic') return message.reply(await handleTopicCommand());
+
   // Ping Command
-  if (message.content === '!ping') {
-    message.reply(handlePingCommand());
-  }
+  if (commandName === 'ping') return message.reply(handlePingCommand());
 });
 
 client.login(env.discord.bot.token);

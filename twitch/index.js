@@ -57,35 +57,35 @@ client.on('message', async (channel, tags, message, self) => {
 
   // Commands
   const isCommand = lowerMsg.startsWith('!') && lowerMsg.length > 1;
-  if (isCommand) {
-    const channelName = env.twitch.channel.username;
-    const commandName = lowerMsg.split(' ')[0].replace('!', '');
-    const commandArgs = msg.includes(' ') ? msg.slice(msg.indexOf(' ') + 1).trim() : '';
-    const availableCommands = commandConstant.map(c => c.command);
-    const restrictedCommands = commandConstant.filter(c => c.restricted).map(c => c.command);
+  if (!isCommand) return;
 
-    // Check if the command is available
-    if (!availableCommands.includes(commandName)) {
-      client.say(channel, `${commandName} is not a command. ❌`);
-      return;
-    };
+  const channelName = env.twitch.channel.username;
+  const commandName = lowerMsg.split(' ')[0].replace('!', '');
+  const commandArgs = msg.includes(' ') ? msg.slice(msg.indexOf(' ') + 1).trim() : '';
+  const availableCommands = commandConstant.map(c => c.command);
+  const restrictedCommands = commandConstant.filter(c => c.restricted).map(c => c.command);
 
-    // Check if the command is restricted
-    if (restrictedCommands.includes(commandName) && tags['display-name'] !== channelName) {
-      client.say(channel, `Only ${channelName} can control the ${commandName} command. ❌`);
-      return;
-    }
+  // Check if the command is available
+  if (!availableCommands.includes(commandName)) {
+    client.say(channel, `${commandName} is not a command. ❌`);
+    return;
+  };
 
-    // Ask Command
-    if (commandName === 'ask') client.say(channel, `🤖 @${tags.username} ${await handleAskCommand(commandArgs)}`);
-
-    // BRB Command
-    if (commandName === 'brb') handleBrbCommand(client, channel, commandArgs);
-
-    // Topic Command
-    if (commandName === 'topic') client.say(channel, await handleTopicCommand());
-
-    // Ping Command
-    if (commandName === 'ping') client.say(channel, handlePingCommand());
+  // Check if the command is restricted
+  if (restrictedCommands.includes(commandName) && tags['display-name'] !== channelName) {
+    client.say(channel, `Only ${channelName} can control the ${commandName} command. ❌`);
+    return;
   }
+
+  // Ask Command
+  if (commandName === 'ask') client.say(channel, `🤖 @${tags.username} ${await handleAskCommand(commandArgs)}`);
+
+  // BRB Command
+  if (commandName === 'brb') handleBrbCommand(client, channel, commandArgs);
+
+  // Topic Command
+  if (commandName === 'topic') client.say(channel, await handleTopicCommand());
+
+  // Ping Command
+  if (commandName === 'ping') client.say(channel, handlePingCommand());
 });
