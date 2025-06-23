@@ -41,10 +41,6 @@ client.on('message', async (channel, tags, message, self) => {
   // Fetch Twitch user information
   const user = await handleUserUtility(tags['display-name']);
 
-  // Ensure the message is not empty and trim whitespace
-  const msg = message.trim();
-  const lowerMsg = msg.toLowerCase();
-
   // Chat Utility
   handleChatUtility(user, message);
 
@@ -52,6 +48,19 @@ client.on('message', async (channel, tags, message, self) => {
   const isMod = tags.mod === true || tags.badges?.moderator === '1';
   const isBroadcaster = tags.badges?.broadcaster === '1';
   handleShoutoutUtility(isMod, isBroadcaster, user);
+
+  // Ensure the message is not empty and trim whitespace
+  const msg = message.trim();
+  const lowerMsg = msg.toLowerCase();
+
+  // Additional checks for command execution
+  const channelName = env.twitch.channel.username;
+  const commandName = lowerMsg.split(' ')[0].replace('!', '');
+  const restrictedCommands = ['pomodoro', 'brb'];
+  if (message.startsWith('!') && restrictedCommands.includes(commandName) && tags['display-name'] !== channelName) {
+    client.say(channel, `Only ${channelName} can control the ${commandName} command. ❌`);
+    return;
+  }
 
   // Topic Command
   if (lowerMsg === '!topic') client.say(channel, await topicCommand());
