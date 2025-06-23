@@ -1,6 +1,6 @@
 const profanityConstant = [
   // Tagalog
-  "burat", "titi", "puke", "puki", "kantot", "puta",
+  "burat", "titi", "tite", "puke", "puki", "kantot", "puta",
   "gago", "gaga", "tangina", "leche", "letse", "bayag", "pekpek",
   "kupal", "bobo", "tanga", "hinayupak", "animal", "bwisit",
   "ogag", "demoniyo", "lintik",
