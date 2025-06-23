@@ -1,5 +1,5 @@
-const pingCommand = function() {
+const handlePingCommand = function() {
     return "Pong!";
 }
 
-module.exports = pingCommand;
+module.exports = handlePingCommand;

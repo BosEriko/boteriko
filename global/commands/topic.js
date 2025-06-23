@@ -7,7 +7,7 @@ function getRandomTopic(topics) {
   return topics[index];
 }
 
-async function topicCommand() {
+async function handleTopicCommand() {
   const topic = getRandomTopic(topicConstant);
 
   try {
@@ -22,4 +22,4 @@ async function topicCommand() {
   }
 }
 
-module.exports = topicCommand;
+module.exports = handleTopicCommand;

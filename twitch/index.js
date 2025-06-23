@@ -13,8 +13,9 @@ const handleEventUtility = require('@twitch/utilities/event');
 const handleSetupUtility = require('@twitch/utilities/setup');
 
 // Commands
-const pingCommand = require("@global/commands/ping");
-const topicCommand = require('@global/commands/topic');
+const handlePingCommand = require("@global/commands/ping");
+const handleTopicCommand = require('@global/commands/topic');
+const handleBrbCommand = require('@twitch/commands/brb');
 
 // --------------------------------------- Twitch Bot Setup ----------------------------------------
 client.connect();
@@ -79,10 +80,10 @@ client.on('message', async (channel, tags, message, self) => {
     }
 
     // Topic Command
-    if (commandName === 'topic') client.say(channel, await topicCommand());
+    if (commandName === 'topic') client.say(channel, await handleTopicCommand());
 
     // Ping Command
-    if (commandName === 'ping') client.say(channel, pingCommand());
+    if (commandName === 'ping') client.say(channel, handlePingCommand());
   }
 });
 
@@ -103,7 +104,7 @@ async function runConversationUtility() {
   const fiveMinutes = 5 * 60 * 1000;
 
   if (now - lastMessageTimestamp >= fiveMinutes) {
-    client.say(`#${env.twitch.channel.username}`, `💭 ${await topicCommand()}`);
+    client.say(`#${env.twitch.channel.username}`, `💭 ${await handleTopicCommand()}`);
     lastMessageTimestamp = now;
   }
 }

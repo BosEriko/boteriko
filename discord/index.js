@@ -1,8 +1,8 @@
 const client = require('@discord/utilities/client');
 
 // Commands
-const pingCommand = require("@global/commands/ping");
-const topicCommand = require('@global/commands/topic');
+const handlePingCommand = require("@global/commands/ping");
+const handleTopicCommand = require('@global/commands/topic');
 
 // Utilities
 const handleChatUtility = require('@discord/utilities/chat');
@@ -33,12 +33,12 @@ client.on('messageCreate', async message => {
 
   // Topic Command
   if (message.content === '!topic') {
-    message.reply(await topicCommand());
+    message.reply(await handleTopicCommand());
   }
 
   // Ping Command
   if (message.content === '!ping') {
-    message.reply(pingCommand());
+    message.reply(handlePingCommand());
   }
 });
 
