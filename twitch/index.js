@@ -27,6 +27,11 @@ client.on('connected', (address, port) => {
 
 let isStreaming = false;
 let lastMessageTimestamp = Date.now();
+const commands = [
+  { command: 'topic', restricted: false },
+  { command: 'ping', restricted: false },
+  { command: 'brb', restricted: true },
+];
 
 // ---------------------------------------- Event Handlers -----------------------------------------
 
@@ -53,28 +58,32 @@ client.on('message', async (channel, tags, message, self) => {
   const msg = message.trim();
   const lowerMsg = msg.toLowerCase();
 
-  // Additional checks for command execution
-  const channelName = env.twitch.channel.username;
-  const commandName = lowerMsg.split(' ')[0].replace('!', '');
+  // Commands
   const isCommand = lowerMsg.startsWith('!') && lowerMsg.length > 1;
-  const availableCommands = ['topic', 'ping', 'pomodoro', 'brb'];
-  const restrictedCommands = ['pomodoro', 'brb'];
   if (isCommand) {
+    const channelName = env.twitch.channel.username;
+    const commandName = lowerMsg.split(' ')[0].replace('!', '');
+    const availableCommands = commands.map(c => c.command);
+    const restrictedCommands = commands.filter(c => c.restricted).map(c => c.command);
+
+    // Check if the command is available
     if (!availableCommands.includes(commandName)) {
       client.say(channel, `${commandName} is not a command. ❌`);
       return;
     };
+
+    // Check if the command is restricted
     if (restrictedCommands.includes(commandName) && tags['display-name'] !== channelName) {
       client.say(channel, `Only ${channelName} can control the ${commandName} command. ❌`);
       return;
     }
+
+    // Topic Command
+    if (commandName === 'topic') client.say(channel, await topicCommand());
+
+    // Ping Command
+    if (commandName === 'ping') client.say(channel, pingCommand());
   }
-
-  // Topic Command
-  if (lowerMsg === '!topic') client.say(channel, await topicCommand());
-
-  // Ping Command
-  if (lowerMsg === '!ping') client.say(channel, pingCommand());
 });
 
 // ------------------------------------------- Functions -------------------------------------------
