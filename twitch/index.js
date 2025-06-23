@@ -12,6 +12,10 @@ const handleCronUtility = require('@twitch/utilities/cron');
 const handlePingCommand = require("@global/commands/ping");
 const handleTopicCommand = require('@global/commands/topic');
 const handleBrbCommand = require('@twitch/commands/brb');
+const handleSoundCommand = require('@twitch/commands/sound');
+
+// Constants
+const profanityConstant = require('@global/constants/profanity');
 
 // --------------------------------------- Twitch Bot Setup ----------------------------------------
 client.connect();
@@ -53,6 +57,9 @@ client.on('message', async (channel, tags, message, self) => {
   // Ensure the message is not empty and trim whitespace
   const msg = message.trim();
   const lowerMsg = msg.toLowerCase();
+
+  // Sound Alert
+  if (profanityConstant.some(item => lowerMsg.split(' ').includes(item))) handleSoundCommand("PROFANITY");
 
   // Commands
   const isCommand = lowerMsg.startsWith('!') && lowerMsg.length > 1;
