@@ -64,6 +64,7 @@ client.on('message', async (channel, tags, message, self) => {
   if (isCommand) {
     const channelName = env.twitch.channel.username;
     const commandName = lowerMsg.split(' ')[0].replace('!', '');
+    const commandArgs = msg.includes(' ') ? msg.slice(msg.indexOf(' ') + 1).trim() : '';
     const availableCommands = commands.map(c => c.command);
     const restrictedCommands = commands.filter(c => c.restricted).map(c => c.command);
 
@@ -78,6 +79,9 @@ client.on('message', async (channel, tags, message, self) => {
       client.say(channel, `Only ${channelName} can control the ${commandName} command. ❌`);
       return;
     }
+
+    // BRB Command
+    if (commandName === 'brb') handleBrbCommand(client, channel, commandArgs);
 
     // Topic Command
     if (commandName === 'topic') client.say(channel, await handleTopicCommand());
