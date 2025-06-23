@@ -53,7 +53,18 @@ client.on('message', async (channel, tags, message, self) => {
   const lowerMsg = msg.toLowerCase();
 
   // Sound Alert
-  if (profanityConstant.some(item => lowerMsg.split(' ').includes(item))) handleSoundCommand("PROFANITY");
+  const soundTriggers = {
+    PROFANITY: profanityConstant,
+    GOTTEM: ["gottem", "got 'em"],
+    NICE_TRY: ["nice try", "nt"]
+  };
+
+  for (const [sound, keywords] of Object.entries(soundTriggers)) {
+    if (keywords.some(word => lowerMsg.split(' ').includes(word))) {
+      handleSoundCommand(sound);
+      break;
+    }
+  }
 
   // Commands
   const isCommand = lowerMsg.startsWith('!') && lowerMsg.length > 1;
