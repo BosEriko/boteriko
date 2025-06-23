@@ -30,20 +30,49 @@ async function getCategoryIdByName(name) {
   }
 }
 
+async function getHolidayName(today) {
+  try {
+    const [year, month, day] = today.split("-");
+    const countries = ['US', 'PH', 'JP'];
+    for (const country of countries) {
+      const res = await axios.get(`https://date.nager.at/api/v3/PublicHolidays/${year}/${country}`);
+      const match = res.data.find(holiday => holiday.date === today);
+      if (match) {
+        return match.name;
+      }
+    }
+
+    return null;
+  } catch (err) {
+    console.error("❌ Failed to get holiday from API:", err.response?.data || err.message);
+    return null;
+  }
+}
+
+async function generateTitleFromHoliday(holidayName) {
+  try {
+    const response = await llmUtility(
+      env.openrouter.apiKey,
+      'You are a funny and clever Twitch title generator. Your job is to make short and catchy stream titles.',
+      `Create a funny or flirty Twitch stream title or pick-up line inspired by ${holidayName}. Reply with the title only.`
+    );
+
+    return response.replace(/^["']|["']$/g, '').trim();
+  } catch (err) {
+    console.error("❌ Failed to generate title from holiday:", err.response?.data || err.message);
+    return "Just Chatting Vibes 😎";
+  }
+}
+
 async function handleSetupUtility(client) {
   if (!isNewDay()) return;
 
-  let title = "Stream Title";
-  let day = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+  let title = "Just Chatting Stream";
+  const today = new Date().toISOString().split('T')[0];
 
-  try {
-    title = (await llmUtility(
-      env.openrouter.apiKey,
-      'You are a friendly and funny title maker for a Twitch Channel. Your job is to make Twitch Channels.',
-      `Can you make me a title about the day? Which is currently ${day}. Make it a pick up line. Reply with the title only. Please don't add variables to it like [Your Username].`
-    )).replace(/^["']|["']$/g, '');
-  } catch (err) {
-    console.error('❌ OpenRouter Error:', err?.response?.data || err.message);
+  const holidayName = await getHolidayName(today);
+  if (holidayName) {
+    title = await generateTitleFromHoliday(holidayName);
   }
 
   const gameId = await getCategoryIdByName("Just Chatting");
@@ -52,17 +81,13 @@ async function handleSetupUtility(client) {
   const body = gameId ? { title, game_id: gameId } : { title };
 
   try {
-    await axios.patch(
-      url,
-      body,
-      {
-        headers: {
-          'Client-ID': env.twitch.bot.clientId,
-          'Authorization': `Bearer ${env.twitch.bot.accessToken}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+    await axios.patch(url, body, {
+      headers: {
+        'Client-ID': env.twitch.bot.clientId,
+        'Authorization': `Bearer ${env.twitch.bot.accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    });
 
     console.log("✅ Stream title and category updated successfully.");
     client.say(`#${env.twitch.channel.username}`, `📝 New Title: "${title}" | 📺 Category: Just Chatting`);
