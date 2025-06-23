@@ -59,13 +59,15 @@ client.on('message', async (channel, tags, message, self) => {
   const isCommand = lowerMsg.startsWith('!') && lowerMsg.length > 1;
   const availableCommands = ['topic', 'ping', 'pomodoro', 'brb'];
   const restrictedCommands = ['pomodoro', 'brb'];
-  if (isCommand && !availableCommands.includes(commandName)) {
-    client.say(channel, `${commandName} is not a command. ❌`);
-    return;
-  };
-  if (isCommand && restrictedCommands.includes(commandName) && tags['display-name'] !== channelName) {
-    client.say(channel, `Only ${channelName} can control the ${commandName} command. ❌`);
-    return;
+  if (isCommand) {
+    if (!availableCommands.includes(commandName)) {
+      client.say(channel, `${commandName} is not a command. ❌`);
+      return;
+    };
+    if (restrictedCommands.includes(commandName) && tags['display-name'] !== channelName) {
+      client.say(channel, `Only ${channelName} can control the ${commandName} command. ❌`);
+      return;
+    }
   }
 
   // Topic Command
