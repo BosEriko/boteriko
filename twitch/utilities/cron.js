@@ -42,7 +42,7 @@ function handleCronUtility(client) {
 
   // Every 1 minute
   cron.schedule('* * * * *', () => {
-    handleSetupUtility(client);
+    if (!state.isStreaming) handleSetupUtility(client);
     if (state.isStreaming) checkNewFollowers();
     if (state.isStreaming) runConversationUtility();
   });
