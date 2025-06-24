@@ -12,7 +12,7 @@ const handleTopicCommand = require('@global/commands/topic');
 function handleCronUtility(client) {
   // ------------------------------------------- Functions -------------------------------------------
 
-  // isStreaming Utility
+  // Check Stream Availability Function
   async function checkStreamAvailability() {
     try {
       state.isStreaming = await handleIsStreamingUtility();
@@ -21,7 +21,7 @@ function handleCronUtility(client) {
     }
   }
 
-  // Conversation Utility
+  // Run Conversation Utility
   async function runConversationUtility() {
     const now = Date.now();
     const fiveMinutes = 5 * 60 * 1000;
@@ -32,10 +32,21 @@ function handleCronUtility(client) {
     }
   }
 
-  // follow Utility
+  // Check New Followers Function
   function checkNewFollowers() {
     const username = env.twitch.channel.username;
     handleFollowUtility(newFollower => client.say(`#${username}`, `${newFollower} just followed!`));
+  }
+
+  // Reset Typing Leaderboard Function
+  function resetTypingLeaderboard() {
+    if (state.isStreaming) {
+      setTimeout(() => {
+        resetTypingLeaderboard();
+      }, 60 * 60 * 1000);
+    } else {
+      state.typingLeaderboard = {};
+    }
   }
 
   // ------------------------------------------- Cron Jobs -------------------------------------------
@@ -55,6 +66,11 @@ function handleCronUtility(client) {
   // Every 10 minutes
   cron.schedule('*/10 * * * *', () => {
     if (state.isStreaming) handleInformationUtility(client);
+  });
+
+  // Every day at midnight
+  cron.schedule('0 0 * * *', () => {
+    resetTypingLeaderboard();
   });
 }
 

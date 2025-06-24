@@ -7,6 +7,7 @@ const handleChatUtility = require('@twitch/utilities/chat');
 const handleShoutoutUtility = require('@twitch/utilities/shoutout');
 const handleEventUtility = require('@twitch/utilities/event');
 const handleCronUtility = require('@twitch/utilities/cron');
+const { handleTypingGame, handleTypingGameTop } = require('@twitch/games/typing');
 
 // Commands
 const handlePingCommand = require("@global/commands/ping");
@@ -43,6 +44,7 @@ client.on('message', async (channel, tags, message, self) => {
 
   // Chat Utility
   handleChatUtility(user, message);
+  handleTypingGame(client, channel, tags, message, user)
 
   // Shoutout Utility
   const isMod = tags.mod === true || tags.badges?.moderator === '1';
@@ -94,5 +96,6 @@ client.on('message', async (channel, tags, message, self) => {
   if (commandName === 'brb') handleBrbCommand(client, channel, commandArgs);
   if (commandName === 'dn') client.say(channel, `🤖 @${tags.username} ${await handleDeezCommand(msg.split(" ")[1])}`);
   if (commandName === 'ping') client.say(channel, handlePingCommand());
+  if (commandName === 'top') handleTypingGameTop(client, channel);
   if (commandName === 'topic') client.say(channel, await handleTopicCommand());
 });

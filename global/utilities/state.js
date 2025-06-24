@@ -1,4 +1,5 @@
 module.exports = {
   isStreaming: false,
-  lastMessageTimestamp: Date.now()
+  lastMessageTimestamp: Date.now(),
+  typingLeaderboard: {},
 };

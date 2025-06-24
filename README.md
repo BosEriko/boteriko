@@ -20,4 +20,5 @@ Here are the commands that are currently available.
 | !brb     | Available     | Not Available |
 | !dn      | Available     | Available     |
 | !ping    | Available     | Available     |
+| !top     | Available     | Not Available |
 | !topic   | Available     | Available     |
