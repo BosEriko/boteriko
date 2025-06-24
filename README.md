@@ -14,11 +14,12 @@ Check it out [here](https://heroku.com/).
 
 ## Commands
 Here are the commands that are currently available.
-|          | Twitch        | Discord       |
-|----------|---------------|---------------|
-| !ask     | Available     | Available     |
-| !brb     | Available     | Not Available |
-| !dn      | Available     | Available     |
-| !ping    | Available     | Available     |
-| !top     | Available     | Not Available |
-| !topic   | Available     | Available     |
+|           | Twitch        | Discord       |
+|-----------|---------------|---------------|
+| !ask      | Available     | Available     |
+| !brb      | Available     | Not Available |
+| !dn       | Available     | Available     |
+| !ping     | Available     | Available     |
+| !pomodoro | Available     | Not Available |
+| !top      | Available     | Not Available |
+| !topic    | Available     | Available     |

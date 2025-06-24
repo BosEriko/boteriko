@@ -17,6 +17,7 @@ const handleSoundCommand = require('@twitch/commands/sound');
 const handleAskCommand = require('@global/commands/ask');
 const handleDeezCommand = require('@global/commands/deez');
 const handleTopCommand = require('@twitch/commands/top');
+const handlePomodoroCommand = require('@twitch/commands/pomodoro');
 
 // Constants
 const commandConstant = require('@global/constants/command');
@@ -97,6 +98,7 @@ client.on('message', async (channel, tags, message, self) => {
   if (commandName === 'brb') handleBrbCommand(client, channel, commandArgs);
   if (commandName === 'dn') client.say(channel, `🤖 @${tags.username} ${await handleDeezCommand(msg.split(" ")[1])}`);
   if (commandName === 'ping') client.say(channel, handlePingCommand());
+  if (commandName === 'pomodoro') handlePomodoroCommand(client, commandArgs);
   if (commandName === 'top') handleTopCommand(client, channel);
   if (commandName === 'topic') client.say(channel, await handleTopicCommand());
 });
