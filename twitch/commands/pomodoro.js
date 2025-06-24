@@ -1,5 +1,6 @@
 const broadcastToClient = require('@global/utilities/websocket');
 const env = require('@global/utilities/env');
+const state = require('@global/utilities/state');
 
 let pomodoroTimer = null;
 let pomodoroTime = 20 * 60;
@@ -25,7 +26,7 @@ function broadcastState() {
 }
 
 function tick(client) {
-  if (isPaused || !isPomodoroActive) return;
+  if (!state.isStreaming || isPaused || !isPomodoroActive) return;
 
   currentTime--;
   broadcastState();
@@ -46,6 +47,8 @@ function tick(client) {
 }
 
 function startPomodoro(client) {
+  if (!state.isStreaming) return;
+
   if (pomodoroTimer) clearInterval(pomodoroTimer);
 
   isPomodoroActive = true;
@@ -63,6 +66,8 @@ function startPomodoro(client) {
 }
 
 function pausePomodoro(client) {
+  if (!state.isStreaming) return;
+
   isPaused = true;
   isVisible = true;
   broadcastState();
@@ -70,6 +75,8 @@ function pausePomodoro(client) {
 }
 
 function restartPomodoro(client) {
+  if (!state.isStreaming) return;
+
   isPaused = false;
   isVisible = true;
   clearInterval(pomodoroTimer);
@@ -79,6 +86,8 @@ function restartPomodoro(client) {
 }
 
 function startBreak(client) {
+  if (!state.isStreaming) return;
+
   clearInterval(pomodoroTimer);
   isPomodoroActive = true;
   isBreakTime = true;
@@ -90,6 +99,8 @@ function startBreak(client) {
 }
 
 function hidePomodoro(client) {
+  if (!state.isStreaming) return;
+
   isPaused = true;
   isVisible = false;
   broadcastState();
@@ -97,6 +108,11 @@ function hidePomodoro(client) {
 }
 
 function handlePomodoroCommand(client, subcommand) {
+  if (!state.isStreaming) {
+    client.say(channelName, 'Pomodoro commands are only available while streaming 📺');
+    return;
+  }
+
   switch (subcommand) {
     case 'start':
       startPomodoro(client);
