@@ -14,6 +14,7 @@ const handleTopicCommand = require('@global/commands/topic');
 const handleBrbCommand = require('@twitch/commands/brb');
 const handleSoundCommand = require('@twitch/commands/sound');
 const handleAskCommand = require('@global/commands/ask');
+const handleDeezCommand = require('@global/commands/deez');
 
 // Constants
 const commandConstant = require('@global/constants/command');
@@ -88,15 +89,10 @@ client.on('message', async (channel, tags, message, self) => {
     return;
   }
 
-  // Ask Command
+  // Commands
   if (commandName === 'ask') client.say(channel, `🤖 @${tags.username} ${await handleAskCommand(commandArgs)}`);
-
-  // BRB Command
   if (commandName === 'brb') handleBrbCommand(client, channel, commandArgs);
-
-  // Topic Command
-  if (commandName === 'topic') client.say(channel, await handleTopicCommand());
-
-  // Ping Command
+  if (commandName === 'dn') client.say(channel, `🤖 @${tags.username} ${await handleDeezCommand(msg.split(" ")[1])}`);
   if (commandName === 'ping') client.say(channel, handlePingCommand());
+  if (commandName === 'topic') client.say(channel, await handleTopicCommand());
 });

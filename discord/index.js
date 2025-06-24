@@ -4,6 +4,7 @@ const client = require('@discord/utilities/client');
 const handlePingCommand = require("@global/commands/ping");
 const handleTopicCommand = require('@global/commands/topic');
 const handleAskCommand = require('@global/commands/ask');
+const handleDeezCommand = require('@global/commands/deez');
 
 // Utilities
 const handleChatUtility = require('@discord/utilities/chat');
@@ -47,14 +48,11 @@ client.on('messageCreate', async message => {
     return;
   }
 
-  // Ask Command
+  // Commands
   if (commandName === 'ask') return message.reply(`🤖 ${await handleAskCommand(commandArgs)}`);
-
-  // Topic Command
-  if (commandName === 'topic') return message.reply(await handleTopicCommand());
-
-  // Ping Command
+  if (commandName === 'dn') return message.reply(`🤖 ${await handleDeezCommand(msg.split(" ")[1])}`);
   if (commandName === 'ping') return message.reply(handlePingCommand());
+  if (commandName === 'topic') return message.reply(await handleTopicCommand());
 });
 
 client.login(env.discord.bot.token);

@@ -16,5 +16,8 @@ Check it out [here](https://heroku.com/).
 Here are the commands that are currently available.
 |          | Twitch        | Discord       |
 |----------|---------------|---------------|
+| !ask     | Available     | Available     |
+| !brb     | Available     | Not Available |
+| !dn      | Available     | Available     |
 | !ping    | Available     | Available     |
 | !topic   | Available     | Available     |
