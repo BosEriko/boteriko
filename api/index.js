@@ -1,3 +1,4 @@
+const env = require('@global/utilities/env');
 const express = require('express');
 const cors = require('cors');
 const discordRouter = require('@api/authentication/discord');
@@ -11,6 +12,11 @@ app.use(cors());
 // Required for parsing JSON bodies (if needed by routes)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Redirect root to client URL
+app.get('/', (req, res) => {
+  res.redirect(env.app.clientUrl);
+});
 
 // Route mounting
 app.use('/api', discordRouter);
