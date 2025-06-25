@@ -3,7 +3,7 @@ const broadcastToClient = require('@global/utilities/websocket');
 const firebaseUtility = require('@global/utilities/firebase');
 const dailyUtility = require('@global/utilities/daily');
 const statisticUtility = require('@global/utilities/statistic');
-const walletticUtility = require('@global/utilities/wallet');
+const walletUtility = require('@global/utilities/wallet');
 const syncUserUtility = require('@global/utilities/syncUser');
 const sendToDiscordUtility = require('@twitch/utilities/sendToDiscord');
 
