@@ -1,7 +1,7 @@
 const broadcastToClient = require('@global/utilities/websocket');
 const firebaseUtility = require('@global/utilities/firebase');
 const typingConstant = require('@twitch/constants/typing');
-const statisticUtility = require('@global/utilities/statistic');
+const walletUtility = require('@global/utilities/wallet');
 const state = require('@global/utilities/state');
 
 let activeWords = [];
@@ -35,7 +35,7 @@ async function handleTypingGame(client, channel, user, message) {
 
     if (!user) return;
 
-    await statisticUtility(firebaseUtility.database(), user.id, { coins: 10 });
+    await walletUtility(firebaseUtility.database(), user.id, { coins: 10 });
     broadcastToClient({ type: 'CORRECT_GUESS', word: msg });
     return;
   }
