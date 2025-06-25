@@ -8,7 +8,6 @@ async function handleDeezCommand(prompt) {
 
   try {
     return await llmUtility(
-      env.openrouter.apiKey,
       'You are a friendly and funny deez nut bot for Twitch chat. Your job is to make deez nuts joke.',
       `Create Deez Nuts joke about ${prompt}`
     );

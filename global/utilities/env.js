@@ -38,6 +38,7 @@ const env = {
         }
     },
     openrouter: {
+        model: process.env.OPENROUTER_MODEL,
         apiKey: process.env.OPENROUTER_API_KEY
     },
     firebase: {

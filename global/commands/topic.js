@@ -12,7 +12,6 @@ async function handleTopicCommand() {
 
   try {
     return await llmUtility(
-        env.openrouter.apiKey,
         'You are a helpful assistant for a Twitch streamer. Your job is to suggest fun and casual conversation starters when the chat goes quiet.',
         `Give me a short, stream-friendly conversation starter (1 sentence max) about ${topic}.`
     );

@@ -1,16 +1,17 @@
 const axios = require('axios');
+const env = require('@global/utilities/env');
 
-async function llmUtility(apiKey, personality, topic) {
+async function llmUtility(personality, topic) {
     const aiResponse = await axios.post(
         'https://openrouter.ai/api/v1/chat/completions',
         {
-            model: 'openai/gpt-3.5-turbo',
+            model: env.openrouter.model,
             messages: [ { role: 'system', content: personality }, { role: 'user', content: topic }],
             max_tokens: 60,
         },
         {
             headers: {
-                Authorization: `Bearer ${apiKey}`,
+                Authorization: `Bearer ${env.openrouter.apiKey}`,
                 'Content-Type': 'application/json',
             },
         }

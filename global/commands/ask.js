@@ -8,7 +8,6 @@ async function handleAskCommand(prompt) {
 
   try {
     return await llmUtility(
-      env.openrouter.apiKey,
       'You are a bot that answers questions while roasting them.',
       prompt
     );

@@ -52,7 +52,6 @@ async function getHolidayName(today) {
 async function generateTitleFromHoliday(holidayName) {
   try {
     const response = await llmUtility(
-      env.openrouter.apiKey,
       'You are a funny and clever Twitch title generator. Your job is to make short and catchy stream titles.',
       `Create a funny or flirty Twitch stream title or pick-up line inspired by ${holidayName}. Reply with the title only.`
     );
@@ -67,7 +66,6 @@ async function generateTitleFromHoliday(holidayName) {
 async function generateTitleFromDayOfWeek(dayOfWeek) {
   try {
     const response = await llmUtility(
-      env.openrouter.apiKey,
       'You are a funny and clever Twitch title generator. Your job is to make short and catchy stream titles.',
       `Create a Twitch stream title or pick-up line inspired by it being a ${dayOfWeek}. Make it casual or funny. Reply with the title only.`
     );
