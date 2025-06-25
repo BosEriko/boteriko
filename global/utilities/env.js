@@ -37,9 +37,9 @@ const env = {
             streaming: process.env.DISCORD_WEBHOOK_STREAMING
         }
     },
-    openrouter: {
-        model: process.env.OPENROUTER_MODEL,
-        apiKey: process.env.OPENROUTER_API_KEY
+    groq: {
+        model: process.env.GROQ_MODEL,
+        apiKey: process.env.GROQ_API_KEY
     },
     firebase: {
         projectId: process.env.FIREBASE_PROJECT_ID,

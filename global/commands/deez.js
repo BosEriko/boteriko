@@ -12,7 +12,7 @@ async function handleDeezCommand(prompt) {
       `Create Deez Nuts joke about ${prompt}`
     );
   } catch (err) {
-    console.error('❌ OpenRouter Error:', err?.response?.data || err.message);
+    console.error('❌ LLM Error:', err?.response?.data || err.message);
     return "I couldn't come up with a joke about that. Try something else!";
   }
 }

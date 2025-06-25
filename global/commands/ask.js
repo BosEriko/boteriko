@@ -12,7 +12,7 @@ async function handleAskCommand(prompt) {
       prompt
     );
   } catch (err) {
-    console.error('❌ OpenRouter Error:', err?.response?.data || err.message);
+    console.error('❌ LLM Error:', err?.response?.data || err.message);
     return "I couldn't find an answer to that.";
   }
 }
