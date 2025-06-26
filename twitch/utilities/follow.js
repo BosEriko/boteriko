@@ -1,10 +1,11 @@
 const axios = require('axios');
 const env = require('@global/utilities/env');
+const { broadcastToClient } = require('@global/utilities/websocket');
 
 let initialized = false;
 let knownFollowerIds = new Set();
 
-async function handleFollowUtility(callback) {
+async function handleFollowUtility(client) {
   try {
     const res = await axios.get(`https://api.twitch.tv/helix/channels/followers`, {
       params: {
@@ -29,7 +30,9 @@ async function handleFollowUtility(callback) {
 
       if (!knownFollowerIds.has(followerId)) {
         knownFollowerIds.add(followerId);
-        callback(follower.user_name);
+        const message = `${follower.user_name} just followed!`;
+        broadcastToClient({ type: 'NOTIFICATION', event_type: 'follow', message });
+        client.say(`#${env.twitch.channel.username}`, message);
       }
     }
 

@@ -1,35 +1,47 @@
+const { broadcastToClient } = require('@global/utilities/websocket');
+
 function handleEventUtility(client) {
   // Raids
   client.on('raided', (channel, username, viewers) => {
     const name = username || 'Someone';
-    client.say(channel, `🚀 ${name} is raiding with ${viewers} viewer${viewers !== 1 ? 's' : ''}! Thank you!`);
+    const message = `🚀 ${name} is raiding with ${viewers} viewer${viewers !== 1 ? 's' : ''}! Thank you!`;
+    broadcastToClient({ type: 'NOTIFICATION', event_type: 'raided', message });
+    client.say(channel, message);
   });
 
   // Cheers
-  client.on('cheer', (channel, userstate, message) => {
+  client.on('cheer', (channel, userstate, msg) => {
     const username = userstate['display-name'] || 'Anonymous';
     const bits = userstate['bits'] || 0;
-    client.say(channel, `✨ ${username} cheered ${bits} bits: ${message}`);
+    const message = `✨ ${username} cheered ${bits} bits: ${msg}`;
+    broadcastToClient({ type: 'NOTIFICATION', event_type: 'cheer', message });
+    client.say(channel, message);
   });
 
   // Subscriptions
-  client.on('subscription', (channel, username, method, message, userstate) => {
+  client.on('subscription', (channel, username, method, msg, userstate) => {
     const name = username || 'Someone';
-    client.say(channel, `🎉 ${name} just subscribed! Thank you for the support!`);
+    const message = `🎉 ${name} just subscribed! Thank you for the support!`;
+    broadcastToClient({ type: 'NOTIFICATION', event_type: 'subscription', message });
+    client.say(channel, message);
   });
 
   // Resubscriptions
-  client.on('resub', (channel, username, months, message, userstate, methods) => {
+  client.on('resub', (channel, username, months, msg, userstate, methods) => {
     const name = username || 'Someone';
     const monthsCount = months || 1;
-    client.say(channel, `🔁 ${name} resubscribed for ${monthsCount} month${monthsCount !== 1 ? 's' : ''}!`);
+    const message = `🔁 ${name} resubscribed for ${monthsCount} month${monthsCount !== 1 ? 's' : ''}!`;
+    broadcastToClient({ type: 'NOTIFICATION', event_type: 'resub', message });
+    client.say(channel, message);
   });
 
   // Gifted Subscriptions
   client.on('subgift', (channel, username, streakMonths, recipient, methods, userstate) => {
     const gifter = username || 'Someone';
     const giftedTo = recipient || 'someone';
-    client.say(channel, `🎁 ${gifter} gifted a sub to ${giftedTo}!`);
+    const message = `🎁 ${gifter} gifted a sub to ${giftedTo}!`;
+    broadcastToClient({ type: 'NOTIFICATION', event_type: 'subgift', message });
+    client.say(channel, message);
   });
 
   // Hosts
@@ -37,7 +49,9 @@ function handleEventUtility(client) {
     const name = username || 'Someone';
     const viewerCount = viewers || 0;
     const hostType = autohost ? 'Auto-host' : 'Host';
-    client.say(channel, `📺 ${hostType} by ${name} with ${viewerCount} viewer${viewerCount !== 1 ? 's' : ''}.`);
+    const message = `📺 ${hostType} by ${name} with ${viewerCount} viewer${viewerCount !== 1 ? 's' : ''}.`;
+    broadcastToClient({ type: 'NOTIFICATION', event_type: 'hosted', message });
+    client.say(channel, message);
   });
 }
 

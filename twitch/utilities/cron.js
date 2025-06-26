@@ -34,8 +34,7 @@ function handleCronUtility(client) {
 
   // Check New Followers Function
   function checkNewFollowers() {
-    const username = env.twitch.channel.username;
-    handleFollowUtility(newFollower => client.say(`#${username}`, `${newFollower} just followed!`));
+    handleFollowUtility(client);
   }
 
   // Reset Typing Leaderboard Function
