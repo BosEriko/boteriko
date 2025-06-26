@@ -30,6 +30,6 @@ setupWebSocket(server);
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, '0.0.0.0', () => {
-  console.log(`✅ Server running on http://localhost:${PORT}`);
-  console.log(`✅ WebSocket running on http://localhost:${PORT}`);
+  console.log("✅ Connected to API Server.");
+  console.log("✅ Connected to Websocket Server.");
 });
