@@ -1,5 +1,5 @@
 const env = require('@global/utilities/env');
-const broadcastToClient = require('@global/utilities/websocket');
+const { broadcastToClient } = require('@global/utilities/websocket');
 const firebaseUtility = require('@global/utilities/firebase');
 const dailyUtility = require('@global/utilities/daily');
 const statisticUtility = require('@global/utilities/statistic');

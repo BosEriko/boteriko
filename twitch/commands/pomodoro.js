@@ -1,4 +1,4 @@
-const broadcastToClient = require('@global/utilities/websocket');
+const { broadcastToClient } = require('@global/utilities/websocket');
 const env = require('@global/utilities/env');
 const state = require('@global/utilities/state');
 

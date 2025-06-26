@@ -1,4 +1,4 @@
-const broadcastToClient = require('@global/utilities/websocket');
+const { broadcastToClient } = require('@global/utilities/websocket');
 const firebaseUtility = require('@global/utilities/firebase');
 const typingConstant = require('@twitch/constants/typing');
 const walletUtility = require('@global/utilities/wallet');

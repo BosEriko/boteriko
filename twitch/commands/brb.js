@@ -1,4 +1,4 @@
-const broadcastToClient = require('@global/utilities/websocket');
+const { broadcastToClient } = require('@global/utilities/websocket');
 
 function toTitleCase(str) {
   return str.replace(/\w\S*/g, function(word) {

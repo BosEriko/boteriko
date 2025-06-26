@@ -1,4 +1,4 @@
-const broadcastToClient = require('@global/utilities/websocket');
+const { broadcastToClient } = require('@global/utilities/websocket');
 
 let lastTriggerTime = 0;
 const COOLDOWN_MS = 10 * 1000;

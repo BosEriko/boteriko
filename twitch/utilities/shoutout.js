@@ -1,5 +1,4 @@
-const env = require('@global/utilities/env');
-const broadcastToClient = require('@global/utilities/websocket');
+const { broadcastToClient } = require('@global/utilities/websocket');
 const llmUtility = require('@global/utilities/llm');
 const cacheUtility = require('@global/utilities/cache');
 const announcementUtility = require('@twitch/utilities/announcement.js');

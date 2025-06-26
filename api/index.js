@@ -1,8 +1,10 @@
 const env = require('@global/utilities/env');
 const express = require('express');
 const cors = require('cors');
+const http = require('http');
 const discordRouter = require('@api/authentication/discord');
 const twitchRouter = require('@api/authentication/twitch');
+const { setupWebSocket } = require('@global/utilities/websocket');
 
 const app = express();
 
@@ -22,8 +24,11 @@ app.get('/', (req, res) => {
 app.use('/api', discordRouter);
 app.use('/api', twitchRouter);
 
-// Heroku provides PORT via environment variable
+const server = http.createServer(app);
+
+setupWebSocket(server);
+
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`✅ Server running on http://localhost:${PORT}`);
+server.listen(PORT, '0.0.0.0', () => {
+  console.log(`✅ Server + WebSocket running on http://localhost:${PORT}`);
 });
