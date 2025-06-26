@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "develop": "node index.js",
-    "deploy": "git push origin master:production --force"
+    "release": "git push origin master:production --force"
   },
   "dependencies": {
     "axios": "^1.9.0",
