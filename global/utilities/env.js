@@ -6,8 +6,11 @@ const env = {
     },
     twitch: {
         channel: {
+            id: process.env.TWITCH_CHANNEL_ID,
             username: process.env.TWITCH_CHANNEL_USERNAME,
-            id: process.env.TWITCH_CHANNEL_ID
+            accessToken: process.env.TWITCH_CHANNEL_ACCESS_TOKEN,
+            refreshToken: process.env.TWITCH_CHANNEL_REFRESH_TOKEN,
+            clientId: process.env.TWITCH_CHANNEL_CLIENT_ID
         },
         bot: {
             id: process.env.TWITCH_BOT_ID,

@@ -60,8 +60,8 @@ async function handleSetupUtility(client) {
   try {
     await axios.patch(url, body, {
       headers: {
-        'Client-ID': env.twitch.bot.clientId,
-        'Authorization': `Bearer ${env.twitch.bot.accessToken}`,
+        'Client-ID': env.twitch.channel.clientId,
+        'Authorization': `Bearer ${env.twitch.channel.accessToken}`,
         'Content-Type': 'application/json',
       },
     });
