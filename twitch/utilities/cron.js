@@ -32,19 +32,14 @@ function handleCronUtility(client) {
     }
   }
 
-  // Check New Followers Function
-  function checkNewFollowers() {
-    handleFollowUtility(client);
-  }
-
-  // Reset Typing Leaderboard Function
-  function resetTypingLeaderboard() {
+  // Cooldown Function
+  function retryWhenOffline(callback) {
     if (state.isStreaming) {
       setTimeout(() => {
-        resetTypingLeaderboard();
+        retryWhenOffline(callback);
       }, 60 * 60 * 1000);
     } else {
-      state.typingLeaderboard = {};
+      callback();
     }
   }
 
@@ -52,8 +47,7 @@ function handleCronUtility(client) {
 
   // Every 1 minute
   cron.schedule('* * * * *', () => {
-    if (!state.isStreaming) handleSetupUtility(client);
-    if (state.isStreaming) checkNewFollowers();
+    if (state.isStreaming) handleFollowUtility(client);
     if (state.isStreaming) runConversationUtility();
   });
 
@@ -69,7 +63,8 @@ function handleCronUtility(client) {
 
   // Every day at midnight
   cron.schedule('0 0 * * *', () => {
-    resetTypingLeaderboard();
+    retryWhenOffline(() => state.typingLeaderboard = {});
+    retryWhenOffline(() => handleSetupUtility(client));
   });
 }
 
