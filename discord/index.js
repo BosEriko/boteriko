@@ -1,10 +1,11 @@
 const client = require('@discord/utilities/client');
 
 // Commands
-const handlePingCommand = require("@global/commands/ping");
-const handleTopicCommand = require('@global/commands/topic');
 const handleAskCommand = require('@global/commands/ask');
 const handleDeezCommand = require('@global/commands/deez');
+const handlePingCommand = require("@global/commands/ping");
+const handleTimeCommand = require('@global/commands/time');
+const handleTopicCommand = require('@global/commands/topic');
 
 // Utilities
 const handleChatUtility = require('@discord/utilities/chat');
@@ -50,8 +51,10 @@ client.on('messageCreate', async message => {
 
   // Commands
   if (commandName === 'ask') return message.reply(`🤖 ${await handleAskCommand(commandArgs)}`);
+  if (commandName === 'date') return message.reply(handleTimeCommand('date'));
   if (commandName === 'dn') return message.reply(`🤖 ${await handleDeezCommand(msg.split(" ")[1])}`);
   if (commandName === 'ping') return message.reply(handlePingCommand());
+  if (commandName === 'time') return message.reply(handleTimeCommand('time'));
   if (commandName === 'topic') return message.reply(await handleTopicCommand());
 });
 

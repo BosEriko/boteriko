@@ -10,6 +10,7 @@ const handleSetupUtility = require('@twitch/utilities/setup');
 const handleTopicCommand = require('@global/commands/topic');
 
 function handleCronUtility(client) {
+  const timezone = env.tz;
   // ------------------------------------------- Functions -------------------------------------------
 
   // Check Stream Availability Function
@@ -49,17 +50,17 @@ function handleCronUtility(client) {
   cron.schedule('* * * * *', () => {
     if (state.isStreaming) handleFollowUtility(client);
     if (state.isStreaming) runConversationUtility();
-  });
+  }, { timezone });
 
   // Every 5 minutes
   cron.schedule('*/5 * * * *', () => {
     checkStreamAvailability();
-  });
+  }, { timezone });
 
   // Every 10 minutes
   cron.schedule('*/10 * * * *', () => {
     if (state.isStreaming) handleInformationUtility(client);
-  });
+  }, { timezone });
 
   // Every day at midnight
   cron.schedule('0 0 * * *', () => {
@@ -67,7 +68,7 @@ function handleCronUtility(client) {
       state.typingLeaderboard = {};
       handleSetupUtility(client);
     });
-  });
+  }, { timezone });
 }
 
 module.exports = handleCronUtility;

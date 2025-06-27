@@ -3,22 +3,23 @@ const env = require('@global/utilities/env');
 const state = require('@global/utilities/state');
 
 // Utilities
-const handleUserUtility = require('@twitch/utilities/user');
 const handleChatUtility = require('@twitch/utilities/chat');
-const handleShoutoutUtility = require('@twitch/utilities/shoutout');
-const handleEventUtility = require('@twitch/utilities/event');
 const handleCronUtility = require('@twitch/utilities/cron');
+const handleEventUtility = require('@twitch/utilities/event');
+const handleShoutoutUtility = require('@twitch/utilities/shoutout');
 const handleTypingGame = require('@twitch/games/typing');
+const handleUserUtility = require('@twitch/utilities/user');
 
 // Commands
-const handlePingCommand = require("@global/commands/ping");
-const handleTopicCommand = require('@global/commands/topic');
-const handleBrbCommand = require('@twitch/commands/brb');
-const handleSoundCommand = require('@twitch/commands/sound');
 const handleAskCommand = require('@global/commands/ask');
+const handleBrbCommand = require('@twitch/commands/brb');
 const handleDeezCommand = require('@global/commands/deez');
-const handleTopCommand = require('@twitch/commands/top');
+const handlePingCommand = require("@global/commands/ping");
 const handlePomodoroCommand = require('@twitch/commands/pomodoro');
+const handleSoundCommand = require('@twitch/commands/sound');
+const handleTimeCommand = require('@global/commands/time');
+const handleTopCommand = require('@twitch/commands/top');
+const handleTopicCommand = require('@global/commands/topic');
 
 // Constants
 const commandConstant = require('@global/constants/command');
@@ -100,9 +101,11 @@ client.on('message', async (channel, tags, message, self) => {
   // Commands
   if (commandName === 'ask') client.say(channel, `🤖 @${tags.username} ${await handleAskCommand(commandArgs)}`);
   if (commandName === 'brb') handleBrbCommand(client, channel, commandArgs);
+  if (commandName === 'date') client.say(channel, handleTimeCommand('date'));
   if (commandName === 'dn') client.say(channel, `🤖 @${tags.username} ${await handleDeezCommand(msg.split(" ")[1])}`);
   if (commandName === 'ping') client.say(channel, handlePingCommand());
   if (commandName === 'pomodoro') handlePomodoroCommand(client, commandArgs);
+  if (commandName === 'time') client.say(channel, handleTimeCommand('time'));
   if (commandName === 'top') handleTopCommand(client, channel);
   if (commandName === 'topic') client.say(channel, await handleTopicCommand());
 });

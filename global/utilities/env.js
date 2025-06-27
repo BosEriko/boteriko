@@ -1,5 +1,6 @@
 require('dotenv').config();
 const env = {
+    tz: process.env.TZ,
     app: {
         clientUrl: process.env.APP_CLIENT_URL
     },
