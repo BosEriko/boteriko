@@ -1,5 +1,4 @@
 const axios = require('axios');
-const llmUtility = require('@global/utilities/llm');
 const env = require('@global/utilities/env');
 
 let lastCheckedDate = null;
@@ -12,6 +11,16 @@ function isNewDay() {
   }
   return false;
 }
+
+const dailySchedule = {
+  Monday: { title: "Minecraft Monday 🌍⛏️", category: "Minecraft" },
+  Tuesday: { title: "Try-it Tuesday 🎮🆕", category: "Games + Demos" },
+  Wednesday: { title: "WuWa Wednesday ⚔️🌊", category: "Wuthering Waves" },
+  Thursday: { title: "Throwback Thursday 🎮📼", category: "Retro" },
+  Friday: { title: "Fortnite Friday 🔫💥", category: "Fortnite" },
+  Saturday: { title: "Side Quest Saturday 💬🎯", category: "Just Chatting" },
+  Sunday: { title: "Studio Sunday 💻🎮", category: "Software and Game Development" },
+};
 
 async function getCategoryIdByName(name) {
   try {
@@ -30,70 +39,20 @@ async function getCategoryIdByName(name) {
   }
 }
 
-async function getHolidayName(today) {
-  try {
-    const [year, month, day] = today.split("-");
-    const countries = ['US', 'PH', 'JP'];
-    for (const country of countries) {
-      const res = await axios.get(`https://date.nager.at/api/v3/PublicHolidays/${year}/${country}`);
-      const match = res.data.find(holiday => holiday.date === today);
-      if (match) {
-        return match.name;
-      }
-    }
-
-    return null;
-  } catch (err) {
-    console.error("❌ Failed to get holiday from API:", err.response?.data || err.message);
-    return null;
-  }
-}
-
-async function generateTitleFromHoliday(holidayName) {
-  try {
-    const response = await llmUtility(
-      'You are a funny and clever Twitch title generator. Your job is to make short and catchy stream titles.',
-      `Create a funny or flirty Twitch stream title or pick-up line inspired by ${holidayName}. Reply with the title only.`
-    );
-
-    return response.replace(/^["']|["']$/g, '').trim();
-  } catch (err) {
-    console.error("❌ Failed to generate title from holiday:", err.response?.data || err.message);
-    return "Just Chatting Vibes 😎";
-  }
-}
-
-async function generateTitleFromDayOfWeek(dayOfWeek) {
-  try {
-    const response = await llmUtility(
-      'You are a funny and clever Twitch title generator. Your job is to make short and catchy stream titles.',
-      `Create a Twitch stream title or pick-up line inspired by it being a ${dayOfWeek}. Make it casual or funny. Reply with the title only.`
-    );
-
-    return response.replace(/^["']|["']$/g, '').trim();
-  } catch (err) {
-    console.error("❌ Failed to generate title from day of week:", err.response?.data || err.message);
-    return "Just Chatting Vibes 😎";
-  }
-}
-
 async function handleSetupUtility(client) {
   if (!isNewDay()) return;
 
-  const today = new Date();
-  const isoDate = today.toISOString().split('T')[0];
-  const dayOfWeek = today.toLocaleDateString('en-US', { weekday: 'long' });
+  const now = new Date();
+  const dayOfWeek = now.toLocaleDateString('en-US', { weekday: 'long' });
 
-  let title;
-  const holidayName = await getHolidayName(isoDate);
-
-  if (holidayName) {
-    title = await generateTitleFromHoliday(holidayName);
-  } else {
-    title = await generateTitleFromDayOfWeek(dayOfWeek);
+  const schedule = dailySchedule[dayOfWeek];
+  if (!schedule) {
+    console.error(`❌ No schedule found for ${dayOfWeek}`);
+    return;
   }
 
-  const gameId = await getCategoryIdByName("Just Chatting");
+  const { title, category } = schedule;
+  const gameId = await getCategoryIdByName(category);
 
   const url = `https://api.twitch.tv/helix/channels?broadcaster_id=${env.twitch.channel.id}`;
   const body = gameId ? { title, game_id: gameId } : { title };
@@ -108,7 +67,7 @@ async function handleSetupUtility(client) {
     });
 
     console.log("✅ Stream title and category updated successfully.");
-    client.say(`#${env.twitch.channel.username}`, `📝 New Title: "${title}" | 📺 Category: Just Chatting`);
+    client.say(`#${env.twitch.channel.username}`, `📝 New Title: "${title}" | 📺 Category: ${category}`);
   } catch (error) {
     if (error.response) {
       console.error("❌ Failed to update title/category:", error.response.data);
