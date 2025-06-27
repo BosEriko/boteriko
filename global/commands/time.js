@@ -7,15 +7,15 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 const handleTimeCommand = function (type) {
-  const tz = env.tz || 'Asia/Manila';
-  const now = dayjs().tz(tz);
+  const timezone = env.app.timeZone;
+  const now = dayjs().tz(timezone);
 
   if (type === 'time') {
-    return `🕒 Current time (${tz}): ${now.format('hh:mm A')}`;
+    return `🕒 Current time (${timezone}): ${now.format('hh:mm A')}`;
   }
 
   if (type === 'date') {
-    return `📅 Current date (${tz}): ${now.format('MMMM D, YYYY')}`;
+    return `📅 Current date (${timezone}): ${now.format('MMMM D, YYYY')}`;
   }
 
   return `❓ Unknown type "${type}". Use "time" or "date".`;

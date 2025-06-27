@@ -1,8 +1,8 @@
 require('dotenv').config();
 const env = {
-    tz: process.env.TZ,
     app: {
-        clientUrl: process.env.APP_CLIENT_URL
+        clientUrl: process.env.APP_CLIENT_URL,
+        timeZone: process.env.APP_TIME_ZONE
     },
     twitch: {
         channel: {

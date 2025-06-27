@@ -10,7 +10,7 @@ const handleSetupUtility = require('@twitch/utilities/setup');
 const handleTopicCommand = require('@global/commands/topic');
 
 function handleCronUtility(client) {
-  const timezone = env.tz;
+  const timezone = env.app.timeZone;
   // ------------------------------------------- Functions -------------------------------------------
 
   // Check Stream Availability Function
