@@ -15,11 +15,11 @@ function isNewDay() {
 const dailySchedule = {
   Monday: { title: "Minecraft Monday 🌍⛏️", category: "Minecraft" },
   Tuesday: { title: "Try-it Tuesday 🎮🆕", category: "Games + Demos" },
-  Wednesday: { title: "WuWa Wednesday ⚔️🌊", category: "Wuthering Waves" },
-  Thursday: { title: "Throwback Thursday 🎮📼", category: "Retro" },
+  Wednesday: { title: "Waifu Wednesday ⚔️🍀", category: "Zenless Zone Zero" },
+  Thursday: { title: "Techie Thursday 💻💾", category: "Software and Game Development" },
   Friday: { title: "Fortnite Friday 🔫💥", category: "Fortnite" },
   Saturday: { title: "Side Quest Saturday 💬🎯", category: "Just Chatting" },
-  Sunday: { title: "Studio Sunday 💻🎮", category: "Software and Game Development" },
+  Sunday: { title: "Slow Down Sunday 💻🎮", category: "Just Chatting" },
 };
 
 async function getCategoryIdByName(name) {
