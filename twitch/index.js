@@ -1,5 +1,6 @@
 const client = require('@twitch/utilities/client');
 const env = require('@global/utilities/env');
+const state = require('@global/utilities/state');
 
 // Utilities
 const handleUserUtility = require('@twitch/utilities/user');
@@ -41,12 +42,15 @@ client.on('message', async (channel, tags, message, self) => {
   // Ignore messages from the bot itself
   if (self) return;
 
+  // Update the timestamp
+  state.lastMessageTimestamp = Date.now();
+
   // Fetch Twitch user information
   const user = await handleUserUtility(tags['display-name']);
 
   // Chat Utility
   handleChatUtility(user, message);
-  handleTypingGame(client, channel, user, message)
+  handleTypingGame(client, channel, user, message);
 
   // Shoutout Utility
   const isMod = tags.mod === true || tags.badges?.moderator === '1';

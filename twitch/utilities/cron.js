@@ -63,8 +63,10 @@ function handleCronUtility(client) {
 
   // Every day at midnight
   cron.schedule('0 0 * * *', () => {
-    retryWhenOffline(() => state.typingLeaderboard = {});
-    retryWhenOffline(() => handleSetupUtility(client));
+    retryWhenOffline(() => {
+      state.typingLeaderboard = {};
+      handleSetupUtility(client);
+    });
   });
 }
 
