@@ -61,7 +61,7 @@ client.on('message', async (channel, tags, message, self) => {
   // Chat Utility
   handleChatUtility(user, message);
   handleTypingGame(client, channel, user, message);
-  handleLinkUtility(user, message);
+  handleLinkUtility(user, client, message);
 
   // Shoutout Utility
   const isMod = tags.mod === true || tags.badges?.moderator === '1';

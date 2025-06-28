@@ -38,6 +38,7 @@ const env = {
             redirectUrl: process.env.DISCORD_APP_REDIRECT_URL
         },
         webhook: {
+            link: process.env.DISCORD_WEBHOOK_LINK,
             streaming: process.env.DISCORD_WEBHOOK_STREAMING
         }
     },
