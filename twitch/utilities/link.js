@@ -7,7 +7,7 @@ async function handleLinkUtility(user, client, message) {
 
   if (links) {
     await sendToDiscordUtility(user, message, env.discord.webhook.link),
-    client.say(`#${env.twitch.channel.username}`, `📝 Link sent to Discord! — http://discord.boseriko.com`);
+    client.say(`#${env.twitch.channel.username}`, "📝 Link saved to Discord (http://discord.boseriko.com)!");
   }
 }
 
