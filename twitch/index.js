@@ -6,6 +6,7 @@ const state = require('@global/utilities/state');
 const handleChatUtility = require('@twitch/utilities/chat');
 const handleCronUtility = require('@twitch/utilities/cron');
 const handleEventUtility = require('@twitch/utilities/event');
+const handleLinkUtility = require('@twitch/utilities/link');
 const handleShoutoutUtility = require('@twitch/utilities/shoutout');
 const handleTypingGame = require('@twitch/games/typing');
 const handleUserUtility = require('@twitch/utilities/user');
@@ -60,6 +61,7 @@ client.on('message', async (channel, tags, message, self) => {
   // Chat Utility
   handleChatUtility(user, message);
   handleTypingGame(client, channel, user, message);
+  handleLinkUtility(user, message);
 
   // Shoutout Utility
   const isMod = tags.mod === true || tags.badges?.moderator === '1';

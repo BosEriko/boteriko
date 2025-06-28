@@ -1,7 +1,7 @@
 const axios = require('axios');
 const env = require('@global/utilities/env');
 
-async function announcementUtility(message, color = 'primary') {
+async function handleAnnouncementUtility(message, color = 'primary') {
   try {
     const response = await axios.post(
       'https://api.twitch.tv/helix/chat/announcements',
@@ -24,5 +24,4 @@ async function announcementUtility(message, color = 'primary') {
   }
 }
 
-
-module.exports = announcementUtility;
+module.exports = handleAnnouncementUtility;
