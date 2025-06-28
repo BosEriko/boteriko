@@ -6,6 +6,7 @@ const state = require('@global/utilities/state');
 const handleIsStreamingUtility = require("@global/utilities/isStreaming");
 const handleInformationUtility = require('@twitch/utilities/information');
 const handleFollowUtility = require('@twitch/utilities/follow');
+const handleClipUtility = require('@twitch/utilities/clip');
 const handleSetupUtility = require('@twitch/utilities/setup');
 const handleTopicCommand = require('@global/commands/topic');
 
@@ -48,7 +49,9 @@ function handleCronUtility(client) {
   function clearDailyStateCache() {
     state.typingLeaderboard = {};
     state.isFollowerInitialized = false;
+    state.isClipInitialized = false;
     state.knownFollowerIds.clear();
+    state.knownClipIds.clear();
   }
 
   // ------------------------------------------- Cron Jobs -------------------------------------------
@@ -67,6 +70,7 @@ function handleCronUtility(client) {
   // Every 10 minutes
   cron.schedule('*/10 * * * *', () => {
     if (state.isStreaming) handleInformationUtility(client);
+    handleClipUtility();
   }, { timezone });
 
   // Every day at midnight
