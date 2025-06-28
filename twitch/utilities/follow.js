@@ -1,9 +1,7 @@
 const axios = require('axios');
 const env = require('@global/utilities/env');
+const state = require('@global/utilities/state');
 const { broadcastToClient } = require('@global/utilities/websocket');
-
-let initialized = false;
-let knownFollowerIds = new Set();
 
 async function handleFollowUtility(client) {
   try {
@@ -23,21 +21,20 @@ async function handleFollowUtility(client) {
     for (const follower of recentFollowers) {
       const followerId = follower.user_id;
 
-      if (!initialized) {
-        knownFollowerIds.add(followerId);
+      if (!state.isFollowerInitialized) {
+        state.knownFollowerIds.add(followerId);
         continue;
       }
 
-      if (!knownFollowerIds.has(followerId)) {
-        knownFollowerIds.add(followerId);
+      if (!state.knownFollowerIds.has(followerId)) {
+        state.knownFollowerIds.add(followerId);
         const message = `${follower.user_name} just followed!`;
         broadcastToClient({ type: 'NOTIFICATION', event_type: 'follow', message });
         client.say(`#${env.twitch.channel.username}`, message);
       }
     }
 
-    knownFollowerIds = new Set(recentFollowers.map(f => f.user_id));
-    initialized = true;
+    state.isFollowerInitialized = true;
   } catch (err) {
     console.error('Error fetching followers:', err.response?.data || err.message);
   }

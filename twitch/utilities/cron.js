@@ -44,6 +44,13 @@ function handleCronUtility(client) {
     }
   }
 
+  // Clear Daily State Cache Function
+  function clearDailyStateCache() {
+    state.typingLeaderboard = {};
+    state.isFollowerInitialized = false;
+    state.knownFollowerIds.clear();
+  }
+
   // ------------------------------------------- Cron Jobs -------------------------------------------
 
   // Every 1 minute
@@ -65,7 +72,7 @@ function handleCronUtility(client) {
   // Every day at midnight
   cron.schedule('0 0 * * *', () => {
     retryWhenOffline(() => {
-      state.typingLeaderboard = {};
+      clearDailyStateCache();
       handleSetupUtility(client);
     });
   }, { timezone });
