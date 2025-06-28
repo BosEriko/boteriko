@@ -1,9 +1,6 @@
 const { broadcastToClient } = require('@global/utilities/websocket');
-const handleFollowUtility = require('@twitch/utilities/follow');
 
 function handleEventUtility(client) {
-  handleFollowUtility(client);
-
   // Raids
   client.on('raided', (channel, username, viewers) => {
     const name = username || 'Someone';

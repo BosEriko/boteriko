@@ -5,6 +5,7 @@ const state = require('@global/utilities/state');
 // Utilities
 const handleIsStreamingUtility = require("@global/utilities/isStreaming");
 const handleInformationUtility = require('@twitch/utilities/information');
+const handleFollowUtility = require('@twitch/utilities/follow');
 const handleSetupUtility = require('@twitch/utilities/setup');
 const handleTopicCommand = require('@global/commands/topic');
 
@@ -47,6 +48,7 @@ function handleCronUtility(client) {
 
   // Every 1 minute
   cron.schedule('* * * * *', () => {
+    if (state.isStreaming) handleFollowUtility(client);
     if (state.isStreaming) runConversationUtility();
   }, { timezone });
 
