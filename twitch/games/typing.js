@@ -4,6 +4,11 @@ const typingConstant = require('@twitch/constants/typing');
 const walletUtility = require('@global/utilities/wallet');
 const state = require('@global/utilities/state');
 
+// Configurable variables
+const WORD_INTERVAL_MS = 1 * 60 * 1000; // 1 minutes
+const WORD_EXPIRY_MS = 5 * 60 * 1000; // 5 minutes
+const REWARD_POINTS = 2;
+
 let activeWords = [];
 
 function sendRandomWord() {
@@ -13,14 +18,15 @@ function sendRandomWord() {
 }
 
 function cleanupExpiredWords() {
-  const TEN_MINUTES = 10 * 60 * 1000;
   const now = Date.now();
-  activeWords = activeWords.filter(entry => now - entry.timestamp < TEN_MINUTES);
+  activeWords = activeWords.filter(entry => now - entry.timestamp < WORD_EXPIRY_MS);
 }
 
 // Start timers
-setInterval(sendRandomWord, 5 * 60 * 1000);
-setInterval(cleanupExpiredWords, 5 * 60 * 1000);
+setInterval(() => {
+  sendRandomWord();
+  cleanupExpiredWords();
+}, WORD_INTERVAL_MS);
 
 async function handleTypingGame(client, channel, user, message) {
   const msg = message.trim().toLowerCase();
@@ -35,7 +41,7 @@ async function handleTypingGame(client, channel, user, message) {
 
     if (!user) return;
 
-    await walletUtility(firebaseUtility.database(), user.id, { coins: 10 });
+    await walletUtility(firebaseUtility.database(), user.id, { coins: REWARD_POINTS });
     broadcastToClient({ type: 'CORRECT_GUESS', word: msg });
     return;
   }
