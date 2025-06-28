@@ -103,6 +103,7 @@ client.on('message', async (channel, tags, message, self) => {
   if (commandName === 'brb') handleBrbCommand(client, channel, commandArgs);
   if (commandName === 'date') client.say(channel, handleTimeCommand('date'));
   if (commandName === 'dn') client.say(channel, `🤖 @${tags.username} ${await handleDeezCommand(msg.split(" ")[1])}`);
+  if (commandName === 'lurk') client.say(channel, `👀 @${tags.username} is now lurking in the shadows. Thanks for the support! HeyGuys HeyGuys HeyGuys`);
   if (commandName === 'ping') client.say(channel, handlePingCommand());
   if (commandName === 'pomodoro') handlePomodoroCommand(client, commandArgs);
   if (commandName === 'time') client.say(channel, handleTimeCommand('time'));
