@@ -29,8 +29,9 @@ async function handleClipUtility() {
         state.knownClipIds.add(clipId);
         try {
             await axios.post(env.discord.webhook.clip, {
-                username: clip.creator_name,
+                username: "BotEriko",
                 content: `${clip.creator_name} created a new clip: ${clip.title} → ${clip.url}`,
+                avatar_url: "https://i.imgur.com/UnKvr5t.png",
             });
         } catch (error) {
             console.error('Failed to send clip to Discord:', error.message);
