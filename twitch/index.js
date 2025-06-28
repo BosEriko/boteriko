@@ -29,11 +29,16 @@ const profanityConstant = require('@global/constants/profanity');
 // --------------------------------------- Twitch Bot Setup ----------------------------------------
 client.connect();
 
+const connectionMessage = "✅ Connected to Twitch chat.";
+
 client.on('connected', (address, port) => {
-  const message = "✅ Connected to Twitch chat.";
-  console.log(message);
-  client.say(`#${env.twitch.channel.username}`, message);
+  console.log(connectionMessage);
 });
+
+client.on('join', (channel, username, self) => {
+  if (self) client.say(channel, connectionMessage);
+});
+
 
 // ----------------------------------------- Block Import ------------------------------------------
 

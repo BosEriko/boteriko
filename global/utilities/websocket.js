@@ -6,7 +6,7 @@ function setupWebSocket(server) {
   wss = new WebSocket.Server({ server });
 
   wss.on('connection', function connection(ws) {
-    console.log('✅ WebSocket client connected');
+    console.log("✅ Connected to Websocket Server.");
 
     ws.isAlive = true;
 
