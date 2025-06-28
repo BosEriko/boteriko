@@ -1,46 +1,22 @@
-const axios = require('axios');
+const { ApiClient } = require('@twurple/api');
+const { EventSubWsListener } = require('@twurple/eventsub-ws');
+const { StaticAuthProvider } = require('@twurple/auth');
 const env = require('@global/utilities/env');
 const { broadcastToClient } = require('@global/utilities/websocket');
 
-let initialized = false;
-let knownFollowerIds = new Set();
+const authProvider = new StaticAuthProvider(env.twitch.bot.clientId, env.twitch.bot.accessToken);
+const apiClient = new ApiClient({ authProvider });
+const listener = new EventSubWsListener({ apiClient });
 
 async function handleFollowUtility(client) {
-  try {
-    const res = await axios.get(`https://api.twitch.tv/helix/channels/followers`, {
-      params: {
-        broadcaster_id: env.twitch.channel.id,
-        first: 10
-      },
-      headers: {
-        'Client-ID': env.twitch.bot.clientId,
-        'Authorization': `Bearer ${env.twitch.bot.accessToken}`
-      }
-    });
+  await listener.start();
+  await listener.onChannelFollow(env.twitch.channel.id, async (event) => {
+    const username = event.userDisplayName;
+    const message = `${username} just followed!`;
 
-    const recentFollowers = res.data.data;
-
-    for (const follower of recentFollowers) {
-      const followerId = follower.user_id;
-
-      if (!initialized) {
-        knownFollowerIds.add(followerId);
-        continue;
-      }
-
-      if (!knownFollowerIds.has(followerId)) {
-        knownFollowerIds.add(followerId);
-        const message = `${follower.user_name} just followed!`;
-        broadcastToClient({ type: 'NOTIFICATION', event_type: 'follow', message });
-        client.say(`#${env.twitch.channel.username}`, message);
-      }
-    }
-
-    knownFollowerIds = new Set(recentFollowers.map(f => f.user_id));
-    initialized = true;
-  } catch (err) {
-    console.error('Error fetching followers:', err.response?.data || err.message);
-  }
+    broadcastToClient({ type: 'NOTIFICATION', event_type: 'follow', message });
+    client.say(`#${env.twitch.channel.username}`, message);
+  });
 }
 
 module.exports = handleFollowUtility;

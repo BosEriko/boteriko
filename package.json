@@ -10,6 +10,9 @@
     "release": "git push origin master:production --force"
   },
   "dependencies": {
+    "@twurple/api": "^7.3.0",
+    "@twurple/auth": "^7.3.0",
+    "@twurple/eventsub-ws": "^7.3.0",
     "axios": "^1.9.0",
     "cors": "^2.8.5",
     "dayjs": "^1.11.13",
