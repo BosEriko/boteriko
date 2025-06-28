@@ -57,8 +57,8 @@ function handleCronUtility(client) {
   // ------------------------------------------- Cron Jobs -------------------------------------------
 
   // Every 1 minute
-  cron.schedule('* * * * *', () => {
-    if (state.isStreaming) handleFollowUtility(client);
+  cron.schedule('* * * * *', async () => {
+    if (state.isStreaming) await handleFollowUtility(client);
     if (state.isStreaming) runConversationUtility();
   }, { timezone });
 
@@ -68,9 +68,9 @@ function handleCronUtility(client) {
   }, { timezone });
 
   // Every 10 minutes
-  cron.schedule('*/10 * * * *', () => {
+  cron.schedule('*/10 * * * *', async () => {
     if (state.isStreaming) handleInformationUtility(client);
-    handleClipUtility();
+    await handleClipUtility();
   }, { timezone });
 
   // Every day at midnight

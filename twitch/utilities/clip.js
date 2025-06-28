@@ -7,7 +7,8 @@ async function handleClipUtility() {
     const res = await axios.get(`https://api.twitch.tv/helix/clips`, {
       params: {
         broadcaster_id: env.twitch.channel.id,
-        first: 10
+        first: 10,
+        started_at: new Date(Date.now() - 1000 * 60 * 10).toISOString()
       },
       headers: {
         'Client-ID': env.twitch.bot.clientId,
