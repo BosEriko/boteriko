@@ -30,7 +30,9 @@ const profanityConstant = require('@global/constants/profanity');
 client.connect();
 
 client.on('connected', (address, port) => {
-  console.log(`✅ Connected to Twitch chat.`);
+  const message = "✅ Connected to Twitch chat.";
+  console.log(message);
+  client.say(`#${env.twitch.channel.username}`, message);
 });
 
 // ----------------------------------------- Block Import ------------------------------------------
