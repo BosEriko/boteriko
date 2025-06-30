@@ -84,7 +84,7 @@ client.on('message', async (channel, tags, message, self) => {
   };
 
   for (const [sound, keywords] of Object.entries(soundTriggers)) {
-    if (keywords.some(word => lowerMsg.includes(word))) {
+    if (keywords.some(word => new RegExp(`\\b${word.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}\\b`).test(lowerMsg))) {
       handleSoundCommand(sound);
       break;
     }
