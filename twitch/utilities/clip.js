@@ -39,7 +39,7 @@ async function handleClipUtility() {
       state.latestClipTimestamp = createdAt.toISOString();
 
       const user = await handleUserUtility(clip.creator_name);
-      await sendToDiscordUtility(user, `${clip.title} → ${clip.url}`, env.discord.webhook.streaming);
+      await sendToDiscordUtility(user, `${clip.title} → ${clip.url}`, env.discord.webhook.clip);
     }
 
     state.isClipInitialized = true;
