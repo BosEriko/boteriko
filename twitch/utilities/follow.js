@@ -20,18 +20,25 @@ async function handleFollowUtility(client) {
 
     for (const follower of recentFollowers) {
       const followerId = follower.user_id;
+      const followedAt = new Date(follower.followed_at);
 
       if (!state.isFollowerInitialized) {
         state.knownFollowerIds.add(followerId);
+        if (!state.latestFollowTimestamp || followedAt > new Date(state.latestFollowTimestamp)) {
+          state.latestFollowTimestamp = followedAt.toISOString();
+        }
         continue;
       }
 
-      if (!state.knownFollowerIds.has(followerId)) {
-        state.knownFollowerIds.add(followerId);
-        const message = `${follower.user_name} just followed!`;
-        broadcastToClient({ type: 'NOTIFICATION', event_type: 'follow', message });
-        client.say(`#${env.twitch.channel.username}`, message);
-      }
+      if (state.knownFollowerIds.has(followerId)) continue;
+      if (new Date(state.latestFollowTimestamp) >= followedAt) continue;
+
+      state.knownFollowerIds.add(followerId);
+      state.latestFollowTimestamp = followedAt.toISOString();
+
+      const message = `${follower.user_name} just followed!`;
+      broadcastToClient({ type: 'NOTIFICATION', event_type: 'follow', message });
+      client.say(`#${env.twitch.channel.username}`, message);
     }
 
     state.isFollowerInitialized = true;

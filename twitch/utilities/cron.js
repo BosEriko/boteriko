@@ -52,6 +52,8 @@ function handleCronUtility(client) {
     state.isClipInitialized = false;
     state.knownFollowerIds.clear();
     state.knownClipIds.clear();
+    state.latestFollowTimestamp = null;
+    state.latestClipTimestamp = null;
   }
 
   // ------------------------------------------- Cron Jobs -------------------------------------------

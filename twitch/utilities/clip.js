@@ -1,6 +1,7 @@
 const axios = require('axios');
 const env = require('@global/utilities/env');
 const state = require('@global/utilities/state');
+const handleUserUtility = require('@twitch/utilities/user');
 
 async function handleClipUtility() {
   try {
@@ -20,24 +21,24 @@ async function handleClipUtility() {
 
     for (const clip of recentClips) {
       const clipId = clip.id;
+      const createdAt = new Date(clip.created_at);
 
       if (!state.isClipInitialized) {
         state.knownClipIds.add(clipId);
+        if (!state.latestClipTimestamp || createdAt > new Date(state.latestClipTimestamp)) {
+          state.latestClipTimestamp = createdAt.toISOString();
+        }
         continue;
       }
 
-      if (!state.knownClipIds.has(clipId)) {
-        state.knownClipIds.add(clipId);
-        try {
-            await axios.post(env.discord.webhook.clip, {
-                username: "BotEriko",
-                content: `${clip.creator_name} created a new clip: ${clip.title} → ${clip.url}`,
-                avatar_url: "https://i.imgur.com/UnKvr5t.png",
-            });
-        } catch (error) {
-            console.error('Failed to send clip to Discord:', error.message);
-        }
-      }
+      if (state.knownClipIds.has(clipId)) continue;
+      if (new Date(state.latestClipTimestamp) >= createdAt) continue;
+
+      state.knownClipIds.add(clipId);
+      state.latestClipTimestamp = createdAt.toISOString();
+
+      const user = await handleUserUtility(clip.creator_name);
+      await sendToDiscordUtility(user, `${clip.title} → ${clip.url}`, env.discord.webhook.streaming);
     }
 
     state.isClipInitialized = true;
