@@ -84,7 +84,7 @@ client.on('message', async (channel, tags, message, self) => {
   };
 
   for (const [sound, keywords] of Object.entries(soundTriggers)) {
-    if (keywords.some(word => lowerMsg.split(' ').includes(word))) {
+    if (keywords.some(word => lowerMsg.includes(word))) {
       handleSoundCommand(sound);
       break;
     }
