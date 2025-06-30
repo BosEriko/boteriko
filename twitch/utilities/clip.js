@@ -18,7 +18,14 @@ async function handleClipUtility() {
       }
     });
 
-    const recentClips = res.data.data;
+    let recentClips = res.data.data;
+
+    if (!recentClips || recentClips.length === 0) {
+      console.log('[Clips] No new clips found.');
+      return;
+    }
+
+    recentClips.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
 
     for (const clip of recentClips) {
       const clipId = clip.id;

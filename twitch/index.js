@@ -74,9 +74,13 @@ client.on('message', async (channel, tags, message, self) => {
 
   // Sound Alert
   const soundTriggers = {
-    PROFANITY: profanityConstant,
+    BOO: ["boo"],
+    DING_DONG: ["ding dong"],
     GOTTEM: ["gottem", "got 'em"],
-    NICE_TRY: ["nice try", "nt"]
+    HELLO: ["hi", "hello"],
+    JOKE: ["jk", "joke", "just kidding", "lol"],
+    NICE_TRY: ["nice try", "nt"],
+    PROFANITY: profanityConstant,
   };
 
   for (const [sound, keywords] of Object.entries(soundTriggers)) {
