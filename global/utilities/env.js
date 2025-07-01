@@ -1,8 +1,14 @@
 require('dotenv').config();
+
 const env = {
     app: {
         clientUrl: process.env.APP_CLIENT_URL,
         timeZone: process.env.APP_TIME_ZONE
+    },
+    stream: {
+        startTime: parseInt(process.env.STREAM_START_TIME, 10),
+        endTime: parseInt(process.env.STREAM_END_TIME, 10),
+        days: process.env.STREAM_DAYS?.split(',').map(d => d.trim().toLowerCase()) || []
     },
     twitch: {
         channel: {

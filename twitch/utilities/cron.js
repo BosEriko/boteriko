@@ -75,8 +75,10 @@ function handleCronUtility(client) {
     await handleClipUtility();
   }, { timezone });
 
-  // Every day at midnight
-  cron.schedule('0 0 * * *', () => {
+  // Every day 1 hour before stream start
+  const streamStartHour = env.stream.startTime;
+  const oneHourBeforeStream = (streamStartHour + 23) % 24;
+  cron.schedule(`* ${oneHourBeforeStream} * * *`, () => {
     retryWhenOffline(() => {
       clearDailyStateCache();
       handleSetupUtility(client);
