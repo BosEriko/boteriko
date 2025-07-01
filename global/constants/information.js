@@ -7,6 +7,7 @@ const informationConstant = [
   `Need a topic? Type "!topic" to get a random topic for discussion!`,
   `Share your links on the chat! All of them will be saved to Discord (http://discord.boseriko.com)!`,
   `Type the words falling down on the screen and have fun! Do "!top" to see the top typers of the current stream!`,
+  `Want to know when I stream? Type "!schedule" to see my stream schedule!`,
 ];
 
 module.exports = informationConstant;

@@ -29,6 +29,7 @@ Here are the commands that are currently available.
 | !lurk     | Available     | Not Available | No         |
 | !ping     | Available     | Available     | No         |
 | !pomodoro | Available     | Not Available | Yes        |
+| !schedule | Available     | Available     | No         |
 | !time     | Available     | Available     | No         |
 | !top      | Available     | Not Available | No         |
 | !topic    | Available     | Available     | No         |

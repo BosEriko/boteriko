@@ -18,6 +18,7 @@ const handleDeezCommand = require('@global/commands/deez');
 const handleLurkCommand = require("@twitch/commands/lurk");
 const handlePingCommand = require("@global/commands/ping");
 const handlePomodoroCommand = require('@twitch/commands/pomodoro');
+const handleScheduleCommand = require("@global/commands/schedule");
 const handleSoundCommand = require('@twitch/commands/sound');
 const handleTimeCommand = require('@global/commands/time');
 const handleTopCommand = require('@twitch/commands/top');
@@ -120,6 +121,7 @@ client.on('message', async (channel, tags, message, self) => {
   if (commandName === 'lurk') client.say(channel, handleLurkCommand(tags.username));
   if (commandName === 'ping') client.say(channel, handlePingCommand());
   if (commandName === 'pomodoro') handlePomodoroCommand(client, commandArgs);
+  if (commandName === 'schedule') client.say(channel, handleScheduleCommand());
   if (commandName === 'time') client.say(channel, handleTimeCommand('time'));
   if (commandName === 'top') handleTopCommand(client, channel);
   if (commandName === 'topic') client.say(channel, await handleTopicCommand());
