@@ -76,16 +76,15 @@ client.on('message', async (channel, tags, message, self) => {
   // Sound Alert
   const soundTriggers = {
     BOO: ["boo"],
-    DING_DONG: ["ding dong"],
-    GOTTEM: ["gottem", "got 'em"],
+    GOTTEM: ["gottem"],
     HELLO: ["hi", "hello"],
-    JOKE: ["jk", "joke", "just kidding", "lol"],
-    NICE_TRY: ["nice try", "nt"],
+    JOKE: ["jk", "joke", "kidding", "lol"],
+    NICE_TRY: ["nt"],
     PROFANITY: profanityConstant,
   };
 
   for (const [sound, keywords] of Object.entries(soundTriggers)) {
-    if (keywords.some(word => new RegExp(`\\b${word.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}\\b`).test(lowerMsg))) {
+    if (keywords.some(word => lowerMsg.split(' ').includes(word))) {
       handleSoundCommand(sound);
       break;
     }
