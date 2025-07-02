@@ -37,7 +37,7 @@ async function handleFollowUtility(client) {
       state.latestFollowTimestamp = followedAt.toISOString();
 
       const message = `${follower.user_name} just followed!`;
-      broadcastToClient({ type: 'NOTIFICATION', event_type: 'follow', message });
+      broadcastToClient({ type: 'FEED', feed_type: 'event', message });
       client.say(`#${env.twitch.channel.username}`, message);
     }
 

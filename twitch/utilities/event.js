@@ -5,7 +5,7 @@ function handleEventUtility(client) {
   client.on('raided', (channel, username, viewers) => {
     const name = username || 'Someone';
     const message = `🚀 ${name} is raiding with ${viewers} viewer${viewers !== 1 ? 's' : ''}! Thank you!`;
-    broadcastToClient({ type: 'NOTIFICATION', event_type: 'raided', message });
+    broadcastToClient({ type: 'FEED', feed_type: 'event', message });
     client.say(channel, message);
   });
 
@@ -14,7 +14,7 @@ function handleEventUtility(client) {
     const username = userstate['display-name'] || 'Anonymous';
     const bits = userstate['bits'] || 0;
     const message = `✨ ${username} cheered ${bits} bits: ${msg}`;
-    broadcastToClient({ type: 'NOTIFICATION', event_type: 'cheer', message });
+    broadcastToClient({ type: 'FEED', feed_type: 'event', message });
     client.say(channel, message);
   });
 
@@ -22,7 +22,7 @@ function handleEventUtility(client) {
   client.on('subscription', (channel, username, method, msg, userstate) => {
     const name = username || 'Someone';
     const message = `🎉 ${name} just subscribed! Thank you for the support!`;
-    broadcastToClient({ type: 'NOTIFICATION', event_type: 'subscription', message });
+    broadcastToClient({ type: 'FEED', feed_type: 'event', message });
     client.say(channel, message);
   });
 
@@ -31,7 +31,7 @@ function handleEventUtility(client) {
     const name = username || 'Someone';
     const monthsCount = months || 1;
     const message = `🔁 ${name} resubscribed for ${monthsCount} month${monthsCount !== 1 ? 's' : ''}!`;
-    broadcastToClient({ type: 'NOTIFICATION', event_type: 'resub', message });
+    broadcastToClient({ type: 'FEED', feed_type: 'event', message });
     client.say(channel, message);
   });
 
@@ -40,7 +40,7 @@ function handleEventUtility(client) {
     const gifter = username || 'Someone';
     const giftedTo = recipient || 'someone';
     const message = `🎁 ${gifter} gifted a sub to ${giftedTo}!`;
-    broadcastToClient({ type: 'NOTIFICATION', event_type: 'subgift', message });
+    broadcastToClient({ type: 'FEED', feed_type: 'event', message });
     client.say(channel, message);
   });
 
@@ -50,7 +50,7 @@ function handleEventUtility(client) {
     const viewerCount = viewers || 0;
     const hostType = autohost ? 'Auto-host' : 'Host';
     const message = `📺 ${hostType} by ${name} with ${viewerCount} viewer${viewerCount !== 1 ? 's' : ''}.`;
-    broadcastToClient({ type: 'NOTIFICATION', event_type: 'hosted', message });
+    broadcastToClient({ type: 'FEED', feed_type: 'event', message });
     client.say(channel, message);
   });
 }

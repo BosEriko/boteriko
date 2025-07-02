@@ -18,7 +18,7 @@ async function saveToRealtimeDatabase(user) {
 }
 
 async function handleChatUtility(user, message) {
-  broadcastToClient({ type: 'NEW_CHAT', username: user.display_name, message });
+  broadcastToClient({ type: 'FEED', feed_type: 'chat', username: user.display_name, message });
 
   if (!user) return;
 
