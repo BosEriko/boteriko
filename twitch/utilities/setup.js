@@ -15,7 +15,7 @@ function isNewDay() {
 const dailySchedule = {
   Monday: { title: "Minecraft Monday 🌍⛏️", category: "Minecraft" },
   Tuesday: { title: "Try-it Tuesday 🎮🆕", category: "Games + Demos" },
-  Wednesday: { title: "Waifu Wednesday ⚔️🍀", category: "Zenless Zone Zero" },
+  Wednesday: { title: "Waifu Wednesday ⚔️🍀", category: "Wuthering Waves" },
   Thursday: { title: "Throwback Thursday 🎮📼", category: "Retro" },
   Friday: { title: "Fortnite Friday 🔫💥", category: "Fortnite" },
   Saturday: { title: "Side Quest Saturday 💬🎯", category: "Just Chatting" },
