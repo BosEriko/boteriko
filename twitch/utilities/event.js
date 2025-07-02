@@ -4,7 +4,7 @@ function handleEventUtility(client) {
   // Raids
   client.on('raided', (channel, username, viewers) => {
     const name = username || 'Someone';
-    const message = `🚀 ${name} is raiding with ${viewers} viewer${viewers !== 1 ? 's' : ''}! Thank you!`;
+    const message = `${name} is raiding with ${viewers} viewer${viewers !== 1 ? 's' : ''}! Thank you!`;
     broadcastToClient({ type: 'FEED', feed_type: 'event', message });
     client.say(channel, message);
   });
@@ -13,7 +13,7 @@ function handleEventUtility(client) {
   client.on('cheer', (channel, userstate, msg) => {
     const username = userstate['display-name'] || 'Anonymous';
     const bits = userstate['bits'] || 0;
-    const message = `✨ ${username} cheered ${bits} bits: ${msg}`;
+    const message = `${username} cheered ${bits} bits: ${msg}`;
     broadcastToClient({ type: 'FEED', feed_type: 'event', message });
     client.say(channel, message);
   });
@@ -21,7 +21,7 @@ function handleEventUtility(client) {
   // Subscriptions
   client.on('subscription', (channel, username, method, msg, userstate) => {
     const name = username || 'Someone';
-    const message = `🎉 ${name} just subscribed! Thank you for the support!`;
+    const message = `${name} just subscribed! Thank you for the support!`;
     broadcastToClient({ type: 'FEED', feed_type: 'event', message });
     client.say(channel, message);
   });
@@ -30,7 +30,7 @@ function handleEventUtility(client) {
   client.on('resub', (channel, username, months, msg, userstate, methods) => {
     const name = username || 'Someone';
     const monthsCount = months || 1;
-    const message = `🔁 ${name} resubscribed for ${monthsCount} month${monthsCount !== 1 ? 's' : ''}!`;
+    const message = `${name} resubscribed for ${monthsCount} month${monthsCount !== 1 ? 's' : ''}!`;
     broadcastToClient({ type: 'FEED', feed_type: 'event', message });
     client.say(channel, message);
   });
@@ -39,7 +39,7 @@ function handleEventUtility(client) {
   client.on('subgift', (channel, username, streakMonths, recipient, methods, userstate) => {
     const gifter = username || 'Someone';
     const giftedTo = recipient || 'someone';
-    const message = `🎁 ${gifter} gifted a sub to ${giftedTo}!`;
+    const message = `${gifter} gifted a sub to ${giftedTo}!`;
     broadcastToClient({ type: 'FEED', feed_type: 'event', message });
     client.say(channel, message);
   });
@@ -49,7 +49,7 @@ function handleEventUtility(client) {
     const name = username || 'Someone';
     const viewerCount = viewers || 0;
     const hostType = autohost ? 'Auto-host' : 'Host';
-    const message = `📺 ${hostType} by ${name} with ${viewerCount} viewer${viewerCount !== 1 ? 's' : ''}.`;
+    const message = `${hostType} by ${name} with ${viewerCount} viewer${viewerCount !== 1 ? 's' : ''}.`;
     broadcastToClient({ type: 'FEED', feed_type: 'event', message });
     client.say(channel, message);
   });
