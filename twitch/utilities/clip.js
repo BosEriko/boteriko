@@ -1,7 +1,7 @@
 const axios = require('axios');
 const env = require('@global/utilities/env');
 const state = require('@global/utilities/state');
-const handleUserUtility = require('@twitch/utilities/user');
+const handleUserUtility = require('@global/utilities/user');
 const sendToDiscordUtility = require('@twitch/utilities/sendToDiscord');
 
 async function handleClipUtility() {

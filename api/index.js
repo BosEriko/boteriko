@@ -4,6 +4,7 @@ const cors = require('cors');
 const http = require('http');
 const discordRouter = require('@api/authentication/discord');
 const twitchRouter = require('@api/authentication/twitch');
+const detailsRouter = require('@api/utilities/details');
 const { setupWebSocket } = require('@global/utilities/websocket');
 
 const app = express();
@@ -23,6 +24,7 @@ app.get('/', (req, res) => {
 // Route mounting
 app.use('/api', discordRouter);
 app.use('/api', twitchRouter);
+app.use('/api', detailsRouter);
 
 const server = http.createServer(app);
 

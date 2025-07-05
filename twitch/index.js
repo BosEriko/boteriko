@@ -9,7 +9,7 @@ const handleEventUtility = require('@twitch/utilities/event');
 const handleLinkUtility = require('@twitch/utilities/link');
 const handleShoutoutUtility = require('@twitch/utilities/shoutout');
 const handleTypingGame = require('@twitch/games/typing');
-const handleUserUtility = require('@twitch/utilities/user');
+const handleUserUtility = require('@global/utilities/user');
 
 // Commands
 const handleAskCommand = require('@global/commands/ask');
