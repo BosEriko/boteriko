@@ -24,7 +24,16 @@ async function handleShoutoutUtility(isMod, isBroadcaster, user) {
     );
 
     shoutoutCache.set(username, shoutoutMessage, 'shoutouts');
-    broadcastToClient({ type: 'SHOUTOUT_DETAILS', url: user?.profile_image_url || null, username: username });
+    broadcastToClient({
+      type: 'FEED',
+      feed_type: 'shoutout',
+      id: user?.id,
+      profile_image_url: user?.profile_image_url || null,
+      display_name: user?.display_name,
+      broadcaster_type: user?.broadcaster_type || "viewer",
+      description: user?.description || "Description Unavailable",
+      created_at: user?.created_at ? new Date(user.created_at).toISOString().slice(0, 10).replace(/-/g, '/'): null
+    });
     await handleAnnouncementUtility(`🤖 ${shoutoutMessage}`);
   } catch (err) {
     console.error('❌ Shoutout error:', err?.response?.data || err.message);
