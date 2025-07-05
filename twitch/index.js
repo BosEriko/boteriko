@@ -76,6 +76,7 @@ client.on('message', async (channel, tags, message, self) => {
   // Sound Alert
   const soundTriggers = {
     BOO: ["boo", "jumpscare"],
+    DING_DONG: ["dingdong"],
     GOTTEM: ["gottem"],
     HELLO: ["hi", "hello"],
     HUH: ["huh"],
