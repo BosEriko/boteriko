@@ -78,6 +78,7 @@ client.on('message', async (channel, tags, message, self) => {
     BOO: ["boo", "jumpscare"],
     GOTTEM: ["gottem"],
     HELLO: ["hi", "hello"],
+    HUH: ["huh"],
     JOKE: ["jk", "joke", "kidding", "lol", "haha", "hehe", "hahaha", "hehehe"],
     NICE_TRY: ["nt"],
     PROFANITY: profanityConstant,
