@@ -1,0 +1,22 @@
+{
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "restoreTerminals.terminals": [
+    {
+      "splitTerminals": [
+        {
+          "name": "Node Server",
+          "commands": ["cd $(eval echo $BOTERIKO_DIRECTORY) && yarn develop"]
+        }
+      ]
+    },
+    {
+      "splitTerminals": [
+        {
+          "name": "Terminal",
+          "commands": ["cd $(eval echo $BOTERIKO_DIRECTORY) && clear"]
+        }
+      ]
+    }
+  ]
+}
