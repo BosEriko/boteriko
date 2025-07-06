@@ -14,6 +14,7 @@ const handleUserUtility = require('@global/utilities/user');
 // Commands
 const handleAskCommand = require('@global/commands/ask');
 const handleBrbCommand = require('@twitch/commands/brb');
+const handleCensorCommand = require("@twitch/commands/censor");
 const handleDeezCommand = require('@global/commands/deez');
 const handleFactCommand = require('@global/commands/fact');
 const handleLurkCommand = require("@twitch/commands/lurk");
@@ -118,6 +119,7 @@ client.on('message', async (channel, tags, message, self) => {
   // Commands
   if (commandName === 'ask') client.say(channel, `🤖 @${tags.username} ${await handleAskCommand(commandArgs)}`);
   if (commandName === 'brb') handleBrbCommand(client, channel, commandArgs);
+  if (commandName === 'censor') client.say(channel, handleCensorCommand(client, channel));
   if (commandName === 'date') client.say(channel, handleTimeCommand('date'));
   if (commandName === 'dn') client.say(channel, `🤖 @${tags.username} ${await handleDeezCommand(msg.split(" ")[1])}`);
   if (commandName === 'fact') client.say(channel, await handleFactCommand());

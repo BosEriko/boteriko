@@ -24,6 +24,7 @@ Here are the commands that are currently available.
 |-----------|---------------|---------------|------------|
 | !ask      | Available     | Available     | Yes        |
 | !brb      | Available     | Not Available | Yes        |
+| !censor   | Available     | Not Available | No         |
 | !date     | Available     | Available     | No         |
 | !dn       | Available     | Available     | Yes        |
 | !fact     | Available     | Available     | No         |
