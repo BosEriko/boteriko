@@ -119,7 +119,7 @@ client.on('message', async (channel, tags, message, self) => {
   // Commands
   if (commandName === 'ask') client.say(channel, `🤖 @${tags.username} ${await handleAskCommand(commandArgs)}`);
   if (commandName === 'brb') handleBrbCommand(client, channel, commandArgs);
-  if (commandName === 'censor') client.say(channel, handleCensorCommand(client, channel));
+  if (commandName === 'censor') handleCensorCommand(client, channel);
   if (commandName === 'date') client.say(channel, handleTimeCommand('date'));
   if (commandName === 'dn') client.say(channel, `🤖 @${tags.username} ${await handleDeezCommand(msg.split(" ")[1])}`);
   if (commandName === 'fact') client.say(channel, await handleFactCommand());
