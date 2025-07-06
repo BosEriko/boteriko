@@ -1,4 +1,3 @@
-const env = require('@global/utilities/env');
 const llmUtility = require('@global/utilities/llm');
 const topicConstant = require('@global/constants/topic');
 

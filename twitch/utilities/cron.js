@@ -3,12 +3,12 @@ const env = require('@global/utilities/env');
 const state = require('@global/utilities/state');
 
 // Utilities
-const handleIsStreamingUtility = require("@global/utilities/isStreaming");
-const handleInformationUtility = require('@twitch/utilities/information');
-const handleFollowUtility = require('@twitch/utilities/follow');
 const handleClipUtility = require('@twitch/utilities/clip');
+const handleFactCommand = require('@global/commands/fact');
+const handleFollowUtility = require('@twitch/utilities/follow');
+const handleInformationUtility = require('@twitch/utilities/information');
+const handleIsStreamingUtility = require("@global/utilities/isStreaming");
 const handleSetupUtility = require('@twitch/utilities/setup');
-const handleTopicCommand = require('@global/commands/topic');
 
 function handleCronUtility(client) {
   const timezone = env.app.timeZone;
@@ -29,7 +29,7 @@ function handleCronUtility(client) {
     const fiveMinutes = 5 * 60 * 1000;
 
     if (now - state.lastMessageTimestamp >= fiveMinutes) {
-      client.say(`#${env.twitch.channel.username}`, `💭 ${await handleTopicCommand()}`);
+      client.say(`#${env.twitch.channel.username}`, `💡 ${await handleFactCommand()}`);
       state.lastMessageTimestamp = now;
     }
   }

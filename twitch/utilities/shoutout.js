@@ -1,7 +1,7 @@
 const { broadcastToClient } = require('@global/utilities/websocket');
 const llmUtility = require('@global/utilities/llm');
 const cacheUtility = require('@global/utilities/cache');
-const handleAnnouncementUtility = require('@twitch/utilities/announcement.js');
+const handleAnnouncementUtility = require('@twitch/utilities/announcement');
 
 const TWELVE_HOURS_MS = 12 * 60 * 60 * 1000;
 const shoutoutCache = cacheUtility(TWELVE_HOURS_MS);

@@ -3,6 +3,7 @@ const commandConstant = [
   { command: 'brb', restricted: true, description: 'Set the bot to BRB mode.' },
   { command: 'date', restricted: false, description: 'Display today\'s date based on timezone.' },
   { command: 'dn', restricted: false, description: 'Get a deez nuts joke.' },
+  { command: 'fact', restricted: false, description: 'Show a random fact.' },
   { command: 'lurk', restricted: false, description: 'Let the stream know you\'re watching quietly in the background.' },
   { command: 'ping', restricted: false, description: 'Check if the bot is online.' },
   { command: 'pomodoro', restricted: true, description: 'Set pomodoro sessions' },

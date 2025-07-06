@@ -26,6 +26,7 @@ Here are the commands that are currently available.
 | !brb      | Available     | Not Available | Yes        |
 | !date     | Available     | Available     | No         |
 | !dn       | Available     | Available     | Yes        |
+| !fact     | Available     | Available     | No         |
 | !lurk     | Available     | Not Available | No         |
 | !ping     | Available     | Available     | No         |
 | !pomodoro | Available     | Not Available | Yes        |

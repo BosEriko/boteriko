@@ -15,6 +15,7 @@ const handleUserUtility = require('@global/utilities/user');
 const handleAskCommand = require('@global/commands/ask');
 const handleBrbCommand = require('@twitch/commands/brb');
 const handleDeezCommand = require('@global/commands/deez');
+const handleFactCommand = require('@global/commands/fact');
 const handleLurkCommand = require("@twitch/commands/lurk");
 const handlePingCommand = require("@global/commands/ping");
 const handlePomodoroCommand = require('@twitch/commands/pomodoro');
@@ -119,6 +120,7 @@ client.on('message', async (channel, tags, message, self) => {
   if (commandName === 'brb') handleBrbCommand(client, channel, commandArgs);
   if (commandName === 'date') client.say(channel, handleTimeCommand('date'));
   if (commandName === 'dn') client.say(channel, `🤖 @${tags.username} ${await handleDeezCommand(msg.split(" ")[1])}`);
+  if (commandName === 'fact') client.say(channel, await handleFactCommand());
   if (commandName === 'lurk') client.say(channel, handleLurkCommand(tags.username));
   if (commandName === 'ping') client.say(channel, handlePingCommand());
   if (commandName === 'pomodoro') handlePomodoroCommand(client, commandArgs);
