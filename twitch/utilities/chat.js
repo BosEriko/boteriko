@@ -7,12 +7,16 @@ const walletUtility = require('@global/utilities/wallet');
 const syncUserUtility = require('@global/utilities/syncUser');
 const sendToDiscordUtility = require('@twitch/utilities/sendToDiscord');
 
-function formatEmotes(emotes) {
+function formatEmotes(emotes, message) {
   const result = {};
-  if (!emotes) return result;
+  if (!emotes || !message) return result;
 
   for (const [emoteId, positions] of Object.entries(emotes)) {
-    result[emoteId] = `https://static-cdn.jtvnw.net/emoticons/v2/${emoteId}/default/dark/2.0`;
+    for (const pos of positions) {
+      const [start, end] = pos.split('-').map(Number);
+      const name = message.substring(start, end + 1);
+      result[name] = `https://static-cdn.jtvnw.net/emoticons/v2/${emoteId}/default/dark/2.0`;
+    }
   }
 
   return result;
@@ -34,7 +38,7 @@ async function handleChatUtility(user, message, emotes) {
     feed_type: 'chat',
     username: user.display_name,
     message,
-    emotes: formatEmotes(emotes)
+    emotes: formatEmotes(emotes, message)
   });
 
   if (!user) return;
