@@ -16,7 +16,7 @@ const dailySchedule = {
   Monday: { title: "Minecraft Monday 🌍⛏️", category: "Minecraft" },
   Tuesday: { title: "Try-it Tuesday 🎮🆕", category: "Games + Demos" },
   Wednesday: { title: "Waifu Wednesday ⚔️🍀", category: "Wuthering Waves" },
-  Thursday: { title: "Throwback Thursday 🎮📼", category: "Retro" },
+  Thursday: { title: "TETR.IO Thursday 🎮🟨", category: "TETR.IO" },
   Friday: { title: "Fortnite Friday 🔫💥", category: "Fortnite" },
   Saturday: { title: "Side Quest Saturday 💬🎯", category: "Just Chatting" },
   Sunday: { title: "Slow Down Sunday 💻🎮", category: "Just Chatting" },
