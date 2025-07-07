@@ -8,4 +8,6 @@ module.exports = {
   latestClipTimestamp: null,
   lastMessageTimestamp: Date.now(),
   typingLeaderboard: {},
+  todos: [],
+  isTodoVisible: true,
 };

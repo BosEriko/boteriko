@@ -4,83 +4,80 @@ const state = require('@global/utilities/state');
 
 const channelName = `#${env.twitch.channel.username}`;
 
-let todos = [];
-let isVisible = true;
-
 function broadcastTodoState() {
   broadcastToClient({
     type: 'TODO',
-    todos,
-    isVisible,
+    todos: state.todos,
+    isVisible: state.isTodoVisible,
   });
 }
 
 function readTodo(client, indexStr) {
-  isVisible = true;
+  state.isTodoVisible = true;
   const index = parseInt(indexStr, 10) - 1;
-  if (isNaN(index) || index < 0 || index >= todos.length) {
+  if (isNaN(index) || index < 0 || index >= state.todos.length) {
     client.say(channelName, 'Invalid task number. Usage: !todo read <number>');
     return;
   }
 
-  const todo = todos[index];
+  const todo = state.todos[index];
   const status = todo.done ? '✅' : '📝';
   client.say(channelName, `Todo #${index + 1}: ${todo.todo} ${status}`);
   broadcastTodoState();
 }
 
 function addTodo(client, task) {
-  isVisible = true;
+  state.isTodoVisible = true;
   if (!task) {
     client.say(channelName, 'Please provide a task: !todo add <task>');
     return;
   }
 
-  todos.push({ todo: task, done: false });
+  state.todos.push({ todo: task, done: false });
   broadcastTodoState();
   client.say(channelName, `Added task: "${task}" ✅`);
 }
 
 function checkTodo(client, indexStr) {
-  isVisible = true;
+  state.isTodoVisible = true;
   const index = parseInt(indexStr, 10) - 1;
-  if (isNaN(index) || index < 0 || index >= todos.length) {
+  if (isNaN(index) || index < 0 || index >= state.todos.length) {
     client.say(channelName, 'Invalid task number. Usage: !todo check <number>');
     return;
   }
 
-  todos[index].done = true;
+  state.todos[index].done = true;
   broadcastTodoState();
   client.say(channelName, `Marked task ${index + 1} as done ✅`);
 }
 
 function deleteTodo(client, indexStr) {
-  isVisible = true;
+  state.isTodoVisible = true;
   const index = parseInt(indexStr, 10) - 1;
-  if (isNaN(index) || index < 0 || index >= todos.length) {
+  if (isNaN(index) || index < 0 || index >= state.todos.length) {
     client.say(channelName, 'Invalid task number. Usage: !todo delete <number>');
     return;
   }
 
-  const [removed] = todos.splice(index, 1);
+  const [removed] = state.todos.splice(index, 1);
   broadcastTodoState();
   client.say(channelName, `Deleted task: "${removed.todo}" 🗑️`);
 }
 
 function countTodos(client) {
-  const done = todos.filter(t => t.done).length;
-  const total = todos.length;
+  const done = state.todos.filter(t => t.done).length;
+  const total = state.todos.length;
   client.say(channelName, `Todo progress: ${done}/${total} ✅`);
 }
 
 function hideTodos(client) {
-  isVisible = false;
+  state.isTodoVisible = false;
   broadcastTodoState();
   client.say(channelName, 'Todo list hidden 👀');
 }
 
 function showTodos(client) {
-  isVisible = true;
+  state.isTodoVisible = true;
   broadcastTodoState();
   client.say(channelName, 'Todo list visible 📋');
 }

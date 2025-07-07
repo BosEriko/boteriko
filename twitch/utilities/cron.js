@@ -54,6 +54,8 @@ function handleCronUtility(client) {
     state.knownClipIds.clear();
     state.latestFollowTimestamp = null;
     state.latestClipTimestamp = null;
+    state.todos = [];
+    state.isTodoVisible = false;
   }
 
   // ------------------------------------------- Cron Jobs -------------------------------------------
