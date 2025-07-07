@@ -15,6 +15,20 @@ function broadcastTodoState() {
   });
 }
 
+function readTodo(client, indexStr) {
+  isVisible = true;
+  const index = parseInt(indexStr, 10) - 1;
+  if (isNaN(index) || index < 0 || index >= todos.length) {
+    client.say(channelName, 'Invalid task number. Usage: !todo read <number>');
+    return;
+  }
+
+  const todo = todos[index];
+  const status = todo.done ? '✅' : '📝';
+  client.say(channelName, `Todo #${index + 1}: ${todo.todo} ${status}`);
+  broadcastTodoState();
+}
+
 function addTodo(client, task) {
   isVisible = true;
   if (!task) {
@@ -100,8 +114,11 @@ function handleTodoCommand(client, message) {
     case 'show':
       showTodos(client);
       break;
+    case 'read':
+      readTodo(client, args[1]);
+      break;
     default:
-      client.say(channelName, 'Usage: !todo [add|check|delete|count|hide|show]');
+      client.say(channelName, 'Usage: !todo [read|add|check|delete|count|hide|show]');
   }
 }
 
