@@ -10,6 +10,7 @@ const commandConstant = [
   { command: 'pomodoro', restricted: true, description: 'Set pomodoro sessions for focused work and break intervals.' },
   { command: 'schedule', restricted: false, description: 'Show the stream schedule.' },
   { command: 'time', restricted: false, description: 'Display the current time based on timezone.' },
+  { command: 'todo', restricted: true, description: 'Set tasks when working' },
   { command: 'top', restricted: false, description: 'Get the top players of the Typing Game.' },
   { command: 'topic', restricted: false, description: 'Suggest a random conversation starter.' },
 ];

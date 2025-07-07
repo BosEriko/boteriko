@@ -33,5 +33,6 @@ Here are the commands that are currently available.
 | !pomodoro | Available     | Not Available | Yes        |
 | !schedule | Available     | Available     | No         |
 | !time     | Available     | Available     | No         |
+| !todo     | Available     | Not Available | Yes        |
 | !top      | Available     | Not Available | No         |
 | !topic    | Available     | Available     | No         |

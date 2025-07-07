@@ -23,6 +23,7 @@ const handlePomodoroCommand = require('@twitch/commands/pomodoro');
 const handleScheduleCommand = require("@global/commands/schedule");
 const handleSoundCommand = require('@twitch/commands/sound');
 const handleTimeCommand = require('@global/commands/time');
+const handleTodoCommand = require('@twitch/commands/todo');
 const handleTopCommand = require('@twitch/commands/top');
 const handleTopicCommand = require('@global/commands/topic');
 
@@ -128,6 +129,7 @@ client.on('message', async (channel, tags, message, self) => {
   if (commandName === 'pomodoro') handlePomodoroCommand(client, commandArgs);
   if (commandName === 'schedule') client.say(channel, handleScheduleCommand());
   if (commandName === 'time') client.say(channel, handleTimeCommand('time'));
+  if (commandName === 'todo') handleTodoCommand(client, commandArgs);
   if (commandName === 'top') handleTopCommand(client, channel);
   if (commandName === 'topic') client.say(channel, await handleTopicCommand());
 });
