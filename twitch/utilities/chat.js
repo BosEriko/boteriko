@@ -7,6 +7,17 @@ const walletUtility = require('@global/utilities/wallet');
 const syncUserUtility = require('@global/utilities/syncUser');
 const sendToDiscordUtility = require('@twitch/utilities/sendToDiscord');
 
+function formatEmotes(emotes) {
+  const result = {};
+  if (!emotes) return result;
+
+  for (const [emoteId, positions] of Object.entries(emotes)) {
+    result[emoteId] = `https://static-cdn.jtvnw.net/emoticons/v2/${emoteId}/default/dark/2.0`;
+  }
+
+  return result;
+}
+
 async function saveToRealtimeDatabase(user) {
   const rtdb = firebaseUtility.database();
   const auth = firebaseUtility.auth();
@@ -17,8 +28,14 @@ async function saveToRealtimeDatabase(user) {
   await dailyUtility(rtdb, user.id, 'twitchMessageCount');
 }
 
-async function handleChatUtility(user, message) {
-  broadcastToClient({ type: 'FEED', feed_type: 'chat', username: user.display_name, message });
+async function handleChatUtility(user, message, emotes) {
+  broadcastToClient({
+    type: 'FEED',
+    feed_type: 'chat',
+    username: user.display_name,
+    message,
+    emotes: formatEmotes(emotes)
+  });
 
   if (!user) return;
 

@@ -63,7 +63,7 @@ client.on('message', async (channel, tags, message, self) => {
   const user = await handleUserUtility(tags['display-name']);
 
   // Chat Utility
-  handleChatUtility(user, message);
+  handleChatUtility(user, message, tags.emotes);
   handleTypingGame(client, channel, user, message);
   handleLinkUtility(user, client, message);
 
