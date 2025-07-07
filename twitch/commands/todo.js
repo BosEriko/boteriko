@@ -9,7 +9,7 @@ let isVisible = true;
 
 function broadcastTodoState() {
   broadcastToClient({
-    type: 'TODO_STATE',
+    type: 'TODO',
     todos,
     isVisible,
   });
