@@ -2,6 +2,7 @@ const { broadcastToClient } = require('@global/utilities/websocket');
 const llmUtility = require('@global/utilities/llm');
 const cacheUtility = require('@global/utilities/cache');
 const handleAnnouncementUtility = require('@twitch/utilities/announcement');
+const handleErrorUtility = require('@global/utilities/error');
 
 const TWELVE_HOURS_MS = 12 * 60 * 60 * 1000;
 const shoutoutCache = cacheUtility(TWELVE_HOURS_MS);
@@ -37,7 +38,7 @@ async function handleShoutoutUtility(isMod, isBroadcaster, user) {
     });
     await handleAnnouncementUtility(`🤖 ${shoutoutMessage}`);
   } catch (err) {
-    console.error('❌ Shoutout error:', err?.response?.data || err.message);
+    await handleErrorUtility('❌ Shoutout error:', err?.response?.data || err.message);
     await handleAnnouncementUtility(`Shoutout to @${username}! Thanks for dropping by!`);
   } finally {
     inProgressUsers.delete(username);

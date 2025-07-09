@@ -1,4 +1,5 @@
 const llmUtility = require('@global/utilities/llm');
+const handleErrorUtility = require('@global/utilities/error');
 const topicConstant = require('@global/constants/topic');
 
 function getRandomTopic(topics) {
@@ -15,7 +16,7 @@ async function handleTopicCommand() {
         `Give me a short, stream-friendly conversation starter (1 sentence max) about ${topic}.`
     );
   } catch (err) {
-    console.error("Something went wrong with the conversation utility:", err);
+    await handleErrorUtility("Something went wrong with the conversation utility:", err);
     return `Let's talk about something fun like ${topic}!`;
   }
 }

@@ -1,5 +1,5 @@
-const env = require('@global/utilities/env');
 const llmUtility = require('@global/utilities/llm');
+const handleErrorUtility = require('@global/utilities/error');
 
 async function handleDeezCommand(prompt) {
   if (!prompt || prompt.trim() === "") {
@@ -12,7 +12,7 @@ async function handleDeezCommand(prompt) {
       `Create Deez Nuts joke about ${prompt}`
     );
   } catch (err) {
-    console.error('❌ LLM Error:', err?.response?.data || err.message);
+    await handleErrorUtility('❌ LLM Error:', err?.response?.data || err.message);
     return "I couldn't come up with a joke about that. Try something else!";
   }
 }

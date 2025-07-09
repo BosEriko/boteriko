@@ -1,4 +1,5 @@
 const llmUtility = require('@global/utilities/llm');
+const handleErrorUtility = require('@global/utilities/error');
 const topicConstant = require('@global/constants/topic');
 
 function getRandomFact(facts) {
@@ -15,7 +16,7 @@ async function handleFactCommand() {
         `Give me a short, stream-friendly fact (1 sentence max) about ${fact}.`
     );
   } catch (err) {
-    console.error("Something went wrong with the fact utility:", err);
+    await handleErrorUtility("Something went wrong with the fact utility:", err);
     return `I can't think of a fact about ${fact}. Please try again later!`;
   }
 }

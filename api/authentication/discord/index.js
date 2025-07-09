@@ -1,5 +1,6 @@
 const express = require('express');
 const env = require('@global/utilities/env');
+const handleErrorUtility = require('@global/utilities/error');
 
 const verifyFirebaseToken = require('./verifyFirebaseToken');
 const exchangeCode = require('./exchangeCode');
@@ -24,7 +25,7 @@ router.get('/authentication/discord', async (req, res) => {
 
     return res.redirect(`${env.app.clientUrl}/?discord_connected=1`);
   } catch (err) {
-    console.error('Discord OAuth error:', err);
+    await handleErrorUtility('Discord OAuth error:', err);
     return res.status(500).json({ error: 'Discord connection failed' });
   }
 });

@@ -1,3 +1,5 @@
+const handleErrorUtility = require('@global/utilities/error');
+
 async function syncUserUtility(auth, user) {
   try {
     await auth.updateUser(user.id, {
@@ -12,7 +14,7 @@ async function syncUserUtility(auth, user) {
         profileImage: user.profile_image_url
       });
     } else {
-      console.error(`Failed to sync Firebase user: ${error.message}`);
+      await handleErrorUtility(`Failed to sync Firebase user: ${error.message}`);
     }
   }
 }

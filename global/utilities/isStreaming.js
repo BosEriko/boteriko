@@ -1,5 +1,6 @@
 const axios = require('axios');
 const env = require('@global/utilities/env');
+const handleErrorUtility = require('@global/utilities/error');
 
 async function handleIsStreamingUtility() {
   try {
@@ -13,7 +14,7 @@ async function handleIsStreamingUtility() {
 
       return response.data.data.length > 0;
   } catch (error) {
-      console.error("Error fetching streamer status:", error);
+      await handleErrorUtility("Error fetching streamer status:", error);
       return false;
   }
 }

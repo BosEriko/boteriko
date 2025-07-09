@@ -1,5 +1,6 @@
 const axios = require('axios');
 const env = require('@global/utilities/env');
+const handleErrorUtility = require('@global/utilities/error');
 
 let lastCheckedDate = null;
 
@@ -34,7 +35,7 @@ async function getCategoryIdByName(name) {
 
     return res.data.data?.[0]?.id || null;
   } catch (err) {
-    console.error(`❌ Failed to fetch category ID for "${name}":`, err.response?.data || err.message);
+    await handleErrorUtility(`❌ Failed to fetch category ID for "${name}":`, err.response?.data || err.message);
     return null;
   }
 }
@@ -47,7 +48,7 @@ async function handleSetupUtility(client) {
 
   const schedule = dailySchedule[dayOfWeek];
   if (!schedule) {
-    console.error(`❌ No schedule found for ${dayOfWeek}`);
+    await handleErrorUtility(`❌ No schedule found for ${dayOfWeek}`);
     return;
   }
 
@@ -70,9 +71,9 @@ async function handleSetupUtility(client) {
     client.say(`#${env.twitch.channel.username}`, `📝 New Title: "${title}" | 📺 Category: ${category}`);
   } catch (error) {
     if (error.response) {
-      console.error("❌ Failed to update title/category:", error.response.data);
+      await handleErrorUtility("❌ Failed to update title/category:", error.response.data);
     } else {
-      console.error("❌ Error occurred:", error.message);
+      await handleErrorUtility("❌ Error occurred:", error.message);
     }
   }
 }

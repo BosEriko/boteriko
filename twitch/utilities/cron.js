@@ -4,6 +4,7 @@ const state = require('@global/utilities/state');
 
 // Utilities
 const handleClipUtility = require('@twitch/utilities/clip');
+const handleErrorUtility = require('@global/utilities/error');
 const handleFactCommand = require('@global/commands/fact');
 const handleFollowUtility = require('@twitch/utilities/follow');
 const handleInformationUtility = require('@twitch/utilities/information');
@@ -19,7 +20,7 @@ function handleCronUtility(client) {
     try {
       state.isStreaming = await handleIsStreamingUtility();
     } catch (error) {
-      console.error("Error checking stream availability:", error.message);
+      await handleErrorUtility("Error checking stream availability:", error.message);
     }
   }
 

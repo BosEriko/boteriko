@@ -1,4 +1,5 @@
 const axios = require('axios');
+const handleErrorUtility = require('@global/utilities/error');
 
 let recentTimestamps = [];
 
@@ -25,7 +26,7 @@ async function sendToDiscordUtility(user, message, webhookUrl) {
       avatar_url: user.profile_image_url,
     });
   } catch (error) {
-    console.error('Failed to send message to Discord:', error.message);
+    await handleErrorUtility('Failed to send message to Discord:', error.message);
   }
 }
 

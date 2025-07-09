@@ -1,6 +1,7 @@
 const express = require('express');
 const firebaseUtility = require('@global/utilities/firebase');
 const env = require('@global/utilities/env');
+const handleErrorUtility = require('@global/utilities/error');
 
 const exchangeCode = require('./exchangeCode');
 const fetchUser = require('./fetchUser');
@@ -28,7 +29,7 @@ router.get('/authentication/twitch', async (req, res) => {
 
     res.redirect(`${env.app.clientUrl}/authenticate?token=${customToken}`);
   } catch (error) {
-    console.error('OAuth error:', error);
+    await handleErrorUtility('OAuth error:', error);
     res.status(500).json({ error: 'Authentication failed' });
   }
 });

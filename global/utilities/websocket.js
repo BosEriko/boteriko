@@ -1,4 +1,5 @@
 const WebSocket = require('ws');
+const handleErrorUtility = require('@global/utilities/error');
 
 let wss = null;
 
@@ -14,7 +15,7 @@ function setupWebSocket(server) {
       ws.isAlive = true;
     });
 
-    ws.on('message', (msg) => {
+    ws.on('message', async (msg) => {
       console.log('📨 Received message from client:', msg);
 
       try {
@@ -23,7 +24,7 @@ function setupWebSocket(server) {
           ws.send(JSON.stringify({ type: 'pong' }));
         }
       } catch (e) {
-        console.error('❌ Error parsing message:', e);
+        await handleErrorUtility('❌ Error parsing message:', e);
       }
     });
   });

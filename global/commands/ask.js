@@ -1,5 +1,5 @@
-const env = require('@global/utilities/env');
 const llmUtility = require('@global/utilities/llm');
+const handleErrorUtility = require('@global/utilities/error');
 
 async function handleAskCommand(prompt) {
   if (!prompt || prompt.trim() === "") {
@@ -12,7 +12,7 @@ async function handleAskCommand(prompt) {
       prompt
     );
   } catch (err) {
-    console.error('❌ LLM Error:', err?.response?.data || err.message);
+    await handleErrorUtility('❌ LLM Error:', err?.response?.data || err.message);
     return "I couldn't find an answer to that.";
   }
 }
