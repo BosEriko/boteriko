@@ -46,7 +46,8 @@ const env = {
         webhook: {
             link: process.env.DISCORD_WEBHOOK_LINK,
             clip: process.env.DISCORD_WEBHOOK_CLIP,
-            streaming: process.env.DISCORD_WEBHOOK_STREAMING
+            streaming: process.env.DISCORD_WEBHOOK_STREAMING,
+            error: process.env.DISCORD_WEBHOOK_ERROR
         }
     },
     groq: {
