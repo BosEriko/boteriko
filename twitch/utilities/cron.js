@@ -3,6 +3,7 @@ const env = require('@global/utilities/env');
 const state = require('@global/utilities/state');
 
 // Utilities
+const { broadcastToClient } = require('@global/utilities/websocket');
 const handleClipUtility = require('@twitch/utilities/clip');
 const handleErrorUtility = require('@global/utilities/error');
 const handleFactCommand = require('@global/commands/fact');
@@ -21,6 +22,13 @@ function handleCronUtility(client) {
       const streamDetail = await handleStreamDetailUtility();
       state.streamDetail = streamDetail || null;
       state.isStreaming = !!streamDetail;
+      if (state.isStreaming) {
+        broadcastToClient({
+          type: 'STREAM_DETAIL',
+          streamDetail: state.streamDetail,
+          isStreaming: state.isStreaming
+        });
+      }
     } catch (error) {
       state.streamDetail = null;
       state.isStreaming = false;
