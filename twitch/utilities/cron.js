@@ -8,7 +8,7 @@ const handleErrorUtility = require('@global/utilities/error');
 const handleFactCommand = require('@global/commands/fact');
 const handleFollowUtility = require('@twitch/utilities/follow');
 const handleInformationUtility = require('@twitch/utilities/information');
-const handleIsStreamingUtility = require("@global/utilities/isStreaming");
+const handleStreamDetailUtility = require("@global/utilities/streamDetail");
 const handleSetupUtility = require('@twitch/utilities/setup');
 
 function handleCronUtility(client) {
@@ -16,10 +16,14 @@ function handleCronUtility(client) {
   // ------------------------------------------- Functions -------------------------------------------
 
   // Check Stream Availability Function
-  async function checkStreamAvailability() {
+  async function loadStreamDetails() {
     try {
-      state.isStreaming = await handleIsStreamingUtility();
+      const streamDetail = await handleStreamDetailUtility();
+      state.streamDetail = streamDetail || null;
+      state.isStreaming = !!streamDetail;
     } catch (error) {
+      state.streamDetail = null;
+      state.isStreaming = false;
       await handleErrorUtility("Error checking stream availability:", error.message);
     }
   }
@@ -69,7 +73,7 @@ function handleCronUtility(client) {
 
   // Every 5 minutes
   cron.schedule('*/5 * * * *', () => {
-    checkStreamAvailability();
+    loadStreamDetails();
   }, { timezone });
 
   // Every 10 minutes

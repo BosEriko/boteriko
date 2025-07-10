@@ -1,13 +1,22 @@
 module.exports = {
-  isFollowerInitialized: false,
-  isClipInitialized: false,
+  // Stream-related state
   isStreaming: false,
+  streamDetail: null,
+
+  // Follower-related state
+  isFollowerInitialized: false,
   knownFollowerIds: new Set(),
-  knownClipIds: new Set(),
   latestFollowTimestamp: null,
+
+  // Clip-related state
+  isClipInitialized: false,
+  knownClipIds: new Set(),
   latestClipTimestamp: null,
+
+  // Chat and interaction state
   lastMessageTimestamp: Date.now(),
   typingLeaderboard: {},
   todos: [],
   isTodoVisible: true,
+
 };
