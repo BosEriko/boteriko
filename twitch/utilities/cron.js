@@ -22,7 +22,7 @@ function handleCronUtility(client) {
       const streamDetail = await handleStreamDetailUtility();
       state.streamDetail = streamDetail || null;
       state.isStreaming = !!streamDetail;
-      if (state.isStreaming) {
+      if (!!streamDetail) {
         broadcastToClient({
           type: 'STREAM_DETAIL',
           streamDetail: state.streamDetail,
