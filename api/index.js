@@ -5,6 +5,7 @@ const http = require('http');
 const discordRouter = require('@api/authentication/discord');
 const twitchRouter = require('@api/authentication/twitch');
 const detailsRouter = require('@api/utilities/details');
+const tetrioProfileRouter = require('@api/profile/tetrio');
 const { setupWebSocket } = require('@global/utilities/websocket');
 
 const app = express();
@@ -25,6 +26,7 @@ app.get('/', (req, res) => {
 app.use('/api', discordRouter);
 app.use('/api', twitchRouter);
 app.use('/api', detailsRouter);
+app.use('/api', tetrioProfileRouter);
 
 const server = http.createServer(app);
 
