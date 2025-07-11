@@ -129,7 +129,7 @@ client.on('message', async (channel, tags, message, self) => {
   if (commandName === 'pomodoro') handlePomodoroCommand(client, commandArgs);
   if (commandName === 'schedule') client.say(channel, handleScheduleCommand());
   if (commandName === 'time') client.say(channel, handleTimeCommand('time'));
-  if (commandName === 'todo') handleTodoCommand(client, commandArgs);
+  if (commandName === 'todo') await handleTodoCommand(client, commandArgs);
   if (commandName === 'top') handleTopCommand(client, channel);
   if (commandName === 'topic') client.say(channel, await handleTopicCommand());
 });

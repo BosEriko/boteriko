@@ -54,6 +54,9 @@ const env = {
         model: process.env.GROQ_MODEL,
         apiKey: process.env.GROQ_API_KEY
     },
+    todoist: {
+        apiToken: process.env.TODOIST_API_TOKEN
+    },
     firebase: {
         projectId: process.env.FIREBASE_PROJECT_ID,
         clientEmail: process.env.FIREBASE_CLIENT_EMAIL,

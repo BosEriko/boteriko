@@ -16,7 +16,7 @@ module.exports = {
   // Chat and interaction state
   lastMessageTimestamp: Date.now(),
   typingLeaderboard: {},
-  todos: [],
-  isTodoVisible: true,
 
+  // Todoist display toggle
+  isTodoVisible: true,
 };
