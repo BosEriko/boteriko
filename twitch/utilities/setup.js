@@ -1,5 +1,6 @@
 const axios = require('axios');
 const env = require('@global/utilities/env');
+const scheduleConstant = require('@twitch/constants/schedule');
 const handleErrorUtility = require('@global/utilities/error');
 
 let lastCheckedDate = null;
@@ -12,16 +13,6 @@ function isNewDay() {
   }
   return false;
 }
-
-const dailySchedule = {
-  Monday: { title: "Minecraft Monday 🌍⛏️", category: "Minecraft" },
-  Tuesday: { title: "Try-it Tuesday 🎮🆕", category: "Games + Demos" },
-  Wednesday: { title: "Waifu Wednesday ⚔️🍀", category: "Wuthering Waves" },
-  Thursday: { title: "TETR.IO Thursday 🎮🟨", category: "TETR.IO" },
-  Friday: { title: "Fortnite Friday 🔫💥", category: "Fortnite" },
-  Saturday: { title: "Side Quest Saturday 💬🎯", category: "Just Chatting" },
-  Sunday: { title: "Slow Down Sunday 💻🎮", category: "Just Chatting" },
-};
 
 async function getCategoryIdByName(name) {
   try {
@@ -46,7 +37,7 @@ async function handleSetupUtility(client) {
   const now = new Date();
   const dayOfWeek = now.toLocaleDateString('en-US', { weekday: 'long' });
 
-  const schedule = dailySchedule[dayOfWeek];
+  const schedule = scheduleConstant[dayOfWeek];
   if (!schedule) {
     await handleErrorUtility(`❌ No schedule found for ${dayOfWeek}`);
     return;
