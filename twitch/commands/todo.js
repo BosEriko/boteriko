@@ -5,17 +5,45 @@ const state = require('@global/utilities/state');
 const handleErrorUtility = require('@global/utilities/error');
 
 const TODOIST_API_URL = 'https://api.todoist.com/rest/v2/tasks';
+const TODOIST_LABELS_URL = 'https://api.todoist.com/rest/v2/labels';
+
 const TODOIST_HEADERS = {
   Authorization: `Bearer ${env.todoist.apiToken}`,
 };
 
 const channelName = `#${env.twitch.channel.username}`;
 
+async function ensureGameLabelExists() {
+  const game = state.streamDetail?.game_name;
+  if (!game) return null;
+
+  const label = game.trim().replace(/\s+/g, '-').toLowerCase();
+
+  try {
+    const labelRes = await axios.get(TODOIST_LABELS_URL, { headers: TODOIST_HEADERS });
+    const existing = labelRes.data.find(l => l.name.toLowerCase() === label);
+
+    if (existing) return label;
+
+    await axios.post(TODOIST_LABELS_URL, { name: label }, { headers: TODOIST_HEADERS });
+    return label;
+  } catch (err) {
+    await handleErrorUtility("Failed to ensure game label exists:", err);
+    return null;
+  }
+}
+
 async function fetchTodos() {
   try {
-    const res = await axios.get(`${TODOIST_API_URL}?filter=today`, {
-      headers: TODOIST_HEADERS,
-    });
+    const game = state.streamDetail?.game_name;
+    if (!game) return [];
+
+    const label = await ensureGameLabelExists();
+    if (!label) return [];
+
+    const url = `${TODOIST_API_URL}?labels=[${label}]`;
+    const res = await axios.get(url, { headers: TODOIST_HEADERS });
+
     return res.data;
   } catch (err) {
     await handleErrorUtility("Failed to fetch todos:", err);
@@ -64,14 +92,29 @@ async function addTodo(client, task) {
       return;
     }
 
+    const game = state.streamDetail?.game_name;
+    if (!game) {
+      client.say(channelName, 'Cannot add task without an active game 🕹️');
+      return;
+    }
+
+    const label = await ensureGameLabelExists();
+    if (!label) {
+      client.say(channelName, 'Failed to find or create game label ❌');
+      return;
+    }
+
     await axios.post(
       TODOIST_API_URL,
-      { content: task, due_string: 'today' },
+      {
+        content: task,
+        labels: [label],
+      },
       { headers: TODOIST_HEADERS }
     );
 
     await broadcastTodoState();
-    client.say(channelName, `Added task: "${task}" ✅`);
+    client.say(channelName, `Added task for ${game}: "${task}" ✅`);
   } catch (err) {
     await handleErrorUtility("Failed to add todo:", err);
     client.say(channelName, 'Failed to add the todo ❌');
@@ -89,7 +132,7 @@ async function checkTodo(client, indexStr) {
     }
 
     const todo = todos[index];
-    await axios.post(`https://api.todoist.com/rest/v2/tasks/${todo.id}/close`, null, {
+    await axios.post(`${TODOIST_API_URL}/${todo.id}/close`, null, {
       headers: TODOIST_HEADERS,
     });
 
@@ -157,8 +200,8 @@ function showTodos(client) {
 }
 
 async function handleTodoCommand(client, message) {
-  if (!state.isStreaming) {
-    client.say(channelName, 'Todo commands are only available while streaming 📺');
+  if (!state.isStreaming || !state.streamDetail || !state.streamDetail.game_name) {
+    client.say(channelName, 'Todo commands are only available while streaming a game 🎮');
     return;
   }
 
