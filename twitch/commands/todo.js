@@ -5,45 +5,17 @@ const state = require('@global/utilities/state');
 const handleErrorUtility = require('@global/utilities/error');
 
 const TODOIST_API_URL = 'https://api.todoist.com/rest/v2/tasks';
-const TODOIST_LABELS_URL = 'https://api.todoist.com/rest/v2/labels';
-
 const TODOIST_HEADERS = {
   Authorization: `Bearer ${env.todoist.apiToken}`,
 };
 
 const channelName = `#${env.twitch.channel.username}`;
 
-async function ensureGameLabelExists() {
-  const game = state.streamDetail?.game_name;
-  if (!game) return null;
-
-  const label = game.trim().replace(/\s+/g, '-').toLowerCase();
-
-  try {
-    const labelRes = await axios.get(TODOIST_LABELS_URL, { headers: TODOIST_HEADERS });
-    const existing = labelRes.data.find(l => l.name.toLowerCase() === label);
-
-    if (existing) return label;
-
-    await axios.post(TODOIST_LABELS_URL, { name: label }, { headers: TODOIST_HEADERS });
-    return label;
-  } catch (err) {
-    await handleErrorUtility("Failed to ensure game label exists:", err);
-    return null;
-  }
-}
-
 async function fetchTodos() {
   try {
-    const game = state.streamDetail?.game_name;
-    if (!game) return [];
-
-    const label = await ensureGameLabelExists();
-    if (!label) return [];
-
-    const url = `${TODOIST_API_URL}?labels=[${label}]`;
-    const res = await axios.get(url, { headers: TODOIST_HEADERS });
-
+    const res = await axios.get(`${TODOIST_API_URL}?filter=today`, {
+      headers: TODOIST_HEADERS,
+    });
     return res.data;
   } catch (err) {
     await handleErrorUtility("Failed to fetch todos:", err);
@@ -92,29 +64,14 @@ async function addTodo(client, task) {
       return;
     }
 
-    const game = state.streamDetail?.game_name;
-    if (!game) {
-      client.say(channelName, 'Cannot add task without an active game 🕹️');
-      return;
-    }
-
-    const label = await ensureGameLabelExists();
-    if (!label) {
-      client.say(channelName, 'Failed to find or create game label ❌');
-      return;
-    }
-
     await axios.post(
       TODOIST_API_URL,
-      {
-        content: task,
-        labels: [label],
-      },
+      { content: task, due_string: 'today' },
       { headers: TODOIST_HEADERS }
     );
 
     await broadcastTodoState();
-    client.say(channelName, `Added task for ${game}: "${task}" ✅`);
+    client.say(channelName, `Added task: "${task}" ✅`);
   } catch (err) {
     await handleErrorUtility("Failed to add todo:", err);
     client.say(channelName, 'Failed to add the todo ❌');
@@ -132,7 +89,7 @@ async function checkTodo(client, indexStr) {
     }
 
     const todo = todos[index];
-    await axios.post(`${TODOIST_API_URL}/${todo.id}/close`, null, {
+    await axios.post(`https://api.todoist.com/rest/v2/tasks/${todo.id}/close`, null, {
       headers: TODOIST_HEADERS,
     });
 
@@ -144,33 +101,10 @@ async function checkTodo(client, indexStr) {
   }
 }
 
-async function deleteTodo(client, indexStr) {
-  try {
-    state.isTodoVisible = true;
-    const todos = await fetchTodos();
-    const index = parseInt(indexStr, 10) - 1;
-    if (isNaN(index) || index < 0 || index >= todos.length) {
-      client.say(channelName, 'Invalid task number. Usage: !todo delete <number>');
-      return;
-    }
-
-    const todo = todos[index];
-    await axios.delete(`${TODOIST_API_URL}/${todo.id}`, { headers: TODOIST_HEADERS });
-
-    await broadcastTodoState();
-    client.say(channelName, `Deleted task: "${todo.content}" 🗑️`);
-  } catch (err) {
-    await handleErrorUtility("Failed to delete todo:", err);
-    client.say(channelName, 'Failed to delete the todo ❌');
-  }
-}
-
 async function countTodos(client) {
   try {
     const todos = await fetchTodos();
-    const done = todos.filter(t => t.is_completed).length;
-    const total = todos.length;
-    client.say(channelName, `Todo progress: ${done}/${total} ✅`);
+    client.say(channelName, `Total Todo: ${todos.length} ✅`);
   } catch (err) {
     await handleErrorUtility("Failed to count todos:", err);
     client.say(channelName, 'Failed to count todos ❌');
@@ -200,8 +134,8 @@ function showTodos(client) {
 }
 
 async function handleTodoCommand(client, message) {
-  if (!state.isStreaming || !state.streamDetail || !state.streamDetail.game_name) {
-    client.say(channelName, 'Todo commands are only available while streaming a game 🎮');
+  if (!state.isStreaming) {
+    client.say(channelName, 'Todo commands are only available while streaming 📺');
     return;
   }
 
@@ -217,9 +151,6 @@ async function handleTodoCommand(client, message) {
       case 'check':
         await checkTodo(client, args[1]);
         break;
-      case 'delete':
-        await deleteTodo(client, args[1]);
-        break;
       case 'count':
         await countTodos(client);
         break;
@@ -233,7 +164,7 @@ async function handleTodoCommand(client, message) {
         await readTodo(client, args[1]);
         break;
       default:
-        client.say(channelName, 'Usage: !todo [read|add|check|delete|count|hide|show]');
+        client.say(channelName, 'Usage: !todo [read|add|check|count|hide|show]');
     }
   } catch (err) {
     await handleErrorUtility("Something went wrong while handling the todo command:", err);
