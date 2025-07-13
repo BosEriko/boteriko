@@ -40,14 +40,21 @@ client.on('messageCreate', async message => {
   const isCommand = lowerMsg.startsWith('!') && lowerMsg.length > 1;
   if (!isCommand) return;
 
+  const channelName = env.twitch.channel.username;
   const commandName = lowerMsg.split(' ')[0].replace('!', '');
   const commandArgs = msg.includes(' ') ? msg.slice(msg.indexOf(' ') + 1).trim() : '';
-
   const availableCommands = commandConstant.map(c => c.command);
+  const restrictedCommands = commandConstant.filter(c => c.restricted).map(c => c.command);
 
   // Check if the command is available
   if (!availableCommands.includes(commandName)) {
     message.reply(`❌ \`${commandName}\` is not a command.`);
+    return;
+  }
+
+  // Check if the command is restricted
+  if (restrictedCommands.includes(commandName) && tags['display-name'] !== channelName) {
+    message.reply(`❌ \`Only ${channelName} can control the ${commandName} command.`);
     return;
   }
 
