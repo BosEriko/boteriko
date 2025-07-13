@@ -3,6 +3,7 @@ const { broadcastToClient } = require('@global/utilities/websocket');
 const env = require('@global/utilities/env');
 const state = require('@global/utilities/state');
 const handleErrorUtility = require('@global/utilities/error');
+const cacheUtility = require('@global/utilities/cache');
 
 const TODOIST_API_URL = 'https://api.todoist.com/rest/v2';
 const QUICK_ADD_URL = 'https://api.todoist.com/sync/v9/quick/add';
@@ -10,12 +11,17 @@ const TODOIST_HEADERS = { Authorization: `Bearer ${env.todoist.apiToken}` };
 
 const channelName = `#${env.twitch.channel.username}`;
 
+const labelNameCache = cacheUtility();
+
 function getKebabCaseLabel() {
   return (state.streamDetail?.game_name || 'general').toLowerCase().replace(/\s+/g, '-');
 }
 
 async function getOrCreateLabelName(maxRetries = 5, delayMs = 300) {
   const labelName = getKebabCaseLabel();
+
+  const cachedLabel = labelNameCache.get(labelName, 'label-name');
+  if (cachedLabel) return cachedLabel;
 
   try {
     const res = await axios.get(`${TODOIST_API_URL}/labels`, { headers: TODOIST_HEADERS });
@@ -37,7 +43,10 @@ async function getOrCreateLabelName(maxRetries = 5, delayMs = 300) {
         (label) => label.name.toLowerCase() === labelName.toLowerCase()
       );
 
-      if (confirmed) return labelName;
+      if (confirmed) {
+        labelNameCache.set(labelName, labelName, 'label-name');
+        return labelName;
+      }
     }
 
     return null;
