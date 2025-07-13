@@ -12,6 +12,7 @@ const handleTopicCommand = require('@global/commands/topic');
 
 // Utilities
 const handleChatUtility = require('@discord/utilities/chat');
+const handleErrorUtility = require('@global/utilities/error');
 
 // Constants
 const commandConstant = require('@global/constants/command');
@@ -24,6 +25,18 @@ const env = require('@global/utilities/env');
 client.on('ready', () => {
   console.log(`✅ Connected to Discord server.`);
 });
+
+// ---------------------------------------- Private Command ----------------------------------------
+
+async function handlePrivateCommand(message, handler, commandArgs, commandLabel = '') {
+  try {
+    await message.delete();
+    const response = await handler(commandArgs);
+    await message.author.send(`🤖 ${commandLabel ? `${commandLabel}: ` : ''}${response}`);
+  } catch (err) {
+    await handleErrorUtility(`${commandLabel || 'Private'} command error:`, err);
+  }
+}
 
 // ----------------------------------------- Chat Commands -----------------------------------------
 
@@ -41,7 +54,6 @@ client.on('messageCreate', async message => {
   const isCommand = lowerMsg.startsWith('!') && lowerMsg.length > 1;
   if (!isCommand) return;
 
-  const channelName = env.twitch.channel.username;
   const commandName = lowerMsg.split(' ')[0].replace('!', '');
   const commandArgs = msg.includes(' ') ? msg.slice(msg.indexOf(' ') + 1).trim() : '';
   const availableCommands = commandConstant.map(c => c.command);
@@ -67,7 +79,7 @@ client.on('messageCreate', async message => {
   if (commandName === 'ping') return message.reply(handlePingCommand());
   if (commandName === 'schedule') return message.reply(handleScheduleCommand());
   if (commandName === 'time') return message.reply(handleTimeCommand('time'));
-  if (commandName === 'todo') return message.reply(`🤖 ${await handleTodoCommand(commandArgs)}`);
+  if (commandName === 'todo') return await handlePrivateCommand(message, handleTodoCommand, commandArgs, 'Todo');
   if (commandName === 'topic') return message.reply(await handleTopicCommand());
 });
 
