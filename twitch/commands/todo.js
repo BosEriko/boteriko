@@ -16,7 +16,7 @@ const TODOIST_HEADERS = { Authorization: `Bearer ${env.todoist.apiToken}` };
 const labelNameCache = cacheUtility();
 
 function getKebabCaseLabel() {
-  return (state.streamDetail?.game_name || 'general').toLowerCase().replace(/\s+/g, '-');
+  return (state.streamDetail?.game_name || 'general').toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, '-');
 }
 
 async function getOrCreateLabelName(maxRetries = 5, delayMs = 300) {
