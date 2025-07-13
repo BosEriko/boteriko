@@ -4,24 +4,68 @@ const env = require('@global/utilities/env');
 const state = require('@global/utilities/state');
 const handleErrorUtility = require('@global/utilities/error');
 
-const TODOIST_API_URL = 'https://api.todoist.com/rest/v2/tasks';
-const TODOIST_HEADERS = {
-  Authorization: `Bearer ${env.todoist.apiToken}`,
-};
+const TODOIST_API_URL = 'https://api.todoist.com/rest/v2';
+const QUICK_ADD_URL = 'https://api.todoist.com/sync/v9/quick/add';
+const TODOIST_HEADERS = { Authorization: `Bearer ${env.todoist.apiToken}` };
 
 const channelName = `#${env.twitch.channel.username}`;
 
-async function fetchTodos() {
+function getKebabCaseLabel() {
+  return (state.streamDetail?.game_name || 'general').toLowerCase().replace(/\s+/g, '-');
+}
+
+async function getOrCreateLabelName(maxRetries = 5, delayMs = 300) {
+  const labelName = getKebabCaseLabel();
+
   try {
-    const res = await axios.get(`${TODOIST_API_URL}?filter=today`, {
-      headers: TODOIST_HEADERS,
-    });
-    return res.data;
+    const res = await axios.get(`${TODOIST_API_URL}/labels`, { headers: TODOIST_HEADERS });
+
+    const existing = res.data.find((label) => label.name.toLowerCase() === labelName.toLowerCase());
+
+    if (existing) return labelName;
+
+    await axios.post(`${TODOIST_API_URL}/labels`, { name: labelName }, { headers: TODOIST_HEADERS });
+
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      await new Promise((res) => setTimeout(res, delayMs));
+
+      const confirm = await axios.get(`${TODOIST_API_URL}/labels`, {
+        headers: TODOIST_HEADERS,
+      });
+
+      const confirmed = confirm.data.find(
+        (label) => label.name.toLowerCase() === labelName.toLowerCase()
+      );
+
+      if (confirmed) return labelName;
+    }
+
+    return null;
+  } catch (err) {
+    await handleErrorUtility("Failed to get/create label:", err);
+    return null;
+  }
+}
+
+
+async function fetchTodos() {
+  const labelName = await getOrCreateLabelName();
+  if (!labelName) return [];
+
+  try {
+    const res = await axios.get(`${TODOIST_API_URL}/tasks`, { headers: TODOIST_HEADERS });
+
+    return res.data.filter((task) =>
+      (task.labels || []).some(
+        (label) => label.toLowerCase() === labelName.toLowerCase()
+      )
+    );
   } catch (err) {
     await handleErrorUtility("Failed to fetch todos:", err);
     return [];
   }
 }
+
 
 async function broadcastTodoState() {
   try {
@@ -36,11 +80,55 @@ async function broadcastTodoState() {
   }
 }
 
+async function addTodo(client, task) {
+  try {
+    state.isTodoVisible = true;
+
+    if (!task) {
+      client.say(channelName, 'Please provide a task: !todo add <task>');
+      return;
+    }
+
+    const labelName = await getOrCreateLabelName();
+    if (!labelName) {
+      client.say(channelName, 'Could not verify label creation ❌');
+      return;
+    }
+
+    const content = `${task} @${labelName}`;
+    await axios.post(
+      QUICK_ADD_URL,
+      { text: content },
+      { headers: TODOIST_HEADERS }
+    );
+
+    await broadcastTodoState();
+    client.say(channelName, `Added task to "${state.streamDetail?.game_name}": "${task}" ✅`);
+  } catch (err) {
+    await handleErrorUtility("Failed to add todo:", err);
+    client.say(channelName, 'Failed to add the todo ❌');
+  }
+}
+
+
+
+async function countTodos(client) {
+  try {
+    const todos = await fetchTodos();
+    const label = getKebabCaseLabel();
+    client.say(channelName, `Total Todos for "${label}": ${todos.length} ✅`);
+  } catch (err) {
+    await handleErrorUtility("Failed to count todos:", err);
+    client.say(channelName, 'Failed to count todos ❌');
+  }
+}
+
 async function readTodo(client, indexStr) {
   try {
     state.isTodoVisible = true;
     const todos = await fetchTodos();
     const index = parseInt(indexStr, 10) - 1;
+
     if (isNaN(index) || index < 0 || index >= todos.length) {
       client.say(channelName, 'Invalid task number. Usage: !todo read <number>');
       return;
@@ -56,58 +144,30 @@ async function readTodo(client, indexStr) {
   }
 }
 
-async function addTodo(client, task) {
-  try {
-    state.isTodoVisible = true;
-    if (!task) {
-      client.say(channelName, 'Please provide a task: !todo add <task>');
-      return;
-    }
-
-    await axios.post(
-      TODOIST_API_URL,
-      { content: task, due_string: 'today' },
-      { headers: TODOIST_HEADERS }
-    );
-
-    await broadcastTodoState();
-    client.say(channelName, `Added task: "${task}" ✅`);
-  } catch (err) {
-    await handleErrorUtility("Failed to add todo:", err);
-    client.say(channelName, 'Failed to add the todo ❌');
-  }
-}
-
 async function checkTodo(client, indexStr) {
   try {
     state.isTodoVisible = true;
     const todos = await fetchTodos();
     const index = parseInt(indexStr, 10) - 1;
+
     if (isNaN(index) || index < 0 || index >= todos.length) {
       client.say(channelName, 'Invalid task number. Usage: !todo check <number>');
       return;
     }
 
     const todo = todos[index];
-    await axios.post(`https://api.todoist.com/rest/v2/tasks/${todo.id}/close`, null, {
-      headers: TODOIST_HEADERS,
-    });
+
+    await axios.post(
+      `${TODOIST_API_URL}/tasks/${todo.id}/close`,
+      null,
+      { headers: TODOIST_HEADERS }
+    );
 
     await broadcastTodoState();
     client.say(channelName, `Marked task ${index + 1} as done ✅`);
   } catch (err) {
     await handleErrorUtility("Failed to check todo:", err);
     client.say(channelName, 'Failed to mark the todo as done ❌');
-  }
-}
-
-async function countTodos(client) {
-  try {
-    const todos = await fetchTodos();
-    client.say(channelName, `Total Todo: ${todos.length} ✅`);
-  } catch (err) {
-    await handleErrorUtility("Failed to count todos:", err);
-    client.say(channelName, 'Failed to count todos ❌');
   }
 }
 
