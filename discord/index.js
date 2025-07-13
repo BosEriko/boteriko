@@ -7,6 +7,7 @@ const handleFactCommand = require('@global/commands/fact');
 const handlePingCommand = require("@global/commands/ping");
 const handleScheduleCommand = require("@global/commands/schedule");
 const handleTimeCommand = require('@global/commands/time');
+const handleTodoCommand = require('@discord/commands/todo');
 const handleTopicCommand = require('@global/commands/topic');
 
 // Utilities
@@ -66,6 +67,7 @@ client.on('messageCreate', async message => {
   if (commandName === 'ping') return message.reply(handlePingCommand());
   if (commandName === 'schedule') return message.reply(handleScheduleCommand());
   if (commandName === 'time') return message.reply(handleTimeCommand('time'));
+  if (commandName === 'todo') return message.reply(`🤖 ${await handleTodoCommand(commandArgs)}`);
   if (commandName === 'topic') return message.reply(await handleTopicCommand());
 });
 
