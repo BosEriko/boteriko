@@ -140,7 +140,8 @@ async function showTodos() {
     }
 
     const displayed = todos.slice(0, 5);
-    let message = displayed.map((todo, i) => `${i + 1}. ${todo.content}`).join('\n');
+    let message = "\n";
+    message += displayed.map((todo, i) => `${i + 1}. ${todo.content}`).join('\n');
 
     const remaining = todos.length - displayed.length;
     if (remaining > 0) message += `\n...and ${remaining} more`;
