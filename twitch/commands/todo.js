@@ -69,7 +69,7 @@ async function fetchTodos() {
   try {
     const res = await axios.get(`${TODOIST_API_URL}/tasks`, {
       headers: TODOIST_HEADERS,
-      params: { label: labelName },
+      params: { filter: `@${labelName}&today` },
     });
 
     return res.data;
@@ -112,7 +112,7 @@ async function addTodo(client, task) {
     const content = `${task} @${labelName}`;
     await axios.post(
       QUICK_ADD_URL,
-      { text: content },
+      { text: content, due_string: "today" },
       { headers: TODOIST_HEADERS }
     );
 
