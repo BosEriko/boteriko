@@ -53,7 +53,7 @@ async function fetchTodos() {
   try {
     const res = await axios.get(`${TODOIST_API_URL}/tasks`, {
       headers: TODOIST_HEADERS,
-      params: { filter: `@${labelName}&today` },
+      params: { filter: `@${labelName}` },
     });
 
     return res.data;
@@ -71,7 +71,7 @@ async function addTodo(task) {
     const labelName = await getOrCreateLabelName();
     if (!labelName) return 'Could not verify label creation ❌';
 
-    const content = `${task} today @${labelName}`;
+    const content = `${task} @${labelName}`;
     await axios.post(QUICK_ADD_URL, { text: content }, { headers: TODOIST_HEADERS });
 
     return `Added task: "${task}" ✅`;
@@ -131,6 +131,27 @@ async function checkTodo(indexStr) {
   }
 }
 
+// -------------------------------------------- Show Todo ------------------------------------------
+async function showTodos() {
+  try {
+    const todos = await fetchTodos();
+    if (todos.length === 0) {
+      return 'No todos at the moment 📭';
+    }
+
+    const displayed = todos.slice(0, 5);
+    let message = displayed.map((todo, i) => `${i + 1}. ${todo.content}`).join('\n');
+
+    const remaining = todos.length - displayed.length;
+    if (remaining > 0) message += `\n...and ${remaining} more`;
+
+    return message;
+  } catch (err) {
+    await handleErrorUtility('Failed to show todos:', err);
+    return 'Failed to show todos ❌';
+  }
+}
+
 // --------------------------------------------- Commands ------------------------------------------
 async function handleTodoCommand(message) {
   const args = message.trim().split(' ');
@@ -147,8 +168,10 @@ async function handleTodoCommand(message) {
         return await countTodos();
       case 'read':
         return await readTodo(args[1]);
+      case 'show':
+        return await showTodos();
       default:
-        return 'Usage: !todo [read|add|check|count]';
+        return 'Usage: !todo [read|add|check|count|show]';
     }
   } catch (err) {
     await handleErrorUtility('Something went wrong while handling the todo command:', err);
