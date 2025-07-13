@@ -54,8 +54,8 @@ client.on('messageCreate', async message => {
   }
 
   // Check if the command is restricted
-  if (restrictedCommands.includes(commandName) && tags['display-name'] !== channelName) {
-    message.reply(`❌ \`Only ${channelName} can control the ${commandName} command.`);
+  if (restrictedCommands.includes(commandName) && message.author.id !== env.discord.owner.id) {
+    message.reply(`❌ Only the bot owner can use the \`${commandName}\` command.`);
     return;
   }
 

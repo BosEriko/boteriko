@@ -35,6 +35,9 @@ const env = {
         server: {
             id: process.env.DISCORD_SERVER_ID
         },
+        owner: {
+            id: process.env.DISCORD_OWNER_ID
+        },
         bot: {
             token: process.env.DISCORD_BOT_TOKEN,
         },
