@@ -65,19 +65,17 @@ async function fetchTodos() {
   if (!labelName) return [];
 
   try {
-    const res = await axios.get(`${TODOIST_API_URL}/tasks`, { headers: TODOIST_HEADERS });
+    const res = await axios.get(`${TODOIST_API_URL}/tasks`, {
+      headers: TODOIST_HEADERS,
+      params: { label: labelName },
+    });
 
-    return res.data.filter((task) =>
-      (task.labels || []).some(
-        (label) => label.toLowerCase() === labelName.toLowerCase()
-      )
-    );
+    return res.data;
   } catch (err) {
     await handleErrorUtility("Failed to fetch todos:", err);
     return [];
   }
 }
-
 
 async function broadcastTodoState() {
   try {
