@@ -109,12 +109,8 @@ async function addTodo(client, task) {
       return;
     }
 
-    const content = `${task} @${labelName}`;
-    await axios.post(
-      QUICK_ADD_URL,
-      { text: content, due_string: "today" },
-      { headers: TODOIST_HEADERS }
-    );
+    const content = `${task} today @${labelName}`;
+    await axios.post(QUICK_ADD_URL, { text: content }, { headers: TODOIST_HEADERS });
 
     await broadcastTodoState();
     client.say(channelName, `Added task to "${state.streamDetail?.game_name}": "${task}" ✅`);

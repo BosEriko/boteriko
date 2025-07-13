@@ -71,12 +71,8 @@ async function addTodo(task) {
     const labelName = await getOrCreateLabelName();
     if (!labelName) return 'Could not verify label creation ❌';
 
-    const content = `${task} @${labelName}`;
-    await axios.post(
-      QUICK_ADD_URL,
-      { text: content, due_string: 'today' },
-      { headers: TODOIST_HEADERS }
-    );
+    const content = `${task} today @${labelName}`;
+    await axios.post(QUICK_ADD_URL, { text: content }, { headers: TODOIST_HEADERS });
 
     return `Added task: "${task}" ✅`;
   } catch (err) {
