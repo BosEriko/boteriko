@@ -28,7 +28,10 @@ async function getOrCreateLabelName(maxRetries = 5, delayMs = 300) {
 
     const existing = res.data.find((label) => label.name.toLowerCase() === labelName.toLowerCase());
 
-    if (existing) return labelName;
+    if (existing) {
+      labelNameCache.set(labelName, labelName, 'label-name');
+      return labelName;
+    }
 
     await axios.post(`${TODOIST_API_URL}/labels`, { name: labelName }, { headers: TODOIST_HEADERS });
 
