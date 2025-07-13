@@ -5,12 +5,14 @@ const state = require('@global/utilities/state');
 const handleErrorUtility = require('@global/utilities/error');
 const cacheUtility = require('@global/utilities/cache');
 
+const channelName = `#${env.twitch.channel.username}`;
+
+// ------------------------------------------ API Variables ----------------------------------------
 const TODOIST_API_URL = 'https://api.todoist.com/rest/v2';
 const QUICK_ADD_URL = 'https://api.todoist.com/sync/v9/quick/add';
 const TODOIST_HEADERS = { Authorization: `Bearer ${env.todoist.apiToken}` };
 
-const channelName = `#${env.twitch.channel.username}`;
-
+// ----------------------------------- Label Creation or Fetching ----------------------------------
 const labelNameCache = cacheUtility();
 
 function getKebabCaseLabel() {
@@ -59,7 +61,7 @@ async function getOrCreateLabelName(maxRetries = 5, delayMs = 300) {
   }
 }
 
-
+// ------------------------------------------ Todo Fetching ----------------------------------------
 async function fetchTodos() {
   const labelName = await getOrCreateLabelName();
   if (!labelName) return [];
@@ -77,6 +79,7 @@ async function fetchTodos() {
   }
 }
 
+// --------------------------------------- Broadcast to Client -------------------------------------
 async function broadcastTodoState() {
   try {
     const todos = await fetchTodos();
@@ -90,6 +93,7 @@ async function broadcastTodoState() {
   }
 }
 
+// --------------------------------------------- Add Todo ------------------------------------------
 async function addTodo(client, task) {
   try {
     state.isTodoVisible = true;
@@ -120,19 +124,18 @@ async function addTodo(client, task) {
   }
 }
 
-
-
+// -------------------------------------------- Count Todo -----------------------------------------
 async function countTodos(client) {
   try {
     const todos = await fetchTodos();
-    const label = getKebabCaseLabel();
-    client.say(channelName, `Total Todos for "${label}": ${todos.length} ✅`);
+    client.say(channelName, `Total Todos for "${state.streamDetail?.game_name}": ${todos.length} ✅`);
   } catch (err) {
     await handleErrorUtility("Failed to count todos:", err);
     client.say(channelName, 'Failed to count todos ❌');
   }
 }
 
+// --------------------------------------------- Read Todo -----------------------------------------
 async function readTodo(client, indexStr) {
   try {
     state.isTodoVisible = true;
@@ -145,8 +148,7 @@ async function readTodo(client, indexStr) {
     }
 
     const todo = todos[index];
-    const status = todo.is_completed ? '✅' : '📝';
-    client.say(channelName, `Todo #${index + 1}: ${todo.content} ${status}`);
+    client.say(channelName, `Todo #${index + 1}: ${todo.content} ✅`);
     await broadcastTodoState();
   } catch (err) {
     await handleErrorUtility("Failed to read todo:", err);
@@ -154,6 +156,7 @@ async function readTodo(client, indexStr) {
   }
 }
 
+// -------------------------------------------- Check Todo -----------------------------------------
 async function checkTodo(client, indexStr) {
   try {
     state.isTodoVisible = true;
@@ -167,11 +170,7 @@ async function checkTodo(client, indexStr) {
 
     const todo = todos[index];
 
-    await axios.post(
-      `${TODOIST_API_URL}/tasks/${todo.id}/close`,
-      null,
-      { headers: TODOIST_HEADERS }
-    );
+    await axios.post(`${TODOIST_API_URL}/tasks/${todo.id}/close`, null, { headers: TODOIST_HEADERS });
 
     await broadcastTodoState();
     client.say(channelName, `Marked task ${index + 1} as done ✅`);
@@ -181,6 +180,7 @@ async function checkTodo(client, indexStr) {
   }
 }
 
+// -------------------------------------------- Hide Todo ------------------------------------------
 function hideTodos(client) {
   try {
     state.isTodoVisible = false;
@@ -192,6 +192,7 @@ function hideTodos(client) {
   }
 }
 
+// -------------------------------------------- Show Todo ------------------------------------------
 function showTodos(client) {
   try {
     state.isTodoVisible = true;
@@ -203,6 +204,7 @@ function showTodos(client) {
   }
 }
 
+// --------------------------------------------- Commands ------------------------------------------
 async function handleTodoCommand(client, message) {
   if (!state.isStreaming) {
     client.say(channelName, 'Todo commands are only available while streaming 📺');
