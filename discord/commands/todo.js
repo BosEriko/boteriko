@@ -3,13 +3,13 @@ const env = require('@global/utilities/env');
 const handleErrorUtility = require('@global/utilities/error');
 const cacheUtility = require('@global/utilities/cache');
 
+// ------------------------------------------ API Variables ----------------------------------------
 const TODOIST_API_URL = 'https://api.todoist.com/rest/v2';
 const QUICK_ADD_URL = 'https://api.todoist.com/sync/v9/quick/add';
 const TODOIST_HEADERS = { Authorization: `Bearer ${env.todoist.apiToken}` };
 
+// ----------------------------------- Label Creation or Fetching ----------------------------------
 const labelNameCache = cacheUtility();
-
-// -------------------------------- Label Handling --------------------------------
 
 async function getOrCreateLabelName(maxRetries = 5, delayMs = 300) {
   const labelName = 'discord';
@@ -45,8 +45,7 @@ async function getOrCreateLabelName(maxRetries = 5, delayMs = 300) {
   }
 }
 
-// -------------------------------- Todo Handlers --------------------------------
-
+// ------------------------------------------ Todo Fetching ----------------------------------------
 async function fetchTodos() {
   const labelName = await getOrCreateLabelName();
   if (!labelName) return [];
@@ -64,6 +63,7 @@ async function fetchTodos() {
   }
 }
 
+// --------------------------------------------- Add Todo ------------------------------------------
 async function addTodo(task) {
   try {
     if (!task) return 'Please provide a task: !todo add <task>';
@@ -85,6 +85,7 @@ async function addTodo(task) {
   }
 }
 
+// -------------------------------------------- Count Todo -----------------------------------------
 async function countTodos() {
   try {
     const todos = await fetchTodos();
@@ -95,6 +96,7 @@ async function countTodos() {
   }
 }
 
+// --------------------------------------------- Read Todo -----------------------------------------
 async function readTodo(indexStr) {
   try {
     const todos = await fetchTodos();
@@ -112,6 +114,7 @@ async function readTodo(indexStr) {
   }
 }
 
+// -------------------------------------------- Check Todo -----------------------------------------
 async function checkTodo(indexStr) {
   try {
     const todos = await fetchTodos();
@@ -132,8 +135,7 @@ async function checkTodo(indexStr) {
   }
 }
 
-// -------------------------------- Command Handler --------------------------------
-
+// --------------------------------------------- Commands ------------------------------------------
 async function handleTodoCommand(message) {
   const args = message.trim().split(' ');
   const subcommand = args[0];
