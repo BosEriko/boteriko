@@ -128,7 +128,7 @@ client.on('message', async (channel, tags, message, self) => {
   if (commandName === 'lurk') client.say(channel, handleLurkCommand(tags.username));
   if (commandName === 'ping') client.say(channel, handlePingCommand());
   if (commandName === 'pomodoro') handlePomodoroCommand(client, commandArgs);
-  if (commandName === 'raid') await handleRaidCommand(client, commandArgs);
+  if (commandName === 'raid') await handleRaidCommand(client, commandArgs, isBroadcaster);
   if (commandName === 'schedule') client.say(channel, handleScheduleCommand());
   if (commandName === 'time') client.say(channel, handleTimeCommand('time'));
   if (commandName === 'todo') await handleTodoCommand(client, commandArgs);

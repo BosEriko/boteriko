@@ -8,7 +8,7 @@ const commandConstant = [
   { command: 'lurk', restricted: false, description: 'Let the stream know you\'re watching quietly in the background.' },
   { command: 'ping', restricted: false, description: 'Check if the bot is online.' },
   { command: 'pomodoro', restricted: true, description: 'Set pomodoro sessions for focused work and break intervals.' },
-  { command: 'raid', restricted: true, description: 'Start the raid process.' },
+  { command: 'raid', restricted: false, description: 'Start the raid process or send only the raid message.' },
   { command: 'schedule', restricted: false, description: 'Show the stream schedule.' },
   { command: 'time', restricted: false, description: 'Display the current time based on timezone.' },
   { command: 'todo', restricted: true, description: 'Set tasks when working' },
