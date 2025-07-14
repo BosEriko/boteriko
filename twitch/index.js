@@ -20,6 +20,7 @@ const handleFactCommand = require('@global/commands/fact');
 const handleLurkCommand = require("@twitch/commands/lurk");
 const handlePingCommand = require("@global/commands/ping");
 const handlePomodoroCommand = require('@twitch/commands/pomodoro');
+const handleRaidCommand = require('@twitch/commands/raid');
 const handleScheduleCommand = require("@global/commands/schedule");
 const handleSoundCommand = require('@twitch/commands/sound');
 const handleTimeCommand = require('@global/commands/time');
@@ -127,6 +128,7 @@ client.on('message', async (channel, tags, message, self) => {
   if (commandName === 'lurk') client.say(channel, handleLurkCommand(tags.username));
   if (commandName === 'ping') client.say(channel, handlePingCommand());
   if (commandName === 'pomodoro') handlePomodoroCommand(client, commandArgs);
+  if (commandName === 'raid') await handleRaidCommand(client, commandArgs);
   if (commandName === 'schedule') client.say(channel, handleScheduleCommand());
   if (commandName === 'time') client.say(channel, handleTimeCommand('time'));
   if (commandName === 'todo') await handleTodoCommand(client, commandArgs);

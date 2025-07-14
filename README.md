@@ -31,6 +31,7 @@ Here are the commands that are currently available.
 | !lurk     | Available     | Not Available | No         |
 | !ping     | Available     | Available     | No         |
 | !pomodoro | Available     | Not Available | Yes        |
+| !raid     | Available     | Not Available | Yes        |
 | !schedule | Available     | Available     | No         |
 | !time     | Available     | Available     | No         |
 | !todo     | Available     | Not Available | Yes        |
