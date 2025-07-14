@@ -62,8 +62,9 @@ async function handleRaidCommand(client, user, isBroadcaster) {
 
     try {
       await triggerRaid(toChannelId);
-      const message = `Raiding ${username}! Thank you for the stream!`;
+      const message = `Raiding ${username}!`;
       client.say(channelName, message);
+      client.say(channelName, "Thank you for the stream!");
       broadcastToClient({ type: 'TICKER', message, isVisible: true });
     } catch (err) {
       client.say(channelName, `Failed to start raid to ${username}.`);
