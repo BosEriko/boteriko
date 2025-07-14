@@ -45,14 +45,14 @@ async function triggerRaid(toChannelId) {
   }
 }
 
-async function handleRaidCommand(client, message, isBroadcaster) {
+async function handleRaidCommand(client, user, isBroadcaster) {
   if (!state.isStreaming) {
     client.say(channelName, 'Raid command is only available while streaming 📺');
     return;
   }
 
-  if (!isBroadcaster) {
-    const username = message.trim().split(' ')[0].replace(/^@/, '');
+  if (isBroadcaster) {
+    const username = user.trim() ? user.trim().split(' ')[0].replace(/^@/, '') : 'TwisWua';
     const toChannelId = await getUserId(username);
 
     if (!toChannelId) {
@@ -62,8 +62,9 @@ async function handleRaidCommand(client, message, isBroadcaster) {
 
     try {
       await triggerRaid(toChannelId);
-      client.say(channelName, `Raiding ${username}! Thank you for the stream!`);
-      broadcastToClient({ type: 'RAID', username: username });
+      const message = `Raiding ${username}! Thank you for the stream!`;
+      client.say(channelName, message);
+      broadcastToClient({ type: 'TICKER', message, isVisible: true });
     } catch (err) {
       client.say(channelName, `Failed to start raid to ${username}.`);
     }
