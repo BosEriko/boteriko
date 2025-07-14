@@ -4,6 +4,8 @@ const handleErrorUtility = require('@global/utilities/error');
 const env = require('@global/utilities/env');
 const state = require('@global/utilities/state');
 
+const channelName = `#${env.twitch.channel.username}`;
+
 async function getUserId(username) {
   try {
     const response = await axios.get(
@@ -43,9 +45,9 @@ async function triggerRaid(toChannelId) {
   }
 }
 
-async function handleRaidCommand(client, channel, message, isBroadcaster) {
+async function handleRaidCommand(client, message, isBroadcaster) {
   if (!state.isStreaming) {
-    client.say(channel, 'Raid command is only available while streaming 📺');
+    client.say(channelName, 'Raid command is only available while streaming 📺');
     return;
   }
 
@@ -54,20 +56,20 @@ async function handleRaidCommand(client, channel, message, isBroadcaster) {
     const toChannelId = await getUserId(username);
 
     if (!toChannelId) {
-      client.say(channel, `Cannot find user: ${username}`);
+      client.say(channelName, `Cannot find user: ${username}`);
       return;
     }
 
     try {
       await triggerRaid(toChannelId);
-      client.say(channel, `Raiding ${username}! Thank you for the stream!`);
+      client.say(channelName, `Raiding ${username}! Thank you for the stream!`);
       broadcastToClient({ type: 'RAID', username: username });
     } catch (err) {
-      client.say(channel, `Failed to start raid to ${username}.`);
+      client.say(channelName, `Failed to start raid to ${username}.`);
     }
   }
 
-  client.say(channel, "Bos Raid TombRaid Bos Raid TombRaid Bos Raid TombRaid");
+  client.say(channelName, "Bos Raid TombRaid Bos Raid TombRaid Bos Raid TombRaid");
 }
 
 module.exports = handleRaidCommand;
