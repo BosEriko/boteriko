@@ -25,8 +25,9 @@ const handleScheduleCommand = require("@global/commands/schedule");
 const handleSoundCommand = require('@twitch/commands/sound');
 const handleTimeCommand = require('@global/commands/time');
 const handleTodoCommand = require('@twitch/commands/todo');
-const handleTypingTopCommand = require('@twitch/commands/typingTop');
 const handleTopicCommand = require('@global/commands/topic');
+const handleTypingTopCommand = require('@twitch/commands/typingTop');
+const handleTypingWinnerCommand = require('@twitch/commands/typingWinner');
 
 // Constants
 const commandConstant = require('@global/constants/command');
@@ -132,6 +133,7 @@ client.on('message', async (channel, tags, message, self) => {
   if (commandName === 'schedule') client.say(channel, handleScheduleCommand());
   if (commandName === 'time') client.say(channel, handleTimeCommand('time'));
   if (commandName === 'todo') await handleTodoCommand(client, commandArgs);
-  if (commandName === 'top') handleTypingTopCommand(client, channel);
+  if (commandName === 'top') await handleTypingTopCommand(client, channel);
   if (commandName === 'topic') client.say(channel, await handleTopicCommand());
+  if (commandName === 'winner') await handleTypingWinnerCommand(client, channel);
 });

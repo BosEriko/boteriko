@@ -14,6 +14,7 @@ const commandConstant = [
   { command: 'todo', restricted: true, description: 'Set tasks when working' },
   { command: 'top', restricted: false, description: 'Get the top players of the Typing Game.' },
   { command: 'topic', restricted: false, description: 'Suggest a random conversation starter.' },
+  { command: 'winner', restricted: false, description: 'Get the winner of the Typing Game yesterday.' },
 ];
 
 module.exports = commandConstant;

@@ -37,3 +37,4 @@ Here are the commands that are currently available.
 | !todo     | Available     | Not Available | Yes        |
 | !top      | Available     | Not Available | No         |
 | !topic    | Available     | Available     | No         |
+| !winner   | Available     | Not Available | No         |
