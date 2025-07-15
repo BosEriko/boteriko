@@ -1,18 +1,27 @@
-const state = require('@global/utilities/state');
+const firebaseUtility = require('@global/utilities/firebase');
 
-function handleTopCommand(client, channel) {
-    const leaderboard = state.typingLeaderboard || {};
-    const MAX_ENTRIES = 5;
+async function handleTopCommand(client, channel) {
+  const MAX_ENTRIES = 5;
+  const today = new Date().toISOString().slice(0, 10);
+  const ref = firebaseUtility.database().ref(`typings/${today}`);
 
-    const sorted = Object.entries(leaderboard)
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, MAX_ENTRIES);
+  const snapshot = await ref.once('value');
+  const data = snapshot.val();
 
-    const response = sorted.length > 0
-        ? sorted.map(([user, count], i) => `${i + 1}. ${user} (${count})`).join(' | ')
-        : 'No one has scored yet!';
+  if (!data) {
+    client.say(channel, 'No one has scored yet!');
+    return;
+  }
 
-    client.say(channel, `🏆 Leaderboard: ${response}`);
+  const sorted = Object.entries(data)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, MAX_ENTRIES);
+
+  const response = sorted
+    .map(([username, count], i) => `${i + 1}. ${username} (${count})`)
+    .join(' | ');
+
+  client.say(channel, `🏆 Leaderboard: ${response}`);
 }
 
 module.exports = handleTopCommand;

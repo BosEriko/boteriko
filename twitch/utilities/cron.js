@@ -58,7 +58,6 @@ function handleCronUtility(client) {
 
   // Clear Daily State Cache Function
   function clearDailyStateCache() {
-    state.typingLeaderboard = {};
     state.isFollowerInitialized = false;
     state.isClipInitialized = false;
     state.knownFollowerIds.clear();

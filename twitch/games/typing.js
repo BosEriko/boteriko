@@ -2,7 +2,7 @@ const { broadcastToClient } = require('@global/utilities/websocket');
 const firebaseUtility = require('@global/utilities/firebase');
 const typingConstant = require('@twitch/constants/typing');
 const walletUtility = require('@global/utilities/wallet');
-const state = require('@global/utilities/state');
+const typingUtility = require('@global/utilities/typing');
 
 // Configurable variables
 const WORD_INTERVAL_MS = 1 * 60 * 1000; // 1 minutes
@@ -29,22 +29,24 @@ setInterval(() => {
 }, WORD_INTERVAL_MS);
 
 async function handleTypingGame(client, channel, user, message) {
+  if (!user || !message) return;
+
   const msg = message.trim().toLowerCase();
   const matchIndex = activeWords.findIndex(entry => entry.word === msg);
 
-  if (matchIndex !== -1) {
-    const username = user.login;
+  if (matchIndex === -1) return;
 
-    client.say(channel, `✅ @${username} typed "${msg}" correctly!`);
-    activeWords.splice(matchIndex, 1);
-    state.typingLeaderboard[username] = (state.typingLeaderboard[username] || 0) + 1;
+  const username = user.display_name;
+  const twitchId = user.id;
 
-    if (!user) return;
+  client.say(channel, `✅ @${username} typed "${msg}" correctly!`);
+  activeWords.splice(matchIndex, 1);
 
-    await walletUtility(firebaseUtility.database(), user.id, { coins: REWARD_POINTS });
-    broadcastToClient({ type: 'CORRECT_GUESS', word: msg });
-    return;
-  }
+  const rtdb = firebaseUtility.database();
+  await walletUtility(rtdb, twitchId, { coins: REWARD_POINTS });
+  await typingUtility(rtdb, username, 1);
+
+  broadcastToClient({ type: 'CORRECT_GUESS', word: msg, username });
 }
 
 module.exports = handleTypingGame;
