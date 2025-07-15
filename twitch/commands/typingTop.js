@@ -1,6 +1,6 @@
 const firebaseUtility = require('@global/utilities/firebase');
 
-async function handleTopCommand(client, channel) {
+async function handleTypingTopCommand(client, channel) {
   const MAX_ENTRIES = 5;
   const today = new Date().toISOString().slice(0, 10);
   const ref = firebaseUtility.database().ref(`typings/${today}`);
@@ -24,4 +24,4 @@ async function handleTopCommand(client, channel) {
   client.say(channel, `🏆 Leaderboard: ${response}`);
 }
 
-module.exports = handleTopCommand;
+module.exports = handleTypingTopCommand;
