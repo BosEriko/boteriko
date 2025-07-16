@@ -6,29 +6,28 @@ const handleErrorUtility = require("@global/utilities/error");
 const axios = require('axios');
 const env = require('@global/utilities/env');
 
-const ONE_HOUR_MS = 1 * 60 * 60 * 1000;
-const firstChatCache = cacheUtility(ONE_HOUR_MS);
+const THIRTY_MINUTES_MS = 30 * 60 * 1000;
+const firstChatCache = cacheUtility(THIRTY_MINUTES_MS);
 
 async function handleFirstUtility(isMod, isBroadcaster, user) {
   const username = user.login;
   if (!username || isMod || isBroadcaster) return;
 
-  const cachedFirst = firstChatCache.get(username, 'first-chat');
+  const today = new Date().toISOString().slice(0, 10);
+
+  const cachedFirst = firstChatCache.get(today, 'first-chat');
   if (cachedFirst) return;
 
   const rtdb = firebaseUtility.database();
-  const firstChat = await firstUtility(rtdb, username); // will return the existing or newly set username
+  const firstChat = await firstUtility(rtdb, username);
 
-  // Cache the actual first chatter (not the one who triggered it)
-  firstChatCache.set(username, firstChat, 'first-chat');
+  firstChatCache.set(today, firstChat, 'first-chat');
 
-  // Fetch current stream
   const stream = await handleStreamDetailUtility();
   if (!stream) return;
 
   const currentTitle = stream.title;
 
-  // Remove any existing '| First: @...' from the title
   const cleanedTitle = currentTitle.replace(/\s*\|\s*First: @\w+/, '');
   const newTitle = `${cleanedTitle} | First: @${firstChat}`;
 
