@@ -12,6 +12,9 @@ const handleInformationUtility = require('@twitch/utilities/information');
 const handleStreamDetailUtility = require("@global/utilities/streamDetail");
 const handleSetupUtility = require('@twitch/utilities/setup');
 
+// Data
+const getLastTypingWinner = require('@twitch/utilities/typingWinner');
+
 function handleCronUtility(client) {
   const timezone = env.app.timeZone;
   // ------------------------------------------- Functions -------------------------------------------
@@ -20,12 +23,15 @@ function handleCronUtility(client) {
   async function loadStreamDetails() {
     try {
       const streamDetail = await handleStreamDetailUtility();
+      const streamWinners = { typing: await getLastTypingWinner() };
       state.streamDetail = streamDetail || null;
       state.isStreaming = !!streamDetail;
+      state.streamWinners = streamWinners;
       broadcastToClient({
         type: 'STREAM_DETAIL',
         streamDetail: streamDetail || null,
         isStreaming: !!streamDetail,
+        streamWinners
       });
     } catch (error) {
       state.streamDetail = null;

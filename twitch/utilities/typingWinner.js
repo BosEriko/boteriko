@@ -1,9 +1,14 @@
 const firebaseUtility = require('@global/utilities/firebase');
+const cacheUtility = require('@global/utilities/cache');
+const cache = cacheUtility();
 
 async function getLastTypingWinner() {
   const today = new Date().toISOString().slice(0, 10);
-  const ref = firebaseUtility.database().ref('typings');
 
+  const cached = cache.get(today, "typing-winner");
+  if (cached) return cached;
+
+  const ref = firebaseUtility.database().ref('typings');
   const snapshot = await ref.once('value');
   const allDatesData = snapshot.val();
 
@@ -23,7 +28,10 @@ async function getLastTypingWinner() {
   if (!sorted.length) return null;
 
   const [winner, score] = sorted[0];
-  return { winner, score, date: lastStreamDate };
+  const result = { winner, score, date: lastStreamDate };
+
+  cache.set(today, result, "typing-winner");
+  return result;
 }
 
 module.exports = getLastTypingWinner;
