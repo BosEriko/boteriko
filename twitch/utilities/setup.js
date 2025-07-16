@@ -48,7 +48,7 @@ async function handleSetupUtility(client) {
   const gameId = await getCategoryIdByName(category);
 
   const winnerData = await getLastTypingWinner();
-  const winnerSuffix = winnerData ? ` | Previous Winner: @${winnerData.winner}` : '';
+  const winnerSuffix = winnerData ? ` | Winner: @${winnerData.winner}` : '';
   const finalTitle = `${title}${winnerSuffix}`;
 
   const url = `https://api.twitch.tv/helix/channels?broadcaster_id=${env.twitch.channel.id}`;
