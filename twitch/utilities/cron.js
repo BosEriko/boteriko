@@ -23,15 +23,18 @@ function handleCronUtility(client) {
   async function loadStreamDetails() {
     try {
       const streamDetail = await handleStreamDetailUtility();
-      const streamWinners = { typing: await getLastTypingWinner() };
+      const typingWinner = await getLastTypingWinner();
       state.streamDetail = streamDetail || null;
       state.isStreaming = !!streamDetail;
-      state.streamWinners = streamWinners;
+      state.winners.typing = typingWinner;
       broadcastToClient({
         type: 'STREAM_DETAIL',
         streamDetail: streamDetail || null,
         isStreaming: !!streamDetail,
-        streamWinners
+        winners: {
+          firstChat: state.winners.firstChat,
+          typing: typingWinner,
+        },
       });
     } catch (error) {
       state.streamDetail = null;

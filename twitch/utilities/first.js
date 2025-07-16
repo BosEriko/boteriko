@@ -5,6 +5,7 @@ const handleStreamDetailUtility = require("@global/utilities/streamDetail");
 const handleErrorUtility = require("@global/utilities/error");
 const axios = require('axios');
 const env = require('@global/utilities/env');
+const state = require('@global/utilities/state');
 
 const THIRTY_MINUTES_MS = 30 * 60 * 1000;
 const firstChatCache = cacheUtility(THIRTY_MINUTES_MS);
@@ -22,6 +23,7 @@ async function handleFirstUtility(isMod, isBroadcaster, user) {
   const firstChat = await firstUtility(rtdb, username);
 
   firstChatCache.set(today, firstChat, 'first-chat');
+  state.winners.firstChat = firstChat;
 
   const stream = await handleStreamDetailUtility();
   if (!stream) return;

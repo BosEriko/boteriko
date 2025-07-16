@@ -2,7 +2,12 @@ module.exports = {
   // Stream-related state
   isStreaming: false,
   streamDetail: null,
-  streamWinners: null,
+
+  // Stream Winners
+  winners: {
+    firstChat: null,
+    typing: null,
+  },
 
   // Follower-related state
   isFollowerInitialized: false,
