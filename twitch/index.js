@@ -71,7 +71,7 @@ client.on('message', async (channel, tags, message, self) => {
 
   // Utilities
   handleChatUtility(user, message, tags.emotes);
-  handleFirstUtility(isMod, isBroadcaster, user, client);
+  handleFirstUtility(isMod, isBroadcaster, user);
   handleLinkUtility(user, client, message);
   handleShoutoutUtility(isMod, isBroadcaster, user);
   handleTypingGame(client, channel, user, message);
