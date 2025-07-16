@@ -10,7 +10,7 @@ const THIRTY_MINUTES_MS = 30 * 60 * 1000;
 const firstChatCache = cacheUtility(THIRTY_MINUTES_MS);
 
 async function handleFirstUtility(isMod, isBroadcaster, user) {
-  const username = user.login;
+  const username = user.display_name || user.login;
   if (!username || isMod || isBroadcaster) return;
 
   const today = new Date().toISOString().slice(0, 10);
