@@ -6,6 +6,7 @@ const state = require('@global/utilities/state');
 const handleChatUtility = require('@twitch/utilities/chat');
 const handleCronUtility = require('@twitch/utilities/cron');
 const handleEventUtility = require('@twitch/utilities/event');
+const handleFirstUtility = require('@twitch/utilities/first');
 const handleLinkUtility = require('@twitch/utilities/link');
 const handleShoutoutUtility = require('@twitch/utilities/shoutout');
 const handleTypingGame = require('@twitch/games/typing');
@@ -64,15 +65,16 @@ client.on('message', async (channel, tags, message, self) => {
   // Fetch Twitch user information
   const user = await handleUserUtility(tags['display-name']);
 
-  // Chat Utility
-  handleChatUtility(user, message, tags.emotes);
-  handleTypingGame(client, channel, user, message);
-  handleLinkUtility(user, client, message);
-
-  // Shoutout Utility
+  // Badges
   const isMod = tags.mod === true || tags.badges?.moderator === '1';
   const isBroadcaster = tags.badges?.broadcaster === '1';
+
+  // Utilities
+  handleChatUtility(user, message, tags.emotes);
+  handleFirstUtility(isMod, isBroadcaster, user, client);
+  handleLinkUtility(user, client, message);
   handleShoutoutUtility(isMod, isBroadcaster, user);
+  handleTypingGame(client, channel, user, message);
 
   // Ensure the message is not empty and trim whitespace
   const msg = message.trim();
