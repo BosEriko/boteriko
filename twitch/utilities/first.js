@@ -39,8 +39,8 @@ async function handleFirstUtility(isMod, isBroadcaster, user) {
       { title: newTitle },
       {
         headers: {
-          'Client-ID': env.twitch.bot.clientId,
-          'Authorization': `Bearer ${env.twitch.bot.accessToken}`,
+          'Client-ID': env.twitch.channel.clientId,
+          'Authorization': `Bearer ${env.twitch.channel.accessToken}`,
           'Content-Type': 'application/json'
         }
       }
