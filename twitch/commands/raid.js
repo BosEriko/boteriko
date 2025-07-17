@@ -71,7 +71,7 @@ async function handleRaidCommand(client, user, isBroadcaster) {
     }
   }
 
-  client.say(channelName, "Bos Raid TombRaid Bos Raid TombRaid Bos Raid TombRaid");
+  client.say(channelName, "BosEriko Raid SUBtember BosEriko Raid TwitchConHYPE BosEriko Raid DinoDance BosEriko Raid PewPewPew BosEriko Raid BangbooBounce BosEriko Raid GoldPLZ BosEriko Raid MechaCharge BosEriko Raid EWCcrush BosEriko Raid ");
 }
 
 module.exports = handleRaidCommand;
