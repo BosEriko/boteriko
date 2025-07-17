@@ -1,10 +1,6 @@
-const handleStreamDetailUtility = require("@global/utilities/streamDetail");
-
-async function firstUtility(rtdb, username) {
-  const streamDetail = await handleStreamDetailUtility();
-
+async function firstUtility(rtdb, username, isStreaming = false) {
   if (!username) return null;
-  if (!streamDetail) return username;
+  if (!isStreaming) return username;
 
   const today = new Date().toISOString().slice(0, 10);
   const ref = rtdb.ref(`streams/${today}/firstChat`);

@@ -19,14 +19,13 @@ async function handleFirstUtility(isMod, isBroadcaster, user) {
   const cachedFirst = firstChatCache.get(today, 'first-chat');
   if (cachedFirst) return;
 
-  const rtdb = firebaseUtility.database();
-  const firstChat = await firstUtility(rtdb, username);
+  const stream = await handleStreamDetailUtility();
+  if (!stream) return;
+
+  const firstChat = await firstUtility(firebaseUtility.database(), username, stream);
 
   firstChatCache.set(today, firstChat, 'first-chat');
   state.winners.firstChat = firstChat;
-
-  const stream = await handleStreamDetailUtility();
-  if (!stream) return;
 
   const currentTitle = stream.title;
 
