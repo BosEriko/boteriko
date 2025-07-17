@@ -22,7 +22,7 @@ async function handleFirstUtility(isMod, isBroadcaster, user) {
   const stream = await handleStreamDetailUtility();
   if (!stream) return;
 
-  const firstChat = await firstUtility(firebaseUtility.database(), username, stream);
+  const firstChat = await firstUtility(firebaseUtility.database(), username, !!stream);
 
   firstChatCache.set(today, firstChat, 'first-chat');
   state.winners.firstChat = firstChat;
