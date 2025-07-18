@@ -5,6 +5,7 @@ const state = require('@global/utilities/state');
 // Utilities
 const handleChatUtility = require('@twitch/utilities/chat');
 const handleCronUtility = require('@twitch/utilities/cron');
+const handleEventsubUtility = require('@twitch/utilities/eventsub');
 const handleEventUtility = require('@twitch/utilities/event');
 const handleFirstUtility = require('@twitch/utilities/first');
 const handleLinkUtility = require('@twitch/utilities/link');
@@ -50,8 +51,9 @@ client.on('join', (channel, username, self) => {
 
 // ----------------------------------------- Block Import ------------------------------------------
 
-handleEventUtility(client);
 handleCronUtility(client);
+handleEventsubUtility();
+handleEventUtility(client);
 
 // ----------------------------------------- Chat Commands -----------------------------------------
 
