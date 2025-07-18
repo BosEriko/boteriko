@@ -52,7 +52,7 @@ client.on('join', (channel, username, self) => {
 // ----------------------------------------- Block Import ------------------------------------------
 
 handleCronUtility(client);
-handleEventsubUtility();
+handleEventsubUtility(client);
 handleEventUtility(client);
 
 // ----------------------------------------- Chat Commands -----------------------------------------
