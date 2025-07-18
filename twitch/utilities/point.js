@@ -18,10 +18,20 @@ const handleChannelPoints = async (client, payload) => {
     switch (reward.title) {
       case 'Blink':
       case 'Stretch':
-      case 'Hydrate':
-      case 'Stand Up': {
+      case 'Hydrate': {
         broadcastToClient({ type: 'SOUND_ALERT', id: reward.title.toUpperCase().replace(/\s+/g, '_') });
         client.say(channelName, `${user_name} played "${reward.title}" for ${reward.cost} channel points!`);
+        break;
+      }
+      case 'Stand Up': {
+        broadcastToClient({ type: 'SOUND_ALERT', id: "STAND_UP" });
+        client.say(channelName, `${user_name} played "${reward.title}" for ${reward.cost} channel points!`);
+
+        setTimeout(() => {
+          broadcastToClient({ type: 'SOUND_ALERT', id: "SIT_DOWN" });
+          client.say(channelName, `10 minutes passed since ${user_name} redeemed "Stand Up"! Time to sit down and make your legs rest.`);
+        }, 10 * 60 * 1000);
+
         break;
       }
 
