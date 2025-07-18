@@ -2,8 +2,6 @@ const WebSocket = require('ws');
 const axios = require('axios');
 const env = require('@global/utilities/env');
 const handleErrorUtility = require('@global/utilities/error');
-const firebaseUtility = require('@global/utilities/firebase');
-const walletUtility = require('@global/utilities/wallet');
 
 let ws;
 let reconnectUrl = null;
@@ -12,13 +10,14 @@ const channelName = env.twitch.channel.username;
 
 const handleChannelPoints = async (client, payload) => {
   const { reward, user_id, user_name } = payload;
-  const rtdb = firebaseUtility.database();
 
   try {
     switch (reward.title) {
-      case 'Currency Conversion': {
-        await walletUtility(rtdb, user_id, { coins: reward.cost });
-        client.say(channelName, `💰 Converted ${reward.cost} Bos Points to ${reward.cost} Bos Coins on ${user_name}'s wallet`);
+      case 'Blink':
+      case 'Stretch':
+      case 'Hydrate':
+      case 'Stand Up': {
+        client.say(channelName, `${user_name} played "${reward.title}" for ${reward.cost} channel points!`);
         break;
       }
 
