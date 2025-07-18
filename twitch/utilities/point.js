@@ -31,7 +31,7 @@ const handleChannelPoints = async (client, payload) => {
   }
 };
 
-function handleEventsubUtility(client) {
+function handlePointUtility(client) {
   const accessToken = env.twitch.channel.accessToken;
   const clientId = env.twitch.channel.clientId;
   const userId = env.twitch.channel.id;
@@ -135,4 +135,4 @@ function handleEventsubUtility(client) {
   connect();
 }
 
-module.exports = handleEventsubUtility;
+module.exports = handlePointUtility;
