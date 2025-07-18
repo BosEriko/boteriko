@@ -30,6 +30,7 @@ const handleTodoCommand = require('@twitch/commands/todo');
 const handleTopicCommand = require('@global/commands/topic');
 const handleTypingTopCommand = require('@twitch/commands/typingTop');
 const handleTypingWinnerCommand = require('@twitch/commands/typingWinner');
+const handleWalletCommand = require('@twitch/commands/wallet');
 
 // Constants
 const commandConstant = require('@global/constants/command');
@@ -139,5 +140,6 @@ client.on('message', async (channel, tags, message, self) => {
   if (commandName === 'todo') await handleTodoCommand(client, commandArgs);
   if (commandName === 'top') await handleTypingTopCommand(client, channel);
   if (commandName === 'topic') client.say(channel, await handleTopicCommand());
+  if (commandName === 'wallet') await handleWalletCommand(client, channel, user);
   if (commandName === 'winner') await handleTypingWinnerCommand(client, channel);
 });
