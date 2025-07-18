@@ -2,34 +2,36 @@ const WebSocket = require('ws');
 const axios = require('axios');
 const env = require('@global/utilities/env');
 const handleErrorUtility = require('@global/utilities/error');
+const firebaseUtility = require('@global/utilities/firebase');
+const walletUtility = require('@global/utilities/wallet');
 
 let ws;
 let reconnectUrl = null;
 
-const handleNotification = () => {
-  console.log("Redeem Channel Points Award");
-  // redemption
-  // {
-  //   broadcaster_user_id: '61103553',
-  //   broadcaster_user_login: 'boseriko',
-  //   broadcaster_user_name: 'BosEriko',
-  //   id: 'a3ee5c91-b1a6-40e7-a59d-969ef567335b',
-  //   user_id: '61103553',
-  //   user_login: 'boseriko',
-  //   user_name: 'BosEriko',
-  //   user_input: '',
-  //   status: 'unfulfilled',
-  //   redeemed_at: '2025-07-18T00:47:00.989405935Z',
-  //   reward: {
-  //     id: 'be0f983e-fc24-4a97-ad6f-524b4053c934',
-  //     title: 'Blink',
-  //     prompt: '',
-  //     cost: 50
-  //   }
-  // }
-}
+const channelName = env.twitch.channel.username;
 
-function handleEventsubUtility() {
+const handleNotification = async (client, payload) => {
+  const { reward, user_id, user_name } = payload;
+  const rtdb = firebaseUtility.database();
+
+  try {
+    switch (reward.title) {
+      case 'Currency Conversion': {
+        await walletUtility(rtdb, user_id, { coins: reward.cost });
+        client.say(channelName, `💰 Converted ${reward.cost} Bos Points to ${reward.cost} Bos Coins on ${user_name}'s wallet`);
+        break;
+      }
+
+      default:
+        console.warn(`⚠️ Unhandled reward: "${reward.title}"`);
+        break;
+    }
+  } catch (err) {
+    await handleErrorUtility(`Error handling reward "${reward.title}" for ${user_name}:`, err);
+  }
+};
+
+function handleEventsubUtility(client) {
   const accessToken = env.twitch.channel.accessToken;
   const clientId = env.twitch.channel.clientId;
   const userId = env.twitch.channel.id;
@@ -74,7 +76,7 @@ function handleEventsubUtility() {
           }
 
           case 'notification': {
-            handleNotification(eventPayload.event);
+            await handleNotification(client, eventPayload.event);
             break;
           }
 
