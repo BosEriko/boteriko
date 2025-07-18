@@ -48,7 +48,7 @@ function handlePointUtility(client) {
     ws = new WebSocket(url);
 
     ws.on('open', () => {
-      console.log('✅ Connected to Twitch EventSub WebSocket');
+      console.log('✅ Connected to Twitch EventSub WebSocket.');
       lastPing = Date.now();
       setupHeartbeat();
     });
@@ -76,7 +76,7 @@ function handlePointUtility(client) {
               }
             });
 
-            console.log('✅ Subscription success:', response.data);
+            console.log('✅ Connected to Channel Points WebSocket.');
             break;
           }
 
