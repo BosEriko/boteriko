@@ -7,11 +7,10 @@ async function handleWalletCommand(client, channel, user) {
   const data = snap.val() || {};
 
   const coins = data.coins || 0;
-  const golds = data.golds || 0;
 
   client.say(
     channel,
-    `@${user.display_name}, you have 💰 ${coins} Bos Coin${coins === 1 ? '' : 's'} and 🏅 ${golds} Bos Gold${golds === 1 ? '' : 's'}!`
+    `@${user.display_name}, you have 💰 ${coins} Bos Coin${coins === 1 ? '' : 's'}!`
   );
 }
 
