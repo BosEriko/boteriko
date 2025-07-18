@@ -5,6 +5,8 @@ const handleErrorUtility = require('@global/utilities/error');
 
 let ws;
 let reconnectUrl = null;
+let lastPing = Date.now();
+let heartbeatInterval = null;
 
 const channelName = env.twitch.channel.username;
 
@@ -36,10 +38,17 @@ function handlePointUtility(client) {
   const userId = env.twitch.channel.id;
 
   const connect = (url = 'wss://eventsub.wss.twitch.tv/ws') => {
+    if (ws) {
+      ws.removeAllListeners();
+      ws.terminate();
+    }
+
     ws = new WebSocket(url);
 
     ws.on('open', () => {
       console.log('✅ Connected to Twitch EventSub WebSocket');
+      lastPing = Date.now();
+      setupHeartbeat();
     });
 
     ws.on('message', async (data) => {
@@ -55,13 +64,8 @@ function handlePointUtility(client) {
             const response = await axios.post('https://api.twitch.tv/helix/eventsub/subscriptions', {
               type: 'channel.channel_points_custom_reward_redemption.add',
               version: '1',
-              condition: {
-                broadcaster_user_id: userId
-              },
-              transport: {
-                method: 'websocket',
-                session_id: sessionId
-              }
+              condition: { broadcaster_user_id: userId },
+              transport: { method: 'websocket', session_id: sessionId }
             }, {
               headers: {
                 'Client-ID': clientId,
@@ -92,8 +96,8 @@ function handlePointUtility(client) {
             break;
           }
 
-
           case 'session_keepalive': {
+            lastPing = Date.now();
             console.log('💓 Received keepalive ping from Twitch');
             break;
           }
@@ -118,7 +122,23 @@ function handlePointUtility(client) {
     });
   };
 
+  const setupHeartbeat = () => {
+    if (heartbeatInterval) clearInterval(heartbeatInterval);
+
+    heartbeatInterval = setInterval(() => {
+      if (Date.now() - lastPing > 20000) {
+        console.warn('❌ Missed Twitch keepalive ping. Reconnecting...');
+        reconnect();
+      }
+    }, 10000);
+  };
+
   const reconnect = () => {
+    if (ws && ws.readyState !== WebSocket.CLOSED) {
+      console.log(`🛑 Forcing cleanup of WebSocket. Current state: ${ws.readyState}`);
+      ws.terminate();
+    }
+
     setTimeout(() => {
       if (reconnectUrl) {
         console.log('🔄 Reconnecting to new session URL...');
@@ -132,6 +152,15 @@ function handlePointUtility(client) {
   };
 
   connect();
+
+  // Global failsafe logs
+  process.on('unhandledRejection', (reason, promise) => {
+    console.error('💥 Unhandled Rejection at:', promise, 'reason:', reason);
+  });
+
+  process.on('uncaughtException', (err) => {
+    console.error('💥 Uncaught Exception:', err);
+  });
 }
 
 module.exports = handlePointUtility;
