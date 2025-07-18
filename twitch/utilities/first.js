@@ -29,8 +29,8 @@ async function handleFirstUtility(isMod, isBroadcaster, user) {
 
   const currentTitle = stream.title;
 
-  const cleanedTitle = currentTitle.replace(/\s*\|\s*First: @\w+/, '');
-  const newTitle = `${cleanedTitle} | First: @${firstChat}`;
+  const cleanedTitle = currentTitle.replace(/\s*\|\s*First Chatter: @\w+/, '');
+  const newTitle = `${cleanedTitle} | First Chatter: @${firstChat}`;
 
   try {
     await axios.patch(
