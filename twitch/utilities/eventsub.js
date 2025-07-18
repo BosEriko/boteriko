@@ -10,7 +10,7 @@ let reconnectUrl = null;
 
 const channelName = env.twitch.channel.username;
 
-const handleNotification = async (client, payload) => {
+const handleChannelPoints = async (client, payload) => {
   const { reward, user_id, user_name } = payload;
   const rtdb = firebaseUtility.database();
 
@@ -76,7 +76,7 @@ function handleEventsubUtility(client) {
           }
 
           case 'notification': {
-            await handleNotification(client, eventPayload.event);
+            await handleChannelPoints(client, eventPayload.event);
             break;
           }
 
