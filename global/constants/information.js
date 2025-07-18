@@ -1,5 +1,4 @@
 const informationConstant = [
-  `Curious who won yesterday’s typing game? Type "!winner" to find out!`,
   `Follow me on Facebook (http://facebook.boseriko.com) and Instagram (http://instagram.boseriko.com)!`,
   `Follow me on TikTok (http://tiktok.boseriko.com) and YouTube (http://youtube.boseriko.com)!`,
   `If you're interested here's my Anime list (http://anime.boseriko.com) and my Manga list (http://manga.boseriko.com)!`,
