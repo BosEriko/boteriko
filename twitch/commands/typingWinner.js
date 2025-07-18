@@ -9,7 +9,14 @@ async function handleTypingWinnerCommand(client, channel) {
   }
 
   const { winner, score, date } = result;
-  client.say(channel, `🎉 The winner from the ${date} stream was @${winner} with ${score} point${score === 1 ? '' : 's'}!`);
+
+  const formattedDate = new Date(date).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+
+  client.say(channel, `🎉 The winner from the ${formattedDate} stream was @${winner} with ${score} point${score === 1 ? '' : 's'}!`);
 }
 
 module.exports = handleTypingWinnerCommand;
