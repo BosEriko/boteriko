@@ -2,7 +2,7 @@ const WebSocket = require('ws');
 const axios = require('axios');
 const env = require('@global/utilities/env');
 const handleErrorUtility = require('@global/utilities/error');
-const handleSoundCommand = require('@twitch/commands/sound');
+const { broadcastToClient } = require('@global/utilities/websocket');
 
 let ws;
 let reconnectUrl = null;
@@ -20,7 +20,7 @@ const handleChannelPoints = async (client, payload) => {
       case 'Stretch':
       case 'Hydrate':
       case 'Stand Up': {
-        handleSoundCommand(reward.title.toUpperCase().replace(/\s+/g, '_'));
+        broadcastToClient({ type: 'SOUND_ALERT', id: reward.title.toUpperCase().replace(/\s+/g, '_') });
         client.say(channelName, `${user_name} played "${reward.title}" for ${reward.cost} channel points!`);
         break;
       }
