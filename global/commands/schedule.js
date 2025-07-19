@@ -1,10 +1,11 @@
 const env = require('@global/utilities/env');
 
 const handleScheduleCommand = function() {
-  const start = env.stream.startTime;
-  const end = env.stream.endTime;
+  const start = env.stream.start;
+  const duration = env.stream.duration;
   const days = env.stream.days;
   const timeZone = env.app.timeZone || 'Asia/Manila';
+  const end = (start + duration) % 24;
 
   // Convert 24-hour time to 12-hour format
   const formatHour = (hour) => {

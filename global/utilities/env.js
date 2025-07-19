@@ -6,8 +6,8 @@ const env = {
         timeZone: process.env.APP_TIME_ZONE
     },
     stream: {
-        startTime: parseInt(process.env.STREAM_START_TIME, 10),
-        endTime: parseInt(process.env.STREAM_END_TIME, 10),
+        start: parseInt(process.env.STREAM_START, 10),
+        duration: process.env.STREAM_DURATION,
         days: process.env.STREAM_DAYS?.split(',').map(d => d.trim().toLowerCase()) || []
     },
     twitch: {

@@ -97,7 +97,7 @@ function handleCronUtility(client) {
   }, { timezone });
 
   // Every day 1 hour before stream start
-  const streamStartHour = env.stream.startTime;
+  const streamStartHour = env.stream.start;
   const oneHourBeforeStream = (streamStartHour + 23) % 24;
   cron.schedule(`* ${oneHourBeforeStream} * * *`, () => {
     retryWhenOffline(() => {
