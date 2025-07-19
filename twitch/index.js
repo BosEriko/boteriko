@@ -50,13 +50,10 @@ client.on('join', (channel, username, self) => {
   if (self) client.say(channel, connectionMessage);
 });
 
-// ------------------------------------------- CRON Jobs -------------------------------------------
-
-await handleCronUtility(client);
-
 // ----------------------------------------- Block Import ------------------------------------------
 
 handleAdUtility(client);
+handleCronUtility(client);
 handleEventUtility(client);
 handlePointUtility(client);
 

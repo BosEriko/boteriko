@@ -82,13 +82,9 @@ function handleCronUtility(client) {
 
   // Every 1 minute
   cron.schedule('* * * * *', async () => {
+    loadStreamDetails();
     if (state.isStreaming) await handleFollowUtility(client);
     if (state.isStreaming) runConversationUtility();
-  }, { timezone });
-
-  // Every 5 minutes
-  cron.schedule('*/5 * * * *', () => {
-    loadStreamDetails();
   }, { timezone });
 
   // Every 10 minutes
