@@ -15,19 +15,16 @@ function handleAdUtility(client) {
       return;
     }
 
-    const now = Date.now();
-    const streamStartTime = new Date(env.stream.start).getTime();
-    const thirtyMinutes = 30 * 60 * 1000;
-
-    if (now - streamStartTime < thirtyMinutes) {
-      console.log('⏩ Skipping ad — within first 30 minutes of stream.');
+    if (!state.hasSkippedFirstAd) {
+      console.log('⏩ Skipping first ad after startup.');
+      state.hasSkippedFirstAd = true;
       return;
     }
 
     const success = await runAd();
     if (success) {
       client.say(channelName, `📺 Running an ad now!`);
-      lastAdTime = now;
+      lastAdTime = Date.now();
     }
   });
 

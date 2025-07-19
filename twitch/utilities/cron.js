@@ -75,6 +75,7 @@ function handleCronUtility(client) {
     state.latestClipTimestamp = null;
     state.todos = [];
     state.isTodoVisible = false;
+    state.hasSkippedFirstAd = false;
   }
 
   // ------------------------------------------- Cron Jobs -------------------------------------------

@@ -2,6 +2,7 @@ module.exports = {
   // Stream-related state
   isStreaming: false,
   streamDetail: null,
+  hasSkippedFirstAd: false,
 
   // Stream Winners
   winners: {
