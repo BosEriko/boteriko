@@ -3,12 +3,13 @@ const env = require('@global/utilities/env');
 const state = require('@global/utilities/state');
 
 // Utilities
+const handleAdUtility = require('@twitch/utilities/ad');
 const handleChatUtility = require('@twitch/utilities/chat');
 const handleCronUtility = require('@twitch/utilities/cron');
-const handlePointUtility = require('@twitch/utilities/point');
 const handleEventUtility = require('@twitch/utilities/event');
 const handleFirstUtility = require('@twitch/utilities/first');
 const handleLinkUtility = require('@twitch/utilities/link');
+const handlePointUtility = require('@twitch/utilities/point');
 const handleShoutoutUtility = require('@twitch/utilities/shoutout');
 const handleTypingGame = require('@twitch/games/typing');
 const handleUserUtility = require('@global/utilities/user');
@@ -52,9 +53,10 @@ client.on('join', (channel, username, self) => {
 
 // ----------------------------------------- Block Import ------------------------------------------
 
+handleAdUtility(client);
 handleCronUtility(client);
-handlePointUtility(client);
 handleEventUtility(client);
+handlePointUtility(client);
 
 // ----------------------------------------- Chat Commands -----------------------------------------
 
