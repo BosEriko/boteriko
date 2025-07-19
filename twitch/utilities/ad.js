@@ -3,8 +3,10 @@ const axios = require('axios');
 const env = require('@global/utilities/env');
 const state = require('@global/utilities/state');
 const handleErrorUtility = require('@global/utilities/error');
+const { broadcastToClient } = require('@global/utilities/websocket');
 
 const channelName = `#${env.twitch.channel.username}`;
+const AD_DURATION = 90;
 
 function handleAdUtility(client) {
   let lastAdTime = null;
@@ -23,8 +25,15 @@ function handleAdUtility(client) {
 
     const success = await runAd();
     if (success) {
-      client.say(channelName, `📺 Running an ad now!`);
+      broadcastToClient({ type: 'TICKER', message: "Ad Break", isVisible: true });
+      client.say(channelName, `📺 Running an ad now! (${AD_DURATION}s)`);
+      client.say(channelName, "💡 Time for a quick break! Remember to stretch, blink, and refill your water 💧");
       lastAdTime = Date.now();
+
+      setTimeout(() => {
+        broadcastToClient({ type: 'TICKER', message: null, isVisible: false });
+        client.say(channelName, `✅ The ad has ended!`);
+      }, AD_DURATION * 1000);
     }
   });
 
@@ -50,7 +59,7 @@ async function runAd() {
       'https://api.twitch.tv/helix/channels/commercial',
       {
         broadcaster_id: broadcasterId,
-        length: 90
+        length: AD_DURATION
       },
       {
         headers: {
