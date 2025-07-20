@@ -33,6 +33,8 @@ async function saveToRealtimeDatabase(user) {
 }
 
 async function handleChatUtility(user, message, emotes) {
+  if (!user) return;
+
   broadcastToClient({
     type: 'FEED',
     feed_type: 'chat',
@@ -41,12 +43,8 @@ async function handleChatUtility(user, message, emotes) {
     emotes: formatEmotes(emotes, message)
   });
 
-  if (!user) return;
-
-  await Promise.all([
-    sendToDiscordUtility(user, message, env.discord.webhook.streaming),
-    saveToRealtimeDatabase(user)
-  ]);
+  if (state.isStreaming) await sendToDiscordUtility(user, message, env.discord.webhook.streaming);
+  await saveToRealtimeDatabase(user);
 }
 
 module.exports = handleChatUtility;
