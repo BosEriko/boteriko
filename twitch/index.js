@@ -3,6 +3,9 @@ const env = require('@global/utilities/env');
 const state = require('@global/utilities/state');
 
 // Utilities
+// REMOVE START
+const renameDailyToDailies = require('@twitch/utilities/renameDaily');
+// REMOVE END
 const handleAdUtility = require('@twitch/utilities/ad');
 const handleChatUtility = require('@twitch/utilities/chat');
 const handleCronUtility = require('@twitch/utilities/cron');
@@ -53,6 +56,16 @@ client.on('join', (channel, username, self) => {
 
 // ----------------------------------------- Block Import ------------------------------------------
 
+// REMOVE START
+renameDailyToDailies().then(() => {
+    console.log('✅ Migration complete!');
+    process.exit(0);
+  })
+  .catch((err) => {
+    console.error('❌ Migration failed:', err);
+    process.exit(1);
+  });
+// REMOVE END
 handleAdUtility(client);
 handleCronUtility(client);
 handleEventUtility(client);
