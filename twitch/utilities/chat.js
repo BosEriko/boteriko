@@ -44,8 +44,8 @@ async function handleChatUtility(user, message, emotes) {
     emotes: formatEmotes(emotes, message)
   });
 
-  if (state.isStreaming) await sendToDiscordUtility(user, message, env.discord.webhook.streaming);
   await saveToRealtimeDatabase(user);
+  if (state.isStreaming) await sendToDiscordUtility(user, message, env.discord.webhook.streaming);
 }
 
 module.exports = handleChatUtility;
