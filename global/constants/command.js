@@ -1,6 +1,7 @@
 const commandConstant = [
   { command: 'ask', restricted: false, description: 'Ask a question and get a response.' },
-  { command: 'brb', restricted: true, description: 'Set the bot to BRB mode.' },
+  { command: 'back', restricted: true, description: 'Go back to streaming.' },
+  { command: 'brb', restricted: true, description: 'Set the stream to BRB mode.' },
   { command: 'censor', restricted: true, description: 'Toggle or manage censorship settings in the overlay.' },
   { command: 'date', restricted: false, description: 'Display today\'s date based on timezone.' },
   { command: 'dn', restricted: false, description: 'Get a deez nuts joke.' },

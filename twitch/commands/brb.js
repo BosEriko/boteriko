@@ -11,8 +11,7 @@ function handleBrbCommand(client, channel, prompt) {
     client.say(channel, `Be right back! ${toTitleCase(prompt) || ""}`);
     broadcastToClient({ type: 'TICKER', message: prompt, isVisible: true });
   } else {
-    client.say(channel, "Welcome back!");
-    broadcastToClient({ type: 'TICKER', message: null, isVisible: false });
+    client.say(channel, "Please provide a message: !brb <message>");
   }
 }
 
