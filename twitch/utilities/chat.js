@@ -6,6 +6,7 @@ const statisticUtility = require('@global/utilities/statistic');
 const walletUtility = require('@global/utilities/wallet');
 const syncUserUtility = require('@global/utilities/syncUser');
 const sendToDiscordUtility = require('@twitch/utilities/sendToDiscord');
+const state = require('@global/utilities/state');
 
 function formatEmotes(emotes, message) {
   const result = {};
