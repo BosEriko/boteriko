@@ -20,6 +20,7 @@ function handleAdUtility(client) {
     if (!state.hasSkippedFirstAd) {
       console.log('⏩ Skipping first ad after startup.');
       state.hasSkippedFirstAd = true;
+      lastAdTime = Date.now();
       return;
     }
 
