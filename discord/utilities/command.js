@@ -3,39 +3,28 @@ const commandConstant = require('@global/constants/command');
 const env = require('@global/utilities/env');
 const handleErrorUtility = require('@global/utilities/error');
 
-const PLATFORM_DISCORD = 'Discord';
-const PLATFORM_TWITCH = 'Twitch';
+function buildCommandEmbed(commands) {
+  const lines = commands.map(cmd => {
+    const accessIcon = cmd.restricted ? '👑' : '👥';
+    const platformIcons = cmd.availability
+      .map(p => p === 'Discord' ? '🟦' : p === 'Twitch' ? '🟪' : '')
+      .join(' ');
 
-function buildCommandEmbeds(commands) {
-  const embeds = [];
-  const chunkSize = 10;
+    const name = `${accessIcon} **!${cmd.command}${cmd.parameter ? ' [param]' : ''}** ${platformIcons}`;
+    const desc = cmd.description;
 
-  for (let i = 0; i < commands.length; i += chunkSize) {
-    const chunk = commands.slice(i, i + chunkSize);
-    const embed = new EmbedBuilder()
-      .setTitle('📜 Available Commands')
-      .setColor('#FFD700');
+    return `${name}\n${desc}`;
+  });
 
-    chunk.forEach(cmd => {
-      const name = `!${cmd.command} ${cmd.parameter ? '[param]' : ''}`;
-      const availability = [
-        cmd.availability.includes(PLATFORM_DISCORD) ? '🟦 Discord' : '',
-        cmd.availability.includes(PLATFORM_TWITCH) ? '🟪 Twitch' : ''
-      ].filter(Boolean).join(' + ');
+  // Legend footer
+  lines.push('\n👑 Admin Only   👥 Everyone   🟦 Discord   🟪 Twitch');
 
-      const desc = [
-        cmd.description,
-        availability,
-        cmd.restricted ? '🔒 Restricted' : ''
-      ].filter(Boolean).join('\n');
+  const embed = new EmbedBuilder()
+    .setTitle('📜 Available Commands')
+    .setDescription(lines.join('\n\n'))
+    .setColor('#00BFFF');
 
-      embed.addFields({ name, value: desc, inline: false });
-    });
-
-    embeds.push(embed);
-  }
-
-  return embeds;
+  return embed;
 }
 
 async function handleCommandUtility(client) {
@@ -45,14 +34,14 @@ async function handleCommandUtility(client) {
     const channel = await client.channels.fetch(channelId);
     const messages = await channel.messages.fetch({ limit: 1 });
 
-    const embeds = buildCommandEmbeds(commandConstant);
+    const embed = buildCommandEmbed(commandConstant);
 
     if (messages.size === 0) {
-      await channel.send({ embeds });
+      await channel.send({ embeds: [embed] });
       console.log('📬 Sent new command list message.');
     } else {
       const lastMessage = messages.first();
-      await lastMessage.edit({ embeds });
+      await lastMessage.edit({ embeds: [embed] });
       console.log('✏️ Edited existing command list message.');
     }
   } catch (err) {
