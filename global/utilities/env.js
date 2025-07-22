@@ -46,6 +46,9 @@ const env = {
             clientSecret: process.env.DISCORD_APP_CLIENT_SECRET,
             redirectUrl: process.env.DISCORD_APP_REDIRECT_URL
         },
+        channel: {
+            command: process.env.DISCORD_CHANNEL_COMMAND,
+        },
         webhook: {
             link: process.env.DISCORD_WEBHOOK_LINK,
             clip: process.env.DISCORD_WEBHOOK_CLIP,

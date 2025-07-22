@@ -12,6 +12,7 @@ const handleTopicCommand = require('@global/commands/topic');
 
 // Utilities
 const handleChatUtility = require('@discord/utilities/chat');
+const handleCommandUtility = require('@discord/utilities/command');
 const handleErrorUtility = require('@global/utilities/error');
 
 // Constants
@@ -24,6 +25,7 @@ const env = require('@global/utilities/env');
 
 client.on('ready', () => {
   console.log(`✅ Connected to Discord server.`);
+  handleCommandUtility(client);
 });
 
 // ---------------------------------------- Private Command ----------------------------------------
