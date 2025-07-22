@@ -1,6 +1,5 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType } = require('discord.js');
 const commandConstant = require('@global/constants/command');
-const env = require('@global/utilities/env');
 const handleErrorUtility = require('@global/utilities/error');
 
 const COMMANDS_PER_PAGE = 10;
@@ -31,13 +30,8 @@ function buildCommandEmbed(commands, page = 0) {
     .setColor('#00BFFF');
 }
 
-async function handleCommandUtility(client) {
-  const channelId = env.discord.channel.command;
-
+async function handleListCommand(message) {
   try {
-    const channel = await client.channels.fetch(channelId);
-    const messages = await channel.messages.fetch({ limit: 1 });
-
     let currentPage = 0;
     const totalPages = Math.ceil(commandConstant.length / COMMANDS_PER_PAGE);
 
@@ -55,23 +49,18 @@ async function handleCommandUtility(client) {
         .setDisabled(totalPages <= 1)
     );
 
-    let message;
-    if (messages.size === 0) {
-      message = await channel.send({ embeds: [embed], components: [row] });
-      console.log('📬 Sent new command list message.');
-    } else {
-      message = messages.first();
-      await message.edit({ embeds: [embed], components: [row] });
-      console.log('✏️ Edited existing command list message.');
-    }
+    const sentMessage = await message.reply({ embeds: [embed], components: [row] });
 
-    const collector = message.createMessageComponentCollector({
+    const collector = sentMessage.createMessageComponentCollector({
       componentType: ComponentType.Button,
-      time: 10 * 60 * 1000, // 10 mins
+      time: 10 * 60 * 1000,
     });
 
     collector.on('collect', async interaction => {
       if (!interaction.isButton()) return;
+      if (interaction.user.id !== message.author.id) {
+        return interaction.reply({ content: "⛔ Only the command sender can interact with this menu.", ephemeral: true });
+      }
 
       interaction.deferUpdate();
 
@@ -92,15 +81,15 @@ async function handleCommandUtility(client) {
           .setDisabled(currentPage >= totalPages - 1)
       );
 
-      await message.edit({ embeds: [newEmbed], components: [newRow] });
+      await sentMessage.edit({ embeds: [newEmbed], components: [newRow] });
     });
 
     collector.on('end', async () => {
-      await message.edit({ components: [] });
+      await sentMessage.edit({ components: [] });
     });
   } catch (err) {
-    await handleErrorUtility('❌ handleCommandUtility error:', err);
+    await handleErrorUtility('❌ handleListCommand error:', err);
   }
 }
 
-module.exports = handleCommandUtility;
+module.exports = handleListCommand;
