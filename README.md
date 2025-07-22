@@ -17,25 +17,3 @@ You can generate your Groq token/keys [here](https://console.groq.com/keys).
 
 ## Host it on Heroku
 Check it out [here](https://heroku.com/).
-
-## Commands
-Here are the commands that are currently available.
-|           | Twitch        | Discord       | Parameters |
-|-----------|---------------|---------------|------------|
-| !ask      | Available     | Available     | Yes        |
-| !brb      | Available     | Not Available | Yes        |
-| !censor   | Available     | Not Available | No         |
-| !date     | Available     | Available     | No         |
-| !dn       | Available     | Available     | Yes        |
-| !fact     | Available     | Available     | No         |
-| !lurk     | Available     | Not Available | No         |
-| !ping     | Available     | Available     | No         |
-| !pomodoro | Available     | Not Available | Yes        |
-| !raid     | Available     | Not Available | Yes        |
-| !schedule | Available     | Available     | No         |
-| !time     | Available     | Available     | No         |
-| !todo     | Available     | Not Available | Yes        |
-| !top      | Available     | Not Available | No         |
-| !topic    | Available     | Available     | No         |
-| !wallet   | Available     | Not Available | No         |
-| !winner   | Available     | Not Available | No         |
