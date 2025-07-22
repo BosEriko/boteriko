@@ -6,7 +6,7 @@ const commandConstant = [
   { command: 'back', parameter: false, availability: [TWITCH], restricted: true, description: 'Go back to streaming.' },
   { command: 'brb', parameter: true, availability: [TWITCH], restricted: true, description: 'Set the stream to BRB mode.' },
   { command: 'censor', parameter: false, availability: [TWITCH], restricted: true, description: 'Toggle or manage censorship settings in the overlay.' },
-  { command: 'command', parameter: false, availability: [DISCORD], restricted: false, description: 'Get the list of commands for both Twitch and Discord' },
+  { command: 'commands', parameter: false, availability: [DISCORD], restricted: false, description: 'Get the list of commands for both Twitch and Discord' },
   { command: 'date', parameter: false, availability: [TWITCH, DISCORD], restricted: false, description: 'Display today\'s date based on timezone.' },
   { command: 'dn', parameter: true, availability: [TWITCH, DISCORD], restricted: false, description: 'Get a deez nuts joke.' },
   { command: 'fact', parameter: false, availability: [TWITCH, DISCORD], restricted: false, description: 'Receive a random fun or interesting fact.' },

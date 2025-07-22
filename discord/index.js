@@ -74,7 +74,7 @@ client.on('messageCreate', async message => {
 
   // Commands
   if (commandName === 'ask') return message.reply(`🤖 ${await handleAskCommand(commandArgs)}`);
-  if (commandName === 'command') return await handleListCommand(message);
+  if (commandName === 'commands') return await handleListCommand(message);
   if (commandName === 'date') return message.reply(handleTimeCommand('date'));
   if (commandName === 'dn') return message.reply(`🤖 ${await handleDeezCommand(msg.split(" ")[1])}`);
   if (commandName === 'fact') return message.reply(await handleFactCommand());
