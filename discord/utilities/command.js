@@ -1,22 +1,41 @@
+const { EmbedBuilder } = require('discord.js');
 const commandConstant = require('@global/constants/command');
 const env = require('@global/utilities/env');
 const handleErrorUtility = require('@global/utilities/error');
 
-function formatCommandTable(commands) {
-  const header = [
-    '| Command | Param | Discord | Twitch | Restricted | Description |',
-    '|---------|-------|---------|--------|------------|-------------|',
-  ];
+const PLATFORM_DISCORD = 'Discord';
+const PLATFORM_TWITCH = 'Twitch';
 
-  const rows = commands.map(cmd => {
-    const param = cmd.parameter ? '✅' : '';
-    const discord = cmd.availability.includes('Discord') ? '✅' : '';
-    const twitch = cmd.availability.includes('Twitch') ? '✅' : '';
-    const restricted = cmd.restricted ? '🔒' : '';
-    return `| \`!${cmd.command}\` | ${param} | ${discord} | ${twitch} | ${restricted} | ${cmd.description} |`;
-  });
+function buildCommandEmbeds(commands) {
+  const embeds = [];
+  const chunkSize = 10;
 
-  return ['**📜 Available Commands**\n\n', ...header, ...rows].join('\n');
+  for (let i = 0; i < commands.length; i += chunkSize) {
+    const chunk = commands.slice(i, i + chunkSize);
+    const embed = new EmbedBuilder()
+      .setTitle('📜 Available Commands')
+      .setColor('#FFD700');
+
+    chunk.forEach(cmd => {
+      const name = `!${cmd.command} ${cmd.parameter ? '[param]' : ''}`;
+      const availability = [
+        cmd.availability.includes(PLATFORM_DISCORD) ? '🟦 Discord' : '',
+        cmd.availability.includes(PLATFORM_TWITCH) ? '🟪 Twitch' : ''
+      ].filter(Boolean).join(' + ');
+
+      const desc = [
+        cmd.description,
+        availability,
+        cmd.restricted ? '🔒 Restricted' : ''
+      ].filter(Boolean).join('\n');
+
+      embed.addFields({ name, value: desc, inline: false });
+    });
+
+    embeds.push(embed);
+  }
+
+  return embeds;
 }
 
 async function handleCommandUtility(client) {
@@ -24,20 +43,20 @@ async function handleCommandUtility(client) {
 
   try {
     const channel = await client.channels.fetch(channelId);
-    const messages = await channel.messages.fetch({ limit: 10 });
+    const messages = await channel.messages.fetch({ limit: 1 });
 
-    const botMessage = messages.find(msg => msg.author?.id === client.user.id && !msg.system);
-    const content = formatCommandTable(commandConstant);
+    const embeds = buildCommandEmbeds(commandConstant);
 
-    if (botMessage) {
-      await botMessage.edit(content);
-      console.log('✅ Updated command list message.');
-    } else {
-      await channel.send(content);
+    if (messages.size === 0) {
+      await channel.send({ embeds });
       console.log('📬 Sent new command list message.');
+    } else {
+      const lastMessage = messages.first();
+      await lastMessage.edit({ embeds });
+      console.log('✏️ Edited existing command list message.');
     }
   } catch (err) {
-    handleErrorUtility('❌ handleCommandUtility error:', err);
+    await handleErrorUtility('❌ handleCommandUtility error:', err);
   }
 }
 
