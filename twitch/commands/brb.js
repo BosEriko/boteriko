@@ -10,7 +10,6 @@ function handleBrbCommand(client, channel, prompt) {
   if (prompt) {
     client.say(channel, `Be right back! ${toTitleCase(prompt) || ""}`);
     broadcastToClient({ type: 'TICKER', message: prompt, isVisible: true });
-    broadcastToClient({ type: 'MUSIC', id: "flY2S22Q3DU", isVisible: true });
   } else {
     client.say(channel, "Please provide a message: !brb <message>");
   }
