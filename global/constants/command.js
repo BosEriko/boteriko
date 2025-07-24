@@ -4,6 +4,7 @@ const DISCORD = 'Discord';
 const commandConstant = [
   { command: 'ask', parameter: true, availability: [TWITCH, DISCORD], restricted: false, description: 'Ask a question and get a response.' },
   { command: 'back', parameter: false, availability: [TWITCH], restricted: true, description: 'Go back to streaming.' },
+  { command: 'bookmark', parameter: false, availability: [TWITCH], restricted: true, description: 'Bookmark the current moment in the stream for highlights or review later.' },
   { command: 'brb', parameter: true, availability: [TWITCH], restricted: true, description: 'Set the stream to BRB mode.' },
   { command: 'censor', parameter: false, availability: [TWITCH], restricted: true, description: 'Toggle or manage censorship settings in the overlay.' },
   { command: 'commands', parameter: false, availability: [DISCORD], restricted: false, description: 'Get the list of commands for both Twitch and Discord' },
