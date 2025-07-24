@@ -130,7 +130,7 @@ client.on('message', async (channel, tags, message, self) => {
   // Commands
   if (commandName === 'ask') client.say(channel, `🤖 @${tags.username} ${await handleAskCommand(commandArgs)}`);
   if (commandName === 'back') handleBackCommand(client, channel);
-  if (commandName === 'bookmark') handleBookmarkCommand(client, channel);
+  if (commandName === 'bookmark') handleBookmarkCommand(client, channel, commandArgs);
   if (commandName === 'brb') handleBrbCommand(client, channel, commandArgs);
   if (commandName === 'censor') handleCensorCommand(client, channel);
   if (commandName === 'date') client.say(channel, handleTimeCommand('date'));

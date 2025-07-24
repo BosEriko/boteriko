@@ -3,7 +3,7 @@ const env = require('@global/utilities/env');
 const state = require('@global/utilities/state');
 const handleErrorUtility = require('@global/utilities/error');
 
-const handleBookmarkCommand = async function (client, channel) {
+const handleBookmarkCommand = async function (client, channel, prompt) {
   try {
     if (!state.isStreaming || !state.streamDetail) {
       client.say(channel, '⚠️ You are currently offline. No active stream to bookmark.');
@@ -42,11 +42,19 @@ const handleBookmarkCommand = async function (client, channel) {
       const avatar_url = "https://i.imgur.com/Fsw2uWB.png";
       const username = "Bookmark";
 
-      await axios.post(webhook, {
-        username,
-        avatar_url,
-        content: `🔖 **Bookmark Created**\n**Title:** ${title}\n**Timestamp:** ${timestamp}\n**Date:** ${localDate}`
-      });
+      const lines = [
+        `🎬 **Title:** ${title.split('|')[0].trim()}`,
+        `⏱️ **Timestamp:** ${timestamp}`,
+        `📅 **Date:** ${localDate}`
+      ];
+
+      if (prompt) {
+        lines.push(`📝 **Note:** ${prompt}`);
+      }
+
+      const content = lines.join('\n');
+
+      await axios.post(webhook, { username, avatar_url, content });
     }
   } catch (err) {
     await handleErrorUtility('❌ Failed to create bookmark', err);
