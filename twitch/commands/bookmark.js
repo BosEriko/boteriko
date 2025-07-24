@@ -11,7 +11,7 @@ const handleBookmarkCommand = async function (client, channel) {
     }
 
     const { title, started_at } = state.streamDetail;
-    const timeZone = env.app.timeZone || 'Asia/Manila';
+    const timeZone = env.app.timeZone;
 
     const streamStartUTC = new Date(started_at);
     const nowUTC = new Date();
@@ -35,12 +35,16 @@ const handleBookmarkCommand = async function (client, channel) {
     }).format(streamStartUTC);
 
     const message = `🔖 Bookmark added!`;
-
     client.say(channel, message);
 
     const webhook = env.discord.webhook.bookmark;
     if (webhook) {
+      const avatar_url = "https://i.imgur.com/Fsw2uWB.png";
+      const username = "Bookmark";
+
       await axios.post(webhook, {
+        username,
+        avatar_url,
         content: `🔖 **Bookmark Created**\n**Title:** ${title}\n**Timestamp:** ${timestamp}\n**Date:** ${localDate}`
       });
     }
