@@ -23,9 +23,10 @@
     "ws": "^8.18.2"
   },
   "_moduleAliases": {
-    "@global": "global",
-    "@twitch": "twitch",
+    "@api": "api",
+    "@controllers": "app/controllers",
     "@discord": "discord",
-    "@api": "api"
+    "@global": "global",
+    "@twitch": "twitch"
   }
 }

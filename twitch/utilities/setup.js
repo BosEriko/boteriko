@@ -1,3 +1,5 @@
+const Controller = require("@controllers");
+
 const axios = require('axios');
 const env = require('@global/utilities/env');
 const scheduleConstant = require('@twitch/constants/schedule');
@@ -48,11 +50,15 @@ async function handleSetupUtility(client) {
   const gameId = await getCategoryIdByName(category);
 
   const winnerData = await getLastTypingWinner();
-  const winnerSuffix = winnerData ? ` | Previous Typing Winner: @${winnerData.winner}` : '';
-  const finalTitle = `${title}${winnerSuffix}`;
+  const titleGenerator = Controller.Concern.TitleGenerator(title);
+  let newTitle = titleGenerator.title();
+
+  if (winnerData) {
+    newTitle = titleGenerator.append("Previous Typing Winner", `@${winnerData.winner}`);
+  }
 
   const url = `https://api.twitch.tv/helix/channels?broadcaster_id=${env.twitch.channel.id}`;
-  const body = gameId ? { title: finalTitle, game_id: gameId } : { title: finalTitle };
+  const body = gameId ? { title: newTitle, game_id: gameId } : { title: newTitle };
 
   try {
     await axios.patch(url, body, {
@@ -64,7 +70,7 @@ async function handleSetupUtility(client) {
     });
 
     console.log("✅ Stream title and category updated successfully.");
-    client.say(`#${env.twitch.channel.username}`, `📝 New Title: "${finalTitle}" | 📺 Category: ${category}`);
+    client.say(`#${env.twitch.channel.username}`, `📝 New Title: "${newTitle}" | 📺 Category: ${category}`);
   } catch (error) {
     if (error.response) {
       await handleErrorUtility("❌ Failed to update title/category:", error.response.data);

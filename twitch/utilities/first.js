@@ -1,3 +1,5 @@
+const Controller = require("@controllers");
+
 const firebaseUtility = require('@global/utilities/firebase');
 const cacheUtility = require('@global/utilities/cache');
 const firstUtility = require('@global/utilities/first');
@@ -27,10 +29,8 @@ async function handleFirstUtility(isMod, isBroadcaster, user) {
   firstChatCache.set(today, firstChat, 'first-chat');
   state.winners.firstChat = firstChat;
 
-  const currentTitle = stream.title;
-
-  const cleanedTitle = currentTitle.replace(/\s*\|\s*First Chatter: @\w+/, '');
-  const newTitle = `${cleanedTitle} | First Chatter: @${firstChat}`;
+  const titleGenerator = Controller.Concern.TitleGenerator(stream.title);
+  const newTitle = titleGenerator.append("First Chatter", `@${firstChat}`);
 
   try {
     await axios.patch(
