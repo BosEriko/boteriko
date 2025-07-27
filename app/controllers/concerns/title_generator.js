@@ -29,4 +29,4 @@ const TitleGenerator = (initialTitle = "") => {
   };
 };
 
-export default TitleGenerator;
+module.exports = TitleGenerator;

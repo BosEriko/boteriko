@@ -1,7 +1,7 @@
-const Concern = require("@controllers/concern");
+const Concern = require("@controllers/concerns");
 
 const Controller = {
   Concern,
 }
 
-export default Controller;
+module.exports = Controller;

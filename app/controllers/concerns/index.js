@@ -1,7 +1,7 @@
-const TitleGenerator = required("@controllers/concern/title_generator");
+const TitleGenerator = require("@controllers/concerns/title_generator");
 
 const Concern = {
   TitleGenerator,
 }
 
-export default Concern;
+module.exports = Concern;
