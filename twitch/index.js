@@ -17,7 +17,6 @@ const handleUserUtility = require('@global/utilities/user');
 // Commands
 const handleAskCommand = require('@global/commands/ask');
 const handleBackCommand = require('@twitch/commands/back');
-const handleBookmarkCommand = require('@twitch/commands/bookmark')
 const handleBrbCommand = require('@twitch/commands/brb');
 const handleCensorCommand = require("@twitch/commands/censor");
 const handleDeezCommand = require('@global/commands/deez');
@@ -130,7 +129,6 @@ client.on('message', async (channel, tags, message, self) => {
   // Commands
   if (commandName === 'ask') client.say(channel, `🤖 @${tags.username} ${await handleAskCommand(commandArgs)}`);
   if (commandName === 'back') handleBackCommand(client, channel);
-  if (commandName === 'bookmark') handleBookmarkCommand(client, channel, commandArgs);
   if (commandName === 'brb') handleBrbCommand(client, channel, commandArgs);
   if (commandName === 'censor') handleCensorCommand(client, channel);
   if (commandName === 'date') client.say(channel, handleTimeCommand('date'));
