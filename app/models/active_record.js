@@ -31,6 +31,7 @@ class ActiveRecord {
     }
 
     this.validate_required_fields(modelSchema.columns);
+    this.validate_field_types(modelSchema.columns);
   }
 
   static get model_name() {
@@ -130,6 +131,7 @@ class ActiveRecord {
 
   async update(attrs = {}) {
     Object.assign(this.attributes, attrs);
+    this.validate_field_types(schema[this.constructor.model_name].columns);
     return await this.save();
   }
 
@@ -162,6 +164,19 @@ class ActiveRecord {
     for (const [key, def] of Object.entries(columns)) {
       if (def.required && (this.attributes[key] === undefined || this.attributes[key] === null)) {
         throw new Error(`Missing required field: ${key}`);
+      }
+    }
+  }
+
+  validate_field_types(columns) {
+    for (const [key, def] of Object.entries(columns)) {
+      const expected = def.type;
+      const actual = typeof this.attributes[key];
+
+      if (this.attributes[key] !== undefined && actual !== expected) {
+        throw new TypeError(
+          `Invalid type for field '${key}': expected '${expected}', got '${actual}'`
+        );
       }
     }
   }
