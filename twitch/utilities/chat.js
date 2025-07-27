@@ -1,4 +1,4 @@
-const env = require('@global/utilities/env');
+const env = require('@config/environments/base');
 const { broadcastToClient } = require('@global/utilities/websocket');
 const firebaseUtility = require('@global/utilities/firebase');
 const dailyUtility = require('@global/utilities/daily');

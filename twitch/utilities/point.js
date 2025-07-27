@@ -1,6 +1,6 @@
 const WebSocket = require('ws');
 const axios = require('axios');
-const env = require('@global/utilities/env');
+const env = require('@config/environments/base');
 const handleErrorUtility = require('@global/utilities/error');
 const { broadcastToClient } = require('@global/utilities/websocket');
 

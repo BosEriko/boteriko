@@ -1,4 +1,4 @@
-const env = require('@global/utilities/env');
+const env = require('@config/environments/base');
 const axios = require('axios');
 
 function serializeError(err) {

@@ -1,5 +1,5 @@
 const tmi = require("tmi.js");
-const env = require("@global/utilities/env");
+const env = require("@config/environments/base");
 
 const client = new tmi.Client({
   identity: {

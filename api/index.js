@@ -1,4 +1,4 @@
-const env = require('@global/utilities/env');
+const env = require('@config/environments/base');
 const express = require('express');
 const cors = require('cors');
 const http = require('http');

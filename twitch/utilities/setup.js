@@ -1,7 +1,7 @@
 const Controller = require("@controllers");
 
 const axios = require('axios');
-const env = require('@global/utilities/env');
+const env = require('@config/environments/base');
 const scheduleConstant = require('@twitch/constants/schedule');
 const handleErrorUtility = require('@global/utilities/error');
 const getLastTypingWinner = require('@twitch/utilities/typingWinner');

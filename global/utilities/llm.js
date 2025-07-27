@@ -1,5 +1,5 @@
 const axios = require('axios');
-const env = require('@global/utilities/env');
+const env = require('@config/environments/base');
 
 async function llmUtility(personality, topic) {
     const constrainedPersonality = [personality, 'Respond in no more than 300 characters. Be concise and clear. End the message cleanly and keep the text Twitch Chat friendly'].join('\n\n');

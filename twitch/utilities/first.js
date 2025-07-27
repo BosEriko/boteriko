@@ -6,7 +6,7 @@ const firstUtility = require('@global/utilities/first');
 const handleStreamDetailUtility = require("@global/utilities/streamDetail");
 const handleErrorUtility = require("@global/utilities/error");
 const axios = require('axios');
-const env = require('@global/utilities/env');
+const env = require('@config/environments/base');
 const state = require('@global/utilities/state');
 
 const THIRTY_MINUTES_MS = 30 * 60 * 1000;

@@ -1,4 +1,4 @@
-const env = require('@global/utilities/env');
+const env = require('@config/environments/base');
 const informationConstant = require('@global/constants/information');
 
 let informationIndex = 0;

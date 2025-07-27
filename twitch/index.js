@@ -1,5 +1,5 @@
 const client = require('@twitch/utilities/client');
-const env = require('@global/utilities/env');
+const env = require('@config/environments/base');
 const state = require('@global/utilities/state');
 
 // Utilities

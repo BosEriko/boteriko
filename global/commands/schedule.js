@@ -1,4 +1,4 @@
-const env = require('@global/utilities/env');
+const env = require('@config/environments/base');
 
 const handleScheduleCommand = function() {
   const start = env.stream.start;

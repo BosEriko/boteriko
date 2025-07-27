@@ -19,7 +19,7 @@ const handleErrorUtility = require('@global/utilities/error');
 const commandConstant = require('@global/constants/command');
 
 // Environment
-const env = require('@global/utilities/env');
+const env = require('@config/environments/base');
 
 // -------------------------------------- Discord Bot Setup ----------------------------------------
 

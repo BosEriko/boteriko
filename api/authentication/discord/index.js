@@ -1,5 +1,5 @@
 const express = require('express');
-const env = require('@global/utilities/env');
+const env = require('@config/environments/base');
 const handleErrorUtility = require('@global/utilities/error');
 
 const verifyFirebaseToken = require('./verifyFirebaseToken');

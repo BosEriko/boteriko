@@ -1,5 +1,5 @@
 const axios = require('axios');
-const env = require('@global/utilities/env');
+const env = require('@config/environments/base');
 const state = require('@global/utilities/state');
 const { broadcastToClient } = require('@global/utilities/websocket');
 const handleErrorUtility = require('@global/utilities/error');

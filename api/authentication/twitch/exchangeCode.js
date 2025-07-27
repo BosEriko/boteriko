@@ -1,5 +1,5 @@
 const axios = require('axios');
-const env = require('@global/utilities/env');
+const env = require('@config/environments/base');
 
 module.exports = async function exchangeCode(code) {
   const response = await axios.post('https://id.twitch.tv/oauth2/token', null, {

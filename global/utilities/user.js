@@ -1,5 +1,5 @@
 const axios = require('axios');
-const env = require('@global/utilities/env');
+const env = require('@config/environments/base');
 const cacheUtility = require('@global/utilities/cache');
 
 const twitchUserCache = cacheUtility();

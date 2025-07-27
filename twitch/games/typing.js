@@ -5,7 +5,7 @@ const typingConstant = require('@twitch/constants/typing');
 const walletUtility = require('@global/utilities/wallet');
 const typingUtility = require('@global/utilities/typing');
 const state = require('@global/utilities/state');
-const env = require('@global/utilities/env');
+const env = require('@config/environments/base');
 
 // Configurable variables
 const WORD_EXPIRY_MS = 5 * 60 * 1000; // 5 minutes

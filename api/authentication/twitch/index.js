@@ -1,6 +1,6 @@
 const express = require('express');
 const firebaseUtility = require('@global/utilities/firebase');
-const env = require('@global/utilities/env');
+const env = require('@config/environments/base');
 const handleErrorUtility = require('@global/utilities/error');
 
 const exchangeCode = require('./exchangeCode');
