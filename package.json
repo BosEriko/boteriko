@@ -25,7 +25,7 @@
   "_moduleAliases": {
     "@api": "api",
     "@config": "config",
-    "@controllers": "app/controllers",
+    "@controller": "app/controllers",
     "@discord": "discord",
     "@global": "global",
     "@twitch": "twitch"

@@ -1,4 +1,4 @@
-const Controller = require("@controllers");
+const Controller = require("@controller");
 
 const firebaseUtility = require('@global/utilities/firebase');
 const cacheUtility = require('@global/utilities/cache');

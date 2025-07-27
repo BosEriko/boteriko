@@ -1,4 +1,4 @@
-const Controller = require("@controllers");
+const Controller = require("@controller");
 
 const axios = require('axios');
 const env = require('@config/environments/base');

@@ -1,4 +1,4 @@
-const Concern = require("@controllers/concerns");
+const Concern = require("@controller/concerns");
 
 const Controller = {
   Concern,
