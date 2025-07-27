@@ -11,8 +11,7 @@ module.exports = {
   wallets: {
     type: 'realtime',
     columns: {
-      user_id: { type: 'string', required: true },
-      balance: { type: 'number', default: 0 },
+      coins: { type: 'number', default: 0 },
     },
   },
 };
