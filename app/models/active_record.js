@@ -54,6 +54,16 @@ class ActiveRecord {
     return this.model_name;
   }
 
+  static new(attributes = {}) {
+    return new this(attributes);
+  }
+
+  static async create(attributes = {}) {
+    const instance = new this(attributes);
+    await instance.save();
+    return instance;
+  }
+
   static async find(id) {
     if (this.adapter === 'firestore') {
       const doc = await this.db.collection(this.collection_name).doc(id).get();
