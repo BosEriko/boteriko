@@ -91,14 +91,16 @@ class ActiveRecord {
     );
   }
 
-  static async first() {
+  static async first(n = 1) {
     const all = await this.all();
-    return all[0] || null;
+    const slice = all.slice(0, n);
+    return n === 1 ? slice[0] || null : slice;
   }
 
-  static async last() {
+  static async last(n = 1) {
     const all = await this.all();
-    return all[all.length - 1] || null;
+    const slice = all.slice(-n);
+    return n === 1 ? slice[0] || null : slice;
   }
 
   static async find_by(conditions = {}) {
