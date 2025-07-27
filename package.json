@@ -26,8 +26,10 @@
     "@api": "api",
     "@config": "config",
     "@controller": "app/controllers",
+    "@db": "db",
     "@discord": "discord",
     "@global": "global",
+    "@model": "app/models",
     "@twitch": "twitch"
   }
 }
