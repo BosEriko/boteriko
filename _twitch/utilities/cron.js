@@ -93,7 +93,7 @@ function handleCronUtility(client) {
   }, { timezone });
 
   // Every end of stream
-  const streamEndHour = env.stream.start + env.stream.duration;
+  const streamEndHour = parseInt(env.stream.start, 10) + parseInt(env.stream.duration, 10);
   cron.schedule(`* ${streamEndHour} * * *`, () => {
     if (state.isStreaming) handleRaidUtility(client, "TwisWua", true);
   }, { timezone });
