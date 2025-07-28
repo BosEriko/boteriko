@@ -6,7 +6,7 @@
   "author": "BosEriko <bos@eriko.ph>",
   "license": "MIT",
   "scripts": {
-    "develop": "node index.js",
+    "develop": "node bin/start.js",
     "release": "git push origin master:production --force"
   },
   "dependencies": {
