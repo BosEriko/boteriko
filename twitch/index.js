@@ -127,13 +127,10 @@ client.on('message', async (channel, tags, message, self) => {
   }
 
   // Commands
-  if (commandName === 'ask') client.say(channel, `🤖 @${tags.username} ${await handleAskCommand(commandArgs)}`);
   if (commandName === 'back') handleBackCommand(client, channel);
   if (commandName === 'brb') handleBrbCommand(client, channel, commandArgs);
   if (commandName === 'censor') handleCensorCommand(client, channel);
   if (commandName === 'date') client.say(channel, handleTimeCommand('date'));
-  if (commandName === 'dn') client.say(channel, `🤖 @${tags.username} ${await handleDeezCommand(msg.split(" ")[1])}`);
-  if (commandName === 'fact') client.say(channel, await handleFactCommand());
   if (commandName === 'lurk') client.say(channel, handleLurkCommand(tags.username));
   if (commandName === 'ping') client.say(channel, handlePingCommand());
   if (commandName === 'pomodoro') handlePomodoroCommand(client, commandArgs);
@@ -142,7 +139,6 @@ client.on('message', async (channel, tags, message, self) => {
   if (commandName === 'time') client.say(channel, handleTimeCommand('time'));
   if (commandName === 'todo') await handleTodoCommand(client, commandArgs);
   if (commandName === 'top') await handleTypingTopCommand(client, channel);
-  if (commandName === 'topic') client.say(channel, await handleTopicCommand());
   if (commandName === 'wallet') await handleWalletCommand(client, channel, user);
   if (commandName === 'winner') await handleTypingWinnerCommand(client, channel);
 });
