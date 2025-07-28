@@ -29,19 +29,10 @@ function handleAdUtility(client) {
     const success = await runAd();
     if (success) {
       state.adCount++;
-      client.say(channelName, `📺 Running an ad now! (${AD_DURATION}s)`);
+      client.say(channelName, `📺 Running an ad now!`);
 
       setTimeout(async () => {
-        let message = `✅ The ad has ended!`;
-
-        const prerollFreeTime = await getAdSchedule();
-        if (prerollFreeTime != null) {
-          const mins = Math.floor(prerollFreeTime / 60);
-          const secs = prerollFreeTime % 60;
-          message += ` Pre-roll ads disabled for ${mins}m ${secs}s.`;
-        }
-
-        client.say(channelName, message);
+        client.say(channelName, "✅ The ad has ended!");
       }, AD_DURATION * 1000);
     }
   });
@@ -71,33 +62,6 @@ async function runAd() {
   } catch (err) {
     await handleErrorUtility('❌ Failed to start Twitch ad', err);
     return false;
-  }
-}
-
-async function getAdSchedule() {
-  try {
-    const { clientId, accessToken, id: broadcasterId } = env.twitch.channel;
-
-    const response = await axios.get(
-      `https://api.twitch.tv/helix/channels/ads?broadcaster_id=${broadcasterId}`,
-      {
-        headers: {
-          'Client-ID': clientId,
-          'Authorization': `Bearer ${accessToken}`
-        }
-      }
-    );
-
-    const data = response.data?.data?.[0];
-    if (!data) {
-      console.warn('⚠️ No ad schedule data received.');
-      return null;
-    }
-
-    return data.preroll_free_time;
-  } catch (err) {
-    await handleErrorUtility('❌ Failed to fetch ad schedule', err);
-    return null;
   }
 }
 
