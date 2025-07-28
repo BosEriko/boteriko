@@ -6,7 +6,6 @@ const state = require('@global/utilities/state');
 const { broadcastToClient } = require('@global/utilities/websocket');
 const handleClipUtility = require('@twitch/utilities/clip');
 const handleErrorUtility = require('@global/utilities/error');
-const handleFactCommand = require('@global/commands/fact');
 const handleFollowUtility = require('@twitch/utilities/follow');
 const handleInformationUtility = require('@twitch/utilities/information');
 const handleStreamDetailUtility = require("@global/utilities/streamDetail");
@@ -43,17 +42,6 @@ function handleCronUtility(client) {
     }
   }
 
-  // Run Conversation Utility
-  async function runConversationUtility() {
-    const now = Date.now();
-    const fiveMinutes = 5 * 60 * 1000;
-
-    if (now - state.lastMessageTimestamp >= fiveMinutes) {
-      client.say(`#${env.twitch.channel.username}`, `💡 ${await handleFactCommand()}`);
-      state.lastMessageTimestamp = now;
-    }
-  }
-
   // Cooldown Function
   function retryWhenOffline(callback) {
     if (state.isStreaming) {
@@ -85,7 +73,6 @@ function handleCronUtility(client) {
   cron.schedule('* * * * *', async () => {
     loadStreamDetails();
     if (state.isStreaming) await handleFollowUtility(client);
-    if (state.isStreaming) runConversationUtility();
   }, { timezone });
 
   // Every 10 minutes

@@ -15,12 +15,9 @@ const handleTypingGame = require('@twitch/games/typing');
 const handleUserUtility = require('@global/utilities/user');
 
 // Commands
-const handleAskCommand = require('@global/commands/ask');
 const handleBackCommand = require('@twitch/commands/back');
 const handleBrbCommand = require('@twitch/commands/brb');
 const handleCensorCommand = require("@twitch/commands/censor");
-const handleDeezCommand = require('@global/commands/deez');
-const handleFactCommand = require('@global/commands/fact');
 const handleLurkCommand = require("@twitch/commands/lurk");
 const handlePingCommand = require("@global/commands/ping");
 const handlePomodoroCommand = require('@twitch/commands/pomodoro');
@@ -29,7 +26,6 @@ const handleScheduleCommand = require("@global/commands/schedule");
 const handleSoundCommand = require('@twitch/commands/sound');
 const handleTimeCommand = require('@global/commands/time');
 const handleTodoCommand = require('@twitch/commands/todo');
-const handleTopicCommand = require('@global/commands/topic');
 const handleTypingTopCommand = require('@twitch/commands/typingTop');
 const handleTypingWinnerCommand = require('@twitch/commands/typingWinner');
 const handleWalletCommand = require('@twitch/commands/wallet');
