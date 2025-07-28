@@ -66,6 +66,7 @@ async function handleRaidCommand(client, user, isBroadcaster) {
       client.say(channelName, message);
       client.say(channelName, "Thank you for the stream!");
       broadcastToClient({ type: 'TICKER', message, isVisible: true });
+      broadcastToClient({ type: 'MUSIC', id: 'JEREMY_BLAKE_POWERUP', isVisible: true });
     } catch (err) {
       client.say(channelName, `Failed to start raid to ${username}.`);
     }
