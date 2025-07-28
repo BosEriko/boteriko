@@ -3,7 +3,7 @@ const scheduleConstant = {
   Tuesday: { title: "Tetris Tuesday 🎮🟨", category: "TETR.IO" },
   Wednesday: { title: "Waifu Wednesday ⚔️🍀", category: "Wuthering Waves" },
   Thursday: { title: "Tilted Thursday 🔫💥", category: "Fortnite" },
-  Friday: { title: "Fun Fun Friday 🎮🆕", category: "Games + Demos" },
+  Friday: { title: "Foreign Friday 🌍🦜", category: "Duolingo" },
   Saturday: { title: "Side Quest Saturday 💬🎯", category: "Just Chatting" },
   Sunday: { title: "Slow Down Sunday 💻🎮", category: "Just Chatting" },
 };
