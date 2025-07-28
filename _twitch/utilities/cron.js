@@ -8,8 +8,9 @@ const handleClipUtility = require('@twitch/utilities/clip');
 const handleErrorUtility = require('@global/utilities/error');
 const handleFollowUtility = require('@twitch/utilities/follow');
 const handleInformationUtility = require('@twitch/utilities/information');
-const handleStreamDetailUtility = require("@global/utilities/streamDetail");
+const handleRaidUtility = require('@twitch/utilities/raid');
 const handleSetupUtility = require('@twitch/utilities/setup');
+const handleStreamDetailUtility = require("@global/utilities/streamDetail");
 
 // Data
 const getLastTypingWinner = require('@twitch/utilities/typingWinner');
@@ -89,6 +90,12 @@ function handleCronUtility(client) {
       clearDailyStateCache();
       handleSetupUtility(client);
     });
+  }, { timezone });
+
+  // Every end of stream
+  const streamEndHour = env.stream.start + env.stream.duration;
+  cron.schedule(`* ${streamEndHour} * * *`, () => {
+    if (state.isStreaming) handleRaidUtility(client, "TwisWua", true);
   }, { timezone });
 }
 
