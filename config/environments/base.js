@@ -53,10 +53,6 @@ const env = {
             error: process.env.DISCORD_WEBHOOK_ERROR
         }
     },
-    groq: {
-        model: process.env.GROQ_MODEL,
-        apiKey: process.env.GROQ_API_KEY
-    },
     todoist: {
         apiToken: process.env.TODOIST_API_TOKEN
     },
