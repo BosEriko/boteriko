@@ -23,13 +23,13 @@
     "ws": "^8.18.2"
   },
   "_moduleAliases": {
-    "@api": "api",
+    "@api": "_api",
+    "@discord": "_discord",
+    "@global": "_global",
+    "@twitch": "_twitch",
     "@config": "config",
     "@controller": "app/controllers",
     "@db": "db",
-    "@discord": "discord",
-    "@global": "global",
-    "@model": "app/models",
-    "@twitch": "twitch"
+    "@model": "app/models"
   }
 }
