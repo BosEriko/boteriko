@@ -6,6 +6,7 @@ const handleErrorUtility = require('@global/utilities/error');
 
 const channelName = `#${env.twitch.channel.username}`;
 const AD_DURATION = 90;
+const maxAds = (parseInt(env.stream.duration, 10) - 1) * 2;
 
 function handleAdUtility(client) {
   cron.schedule('*/30 * * * *', async () => {
@@ -20,8 +21,14 @@ function handleAdUtility(client) {
       return;
     }
 
+    if (state.adCount >= maxAds) {
+      console.log(`🛑 Reached ad limit for the stream session (${maxAds} ads).`);
+      return;
+    }
+
     const success = await runAd();
     if (success) {
+      state.adCount++;
       client.say(channelName, `📺 Running an ad now! (${AD_DURATION}s)`);
 
       setTimeout(async () => {

@@ -76,6 +76,7 @@ function handleCronUtility(client) {
     state.todos = [];
     state.isTodoVisible = false;
     state.hasSkippedFirstAd = false;
+    state.adCount = 0;
   }
 
   // ------------------------------------------- Cron Jobs -------------------------------------------

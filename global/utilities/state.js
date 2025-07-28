@@ -3,6 +3,7 @@ module.exports = {
   isStreaming: false,
   streamDetail: null,
   hasSkippedFirstAd: false,
+  adCount: 0,
 
   // Stream Winners
   winners: {
