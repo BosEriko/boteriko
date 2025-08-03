@@ -5,6 +5,7 @@ module.exports = {
   hasSkippedFirstAd: false,
   adCount: 0,
   isRaidTriggered: false,
+  shoutoutUsernames: new Set(),
 
   // Stream Winners
   winners: {

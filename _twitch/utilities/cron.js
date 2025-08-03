@@ -67,6 +67,7 @@ function handleCronUtility(client) {
     state.hasSkippedFirstAd = false;
     state.adCount = 0;
     state.isRaidTriggered = false;
+    state.shoutoutUsernames.clear();
   }
 
   // ------------------------------------------- Cron Jobs -------------------------------------------
