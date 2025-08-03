@@ -87,7 +87,7 @@ function handleCronUtility(client) {
   // Every day 1 hour before stream start
   const streamStartHour = env.stream.start;
   const oneHourBeforeStream = (streamStartHour + 23) % 24;
-  cron.schedule(`* ${oneHourBeforeStream} * * *`, () => {
+  cron.schedule(`0 ${oneHourBeforeStream} * * *`, () => {
     retryWhenOffline(() => {
       clearDailyStateCache();
       handleSetupUtility(client);
