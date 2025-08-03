@@ -96,8 +96,6 @@ async function broadcastTodoState() {
 // --------------------------------------------- Add Todo ------------------------------------------
 async function addTodo(client, task) {
   try {
-    state.isTodoVisible = true;
-
     if (!task) {
       client.say(channelName, 'Please provide a task: !todo add <task>');
       return;
@@ -134,7 +132,6 @@ async function countTodos(client) {
 // --------------------------------------------- Read Todo -----------------------------------------
 async function readTodo(client, indexStr) {
   try {
-    state.isTodoVisible = true;
     const todos = await fetchTodos();
     const index = parseInt(indexStr, 10) - 1;
 
@@ -155,7 +152,6 @@ async function readTodo(client, indexStr) {
 // -------------------------------------------- Check Todo -----------------------------------------
 async function checkTodo(client, indexStr) {
   try {
-    state.isTodoVisible = true;
     const todos = await fetchTodos();
     const index = parseInt(indexStr, 10) - 1;
 
