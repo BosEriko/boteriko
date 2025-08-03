@@ -1,9 +1,11 @@
 const axios = require('axios');
 const env = require('@config/environments/base');
-const state = require('@global/utilities/state');
+const cacheUtility = require('@global/utilities/cache');
+
+const twitchUserCache = cacheUtility();
 
 async function handleUserUtility(username) {
-  const cachedUser = state.twitchUsers.get(username);
+  const cachedUser = twitchUserCache.get(username, 'twitch-user');
   if (cachedUser) return cachedUser;
 
   try {
@@ -17,7 +19,7 @@ async function handleUserUtility(username) {
 
     const user = res.data.data[0];
     if (user) {
-      state.twitchUsers.set(username, user);
+      twitchUserCache.set(username, user, 'twitch-user');
       return user;
     }
   } catch (err) {

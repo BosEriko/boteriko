@@ -4,8 +4,6 @@ module.exports = {
   streamDetail: null,
   hasSkippedFirstAd: false,
   adCount: 0,
-  shoutoutUsernames: new Set(),
-  twitchUsers: new Map(),
 
   // Stream Winners
   winners: {

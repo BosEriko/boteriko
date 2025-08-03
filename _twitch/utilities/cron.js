@@ -66,8 +66,6 @@ function handleCronUtility(client) {
     state.isTodoVisible = false;
     state.hasSkippedFirstAd = false;
     state.adCount = 0;
-    state.shoutoutUsernames.clear();
-    state.twitchUsers.clear();
     state.caches.forEach(cache => cache._raw.clear());
   }
 
