@@ -1,3 +1,5 @@
+const state = require('@global/utilities/state');
+
 const DEFAULT_TTL_MS = 24 * 60 * 60 * 1000;
 const MAX_ITEMS = 100;
 
@@ -32,7 +34,10 @@ function cacheUtility(ttlMs = DEFAULT_TTL_MS) {
     return null;
   }
 
-  return { set, get, _raw: cache };
+  const instance = { set, get, _raw: cache };
+  state.caches.push(instance);
+
+  return instance;
 }
 
 module.exports = cacheUtility;

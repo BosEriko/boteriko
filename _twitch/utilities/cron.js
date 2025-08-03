@@ -68,6 +68,7 @@ function handleCronUtility(client) {
     state.adCount = 0;
     state.shoutoutUsernames.clear();
     state.twitchUsers.clear();
+    state.caches.forEach(cache => cache._raw.clear());
   }
 
   // ------------------------------------------- Cron Jobs -------------------------------------------

@@ -28,4 +28,7 @@ module.exports = {
 
   // Todoist display toggle
   isTodoVisible: true,
+
+  // Cache references
+  caches: [],
 };
