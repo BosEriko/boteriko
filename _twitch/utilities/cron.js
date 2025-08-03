@@ -66,7 +66,6 @@ function handleCronUtility(client) {
     state.isTodoVisible = false;
     state.hasSkippedFirstAd = false;
     state.adCount = 0;
-    state.isRaidTriggered = false;
     state.shoutoutUsernames.clear();
     state.twitchUsers.clear();
   }
@@ -97,11 +96,8 @@ function handleCronUtility(client) {
 
   // Every end of stream
   const streamEndHour = parseInt(env.stream.start, 10) + parseInt(env.stream.duration, 10);
-  cron.schedule(`* ${streamEndHour} * * *`, () => {
-    if (state.isStreaming && !state.isRaidTriggered) {
-      handleRaidUtility(client, "TwisWua", true);
-      state.isRaidToggled = true;
-    };
+  cron.schedule(`0 ${streamEndHour} * * *`, () => {
+    if (state.isStreaming) handleRaidUtility(client, "TwisWua", true);
   }, { timezone });
 }
 

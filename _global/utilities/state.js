@@ -4,7 +4,6 @@ module.exports = {
   streamDetail: null,
   hasSkippedFirstAd: false,
   adCount: 0,
-  isRaidTriggered: false,
   shoutoutUsernames: new Set(),
   twitchUsers: new Map(),
 
