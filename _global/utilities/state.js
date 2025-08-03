@@ -4,6 +4,7 @@ module.exports = {
   streamDetail: null,
   hasSkippedFirstAd: false,
   adCount: 0,
+  isRaidTriggered: false,
 
   // Stream Winners
   winners: {

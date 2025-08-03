@@ -66,6 +66,7 @@ function handleCronUtility(client) {
     state.isTodoVisible = false;
     state.hasSkippedFirstAd = false;
     state.adCount = 0;
+    state.isRaidTriggered = false;
   }
 
   // ------------------------------------------- Cron Jobs -------------------------------------------
@@ -95,7 +96,10 @@ function handleCronUtility(client) {
   // Every end of stream
   const streamEndHour = parseInt(env.stream.start, 10) + parseInt(env.stream.duration, 10);
   cron.schedule(`* ${streamEndHour} * * *`, () => {
-    if (state.isStreaming) handleRaidUtility(client, "TwisWua", true);
+    if (state.isStreaming && !state.isRaidTriggered) {
+      handleRaidUtility(client, "TwisWua", true);
+      state.isRaidToggled = true;
+    };
   }, { timezone });
 }
 
