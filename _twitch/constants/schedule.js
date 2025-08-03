@@ -1,5 +1,5 @@
 const scheduleConstant = {
-  Monday: { title: "Minecraft Monday 🌍⛏️", category: "Minecraft" },
+  Monday: { title: "Mockup Monday 🖌️🧩", category: "Software and Game Development" },
   Tuesday: { title: "Tetris Tuesday 🎮🟨", category: "TETR.IO" },
   Wednesday: { title: "Workshop Wednesday 💻🛠️", category: "Software and Game Development" },
   Thursday: { title: "Tilted Thursday 🔫💥", category: "Fortnite" },
