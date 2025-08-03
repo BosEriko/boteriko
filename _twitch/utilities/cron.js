@@ -56,16 +56,24 @@ function handleCronUtility(client) {
 
   // Clear Daily State Cache Function
   function clearDailyStateCache() {
-    state.isFollowerInitialized = false;
-    state.isClipInitialized = false;
-    state.knownFollowerIds.clear();
-    state.knownClipIds.clear();
-    state.latestFollowTimestamp = null;
-    state.latestClipTimestamp = null;
-    state.todos = [];
-    state.isTodoVisible = false;
+    // Stream-related state
     state.hasSkippedFirstAd = false;
     state.adCount = 0;
+
+    // Follower-related state
+    state.isFollowerInitialized = false;
+    state.knownFollowerIds.clear();
+    state.latestFollowTimestamp = null;
+
+    // Clip-related state
+    state.isClipInitialized = false;
+    state.knownClipIds.clear();
+    state.latestClipTimestamp = null;
+
+    // Todoist display toggle
+    state.isTodoVisible = false;
+
+    // Cache references
     state.caches.forEach(cache => cache._raw.clear());
   }
 
