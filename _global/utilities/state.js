@@ -6,6 +6,7 @@ module.exports = {
   adCount: 0,
   isRaidTriggered: false,
   shoutoutUsernames: new Set(),
+  twitchUsers: new Map(),
 
   // Stream Winners
   winners: {

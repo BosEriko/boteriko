@@ -68,6 +68,7 @@ function handleCronUtility(client) {
     state.adCount = 0;
     state.isRaidTriggered = false;
     state.shoutoutUsernames.clear();
+    state.twitchUsers.clear();
   }
 
   // ------------------------------------------- Cron Jobs -------------------------------------------
