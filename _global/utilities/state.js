@@ -2,6 +2,8 @@ module.exports = {
   // Stream-related state
   isStreaming: false,
   streamDetail: null,
+
+  // Ad-related state
   hasRunStartingAd: false,
   hasSkippedFirstAd: false,
   adCount: 0,

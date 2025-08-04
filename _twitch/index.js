@@ -3,7 +3,6 @@ const env = require('@config/environments/base');
 const state = require('@global/utilities/state');
 
 // Utilities
-const { handleAdUtility } = require('@twitch/utilities/ad');
 const handleChatUtility = require('@twitch/utilities/chat');
 const handleCronUtility = require('@twitch/utilities/cron');
 const handleEventUtility = require('@twitch/utilities/event');
@@ -49,7 +48,6 @@ client.on('join', (channel, username, self) => {
 
 // ----------------------------------------- Block Import ------------------------------------------
 
-handleAdUtility(client);
 handleCronUtility(client);
 handleEventUtility(client);
 handlePointUtility(client);
