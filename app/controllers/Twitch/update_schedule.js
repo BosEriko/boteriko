@@ -44,9 +44,7 @@ const update_schedule = async () => {
   const startHour = parseInt(env.stream.start, 10);
   const duration = parseInt(env.stream.duration, 10);
   const allowedDays = env.stream.days;
-  const days = Object.keys(scheduleConstant).filter((day) =>
-    allowedDays.includes(day.toLowerCase().slice(0, 3))
-  );
+  const days = Object.keys(scheduleConstant).filter((day) => allowedDays.includes(day.toLowerCase().slice(0, 3)));
 
   try {
     const existingSegments = await read_schedule();
