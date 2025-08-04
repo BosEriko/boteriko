@@ -1,3 +1,5 @@
+const handleErrorUtility = require('@global/utilities/error');
+
 const read_category_id_by_name = require("./read_category_id_by_name");
 const read_schedule = require("./read_schedule");
 const delete_schedule = require("./delete_schedule");
@@ -46,12 +48,16 @@ const update_schedule = async () => {
   const allowedDays = env.stream.days;
   const days = Object.keys(scheduleConstant).filter((day) => allowedDays.includes(day.toLowerCase().slice(0, 3)));
 
-  try {
-    const existingSegments = await read_schedule();
-    for (const segment of existingSegments) {
+  const existingSegments = await read_schedule();
+  for (const segment of existingSegments) {
+    try {
       await delete_schedule(segment.id);
+    } catch (err) {
+      if (err.response?.status !== 404) {
+        await handleErrorUtility(`Unexpected error on ${segment.id}:`, err.message);
+      }
     }
-  } catch {}
+  }
 
   for (const day of days) {
     const { title, category } = scheduleConstant[day];
