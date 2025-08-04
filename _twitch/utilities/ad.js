@@ -65,4 +65,4 @@ async function runAd() {
   }
 }
 
-module.exports = handleAdUtility;
+module.exports = { handleAdUtility, runAd };

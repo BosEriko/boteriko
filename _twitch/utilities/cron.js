@@ -4,6 +4,7 @@ const state = require('@global/utilities/state');
 
 // Utilities
 const { broadcastToClient } = require('@global/utilities/websocket');
+const { runAd } = require('@twitch/utilities/ad');
 const handleClipUtility = require('@twitch/utilities/clip');
 const handleErrorUtility = require('@global/utilities/error');
 const handleFollowUtility = require('@twitch/utilities/follow');
@@ -54,9 +55,16 @@ function handleCronUtility(client) {
     }
   }
 
+  // Initial Ad Function
+  async function initialAd() {
+    const success = await runAd();
+    if (success) state.hasRunStartingAd = true;
+  }
+
   // Clear Daily State Cache Function
   function clearDailyStateCache() {
     // Stream-related state
+    state.hasRunStartingAd = false;
     state.hasSkippedFirstAd = false;
     state.adCount = 0;
 
@@ -81,8 +89,9 @@ function handleCronUtility(client) {
 
   // Every 1 minute
   cron.schedule('* * * * *', async () => {
-    loadStreamDetails();
+    await loadStreamDetails();
     if (state.isStreaming) await handleFollowUtility(client);
+    if (state.isStreaming && !state.hasRunStartingAd) await initialAd();
   }, { timezone });
 
   // Every 10 minutes
