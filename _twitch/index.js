@@ -1,3 +1,5 @@
+const Controller = require("@controller");
+
 const client = require('@twitch/utilities/client');
 const env = require('@config/environments/base');
 const state = require('@global/utilities/state');
@@ -48,6 +50,7 @@ client.on('join', (channel, username, self) => {
 
 // ----------------------------------------- Block Import ------------------------------------------
 
+Controller.Twitch.update_schedule();
 handleCronUtility(client);
 handleEventUtility(client);
 handlePointUtility(client);
