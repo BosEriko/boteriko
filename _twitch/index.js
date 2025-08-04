@@ -3,6 +3,7 @@ const env = require('@config/environments/base');
 const state = require('@global/utilities/state');
 
 // Utilities
+const { handleTypingGame } = require('@twitch/games/typing');
 const handleChatUtility = require('@twitch/utilities/chat');
 const handleCronUtility = require('@twitch/utilities/cron');
 const handleEventUtility = require('@twitch/utilities/event');
@@ -10,7 +11,6 @@ const handleFirstUtility = require('@twitch/utilities/first');
 const handleLinkUtility = require('@twitch/utilities/link');
 const handlePointUtility = require('@twitch/utilities/point');
 const handleShoutoutUtility = require('@twitch/utilities/shoutout');
-const handleTypingGame = require('@twitch/games/typing');
 const handleUserUtility = require('@global/utilities/user');
 
 // Commands

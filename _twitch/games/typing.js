@@ -1,11 +1,8 @@
-const cron = require('node-cron');
 const { broadcastToClient } = require('@global/utilities/websocket');
 const firebaseUtility = require('@global/utilities/firebase');
 const typingConstant = require('@twitch/constants/typing');
 const walletUtility = require('@global/utilities/wallet');
 const typingUtility = require('@global/utilities/typing');
-const state = require('@global/utilities/state');
-const env = require('@config/environments/base');
 
 // Configurable variables
 const WORD_EXPIRY_MS = 5 * 60 * 1000; // 5 minutes
@@ -24,15 +21,10 @@ function cleanupExpiredWords() {
   activeWords = activeWords.filter(entry => now - entry.timestamp < WORD_EXPIRY_MS);
 }
 
-function handleTypingCron() {
-  cron.schedule('* * * * *', () => {
-    if (!state.isStreaming) return;
-
-    sendRandomWord();
-    cleanupExpiredWords();
-  }, { timezone: env.app.timeZone });
+function handleTypingWords() {
+  sendRandomWord();
+  cleanupExpiredWords();
 }
-handleTypingCron();
 
 async function handleTypingGame(client, channel, user, message) {
   if (!user || !message) return;
@@ -55,4 +47,4 @@ async function handleTypingGame(client, channel, user, message) {
   broadcastToClient({ type: 'CORRECT_GUESS', word: msg, username });
 }
 
-module.exports = handleTypingGame;
+module.exports = { handleTypingGame, handleTypingWords };

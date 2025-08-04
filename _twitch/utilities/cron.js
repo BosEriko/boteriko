@@ -5,6 +5,7 @@ const state = require('@global/utilities/state');
 // Utilities
 const { broadcastToClient } = require('@global/utilities/websocket');
 const { handleAdUtility, runAd } = require('@twitch/utilities/ad');
+const { handleTypingWords } = require('@twitch/games/typing');
 const handleClipUtility = require('@twitch/utilities/clip');
 const handleErrorUtility = require('@global/utilities/error');
 const handleFollowUtility = require('@twitch/utilities/follow');
@@ -91,6 +92,7 @@ function handleCronUtility(client) {
   cron.schedule('* * * * *', async () => {
     await loadStreamDetails();
     if (state.isStreaming) await handleFollowUtility(client);
+    if (state.isStreaming) handleTypingWords();
     if (state.isStreaming && !state.hasRunStartingAd) await initialAd();
   }, { timezone });
 
