@@ -1,5 +1,6 @@
+const Constant = require("@constant");
+
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType } = require('discord.js');
-const commandConstant = require('@global/constants/command');
 const handleErrorUtility = require('@global/utilities/error');
 
 const COMMANDS_PER_PAGE = 10;
@@ -33,9 +34,9 @@ function buildCommandEmbed(commands, page = 0) {
 async function handleListCommand(message) {
   try {
     let currentPage = 0;
-    const totalPages = Math.ceil(commandConstant.length / COMMANDS_PER_PAGE);
+    const totalPages = Math.ceil(Constant.Command.length / COMMANDS_PER_PAGE);
 
-    const embed = buildCommandEmbed(commandConstant, currentPage);
+    const embed = buildCommandEmbed(Constant.Command, currentPage);
     const row = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
         .setCustomId('prev')
@@ -67,7 +68,7 @@ async function handleListCommand(message) {
       if (interaction.customId === 'next') currentPage++;
       if (interaction.customId === 'prev') currentPage--;
 
-      const newEmbed = buildCommandEmbed(commandConstant, currentPage);
+      const newEmbed = buildCommandEmbed(Constant.Command, currentPage);
       const newRow = new ActionRowBuilder().addComponents(
         new ButtonBuilder()
           .setCustomId('prev')

@@ -1,6 +1,7 @@
+const Constant = require("@constant");
+
 const { broadcastToClient } = require('@global/utilities/websocket');
 const firebaseUtility = require('@global/utilities/firebase');
-const typingConstant = require('@twitch/constants/typing');
 const walletUtility = require('@global/utilities/wallet');
 const typingUtility = require('@global/utilities/typing');
 
@@ -11,7 +12,7 @@ const REWARD_POINTS = 2;
 let activeWords = [];
 
 function sendRandomWord() {
-  const word = typingConstant[Math.floor(Math.random() * typingConstant.length)];
+  const word = Constant.Typing[Math.floor(Math.random() * Constant.Typing.length)];
   activeWords.push({ word, timestamp: Date.now() });
   broadcastToClient({ type: 'NEW_WORD', word });
 }

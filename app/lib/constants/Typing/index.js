@@ -1,4 +1,4 @@
-const typingConstant = [
+const Typing = [
   "bulbasaur", "ivysaur", "venusaur", "charmander", "charmeleon", "charizard",
   "squirtle", "wartortle", "blastoise", "caterpie", "metapod", "butterfree",
   "weedle", "kakuna", "beedrill", "pidgey", "pidgeotto", "pidgeot",
@@ -27,4 +27,4 @@ const typingConstant = [
   "mew"
 ];
 
-module.exports = typingConstant;
+module.exports = Typing;

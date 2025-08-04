@@ -1,4 +1,4 @@
-const profanityConstant = [
+const Profanity = [
   // Tagalog
   "burat", "titi", "tite", "puke", "puki", "kantot", "puta",
   "gago", "gaga", "tangina", "leche", "letse", "bayag", "pekpek",
@@ -16,4 +16,4 @@ const profanityConstant = [
   "blowjob", "handjob", "masturbate", "orgasm"
 ];
 
-module.exports = profanityConstant;
+module.exports = Profanity;

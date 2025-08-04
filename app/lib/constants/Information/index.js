@@ -1,4 +1,4 @@
-const informationConstant = [
+const Information = [
   `Follow me on Facebook (http://facebook.boseriko.com) and Instagram (http://instagram.boseriko.com)!`,
   `Follow me on TikTok (http://tiktok.boseriko.com) and YouTube (http://youtube.boseriko.com)!`,
   `If you're interested here's my Anime list (http://anime.boseriko.com) and my Manga list (http://manga.boseriko.com)!`,
@@ -8,4 +8,4 @@ const informationConstant = [
   `Want a full list of commands? Type "!commands" in Discord (http://discord.boseriko.com) to check them out!`,
 ];
 
-module.exports = informationConstant;
+module.exports = Information;

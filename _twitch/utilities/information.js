@@ -1,5 +1,6 @@
+const Constant = require("@constant");
+
 const env = require('@config/environments/base');
-const informationConstant = require('@global/constants/information');
 
 let informationIndex = 0;
 let lastShuffleDate = null;
@@ -18,15 +19,15 @@ function isNewDay() {
 
 function handleInformationUtility(client) {
   if (isNewDay()) {
-    shuffle(informationConstant);
+    shuffle(Constant.Information);
     informationIndex = 0;
     lastShuffleDate = new Date().toDateString();
   }
 
-  const message = informationConstant[informationIndex];
+  const message = Constant.Information[informationIndex];
   client.say(`#${env.twitch.channel.username}`, `📢 ${message}`);
 
-  informationIndex = (informationIndex + 1) % informationConstant.length;
+  informationIndex = (informationIndex + 1) % Constant.Information.length;
 }
 
 module.exports = handleInformationUtility;

@@ -1,3 +1,4 @@
+const Constant = require("@constant");
 const Controller = require("@controller");
 
 const client = require('@twitch/utilities/client');
@@ -30,10 +31,6 @@ const handleTodoCommand = require('@twitch/commands/todo');
 const handleTypingTopCommand = require('@twitch/commands/typingTop');
 const handleTypingWinnerCommand = require('@twitch/commands/typingWinner');
 const handleWalletCommand = require('@twitch/commands/wallet');
-
-// Constants
-const commandConstant = require('@global/constants/command');
-const profanityConstant = require('@global/constants/profanity');
 
 // --------------------------------------- Twitch Bot Setup ----------------------------------------
 client.connect();
@@ -91,7 +88,7 @@ client.on('message', async (channel, tags, message, self) => {
     HUH: ["huh"],
     JOKE: ["jk", "joke", "kidding", "lol", "haha", "hehe", "hahaha", "hehehe"],
     NICE_TRY: ["nt"],
-    PROFANITY: profanityConstant,
+    PROFANITY: Constant.Profanity,
   };
 
   for (const [sound, keywords] of Object.entries(soundTriggers)) {
@@ -108,8 +105,8 @@ client.on('message', async (channel, tags, message, self) => {
   const channelName = env.twitch.channel.username;
   const commandName = lowerMsg.split(' ')[0].replace('!', '');
   const commandArgs = msg.includes(' ') ? msg.slice(msg.indexOf(' ') + 1).trim() : '';
-  const availableCommands = commandConstant.map(c => c.command);
-  const restrictedCommands = commandConstant.filter(c => c.restricted).map(c => c.command);
+  const availableCommands = Constant.Command.map(c => c.command);
+  const restrictedCommands = Constant.Command.filter(c => c.restricted).map(c => c.command);
 
   // Check if the command is available
   if (!availableCommands.includes(commandName)) {

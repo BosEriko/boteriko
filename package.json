@@ -28,6 +28,7 @@
     "@global": "_global",
     "@twitch": "_twitch",
     "@config": "config",
+    "@constant": "app/lib/constants",
     "@controller": "app/controllers",
     "@db": "db",
     "@model": "app/models"

@@ -1,3 +1,5 @@
+const Constant = require("@constant");
+
 const client = require('@discord/utilities/client');
 
 // Commands
@@ -10,9 +12,6 @@ const handleTodoCommand = require('@discord/commands/todo');
 // Utilities
 const handleChatUtility = require('@discord/utilities/chat');
 const handleErrorUtility = require('@global/utilities/error');
-
-// Constants
-const commandConstant = require('@global/constants/command');
 
 // Environment
 const env = require('@config/environments/base');
@@ -53,8 +52,8 @@ client.on('messageCreate', async message => {
 
   const commandName = lowerMsg.split(' ')[0].replace('!', '');
   const commandArgs = msg.includes(' ') ? msg.slice(msg.indexOf(' ') + 1).trim() : '';
-  const availableCommands = commandConstant.map(c => c.command);
-  const restrictedCommands = commandConstant.filter(c => c.restricted).map(c => c.command);
+  const availableCommands = Constant.Command.map(c => c.command);
+  const restrictedCommands = Constant.Command.filter(c => c.restricted).map(c => c.command);
 
   // Check if the command is available
   if (!availableCommands.includes(commandName)) {

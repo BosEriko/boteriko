@@ -1,8 +1,8 @@
+const Constant = require("@constant");
 const Controller = require("@controller");
 
 const axios = require('axios');
 const env = require('@config/environments/base');
-const scheduleConstant = require('@twitch/constants/schedule');
 const handleErrorUtility = require('@global/utilities/error');
 const getLastTypingWinner = require('@twitch/utilities/typingWinner');
 
@@ -23,7 +23,7 @@ async function handleSetupUtility(client) {
   const now = new Date();
   const dayOfWeek = now.toLocaleDateString('en-US', { weekday: 'long' });
 
-  const schedule = scheduleConstant[dayOfWeek];
+  const schedule = Constant.Schedule[dayOfWeek];
   if (!schedule) {
     await handleErrorUtility(`❌ No schedule found for ${dayOfWeek}`);
     return;

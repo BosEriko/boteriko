@@ -1,7 +1,7 @@
 const TWITCH = 'Twitch';
 const DISCORD = 'Discord';
 
-const commandConstant = [
+const Command = [
   { command: 'back', parameter: false, availability: [TWITCH], restricted: true, description: 'Go back to streaming.' },
   { command: 'brb', parameter: true, availability: [TWITCH], restricted: true, description: 'Set the stream to BRB mode.' },
   { command: 'censor', parameter: false, availability: [TWITCH], restricted: true, description: 'Toggle or manage censorship settings in the overlay.' },
@@ -19,4 +19,4 @@ const commandConstant = [
   { command: 'winner', parameter: false, availability: [TWITCH], restricted: false, description: 'Get the winner of the previous Typing Game.' },
 ];
 
-module.exports = commandConstant;
+module.exports = Command;

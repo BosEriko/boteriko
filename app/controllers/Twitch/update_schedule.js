@@ -1,3 +1,5 @@
+const Constant = require("@constant");
+
 const handleErrorUtility = require('@global/utilities/error');
 
 const create_schedule = require("./create_schedule");
@@ -13,7 +15,6 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 const env = require("@config/environments/base");
-const scheduleConstant = require("@twitch/constants/schedule");
 
 // 🧠 Calculate next weekday at given hour (local to UTC using dayjs)
 const getNextWeekdayDateTime = (weekdayName, hour, timeZone) => {
@@ -46,7 +47,7 @@ const update_schedule = async () => {
   const startHour = parseInt(env.stream.start, 10);
   const duration = parseInt(env.stream.duration, 10);
   const allowedDays = env.stream.days;
-  const days = Object.keys(scheduleConstant).filter((day) => allowedDays.includes(day.toLowerCase().slice(0, 3)));
+  const days = Object.keys(Constant.Schedule).filter((day) => allowedDays.includes(day.toLowerCase().slice(0, 3)));
 
   const existingSegments = await read_schedule();
   for (const segment of existingSegments) {
@@ -60,7 +61,7 @@ const update_schedule = async () => {
   }
 
   for (const day of days) {
-    const { title, category } = scheduleConstant[day];
+    const { title, category } = Constant.Schedule[day];
 
     const categoryId = await read_category_id_by_name(category);
     if (!categoryId) continue;
