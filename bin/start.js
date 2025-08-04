@@ -1,4 +1,4 @@
 require('module-alias/register');
-require('../_discord');
-require('../_twitch');
+require('../app/services/bot/discord.js');
+require('../app/services/bot/twitch.js');
 require('../_api');

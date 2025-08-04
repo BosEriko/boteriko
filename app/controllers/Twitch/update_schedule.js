@@ -1,9 +1,9 @@
 const handleErrorUtility = require('@global/utilities/error');
 
+const create_schedule = require("./create_schedule");
+const delete_schedule = require("./delete_schedule");
 const read_category_id_by_name = require("./read_category_id_by_name");
 const read_schedule = require("./read_schedule");
-const delete_schedule = require("./delete_schedule");
-const create_schedule = require("./create_schedule");
 
 const dayjs = require("dayjs");
 const utc = require("dayjs/plugin/utc");
@@ -63,9 +63,7 @@ const update_schedule = async () => {
     const { title, category } = scheduleConstant[day];
 
     const categoryId = await read_category_id_by_name(category);
-    if (!categoryId) {
-      continue;
-    }
+    if (!categoryId) continue;
 
     try {
       const startDateTime = getNextWeekdayDateTime(day, startHour, timeZone);
