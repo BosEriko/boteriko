@@ -17,23 +17,6 @@ function isNewDay() {
   return false;
 }
 
-async function getCategoryIdByName(name) {
-  try {
-    const res = await axios.get('https://api.twitch.tv/helix/games', {
-      params: { name },
-      headers: {
-        'Client-ID': env.twitch.bot.clientId,
-        'Authorization': `Bearer ${env.twitch.bot.accessToken}`,
-      },
-    });
-
-    return res.data.data?.[0]?.id || null;
-  } catch (err) {
-    await handleErrorUtility(`❌ Failed to fetch category ID for "${name}":`, err.response?.data || err.message);
-    return null;
-  }
-}
-
 async function handleSetupUtility(client) {
   if (!isNewDay()) return;
 
@@ -47,7 +30,7 @@ async function handleSetupUtility(client) {
   }
 
   const { title, category } = schedule;
-  const gameId = await getCategoryIdByName(category);
+  const gameId = await Controller.Twitch.read_category_id_by_name(category);
 
   const winnerData = await getLastTypingWinner();
   const titleGenerator = Controller.Concern.TitleGenerator(title);
