@@ -56,6 +56,10 @@ const env = {
     todoist: {
         apiToken: process.env.TODOIST_API_TOKEN
     },
+    spotify: {
+        clientId: process.env.SPOTIFY_CLIENT_ID,
+        clientSecret: process.env.SPOTIFY_CLIENT_SECRET
+    },
     firebase: {
         projectId: process.env.FIREBASE_PROJECT_ID,
         clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
