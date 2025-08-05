@@ -1,3 +1,5 @@
+const Controller = require("@controller");
+
 const WebSocket = require('ws');
 const axios = require('axios');
 const env = require('@config/environments/base');
@@ -12,7 +14,7 @@ let heartbeatInterval = null;
 const channelName = env.twitch.channel.username;
 
 const handleChannelPoints = async (client, payload) => {
-  const { reward, user_id, user_name } = payload;
+  const { reward, user_id, user_name, user_input } = payload;
 
   try {
     switch (reward.title) {
@@ -23,6 +25,7 @@ const handleChannelPoints = async (client, payload) => {
         client.say(channelName, `${user_name} played "${reward.title}" for ${reward.cost} channel points!`);
         break;
       }
+
       case 'Stand Up': {
         broadcastToClient({ type: 'SOUND_ALERT', id: "STAND_UP" });
         client.say(channelName, `${user_name} played "${reward.title}" for ${reward.cost} channel points!`);
@@ -32,6 +35,12 @@ const handleChannelPoints = async (client, payload) => {
           client.say(channelName, `10 minutes passed since ${user_name} redeemed "Stand Up"! Time to sit down and make your legs rest.`);
         }, 10 * 60 * 1000);
 
+        break;
+      }
+
+      case 'Add to Queue': {
+        const message = Controller.Music.add_to_queue(user_input);
+        client.say(channelName, message);
         break;
       }
 
