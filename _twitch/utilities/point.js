@@ -39,7 +39,7 @@ const handleChannelPoints = async (client, payload) => {
       }
 
       case 'Add to Queue': {
-        const message = Controller.Music.add_to_queue(user_input);
+        const message = await Controller.Music.add_to_queue(user_input);
         client.say(channelName, message);
         break;
       }
