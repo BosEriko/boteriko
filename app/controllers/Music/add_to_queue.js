@@ -39,6 +39,7 @@ const add_to_queue = async (query) => {
     return `✅ Added to queue: ${topTrack.name} by ${topTrack.artists.map(a => a.name).join(', ')}`;
   } catch (err) {
     await handleErrorUtility('Failed to search and add to queue:', err.response?.data || err.message);
+    return `Failed to search and add to queue: ${err.response?.data || err.message}`;
   }
 };
 
