@@ -13,9 +13,13 @@ const get_access_token = async () => {
   const authString = Buffer.from(`${env.spotify.clientId}:${env.spotify.clientSecret}`).toString('base64');
 
   try {
+    const params = new URLSearchParams();
+    params.append('grant_type', 'refresh_token');
+    params.append('refresh_token', env.spotify.refreshToken);
+
     const response = await axios.post(
       'https://accounts.spotify.com/api/token',
-      'grant_type=client_credentials',
+      params.toString(),
       {
         headers: {
           'Authorization': `Basic ${authString}`,
@@ -28,7 +32,7 @@ const get_access_token = async () => {
     spotifyTokenCache.set('token', token, 'spotify');
     return token;
   } catch (error) {
-    await handleErrorUtility('Failed to get Spotify access token:', error.response?.data || error.message);
+    await handleErrorUtility('Failed to refresh Spotify access token:', error.response?.data || error.message);
   }
 };
 

@@ -58,7 +58,8 @@ const env = {
     },
     spotify: {
         clientId: process.env.SPOTIFY_CLIENT_ID,
-        clientSecret: process.env.SPOTIFY_CLIENT_SECRET
+        clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+        refreshToken: process.env.SPOTIFY_REFRESH_TOKEN
     },
     firebase: {
         projectId: process.env.FIREBASE_PROJECT_ID,
