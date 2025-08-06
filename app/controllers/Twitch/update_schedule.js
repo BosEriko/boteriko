@@ -49,7 +49,16 @@ const update_schedule = async () => {
   const allowedDays = env.stream.days;
   const days = Object.keys(Constant.Schedule).filter((day) => allowedDays.includes(day.toLowerCase().slice(0, 3)));
 
-  const existingSegments = await read_schedule();
+  let existingSegments = [];
+
+  try {
+    existingSegments = await read_schedule();
+  } catch (err) {
+    if (err.response?.status !== 404) {
+      await handleErrorUtility("❌ Failed to read schedule:", err.message);
+    }
+  }
+
   for (const segment of existingSegments) {
     try {
       await delete_schedule(segment.id);
