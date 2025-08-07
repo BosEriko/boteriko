@@ -20,7 +20,11 @@ const add_to_queue = async (query) => {
 
     const tracks = searchResponse.data.tracks.items;
     if (tracks.length === 0) {
-      return `No results found for: "${query}"`;
+      return {
+        success: false,
+        code: 'NO_RESULTS',
+        message: `No results found for: "${query}"`,
+      };
     }
 
     const topTrack = tracks[0];
@@ -36,13 +40,27 @@ const add_to_queue = async (query) => {
       }
     );
 
-   return {
-     success: true,
-     code: 'ADDED_TO_QUEUE',
-     message: `✅ Added to queue: ${topTrack.name} by ${topTrack.artists.map(a => a.name).join(', ')}`,
-   };
+    return {
+      success: true,
+      code: 'ADDED_TO_QUEUE',
+      message: `✅ Added to queue: ${topTrack.name} by ${topTrack.artists.map(a => a.name).join(', ')}`,
+    };
   } catch (err) {
-    await handleErrorUtility('Failed to search and add to queue:', err.response?.data || err.message);
+    const errorData = err.response?.data;
+
+    if (
+      errorData?.error?.reason === 'NO_ACTIVE_DEVICE' ||
+      errorData?.error?.message?.includes('No active device')
+    ) {
+      return {
+        success: false,
+        code: 'NO_ACTIVE_DEVICE',
+        message: '❌ No active Spotify device found. Please open Spotify and start playing something first.',
+      };
+    }
+
+    await handleErrorUtility('Failed to search and add to queue:', errorData || err.message);
+
     return {
       success: false,
       code: 'API_ERROR',

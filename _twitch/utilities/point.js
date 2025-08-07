@@ -42,7 +42,7 @@ const handleChannelPoints = async (client, payload) => {
         const result = await Controller.Music.add_to_queue(user_input);
 
         if (!result.success) {
-          await Controller.Music.delete_channel_request(reward, id);
+          await Controller.Twitch.delete_channel_request(reward, id);
         }
 
         client.say(channelName, result.message);
