@@ -1,6 +1,6 @@
 const env = require("@config/environments/base");
 const axios = require('axios');
-const handleErrorUtility = require('@global/utilities/error');
+const Utility = require("@utility");;
 
 const delete_channel_request = async (reward, id) => {
   try {
@@ -23,7 +23,7 @@ const delete_channel_request = async (reward, id) => {
 
     return `💸 Refunded ${reward.title} redemption (${id})`;
   } catch (err) {
-    await handleErrorUtility('⚠️ Failed to refund redemption:', err.response?.data || err.message);
+    await Utility.error_logger('⚠️ Failed to refund redemption:', err.response?.data || err.message);
   }
 };
 

@@ -1,6 +1,6 @@
 const Constant = require("@constant");
 
-const handleErrorUtility = require('@global/utilities/error');
+const Utility = require("@utility");;
 
 const create_schedule = require("../create_schedule");
 const delete_schedule = require("../delete_schedule");
@@ -25,7 +25,7 @@ const update_schedule = async () => {
     existingSegments = await read_schedule();
   } catch (err) {
     if (err.response?.status !== 404) {
-      await handleErrorUtility("❌ Failed to read schedule:", err.message);
+      await Utility.error_logger("❌ Failed to read schedule:", err.message);
     }
   }
 
@@ -34,7 +34,7 @@ const update_schedule = async () => {
       await delete_schedule(segment.id);
     } catch (err) {
       if (err.response?.status !== 404) {
-        await handleErrorUtility(`Unexpected error on ${segment.id}:`, err.message);
+        await Utility.error_logger(`Unexpected error on ${segment.id}:`, err.message);
       }
     }
   }

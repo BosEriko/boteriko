@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const handleErrorUtility = require('@global/utilities/error');
+const Utility = require("@utility");;
 
 router.get('/', async (req, res) => {
   const { username } = req.query;
@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
 
     return res.json(json.data);
   } catch (err) {
-    await handleErrorUtility('[TETR.IO API Error]', err);
+    await Utility.error_logger('[TETR.IO API Error]', err);
     return res.status(500).json({ error: 'Failed to fetch TETR.IO data' });
   }
 });

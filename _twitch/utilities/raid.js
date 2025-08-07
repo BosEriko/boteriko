@@ -1,6 +1,6 @@
 const axios = require('axios');
 const { broadcastToClient } = require('@global/utilities/websocket');
-const handleErrorUtility = require('@global/utilities/error');
+const Utility = require("@utility");;
 const env = require('@config/environments/base');
 const state = require('@global/utilities/state');
 
@@ -20,7 +20,7 @@ async function getUserId(username) {
 
     return response.data.data[0]?.id;
   } catch (err) {
-    await handleErrorUtility('Failed to fetch user ID:', err.response?.data || err.message);
+    await Utility.error_logger('Failed to fetch user ID:', err.response?.data || err.message);
     return null;
   }
 }
@@ -40,7 +40,7 @@ async function triggerRaid(toChannelId) {
 
     return response.data;
   } catch (err) {
-    await handleErrorUtility('Failed to start raid:', err.response?.data || err.message);
+    await Utility.error_logger('Failed to start raid:', err.response?.data || err.message);
     throw new Error('Unable to start raid');
   }
 }

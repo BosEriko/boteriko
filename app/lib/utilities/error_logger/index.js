@@ -12,7 +12,7 @@ function serializeError(err) {
   return err;
 }
 
-async function handleErrorUtility(message, data = null) {
+async function error_logger(message, data = null) {
   try {
     const avatar_url = "https://i.imgur.com/f6FsQJH.png";
     const username = "Error Log";
@@ -44,4 +44,4 @@ async function handleErrorUtility(message, data = null) {
   }
 }
 
-module.exports = handleErrorUtility;
+module.exports = error_logger;

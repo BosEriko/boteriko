@@ -1,6 +1,6 @@
 const axios = require('axios');
 const env = require('@config/environments/base');
-const handleErrorUtility = require('@global/utilities/error');
+const Utility = require("@utility");;
 
 async function handleAnnouncementUtility(message, color = 'primary') {
   try {
@@ -21,7 +21,7 @@ async function handleAnnouncementUtility(message, color = 'primary') {
       }
     );
   } catch (error) {
-    await handleErrorUtility('❌ Failed to send announcement:', error.response?.data || error.message);
+    await Utility.error_logger('❌ Failed to send announcement:', error.response?.data || error.message);
   }
 }
 

@@ -31,6 +31,7 @@
     "@constant": "app/lib/constants",
     "@controller": "app/controllers",
     "@db": "db",
-    "@model": "app/models"
+    "@model": "app/models",
+    "@utility": "app/lib/utilities"
   }
 }

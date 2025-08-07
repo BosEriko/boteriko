@@ -1,4 +1,4 @@
-const handleErrorUtility = require('@global/utilities/error');
+const Utility = require("@utility");;
 const axios = require('axios');
 
 const get_access_token = require("../get_access_token");
@@ -59,7 +59,7 @@ const add_to_queue = async (query) => {
       };
     }
 
-    await handleErrorUtility('Failed to search and add to queue:', errorData || err.message);
+    await Utility.error_logger('Failed to search and add to queue:', errorData || err.message);
 
     return {
       success: false,

@@ -3,7 +3,7 @@ const Controller = require("@controller");
 
 const axios = require('axios');
 const env = require('@config/environments/base');
-const handleErrorUtility = require('@global/utilities/error');
+const Utility = require("@utility");;
 const getLastTypingWinner = require('@twitch/utilities/typingWinner');
 
 let lastCheckedDate = null;
@@ -25,7 +25,7 @@ async function handleSetupUtility(client) {
 
   const schedule = Constant.Schedule[dayOfWeek];
   if (!schedule) {
-    await handleErrorUtility(`❌ No schedule found for ${dayOfWeek}`);
+    await Utility.error_logger(`❌ No schedule found for ${dayOfWeek}`);
     return;
   }
 
@@ -56,9 +56,9 @@ async function handleSetupUtility(client) {
     client.say(`#${env.twitch.channel.username}`, `📝 New Title: "${newTitle}" | 📺 Category: ${category}`);
   } catch (error) {
     if (error.response) {
-      await handleErrorUtility("❌ Failed to update title/category:", error.response.data);
+      await Utility.error_logger("❌ Failed to update title/category:", error.response.data);
     } else {
-      await handleErrorUtility("❌ Error occurred:", error.message);
+      await Utility.error_logger("❌ Error occurred:", error.message);
     }
   }
 }

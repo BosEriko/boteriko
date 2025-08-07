@@ -1,7 +1,7 @@
 const axios = require('axios');
 const env = require('@config/environments/base');
 const state = require('@global/utilities/state');
-const handleErrorUtility = require('@global/utilities/error');
+const Utility = require("@utility");;
 
 const channelName = `#${env.twitch.channel.username}`;
 const AD_DURATION = 90;
@@ -52,7 +52,7 @@ async function runAd() {
     console.log('📺 Ad started:', response.data);
     return true;
   } catch (err) {
-    await handleErrorUtility('❌ Failed to start Twitch ad', err);
+    await Utility.error_logger('❌ Failed to start Twitch ad', err);
     return false;
   }
 }

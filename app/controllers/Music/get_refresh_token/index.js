@@ -1,6 +1,6 @@
 const express = require('express');
 const env = require('@config/environments/base');
-const handleErrorUtility = require('@global/utilities/error');
+const Utility = require("@utility");;
 const axios = require('axios');
 
 const get_refresh_token = express.Router();
@@ -28,7 +28,7 @@ get_refresh_token.get('/', async (req, res) => {
 
     res.json(response.data);
   } catch (error) {
-    await handleErrorUtility(error.response?.data || error.message);
+    await Utility.error_logger(error.response?.data || error.message);
     res.status(500).send('Failed to get tokens');
   }
 });

@@ -11,7 +11,7 @@ const handleTodoCommand = require('@discord/commands/todo');
 
 // Utilities
 const handleChatUtility = require('@discord/utilities/chat');
-const handleErrorUtility = require('@global/utilities/error');
+const Utility = require("@utility");;
 
 // Environment
 const env = require('@config/environments/base');
@@ -30,7 +30,7 @@ async function handlePrivateCommand(message, handler, commandArgs, commandLabel 
     const response = await handler(commandArgs);
     await message.author.send(`🤖 ${commandLabel ? `${commandLabel}: ` : ''}${response}`);
   } catch (err) {
-    await handleErrorUtility(`${commandLabel || 'Private'} command error:`, err);
+    await Utility.error_logger(`${commandLabel || 'Private'} command error:`, err);
   }
 }
 

@@ -3,7 +3,7 @@ const Controller = require("@controller");
 const WebSocket = require('ws');
 const axios = require('axios');
 const env = require('@config/environments/base');
-const handleErrorUtility = require('@global/utilities/error');
+const Utility = require("@utility");;
 const { broadcastToClient } = require('@global/utilities/websocket');
 
 let ws;
@@ -54,7 +54,7 @@ const handleChannelPoints = async (client, payload) => {
         break;
     }
   } catch (err) {
-    await handleErrorUtility(`Error handling reward "${reward.title}" for ${user_name}:`, err);
+    await Utility.error_logger(`Error handling reward "${reward.title}" for ${user_name}:`, err);
   }
 };
 
@@ -133,7 +133,7 @@ function handlePointUtility(client) {
             break;
         }
       } catch (err) {
-        await handleErrorUtility('Twitch EventSub WebSocket error:', err);
+        await Utility.error_logger('Twitch EventSub WebSocket error:', err);
       }
     });
 
@@ -143,7 +143,7 @@ function handlePointUtility(client) {
     });
 
     ws.on('error', async (err) => {
-      await handleErrorUtility('WebSocket error:', err);
+      await Utility.error_logger('WebSocket error:', err);
       reconnect();
     });
   };

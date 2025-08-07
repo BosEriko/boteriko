@@ -2,7 +2,7 @@ const axios = require('axios');
 const { broadcastToClient } = require('@global/utilities/websocket');
 const env = require('@config/environments/base');
 const state = require('@global/utilities/state');
-const handleErrorUtility = require('@global/utilities/error');
+const Utility = require("@utility");;
 const cacheUtility = require('@global/utilities/cache');
 
 const channelName = `#${env.twitch.channel.username}`;
@@ -56,7 +56,7 @@ async function getOrCreateLabelName(maxRetries = 5, delayMs = 300) {
 
     return null;
   } catch (err) {
-    await handleErrorUtility("Failed to get/create label:", err);
+    await Utility.error_logger("Failed to get/create label:", err);
     return null;
   }
 }
@@ -74,7 +74,7 @@ async function fetchTodos() {
 
     return res.data;
   } catch (err) {
-    await handleErrorUtility("Failed to fetch todos:", err);
+    await Utility.error_logger("Failed to fetch todos:", err);
     return [];
   }
 }
@@ -89,7 +89,7 @@ async function broadcastTodoState() {
       isVisible: state.isTodoVisible,
     });
   } catch (err) {
-    await handleErrorUtility("Failed to broadcast todo state:", err);
+    await Utility.error_logger("Failed to broadcast todo state:", err);
   }
 }
 
@@ -113,7 +113,7 @@ async function addTodo(client, task) {
     await broadcastTodoState();
     client.say(channelName, `Added task to "${state.streamDetail?.game_name}": "${task}" ✅`);
   } catch (err) {
-    await handleErrorUtility("Failed to add todo:", err);
+    await Utility.error_logger("Failed to add todo:", err);
     client.say(channelName, 'Failed to add the todo ❌');
   }
 }
@@ -124,7 +124,7 @@ async function countTodos(client) {
     const todos = await fetchTodos();
     client.say(channelName, `Total Todos for "${state.streamDetail?.game_name}": ${todos.length} ✅`);
   } catch (err) {
-    await handleErrorUtility("Failed to count todos:", err);
+    await Utility.error_logger("Failed to count todos:", err);
     client.say(channelName, 'Failed to count todos ❌');
   }
 }
@@ -144,7 +144,7 @@ async function readTodo(client, indexStr) {
     client.say(channelName, `Todo #${index + 1}: ${todo.content} ✅`);
     await broadcastTodoState();
   } catch (err) {
-    await handleErrorUtility("Failed to read todo:", err);
+    await Utility.error_logger("Failed to read todo:", err);
     client.say(channelName, 'Failed to read the todo ❌');
   }
 }
@@ -167,7 +167,7 @@ async function checkTodo(client, indexStr) {
     await broadcastTodoState();
     client.say(channelName, `Marked task ${index + 1} as done ✅`);
   } catch (err) {
-    await handleErrorUtility("Failed to check todo:", err);
+    await Utility.error_logger("Failed to check todo:", err);
     client.say(channelName, 'Failed to mark the todo as done ❌');
   }
 }
@@ -231,7 +231,7 @@ async function handleTodoCommand(client, message) {
         client.say(channelName, 'Usage: !todo [read|add|check|count|hide|show]');
     }
   } catch (err) {
-    await handleErrorUtility("Something went wrong while handling the todo command:", err);
+    await Utility.error_logger("Something went wrong while handling the todo command:", err);
     client.say(channelName, 'An error occurred while handling the todo command ❌');
   }
 }

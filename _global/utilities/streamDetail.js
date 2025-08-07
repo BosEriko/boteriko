@@ -1,6 +1,6 @@
 const axios = require('axios');
 const env = require('@config/environments/base');
-const handleErrorUtility = require('@global/utilities/error');
+const Utility = require("@utility");;
 
 async function handleStreamDetailUtility() {
   try {
@@ -14,7 +14,7 @@ async function handleStreamDetailUtility() {
 
       return response.data.data[0]
   } catch (error) {
-      await handleErrorUtility("Error fetching stream details:", error);
+      await Utility.error_logger("Error fetching stream details:", error);
       return false;
   }
 }

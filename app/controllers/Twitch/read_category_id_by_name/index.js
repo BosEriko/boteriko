@@ -1,6 +1,6 @@
 const env = require("@config/environments/base");
 const axios = require('axios');
-const handleErrorUtility = require('@global/utilities/error');
+const Utility = require("@utility");;
 
 const read_category_id_by_name = async (name) => {
   try {
@@ -14,7 +14,7 @@ const read_category_id_by_name = async (name) => {
 
     return res.data.data?.[0]?.id || null;
   } catch (err) {
-    await handleErrorUtility(`❌ Failed to fetch category ID for "${name}":`, err.response?.data || err.message);
+    await Utility.error_logger(`❌ Failed to fetch category ID for "${name}":`, err.response?.data || err.message);
     return null;
   }
 }

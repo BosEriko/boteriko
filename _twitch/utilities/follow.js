@@ -2,7 +2,7 @@ const axios = require('axios');
 const env = require('@config/environments/base');
 const state = require('@global/utilities/state');
 const { broadcastToClient } = require('@global/utilities/websocket');
-const handleErrorUtility = require('@global/utilities/error');
+const Utility = require("@utility");;
 
 async function handleFollowUtility(client) {
   try {
@@ -44,7 +44,7 @@ async function handleFollowUtility(client) {
 
     state.isFollowerInitialized = true;
   } catch (err) {
-    await handleErrorUtility('Error fetching followers:', err.response?.data || err.message);
+    await Utility.error_logger('Error fetching followers:', err.response?.data || err.message);
   }
 }
 

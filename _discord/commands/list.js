@@ -1,7 +1,7 @@
 const Constant = require("@constant");
 
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType } = require('discord.js');
-const handleErrorUtility = require('@global/utilities/error');
+const Utility = require("@utility");;
 
 const COMMANDS_PER_PAGE = 10;
 
@@ -89,7 +89,7 @@ async function handleListCommand(message) {
       await sentMessage.edit({ components: [] });
     });
   } catch (err) {
-    await handleErrorUtility('❌ handleListCommand error:', err);
+    await Utility.error_logger('❌ handleListCommand error:', err);
   }
 }
 

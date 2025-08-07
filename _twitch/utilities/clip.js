@@ -2,7 +2,7 @@ const axios = require('axios');
 const env = require('@config/environments/base');
 const state = require('@global/utilities/state');
 const handleUserUtility = require('@global/utilities/user');
-const handleErrorUtility = require('@global/utilities/error');
+const Utility = require("@utility");;
 const sendToDiscordUtility = require('@twitch/utilities/sendToDiscord');
 
 async function handleClipUtility() {
@@ -52,7 +52,7 @@ async function handleClipUtility() {
 
     state.isClipInitialized = true;
   } catch (err) {
-    await handleErrorUtility('Error fetching clips:', err.response?.data || err.message);
+    await Utility.error_logger('Error fetching clips:', err.response?.data || err.message);
   }
 }
 

@@ -1,5 +1,5 @@
 const WebSocket = require('ws');
-const handleErrorUtility = require('@global/utilities/error');
+const Utility = require("@utility");;
 
 let wss = null;
 
@@ -24,7 +24,7 @@ function setupWebSocket(server) {
           ws.send(JSON.stringify({ type: 'pong' }));
         }
       } catch (e) {
-        await handleErrorUtility('❌ Error parsing message:', e);
+        await Utility.error_logger('❌ Error parsing message:', e);
       }
     });
   });

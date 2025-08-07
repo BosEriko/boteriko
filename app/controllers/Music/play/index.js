@@ -1,4 +1,4 @@
-const handleErrorUtility = require('@global/utilities/error');
+const Utility = require("@utility");;
 const axios = require('axios');
 
 const get_access_token = require("../get_access_token");
@@ -18,7 +18,7 @@ const play = async () => {
     );
     return 'Playback resumed';
   } catch (err) {
-    await handleErrorUtility('Failed to resume playback:', err.response?.data || err.message);
+    await Utility.error_logger('Failed to resume playback:', err.response?.data || err.message);
   }
 };
 

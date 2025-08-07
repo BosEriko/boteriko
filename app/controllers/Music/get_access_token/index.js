@@ -1,4 +1,4 @@
-const handleErrorUtility = require('@global/utilities/error');
+const Utility = require("@utility");;
 const env = require('@config/environments/base');
 const axios = require('axios');
 const cacheUtility = require('@global/utilities/cache');
@@ -32,7 +32,7 @@ const get_access_token = async () => {
     spotifyTokenCache.set('token', token, 'spotify');
     return token;
   } catch (error) {
-    await handleErrorUtility('Failed to refresh Spotify access token:', error.response?.data || error.message);
+    await Utility.error_logger('Failed to refresh Spotify access token:', error.response?.data || error.message);
   }
 };
 

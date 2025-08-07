@@ -1,6 +1,6 @@
 const axios = require('axios');
 const env = require('@config/environments/base');
-const handleErrorUtility = require('@global/utilities/error');
+const Utility = require("@utility");;
 const cacheUtility = require('@global/utilities/cache');
 
 // ------------------------------------------ API Variables ----------------------------------------
@@ -40,7 +40,7 @@ async function getOrCreateLabelName(maxRetries = 5, delayMs = 300) {
 
     return null;
   } catch (err) {
-    await handleErrorUtility('Failed to get/create label:', err);
+    await Utility.error_logger('Failed to get/create label:', err);
     return null;
   }
 }
@@ -58,7 +58,7 @@ async function fetchTodos() {
 
     return res.data;
   } catch (err) {
-    await handleErrorUtility('Failed to fetch todos:', err);
+    await Utility.error_logger('Failed to fetch todos:', err);
     return [];
   }
 }
@@ -76,7 +76,7 @@ async function addTodo(task) {
 
     return `Added task: "${task}" ✅`;
   } catch (err) {
-    await handleErrorUtility('Failed to add todo:', err);
+    await Utility.error_logger('Failed to add todo:', err);
     return 'Failed to add the todo ❌';
   }
 }
@@ -87,7 +87,7 @@ async function countTodos() {
     const todos = await fetchTodos();
     return `Total Todos: ${todos.length} ✅`;
   } catch (err) {
-    await handleErrorUtility('Failed to count todos:', err);
+    await Utility.error_logger('Failed to count todos:', err);
     return 'Failed to count todos ❌';
   }
 }
@@ -105,7 +105,7 @@ async function readTodo(indexStr) {
     const todo = todos[index];
     return `Todo #${index + 1}: ${todo.content} ✅`;
   } catch (err) {
-    await handleErrorUtility('Failed to read todo:', err);
+    await Utility.error_logger('Failed to read todo:', err);
     return 'Failed to read the todo ❌';
   }
 }
@@ -126,7 +126,7 @@ async function checkTodo(indexStr) {
 
     return `Marked task ${index + 1} as done ✅`;
   } catch (err) {
-    await handleErrorUtility('Failed to check todo:', err);
+    await Utility.error_logger('Failed to check todo:', err);
     return 'Failed to mark the todo as done ❌';
   }
 }
@@ -148,7 +148,7 @@ async function showTodos() {
 
     return message;
   } catch (err) {
-    await handleErrorUtility('Failed to show todos:', err);
+    await Utility.error_logger('Failed to show todos:', err);
     return 'Failed to show todos ❌';
   }
 }
@@ -175,7 +175,7 @@ async function handleTodoCommand(message) {
         return 'Usage: !todo [read|add|check|count|show]';
     }
   } catch (err) {
-    await handleErrorUtility('Something went wrong while handling the todo command:', err);
+    await Utility.error_logger('Something went wrong while handling the todo command:', err);
     return 'An error occurred while handling the todo command ❌';
   }
 }

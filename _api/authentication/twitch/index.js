@@ -1,7 +1,7 @@
 const express = require('express');
 const firebaseUtility = require('@global/utilities/firebase');
 const env = require('@config/environments/base');
-const handleErrorUtility = require('@global/utilities/error');
+const Utility = require("@utility");;
 
 const exchangeCode = require('./exchangeCode');
 const fetchUser = require('./fetchUser');
@@ -29,7 +29,7 @@ router.get('/', async (req, res) => {
 
     res.redirect(`${env.app.clientUrl}/authenticate?token=${customToken}`);
   } catch (error) {
-    await handleErrorUtility('OAuth error:', error);
+    await Utility.error_logger('OAuth error:', error);
     res.status(500).json({ error: 'Authentication failed' });
   }
 });
