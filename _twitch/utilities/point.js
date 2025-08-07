@@ -14,7 +14,7 @@ let heartbeatInterval = null;
 const channelName = env.twitch.channel.username;
 
 const handleChannelPoints = async (client, payload) => {
-  const { reward, user_id, user_name, user_input } = payload;
+  const { reward, user_id, user_name, user_input, id } = payload;
 
   try {
     switch (reward.title) {
@@ -39,8 +39,13 @@ const handleChannelPoints = async (client, payload) => {
       }
 
       case 'Add to Queue': {
-        const message = await Controller.Music.add_to_queue(user_input);
-        client.say(channelName, message);
+        const result = await Controller.Music.add_to_queue(user_input);
+
+        if (!result.success) {
+          await Controller.Music.delete_channel_request(reward, id);
+        }
+
+        client.say(channelName, result.message);
         break;
       }
 

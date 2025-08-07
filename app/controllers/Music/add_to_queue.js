@@ -36,10 +36,18 @@ const add_to_queue = async (query) => {
       }
     );
 
-    return `✅ Added to queue: ${topTrack.name} by ${topTrack.artists.map(a => a.name).join(', ')}`;
+   return {
+     success: true,
+     code: 'ADDED_TO_QUEUE',
+     message: `✅ Added to queue: ${topTrack.name} by ${topTrack.artists.map(a => a.name).join(', ')}`,
+   };
   } catch (err) {
     await handleErrorUtility('Failed to search and add to queue:', err.response?.data || err.message);
-    return `Failed to search and add to queue`;
+    return {
+      success: false,
+      code: 'API_ERROR',
+      message: 'Failed to search and add to queue',
+    };
   }
 };
 
