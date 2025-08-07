@@ -2,10 +2,10 @@ const Constant = require("@constant");
 
 const handleErrorUtility = require('@global/utilities/error');
 
-const create_schedule = require("./create_schedule");
-const delete_schedule = require("./delete_schedule");
-const read_category_id_by_name = require("./read_category_id_by_name");
-const read_schedule = require("./read_schedule");
+const create_schedule = require("../create_schedule");
+const delete_schedule = require("../delete_schedule");
+const read_category_id_by_name = require("../read_category_id_by_name");
+const read_schedule = require("../read_schedule");
 
 const dayjs = require("dayjs");
 const utc = require("dayjs/plugin/utc");

@@ -1,7 +1,7 @@
 const handleErrorUtility = require('@global/utilities/error');
 const axios = require('axios');
 
-const get_access_token = require("./get_access_token");
+const get_access_token = require("../get_access_token");
 
 const add_to_queue = async (query) => {
   const accessToken = await get_access_token();
