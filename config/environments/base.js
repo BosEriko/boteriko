@@ -53,13 +53,15 @@ const env = {
             error: process.env.DISCORD_WEBHOOK_ERROR
         }
     },
-    todoist: {
-        apiToken: process.env.TODOIST_API_TOKEN
-    },
-    spotify: {
-        clientId: process.env.SPOTIFY_CLIENT_ID,
-        clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-        refreshToken: process.env.SPOTIFY_REFRESH_TOKEN
+    other: {
+      todoist: {
+          apiToken: process.env.OTHER_TODOIST_API_TOKEN
+      },
+      spotify: {
+          clientId: process.env.OTHER_SPOTIFY_CLIENT_ID,
+          clientSecret: process.env.OTHER_SPOTIFY_CLIENT_SECRET,
+          refreshToken: process.env.OTHER_SPOTIFY_REFRESH_TOKEN
+      },
     },
     firebase: {
         projectId: process.env.FIREBASE_PROJECT_ID,

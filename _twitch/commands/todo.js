@@ -10,7 +10,7 @@ const channelName = `#${env.twitch.channel.username}`;
 // ------------------------------------------ API Variables ----------------------------------------
 const TODOIST_API_URL = 'https://api.todoist.com/rest/v2';
 const QUICK_ADD_URL = 'https://api.todoist.com/sync/v9/quick/add';
-const TODOIST_HEADERS = { Authorization: `Bearer ${env.todoist.apiToken}` };
+const TODOIST_HEADERS = { Authorization: `Bearer ${env.other.todoist.apiToken}` };
 
 // ----------------------------------- Label Creation or Fetching ----------------------------------
 const labelNameCache = cacheUtility();
