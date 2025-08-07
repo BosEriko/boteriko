@@ -60,7 +60,8 @@ const env = {
       spotify: {
           clientId: process.env.OTHER_SPOTIFY_CLIENT_ID,
           clientSecret: process.env.OTHER_SPOTIFY_CLIENT_SECRET,
-          refreshToken: process.env.OTHER_SPOTIFY_REFRESH_TOKEN
+          refreshToken: process.env.OTHER_SPOTIFY_REFRESH_TOKEN,
+          redirectUrl: process.env.OTHER_SPOTIFY_REDIRECT_URL
       },
     },
     firebase: {

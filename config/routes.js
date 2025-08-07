@@ -1,3 +1,5 @@
+const Controller = require("@controller");
+
 const env = require('@config/environments/base');
 const express = require('express');
 const cors = require('cors');
@@ -24,6 +26,8 @@ app.get('/', (req, res) => {
 
 // Route mounting
 app.use('/api/authentication/discord', discordRouter);
+app.use('/api/authentication/spotify/login', Controller.Music.get_account_information);
+app.use('/api/authentication/spotify/callback', Controller.Music.get_refresh_token);
 app.use('/api/authentication/twitch', twitchRouter);
 app.use('/api/details', detailsRouter);
 app.use('/api/profile/tetrio', tetrioProfileRouter);
