@@ -6,18 +6,18 @@ const delete_channel_request = async (reward, id) => {
   try {
     await axios.patch(
       `https://api.twitch.tv/helix/channel_points/custom_rewards/redemptions`,
-      null,
+      { status: "CANCELED" },
       {
         params: {
           broadcaster_id: env.twitch.channel.id,
           reward_id: reward.id,
           id: id,
-          status: "CANCELED",
         },
         headers: {
-          'Client-ID': env.twitch.channel.clientId,
-          'Authorization': `Bearer ${env.twitch.channel.accessToken}`,
-        }
+          "Client-ID": env.twitch.channel.clientId,
+          "Authorization": `Bearer ${env.twitch.channel.accessToken}`,
+          "Content-Type": "application/json",
+        },
       }
     );
 
