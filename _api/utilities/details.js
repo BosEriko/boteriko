@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const handleUserUtility = require('@global/utilities/user');
 
-router.get('/details', async (req, res) => {
+router.get('/', async (req, res) => {
   const { username } = req.query;
 
   if (!username) {

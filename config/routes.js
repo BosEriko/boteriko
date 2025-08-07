@@ -23,10 +23,10 @@ app.get('/', (req, res) => {
 });
 
 // Route mounting
-app.use('/api', discordRouter);
-app.use('/api', twitchRouter);
-app.use('/api', detailsRouter);
-app.use('/api', tetrioProfileRouter);
+app.use('/api/authentication/discord', discordRouter);
+app.use('/api/authentication/twitch', twitchRouter);
+app.use('/api/details', detailsRouter);
+app.use('/api/profile/tetrio', tetrioProfileRouter);
 
 const server = http.createServer(app);
 

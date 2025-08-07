@@ -9,7 +9,7 @@ const updateUserDiscordId = require('./updateUserDiscordId');
 
 const router = express.Router();
 
-router.get('/authentication/discord', async (req, res) => {
+router.get('/', async (req, res) => {
   const { code, state } = req.query;
 
   if (!code || !state) {

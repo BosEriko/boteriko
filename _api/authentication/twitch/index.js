@@ -11,7 +11,7 @@ const generateCustomToken = require('./generateCustomToken');
 const router = express.Router();
 const db = firebaseUtility.firestore();
 
-router.get('/authentication/twitch', async (req, res) => {
+router.get('/', async (req, res) => {
   const code = req.query.code;
 
   try {

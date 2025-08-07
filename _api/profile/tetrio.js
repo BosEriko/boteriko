@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const handleErrorUtility = require('@global/utilities/error');
 
-router.get('/profile/tetrio', async (req, res) => {
+router.get('/', async (req, res) => {
   const { username } = req.query;
 
   if (!username) {
