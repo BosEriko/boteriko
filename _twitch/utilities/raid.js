@@ -1,3 +1,5 @@
+const Constant = require("@constant");
+
 const axios = require('axios');
 const { broadcastToClient } = require('@global/utilities/websocket');
 const Utility = require("@utility");;
@@ -64,7 +66,7 @@ async function handleRaidUtility(client, user, isBroadcaster) {
       await triggerRaid(toChannelId);
       const message = `Raiding ${username}!`;
       client.say(channelName, message);
-      client.say(channelName, "Thank you for the stream!");
+      Constant.RaidMessage.forEach((msg, i) => setTimeout(() => client.say(channelName, msg), i * 1000));
       broadcastToClient({ type: 'TICKER', message, isVisible: true });
       broadcastToClient({ type: 'MUSIC', id: 'JEREMY_BLAKE_POWERUP', isPlaying: true });
     } catch (err) {
