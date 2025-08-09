@@ -1,9 +1,5 @@
-const Controller = require("@controller");
-
 const WebSocket = require('ws');
 const axios = require('axios');
-const env = require('@config/environments/base');
-const Utility = require("@utility");;
 const { broadcastToClient } = require('@global/utilities/websocket');
 
 let ws;

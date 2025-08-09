@@ -1,5 +1,4 @@
 const firebase = require('firebase-admin');
-const env = require('@config/environments/base');
 
 if (!firebase.apps.length) {
   firebase.initializeApp({

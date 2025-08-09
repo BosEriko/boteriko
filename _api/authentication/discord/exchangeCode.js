@@ -1,5 +1,4 @@
 const axios = require('axios');
-const env = require('@config/environments/base');
 
 module.exports = async function exchangeCode(code) {
   const response = await axios.post(

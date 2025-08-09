@@ -1,9 +1,4 @@
-const Constant = require("@constant");
-const Controller = require("@controller");
-
 const axios = require('axios');
-const env = require('@config/environments/base');
-const Utility = require("@utility");;
 const getLastTypingWinner = require('@twitch/utilities/typingWinner');
 
 let lastCheckedDate = null;

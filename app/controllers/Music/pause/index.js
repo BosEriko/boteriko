@@ -1,4 +1,3 @@
-const Utility = require("@utility");;
 const axios = require('axios');
 
 const get_access_token = require("../get_access_token");

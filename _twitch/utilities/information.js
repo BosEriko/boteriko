@@ -1,7 +1,3 @@
-const Constant = require("@constant");
-
-const env = require('@config/environments/base');
-
 let informationIndex = 0;
 let lastShuffleDate = null;
 

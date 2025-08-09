@@ -1,6 +1,4 @@
 const express = require('express');
-const env = require('@config/environments/base');
-const Utility = require("@utility");
 
 const verifyFirebaseToken = require('./verifyFirebaseToken');
 const exchangeCode = require('./exchangeCode');

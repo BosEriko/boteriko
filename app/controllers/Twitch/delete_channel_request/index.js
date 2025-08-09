@@ -1,6 +1,4 @@
-const env = require("@config/environments/base");
 const axios = require('axios');
-const Utility = require("@utility");;
 
 const delete_channel_request = async (reward, id) => {
   try {

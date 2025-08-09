@@ -1,7 +1,5 @@
 const axios = require('axios');
-const env = require('@config/environments/base');
 const state = require('@global/utilities/state');
-const Utility = require("@utility");;
 
 const channelName = `#${env.twitch.channel.username}`;
 const AD_DURATION = 90;

@@ -1,6 +1,4 @@
 const axios = require('axios');
-const env = require('@config/environments/base');
-const Utility = require("@utility");;
 
 async function handleAnnouncementUtility(message, color = 'primary') {
   try {

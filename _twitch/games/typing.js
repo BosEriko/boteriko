@@ -1,5 +1,3 @@
-const Constant = require("@constant");
-
 const { broadcastToClient } = require('@global/utilities/websocket');
 const firebaseUtility = require('@global/utilities/firebase');
 const walletUtility = require('@global/utilities/wallet');

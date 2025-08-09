@@ -1,5 +1,4 @@
 const sendToDiscordUtility = require('@twitch/utilities/sendToDiscord');
-const env = require('@config/environments/base');
 
 async function handleLinkUtility(user, client, message) {
   const urlRegex = /https?:\/\/[^\s/$.?#].[^\s]*/gi;

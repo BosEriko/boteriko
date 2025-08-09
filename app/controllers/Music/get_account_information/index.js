@@ -1,5 +1,4 @@
 const express = require('express');
-const env = require('@config/environments/base');
 
 const get_account_information = express.Router();
 

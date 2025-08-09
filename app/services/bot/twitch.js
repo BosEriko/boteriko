@@ -1,8 +1,4 @@
-const Constant = require("@constant");
-const Controller = require("@controller");
-
 const client = require('@twitch/utilities/client');
-const env = require('@config/environments/base');
 const state = require('@global/utilities/state');
 
 // Utilities

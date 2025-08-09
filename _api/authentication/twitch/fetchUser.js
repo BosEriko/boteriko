@@ -1,5 +1,4 @@
 const axios = require('axios');
-const env = require('@config/environments/base');
 
 module.exports = async function fetchUser(accessToken) {
   const response = await axios.get('https://api.twitch.tv/helix/users', {

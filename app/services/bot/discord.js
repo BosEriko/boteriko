@@ -1,6 +1,3 @@
-const Constant = require("@constant");
-const Controller = require("@controller");
-
 const client = require('@discord/utilities/client');
 
 // Commands
@@ -12,10 +9,6 @@ const handleTodoCommand = require('@discord/commands/todo');
 
 // Utilities
 const handleChatUtility = require('@discord/utilities/chat');
-const Utility = require("@utility");;
-
-// Environment
-const env = require('@config/environments/base');
 
 // -------------------------------------- Discord Bot Setup ----------------------------------------
 

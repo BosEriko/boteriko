@@ -1,5 +1,3 @@
-const Utility = require("@utility");;
-
 async function syncUserUtility(auth, user) {
   try {
     await auth.updateUser(user.id, {

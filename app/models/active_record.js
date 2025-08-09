@@ -1,5 +1,4 @@
 const admin = require('firebase-admin');
-const env = require('@config/environments/base');
 const schema = require('@db/schema');
 
 if (!admin.apps.length) {

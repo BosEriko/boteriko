@@ -1,8 +1,6 @@
 const axios = require('axios');
-const env = require('@config/environments/base');
 const state = require('@global/utilities/state');
 const { broadcastToClient } = require('@global/utilities/websocket');
-const Utility = require("@utility");;
 
 async function handleFollowUtility(client) {
   try {

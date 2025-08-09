@@ -1,7 +1,4 @@
-const Constant = require("@constant");
-
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType } = require('discord.js');
-const Utility = require("@utility");;
 
 const COMMANDS_PER_PAGE = 10;
 

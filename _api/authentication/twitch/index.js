@@ -1,7 +1,5 @@
 const express = require('express');
 const firebaseUtility = require('@global/utilities/firebase');
-const env = require('@config/environments/base');
-const Utility = require("@utility");;
 
 const exchangeCode = require('./exchangeCode');
 const fetchUser = require('./fetchUser');

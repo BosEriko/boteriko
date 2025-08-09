@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const Utility = require("@utility");;
 
 router.get('/', async (req, res) => {
   const { username } = req.query;

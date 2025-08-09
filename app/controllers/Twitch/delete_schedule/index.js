@@ -1,4 +1,3 @@
-const env = require("@config/environments/base");
 const axios = require('axios');
 
 const delete_schedule = async (id) => {

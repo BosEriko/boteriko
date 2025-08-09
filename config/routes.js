@@ -1,6 +1,3 @@
-const Controller = require("@controller");
-
-const env = require('@config/environments/base');
 const express = require('express');
 const cors = require('cors');
 const http = require('http');

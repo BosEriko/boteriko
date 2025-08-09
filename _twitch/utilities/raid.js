@@ -1,9 +1,5 @@
-const Constant = require("@constant");
-
 const axios = require('axios');
 const { broadcastToClient } = require('@global/utilities/websocket');
-const Utility = require("@utility");;
-const env = require('@config/environments/base');
 const state = require('@global/utilities/state');
 
 const channelName = `#${env.twitch.channel.username}`;

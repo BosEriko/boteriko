@@ -1,6 +1,4 @@
-const env = require("@config/environments/base");
 const axios = require('axios');
-const Utility = require("@utility");;
 
 const read_category_id_by_name = async (name) => {
   try {

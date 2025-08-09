@@ -1,15 +1,9 @@
-const Constant = require("@constant");
-
-const Utility = require("@utility");;
-
 const create_schedule = require("../create_schedule");
 const delete_schedule = require("../delete_schedule");
 const read_category_id_by_name = require("../read_category_id_by_name");
 const read_schedule = require("../read_schedule");
 
 const get_next_weekday_date_time = require("./get_next_weekday_date_time");
-
-const env = require("@config/environments/base");
 
 // 🧩 Main entry
 const update_schedule = async () => {

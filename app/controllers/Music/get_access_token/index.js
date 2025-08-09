@@ -1,5 +1,3 @@
-const Utility = require("@utility");;
-const env = require('@config/environments/base');
 const axios = require('axios');
 const cacheUtility = require('@global/utilities/cache');
 

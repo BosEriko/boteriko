@@ -1,5 +1,4 @@
 const { broadcastToClient } = require('@global/utilities/websocket');
-const env = require('@config/environments/base');
 const state = require('@global/utilities/state');
 
 let pomodoroTimer = null;

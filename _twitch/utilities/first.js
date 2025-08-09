@@ -1,12 +1,8 @@
-const Controller = require("@controller");
-const Utility = require("@utility");
-
 const firebaseUtility = require('@global/utilities/firebase');
 const cacheUtility = require('@global/utilities/cache');
 const firstUtility = require('@global/utilities/first');
 const handleStreamDetailUtility = require("@global/utilities/streamDetail");
 const axios = require('axios');
-const env = require('@config/environments/base');
 const state = require('@global/utilities/state');
 
 const THIRTY_MINUTES_MS = 30 * 60 * 1000;

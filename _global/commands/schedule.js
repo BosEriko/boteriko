@@ -1,5 +1,3 @@
-const env = require('@config/environments/base');
-
 const handleScheduleCommand = function() {
   const start = env.stream.start;
   const duration = env.stream.duration;

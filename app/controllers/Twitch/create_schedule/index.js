@@ -1,4 +1,3 @@
-const env = require("@config/environments/base");
 const axios = require('axios');
 
 const create_schedule = async ({ title, categoryId, startDateTime, duration }) => {

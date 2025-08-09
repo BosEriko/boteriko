@@ -1,5 +1,4 @@
 const cron = require('node-cron');
-const env = require('@config/environments/base');
 const state = require('@global/utilities/state');
 
 // Utilities
@@ -7,7 +6,6 @@ const { broadcastToClient } = require('@global/utilities/websocket');
 const { handleAdUtility, runAd } = require('@twitch/utilities/ad');
 const { handleTypingWords } = require('@twitch/games/typing');
 const handleClipUtility = require('@twitch/utilities/clip');
-const Utility = require("@utility");;
 const handleFollowUtility = require('@twitch/utilities/follow');
 const handleInformationUtility = require('@twitch/utilities/information');
 const handleRaidUtility = require('@twitch/utilities/raid');

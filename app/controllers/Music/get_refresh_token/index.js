@@ -1,6 +1,4 @@
 const express = require('express');
-const env = require('@config/environments/base');
-const Utility = require("@utility");;
 const axios = require('axios');
 
 const get_refresh_token = express.Router();
