@@ -6,7 +6,7 @@ const RaidMessage = [
   `🎵 TikTok: http://tiktok.boseriko.com`,
   `📺 YouTube: http://youtube.boseriko.com`,
   `💬 Join the community on Discord: http://discord.boseriko.com`,
-  `❤️ Enjoyed the stream? Don’t forget to follow so you don’t miss the next one!`,
+  `❤️ Enjoyed the stream? Don't forget to follow so you don't miss the next one!`,
 ];
 
 module.exports = RaidMessage;

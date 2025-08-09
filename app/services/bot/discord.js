@@ -1,4 +1,5 @@
 const Constant = require("@constant");
+const Controller = require("@controller");
 
 const client = require('@discord/utilities/client');
 
@@ -72,6 +73,7 @@ client.on('messageCreate', async message => {
   if (commandName === 'date') return message.reply(handleTimeCommand('date'));
   if (commandName === 'ping') return message.reply(handlePingCommand());
   if (commandName === 'schedule') return message.reply(handleScheduleCommand());
+  if (commandName === 'steam') return message.reply(Controller.Link.twitch());
   if (commandName === 'time') return message.reply(handleTimeCommand('time'));
   if (commandName === 'todo') return await handlePrivateCommand(message, handleTodoCommand, commandArgs, 'Todo');
 });

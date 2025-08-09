@@ -130,6 +130,7 @@ client.on('message', async (channel, tags, message, self) => {
   if (commandName === 'pomodoro') handlePomodoroCommand(client, commandArgs);
   if (commandName === 'raid') await handleRaidCommand(client, commandArgs, isBroadcaster);
   if (commandName === 'schedule') client.say(channel, handleScheduleCommand());
+  if (commandName === 'steam') client.say(channel, Controller.Link.twitch());
   if (commandName === 'time') client.say(channel, handleTimeCommand('time'));
   if (commandName === 'todo') await handleTodoCommand(client, commandArgs);
   if (commandName === 'top') await handleTypingTopCommand(client, channel);
