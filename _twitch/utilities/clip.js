@@ -7,13 +7,13 @@ async function handleClipUtility() {
   try {
     const res = await axios.get(`https://api.twitch.tv/helix/clips`, {
       params: {
-        broadcaster_id: env.twitch.channel.id,
+        broadcaster_id: Config.twitch.channel.id,
         first: 20,
         started_at: state.latestClipTimestamp || new Date(Date.now() - 1000 * 60 * 60).toISOString()
       },
       headers: {
-        'Client-ID': env.twitch.bot.clientId,
-        'Authorization': `Bearer ${env.twitch.bot.accessToken}`
+        'Client-ID': Config.twitch.bot.clientId,
+        'Authorization': `Bearer ${Config.twitch.bot.accessToken}`
       }
     });
 
@@ -45,7 +45,7 @@ async function handleClipUtility() {
       state.latestClipTimestamp = createdAt.toISOString();
 
       const user = await handleUserUtility(clip.creator_name);
-      await sendToDiscordUtility(user, `${clip.title} → ${clip.url}`, env.discord.webhook.clip);
+      await sendToDiscordUtility(user, `${clip.title} → ${clip.url}`, Config.discord.webhook.clip);
     }
 
     state.isClipInitialized = true;

@@ -16,10 +16,10 @@ get_refresh_token.get('/', async (req, res) => {
     const response = await axios.post(tokenUrl, new URLSearchParams({
       grant_type: 'authorization_code',
       code,
-      redirect_uri: env.other.spotify.redirectUrl
+      redirect_uri: Config.other.spotify.redirectUrl
     }), {
       headers: {
-        'Authorization': 'Basic ' + Buffer.from(`${env.other.spotify.clientId}:${env.other.spotify.clientSecret}`).toString('base64'),
+        'Authorization': 'Basic ' + Buffer.from(`${Config.other.spotify.clientId}:${Config.other.spotify.clientSecret}`).toString('base64'),
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     });

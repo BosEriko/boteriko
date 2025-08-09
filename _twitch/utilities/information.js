@@ -21,7 +21,7 @@ function handleInformationUtility(client) {
   }
 
   const message = Constant.Information[informationIndex];
-  client.say(`#${env.twitch.channel.username}`, `📢 ${message}`);
+  client.say(`#${Config.twitch.channel.username}`, `📢 ${message}`);
 
   informationIndex = (informationIndex + 1) % Constant.Information.length;
 }

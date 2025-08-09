@@ -3,11 +3,11 @@ const axios = require('axios');
 const read_schedule = async () => {
   const res = await axios.get("https://api.twitch.tv/helix/schedule", {
     headers: {
-      "Client-ID": env.twitch.channel.clientId,
-      Authorization: `Bearer ${env.twitch.channel.accessToken}`,
+      "Client-ID": Config.twitch.channel.clientId,
+      Authorization: `Bearer ${Config.twitch.channel.accessToken}`,
     },
     params: {
-      broadcaster_id: env.twitch.channel.id,
+      broadcaster_id: Config.twitch.channel.id,
     },
   });
 

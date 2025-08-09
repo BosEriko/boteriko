@@ -5,8 +5,8 @@ async function handleLinkUtility(user, client, message) {
   const links = message.match(urlRegex);
 
   if (links) {
-    await sendToDiscordUtility(user, message, env.discord.webhook.link),
-    client.say(`#${env.twitch.channel.username}`, "📝 Link saved to Discord (http://discord.boseriko.com)!");
+    await sendToDiscordUtility(user, message, Config.discord.webhook.link),
+    client.say(`#${Config.twitch.channel.username}`, "📝 Link saved to Discord (http://discord.boseriko.com)!");
   }
 }
 

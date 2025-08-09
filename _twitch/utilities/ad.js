@@ -1,9 +1,9 @@
 const axios = require('axios');
 const state = require('@global/utilities/state');
 
-const channelName = `#${env.twitch.channel.username}`;
+const channelName = `#${Config.twitch.channel.username}`;
 const AD_DURATION = 90;
-const maxAds = (parseInt(env.stream.duration, 10) - 1) * 2;
+const maxAds = (parseInt(Config.stream.duration, 10) - 1) * 2;
 
 async function handleAdUtility(client) {
   if (!state.hasSkippedFirstAd) {
@@ -30,7 +30,7 @@ async function handleAdUtility(client) {
 
 async function runAd() {
   try {
-    const { clientId, accessToken, id: broadcasterId } = env.twitch.channel;
+    const { clientId, accessToken, id: broadcasterId } = Config.twitch.channel;
 
     const response = await axios.post(
       'https://api.twitch.tv/helix/channels/commercial',

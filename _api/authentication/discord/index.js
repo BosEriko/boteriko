@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
 
     await updateUserDiscordId(uid, discordUser.id);
 
-    return res.redirect(`${env.app.clientUrl}/?discord_connected=1`);
+    return res.redirect(`${Config.app.clientUrl}/?discord_connected=1`);
   } catch (err) {
     await Utility.error_logger('Discord OAuth error:', err);
     return res.status(500).json({ error: 'Discord connection failed' });

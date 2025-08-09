@@ -4,7 +4,7 @@ module.exports = async function fetchUser(accessToken) {
   const response = await axios.get('https://api.twitch.tv/helix/users', {
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      'Client-Id': env.twitch.app.clientId,
+      'Client-Id': Config.twitch.app.clientId,
     },
   });
 

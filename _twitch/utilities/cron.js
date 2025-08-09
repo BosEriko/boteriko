@@ -16,7 +16,7 @@ const handleStreamDetailUtility = require("@global/utilities/streamDetail");
 const getLastTypingWinner = require('@twitch/utilities/typingWinner');
 
 function handleCronUtility(client) {
-  const timezone = env.app.timeZone;
+  const timezone = Config.app.timeZone;
   // ------------------------------------------- Functions -------------------------------------------
 
   // Check Stream Availability Function
@@ -106,7 +106,7 @@ function handleCronUtility(client) {
   }, { timezone });
 
   // Every day 1 hour before stream start
-  const streamStartHour = parseInt(env.stream.start, 10);
+  const streamStartHour = parseInt(Config.stream.start, 10);
   const oneHourBeforeStream = (streamStartHour + 23) % 24;
   cron.schedule(`0 ${oneHourBeforeStream} * * *`, () => {
     retryWhenOffline(() => {
@@ -116,7 +116,7 @@ function handleCronUtility(client) {
   }, { timezone });
 
   // Every end of stream
-  const streamEndHour = parseInt(env.stream.start, 10) + parseInt(env.stream.duration, 10);
+  const streamEndHour = parseInt(Config.stream.start, 10) + parseInt(Config.stream.duration, 10);
   cron.schedule(`0 ${streamEndHour} * * *`, () => {
     if (state.isStreaming) handleRaidUtility(client, "TwisWua", true);
   }, { timezone });

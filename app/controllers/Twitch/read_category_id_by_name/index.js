@@ -5,8 +5,8 @@ const read_category_id_by_name = async (name) => {
     const res = await axios.get('https://api.twitch.tv/helix/games', {
       params: { name },
       headers: {
-        'Client-ID': env.twitch.bot.clientId,
-        'Authorization': `Bearer ${env.twitch.bot.accessToken}`,
+        'Client-ID': Config.twitch.bot.clientId,
+        'Authorization': `Bearer ${Config.twitch.bot.accessToken}`,
       },
     });
 

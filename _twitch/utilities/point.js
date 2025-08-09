@@ -7,7 +7,7 @@ let reconnectUrl = null;
 let lastPing = Date.now();
 let heartbeatInterval = null;
 
-const channelName = env.twitch.channel.username;
+const channelName = Config.twitch.channel.username;
 
 const handleChannelPoints = async (client, payload) => {
   const { reward, user_id, user_name, user_input, id } = payload;
@@ -55,9 +55,9 @@ const handleChannelPoints = async (client, payload) => {
 };
 
 function handlePointUtility(client) {
-  const accessToken = env.twitch.channel.accessToken;
-  const clientId = env.twitch.channel.clientId;
-  const userId = env.twitch.channel.id;
+  const accessToken = Config.twitch.channel.accessToken;
+  const clientId = Config.twitch.channel.clientId;
+  const userId = Config.twitch.channel.id;
 
   const connect = (url = 'wss://eventsub.wss.twitch.tv/ws') => {
     if (ws) {

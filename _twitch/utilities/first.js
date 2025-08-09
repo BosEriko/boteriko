@@ -30,12 +30,12 @@ async function handleFirstUtility(isMod, isBroadcaster, user) {
 
   try {
     await axios.patch(
-      `https://api.twitch.tv/helix/channels?broadcaster_id=${env.twitch.channel.id}`,
+      `https://api.twitch.tv/helix/channels?broadcaster_id=${Config.twitch.channel.id}`,
       { title: newTitle },
       {
         headers: {
-          'Client-ID': env.twitch.channel.clientId,
-          'Authorization': `Bearer ${env.twitch.channel.accessToken}`,
+          'Client-ID': Config.twitch.channel.clientId,
+          'Authorization': `Bearer ${Config.twitch.channel.accessToken}`,
           'Content-Type': 'application/json'
         }
       }

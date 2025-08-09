@@ -2,10 +2,10 @@ const tmi = require("tmi.js");
 
 const client = new tmi.Client({
   identity: {
-    username: env.twitch.bot.username,
-    password: env.twitch.bot.accessToken
+    username: Config.twitch.bot.username,
+    password: Config.twitch.bot.accessToken
   },
-  channels: [env.twitch.channel.username]
+  channels: [Config.twitch.channel.username]
 });
 
 module.exports = client;

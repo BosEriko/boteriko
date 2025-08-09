@@ -1,8 +1,8 @@
 const handleScheduleCommand = function() {
-  const start = env.stream.start;
-  const duration = env.stream.duration;
-  const days = env.stream.days;
-  const timeZone = env.app.timeZone;
+  const start = Config.stream.start;
+  const duration = Config.stream.duration;
+  const days = Config.stream.days;
+  const timeZone = Config.app.timeZone;
   const end = (start + duration) % 24;
 
   // Convert 24-hour time to 12-hour format

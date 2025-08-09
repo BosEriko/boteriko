@@ -8,12 +8,12 @@ const get_access_token = async () => {
   const cachedToken = spotifyTokenCache.get('token', 'spotify');
   if (cachedToken) return cachedToken;
 
-  const authString = Buffer.from(`${env.other.spotify.clientId}:${env.other.spotify.clientSecret}`).toString('base64');
+  const authString = Buffer.from(`${Config.other.spotify.clientId}:${Config.other.spotify.clientSecret}`).toString('base64');
 
   try {
     const params = new URLSearchParams();
     params.append('grant_type', 'refresh_token');
-    params.append('refresh_token', env.other.spotify.refreshToken);
+    params.append('refresh_token', Config.other.spotify.refreshToken);
 
     const response = await axios.post(
       'https://accounts.spotify.com/api/token',

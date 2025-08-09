@@ -32,7 +32,7 @@ async function handlePrivateCommand(message, handler, commandArgs, commandLabel 
 
 client.on('messageCreate', async message => {
   if (message.author.bot || message.webhookId) return;
-  if (message.guild?.id !== env.discord.server.id) return;
+  if (message.guild?.id !== Config.discord.server.id) return;
 
   // Chat Utility
   handleChatUtility(message.author.id);
@@ -56,7 +56,7 @@ client.on('messageCreate', async message => {
   }
 
   // Check if the command is restricted
-  if (restrictedCommands.includes(commandName) && message.author.id !== env.discord.owner.id) {
+  if (restrictedCommands.includes(commandName) && message.author.id !== Config.discord.owner.id) {
     message.reply(`❌ Only the bot owner can use the \`${commandName}\` command.`);
     return;
   }
@@ -71,4 +71,4 @@ client.on('messageCreate', async message => {
   if (commandName === 'todo') return await handlePrivateCommand(message, handleTodoCommand, commandArgs, 'Todo');
 });
 
-client.login(env.discord.bot.token);
+client.login(Config.discord.bot.token);

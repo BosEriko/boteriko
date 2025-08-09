@@ -35,20 +35,20 @@ async function handleSetupUtility(client) {
     newTitle = titleGenerator.append("Previous Typing Winner", `@${winnerData.winner}`);
   }
 
-  const url = `https://api.twitch.tv/helix/channels?broadcaster_id=${env.twitch.channel.id}`;
+  const url = `https://api.twitch.tv/helix/channels?broadcaster_id=${Config.twitch.channel.id}`;
   const body = gameId ? { title: newTitle, game_id: gameId } : { title: newTitle };
 
   try {
     await axios.patch(url, body, {
       headers: {
-        'Client-ID': env.twitch.channel.clientId,
-        'Authorization': `Bearer ${env.twitch.channel.accessToken}`,
+        'Client-ID': Config.twitch.channel.clientId,
+        'Authorization': `Bearer ${Config.twitch.channel.accessToken}`,
         'Content-Type': 'application/json',
       },
     });
 
     console.log("✅ Stream title and category updated successfully.");
-    client.say(`#${env.twitch.channel.username}`, `📝 New Title: "${newTitle}" | 📺 Category: ${category}`);
+    client.say(`#${Config.twitch.channel.username}`, `📝 New Title: "${newTitle}" | 📺 Category: ${category}`);
   } catch (error) {
     if (error.response) {
       await Utility.error_logger("❌ Failed to update title/category:", error.response.data);

@@ -11,7 +11,7 @@ let isBreakTime = false;
 let isPaused = false;
 let isVisible = false;
 
-const channelName = `#${env.twitch.channel.username}`;
+const channelName = `#${Config.twitch.channel.username}`;
 
 function broadcastState() {
   broadcastToClient({

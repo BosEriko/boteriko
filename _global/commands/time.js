@@ -6,7 +6,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 const handleTimeCommand = function (type) {
-  const timezone = env.app.timeZone;
+  const timezone = Config.app.timeZone;
   const now = dayjs().tz(timezone);
 
   if (type === 'time') {

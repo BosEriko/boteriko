@@ -27,7 +27,7 @@ const spotifyScopes = [
 
 get_account_information.get('/', async (req, res) => {
   const scopes = spotifyScopes.filter(scope => scope.isEnabled).map(scope => scope.name).join(' ');
-  const authUrl = `https://accounts.spotify.com/authorize?response_type=code&client_id=${env.other.spotify.clientId}&scope=${encodeURIComponent(scopes)}&redirect_uri=${encodeURIComponent(env.other.spotify.redirectUrl)}`;
+  const authUrl = `https://accounts.spotify.com/authorize?response_type=code&client_id=${Config.other.spotify.clientId}&scope=${encodeURIComponent(scopes)}&redirect_uri=${encodeURIComponent(Config.other.spotify.redirectUrl)}`;
 
   res.redirect(authUrl);
 });

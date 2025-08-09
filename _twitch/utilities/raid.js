@@ -2,7 +2,7 @@ const axios = require('axios');
 const { broadcastToClient } = require('@global/utilities/websocket');
 const state = require('@global/utilities/state');
 
-const channelName = `#${env.twitch.channel.username}`;
+const channelName = `#${Config.twitch.channel.username}`;
 
 async function getUserId(username) {
   try {
@@ -10,8 +10,8 @@ async function getUserId(username) {
       `https://api.twitch.tv/helix/users?login=${username}`,
       {
         headers: {
-          Authorization: `Bearer ${env.twitch.channel.accessToken}`,
-          'Client-Id': env.twitch.channel.clientId
+          Authorization: `Bearer ${Config.twitch.channel.accessToken}`,
+          'Client-Id': Config.twitch.channel.clientId
         }
       }
     );
@@ -26,12 +26,12 @@ async function getUserId(username) {
 async function triggerRaid(toChannelId) {
   try {
     const response = await axios.post(
-      `https://api.twitch.tv/helix/raids?from_broadcaster_id=${env.twitch.channel.id}&to_broadcaster_id=${toChannelId}`,
+      `https://api.twitch.tv/helix/raids?from_broadcaster_id=${Config.twitch.channel.id}&to_broadcaster_id=${toChannelId}`,
       null,
       {
         headers: {
-          Authorization: `Bearer ${env.twitch.channel.accessToken}`,
-          'Client-Id': env.twitch.channel.clientId
+          Authorization: `Bearer ${Config.twitch.channel.accessToken}`,
+          'Client-Id': Config.twitch.channel.clientId
         }
       }
     );

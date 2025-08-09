@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-const env = {
+const Config = {
     app: {
         clientUrl: process.env.APP_CLIENT_URL,
         timeZone: process.env.APP_TIME_ZONE
@@ -71,4 +71,4 @@ const env = {
     }
 };
 
-module.exports = env;
+module.exports = Config;

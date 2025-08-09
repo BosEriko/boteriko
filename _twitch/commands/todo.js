@@ -3,12 +3,12 @@ const { broadcastToClient } = require('@global/utilities/websocket');
 const state = require('@global/utilities/state');
 const cacheUtility = require('@global/utilities/cache');
 
-const channelName = `#${env.twitch.channel.username}`;
+const channelName = `#${Config.twitch.channel.username}`;
 
 // ------------------------------------------ API Variables ----------------------------------------
 const TODOIST_API_URL = 'https://api.todoist.com/rest/v2';
 const QUICK_ADD_URL = 'https://api.todoist.com/sync/v9/quick/add';
-const TODOIST_HEADERS = { Authorization: `Bearer ${env.other.todoist.apiToken}` };
+const TODOIST_HEADERS = { Authorization: `Bearer ${Config.other.todoist.apiToken}` };
 
 // ----------------------------------- Label Creation or Fetching ----------------------------------
 const labelNameCache = cacheUtility();

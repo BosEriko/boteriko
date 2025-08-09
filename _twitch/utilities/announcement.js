@@ -5,15 +5,15 @@ async function handleAnnouncementUtility(message, color = 'primary') {
     const response = await axios.post(
       'https://api.twitch.tv/helix/chat/announcements',
       {
-        broadcaster_id: env.twitch.channel.id,
-        moderator_id: env.twitch.bot.id,
+        broadcaster_id: Config.twitch.channel.id,
+        moderator_id: Config.twitch.bot.id,
         message: message,
         color: color // 'blue' | 'green' | 'orange' | 'purple' | 'primary'
       },
       {
         headers: {
-          Authorization: `Bearer ${env.twitch.bot.accessToken}`,
-          'Client-Id': env.twitch.bot.clientId,
+          Authorization: `Bearer ${Config.twitch.bot.accessToken}`,
+          'Client-Id': Config.twitch.bot.clientId,
           'Content-Type': 'application/json'
         }
       }

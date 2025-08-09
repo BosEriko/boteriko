@@ -98,7 +98,7 @@ client.on('message', async (channel, tags, message, self) => {
   const isCommand = lowerMsg.startsWith('!') && lowerMsg.length > 1;
   if (!isCommand) return;
 
-  const channelName = env.twitch.channel.username;
+  const channelName = Config.twitch.channel.username;
   const commandName = lowerMsg.split(' ')[0].replace('!', '');
   const commandArgs = msg.includes(' ') ? msg.slice(msg.indexOf(' ') + 1).trim() : '';
   const availableCommands = Constant.Command.map(c => c.command);

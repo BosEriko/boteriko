@@ -2,11 +2,11 @@ const axios = require('axios');
 
 async function handleStreamDetailUtility() {
   try {
-      const url = `https://api.twitch.tv/helix/streams?user_login=${env.twitch.channel.username}`;
+      const url = `https://api.twitch.tv/helix/streams?user_login=${Config.twitch.channel.username}`;
       const response = await axios.get(url, {
           headers: {
-              'Client-ID': env.twitch.bot.clientId,
-              'Authorization': `Bearer ${env.twitch.bot.accessToken}`
+              'Client-ID': Config.twitch.bot.clientId,
+              'Authorization': `Bearer ${Config.twitch.bot.accessToken}`
           }
       });
 

@@ -7,10 +7,10 @@ const get_next_weekday_date_time = require("./get_next_weekday_date_time");
 
 // 🧩 Main entry
 const update_schedule = async () => {
-  const timeZone = env.app.timeZone;
-  const startHour = parseInt(env.stream.start, 10);
-  const duration = parseInt(env.stream.duration, 10);
-  const allowedDays = env.stream.days;
+  const timeZone = Config.app.timeZone;
+  const startHour = parseInt(Config.stream.start, 10);
+  const duration = parseInt(Config.stream.duration, 10);
+  const allowedDays = Config.stream.days;
   const days = Object.keys(Constant.Schedule).filter((day) => allowedDays.includes(day.toLowerCase().slice(0, 3)));
 
   let existingSegments = [];

@@ -7,13 +7,13 @@ const delete_channel_request = async (reward, id) => {
       { status: "CANCELED" },
       {
         params: {
-          broadcaster_id: env.twitch.channel.id,
+          broadcaster_id: Config.twitch.channel.id,
           reward_id: reward.id,
           id: id,
         },
         headers: {
-          "Client-ID": env.twitch.channel.clientId,
-          "Authorization": `Bearer ${env.twitch.channel.accessToken}`,
+          "Client-ID": Config.twitch.channel.clientId,
+          "Authorization": `Bearer ${Config.twitch.channel.accessToken}`,
           "Content-Type": "application/json",
         },
       }

@@ -6,12 +6,12 @@ async function handleFollowUtility(client) {
   try {
     const res = await axios.get(`https://api.twitch.tv/helix/channels/followers`, {
       params: {
-        broadcaster_id: env.twitch.channel.id,
+        broadcaster_id: Config.twitch.channel.id,
         first: 10
       },
       headers: {
-        'Client-ID': env.twitch.bot.clientId,
-        'Authorization': `Bearer ${env.twitch.bot.accessToken}`
+        'Client-ID': Config.twitch.bot.clientId,
+        'Authorization': `Bearer ${Config.twitch.bot.accessToken}`
       }
     });
 
@@ -37,7 +37,7 @@ async function handleFollowUtility(client) {
 
       const message = `${follower.user_name} just followed!`;
       broadcastToClient({ type: 'FEED', feed_type: 'event', message });
-      client.say(`#${env.twitch.channel.username}`, message);
+      client.say(`#${Config.twitch.channel.username}`, message);
     }
 
     state.isFollowerInitialized = true;

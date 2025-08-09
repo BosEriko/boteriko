@@ -10,8 +10,8 @@ async function handleUserUtility(username) {
   try {
     const res = await axios.get('https://api.twitch.tv/helix/users', {
       headers: {
-        'Client-ID': env.twitch.bot.clientId,
-        'Authorization': `Bearer ${env.twitch.bot.accessToken}`,
+        'Client-ID': Config.twitch.bot.clientId,
+        'Authorization': `Bearer ${Config.twitch.bot.accessToken}`,
       },
       params: { login: username },
     });

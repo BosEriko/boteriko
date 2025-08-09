@@ -4,11 +4,11 @@ const schema = require('@db/schema');
 if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert({
-      projectId: env.firebase.projectId,
-      clientEmail: env.firebase.clientEmail,
-      privateKey: env.firebase.privateKey,
+      projectId: Config.firebase.projectId,
+      clientEmail: Config.firebase.clientEmail,
+      privateKey: Config.firebase.privateKey,
     }),
-    databaseURL: `https://${env.firebase.projectId}-default-rtdb.asia-southeast1.firebasedatabase.app/`
+    databaseURL: `https://${Config.firebase.projectId}-default-rtdb.asia-southeast1.firebasedatabase.app/`
   });
 }
 

@@ -37,7 +37,7 @@ async function error_logger(message, data = null) {
       return;
     }
 
-    await axios.post(env.discord.webhook.error, { username, content, avatar_url });
+    await axios.post(Config.discord.webhook.error, { username, content, avatar_url });
   } catch (err) {
     console.error('❌ Failed to send log to Discord:', err.message);
   }

@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Redirect root to client URL
 app.get('/', (req, res) => {
-  res.redirect(env.app.clientUrl);
+  res.redirect(Config.app.clientUrl);
 });
 
 // Route mounting
