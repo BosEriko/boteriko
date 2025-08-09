@@ -1,6 +1,6 @@
 const express = require('express');
 
-const get_account_information = express.Router();
+const authentication_login = express.Router();
 
 const spotifyScopes = [
   { name: 'app-remote-control', isEnabled: false },
@@ -25,11 +25,11 @@ const spotifyScopes = [
 ];
 
 
-get_account_information.get('/', async (req, res) => {
+authentication_login.get('/', async (req, res) => {
   const scopes = spotifyScopes.filter(scope => scope.isEnabled).map(scope => scope.name).join(' ');
   const authUrl = `https://accounts.spotify.com/authorize?response_type=code&client_id=${Config.other.spotify.clientId}&scope=${encodeURIComponent(scopes)}&redirect_uri=${encodeURIComponent(Config.other.spotify.redirectUrl)}`;
 
   res.redirect(authUrl);
 });
 
-module.exports = get_account_information;
+module.exports = authentication_login;

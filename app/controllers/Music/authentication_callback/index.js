@@ -1,9 +1,9 @@
 const express = require('express');
 const axios = require('axios');
 
-const get_refresh_token = express.Router();
+const authentication_callback = express.Router();
 
-get_refresh_token.get('/', async (req, res) => {
+authentication_callback.get('/', async (req, res) => {
   const code = req.query.code;
 
   if (!code) {
@@ -31,4 +31,4 @@ get_refresh_token.get('/', async (req, res) => {
   }
 });
 
-module.exports = get_refresh_token;
+module.exports = authentication_callback;
