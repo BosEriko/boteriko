@@ -4,6 +4,7 @@ const delete_schedule = require("./delete_schedule");
 const read_category_id_by_name = require("./read_category_id_by_name");
 const read_schedule = require("./read_schedule");
 const update_schedule = require("./update_schedule");
+const update_game = require("./update_game");
 
 const Twitch = {
   create_schedule,
@@ -11,6 +12,7 @@ const Twitch = {
   delete_schedule,
   read_category_id_by_name,
   read_schedule,
+  update_game,
   update_schedule,
 };
 

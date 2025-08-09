@@ -1,10 +1,12 @@
 const express = require('express');
 const cors = require('cors');
 const http = require('http');
+
 const discordRouter = require('@api/authentication/discord');
 const twitchRouter = require('@api/authentication/twitch');
 const detailsRouter = require('@api/utilities/details');
 const tetrioProfileRouter = require('@api/profile/tetrio');
+
 const { setupWebSocket } = require('@global/utilities/websocket');
 
 const app = express();

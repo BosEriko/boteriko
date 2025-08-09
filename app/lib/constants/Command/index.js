@@ -12,6 +12,7 @@ const Command = [
   { command: 'pomodoro', parameter: true, availability: [TWITCH], restricted: true, description: 'Set pomodoro sessions for focused work and break intervals.' },
   { command: 'raid', parameter: true, availability: [TWITCH], restricted: false, description: 'Start the raid process or send only the raid message.' },
   { command: 'schedule', parameter: false, availability: [TWITCH, DISCORD], restricted: false, description: 'Show the stream schedule.' },
+  { command: 'setgame', parameter: true, availability: [TWITCH], restricted: true, description: 'Set the game/category.' },
   { command: 'steam', parameter: false, availability: [TWITCH, DISCORD], restricted: false, description: 'Get the steam link.' },
   { command: 'time', parameter: false, availability: [TWITCH, DISCORD], restricted: false, description: 'Display the current time based on timezone.' },
   { command: 'todo', parameter: true, availability: [TWITCH], restricted: true, description: 'Set tasks when working.' },
