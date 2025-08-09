@@ -5,9 +5,9 @@ const exchangeCode = require('./exchangeCode');
 const fetchUser = require('./fetchUser');
 const updateUserDiscordId = require('./updateUserDiscordId');
 
-const authentication_callback = express.Router();
+const router = express.Router();
 
-authentication_callback.get('/', async (req, res) => {
+router.get('/', async (req, res) => {
   const { code, state } = req.query;
 
   if (!code || !state) {
@@ -28,4 +28,4 @@ authentication_callback.get('/', async (req, res) => {
   }
 });
 
-module.exports = authentication_callback;
+module.exports = router;
