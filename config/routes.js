@@ -2,8 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const http = require('http');
 
-const discordRouter = require('@api/authentication/discord');
-const twitchRouter = require('@api/authentication/twitch');
 const detailsRouter = require('@api/utilities/details');
 const tetrioProfileRouter = require('@api/profile/tetrio');
 
@@ -24,10 +22,10 @@ app.get('/', (req, res) => {
 });
 
 // Route mounting
-app.use('/api/authentication/discord', discordRouter);
+app.use('/api/authentication/discord', Controller.Discord.authentication_callback);
 app.use('/api/authentication/spotify/login', Controller.Music.authentication_login);
 app.use('/api/authentication/spotify/callback', Controller.Music.authentication_callback);
-app.use('/api/authentication/twitch', twitchRouter);
+app.use('/api/authentication/twitch', Controller.Twitch.authentication_callback);
 app.use('/api/details', detailsRouter);
 app.use('/api/profile/tetrio', tetrioProfileRouter);
 

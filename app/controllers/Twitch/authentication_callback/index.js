@@ -6,10 +6,10 @@ const fetchUser = require('./fetchUser');
 const syncFirebaseUser = require('./syncFirebaseUser');
 const generateCustomToken = require('./generateCustomToken');
 
-const router = express.Router();
+const authentication_callback = express.Router();
 const db = firebaseUtility.firestore();
 
-router.get('/', async (req, res) => {
+authentication_callback.get('/', async (req, res) => {
   const code = req.query.code;
 
   try {
@@ -32,4 +32,4 @@ router.get('/', async (req, res) => {
   }
 });
 
-module.exports = router;
+module.exports = authentication_callback;
