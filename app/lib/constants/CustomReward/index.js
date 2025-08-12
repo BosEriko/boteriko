@@ -1,7 +1,7 @@
 const CustomReward = [
   {
     is_enabled: true,
-    title: "Add to Queue",
+    title: Contstant.String.ADD_TO_QUEUE,
     prompt: "Add something to the music player — YouTube and Spotify links supported!",
     is_user_input_required: true,
     cost: 50,
