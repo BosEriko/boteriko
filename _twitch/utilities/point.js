@@ -14,15 +14,15 @@ const handleChannelPoints = async (client, payload) => {
 
   try {
     switch (reward.title) {
-      case 'Blink':
-      case 'Stretch':
-      case 'Hydrate': {
+      case Constant.String.BLINK:
+      case Constant.String.STRETCH:
+      case Constant.String.HYDRATE: {
         broadcastToClient({ type: 'SOUND_ALERT', id: reward.title.toUpperCase().replace(/\s+/g, '_') });
         client.say(channelName, `${user_name} played "${reward.title}" for ${reward.cost} channel points!`);
         break;
       }
 
-      case 'Stand Up': {
+      case Constant.String.STAND_UP: {
         broadcastToClient({ type: 'SOUND_ALERT', id: "STAND_UP" });
         client.say(channelName, `${user_name} played "${reward.title}" for ${reward.cost} channel points!`);
 
