@@ -34,7 +34,7 @@ const handleChannelPoints = async (client, payload) => {
         break;
       }
 
-      case Contstant.String.ADD_TO_QUEUE: {
+      case Constant.String.ADD_TO_QUEUE: {
         const result = await Controller.Music.add_to_queue(user_input);
 
         if (!result.success) {
