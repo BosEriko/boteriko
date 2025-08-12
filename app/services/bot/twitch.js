@@ -43,6 +43,7 @@ client.on('join', (channel, username, self) => {
 
 // ----------------------------------------- Block Import ------------------------------------------
 
+Controller.Twitch.create_custom_rewards();
 Controller.Twitch.update_schedule();
 handleCronUtility(client);
 handleEventUtility(client);
