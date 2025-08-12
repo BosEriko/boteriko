@@ -6,6 +6,10 @@ const spotifyPlaylistOrAlbumRegex = /(?:playlist\/|album\/|spotify:(?:playlist|a
 const youtubeVideoRegex = /(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
 const youtubePlaylistRegex = /[?&]list=([a-zA-Z0-9_-]+)/;
 
+const isYouTubePlaylistOnly = (url) => {
+  return youtubePlaylistRegex.test(url) && !youtubeVideoRegex.test(url);
+};
+
 const getYouTubeTitle = async (videoId) => {
   try {
     const res = await axios.get(`https://www.youtube.com/watch?v=${videoId}`);
@@ -42,7 +46,7 @@ const add_to_queue = async (input) => {
   let uri = null;
   let displayName = null;
 
-  if (spotifyPlaylistOrAlbumRegex.test(input) || youtubePlaylistRegex.test(input)) {
+  if (spotifyPlaylistOrAlbumRegex.test(input) || isYouTubePlaylistOnly(input)) {
     return {
       success: false,
       code: "INVALID_LINK_TYPE",
