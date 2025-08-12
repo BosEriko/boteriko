@@ -1,4 +1,5 @@
 const axios = require('axios');
+const ytdl = require("ytdl-core");
 const get_access_token = require("../get_access_token");
 
 const spotifyTrackRegex = /(?:track\/|spotify:track:)([a-zA-Z0-9]{22})/;
@@ -12,11 +13,8 @@ const isYouTubePlaylistOnly = (url) => {
 
 const getYouTubeTitle = async (videoId) => {
   try {
-    const res = await axios.get(`https://www.youtube.com/watch?v=${videoId}`);
-    const match = res.data.match(/<title>(.*?)<\/title>/i);
-    if (match && match[1]) {
-      return match[1].replace(" - YouTube", "").trim();
-    }
+    const info = await ytdl.getInfo(videoId);
+    return info.videoDetails.title;
   } catch (err) {
     return null;
   }

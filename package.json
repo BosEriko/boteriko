@@ -20,7 +20,8 @@
     "module-alias": "^2.2.3",
     "node-cron": "^4.1.0",
     "tmi.js": "^1.8.5",
-    "ws": "^8.18.2"
+    "ws": "^8.18.2",
+    "ytdl-core": "^4.11.5"
   },
   "_moduleAliases": {
     "@api": "_api",
