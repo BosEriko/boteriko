@@ -36,7 +36,7 @@ const handleChannelPoints = async (client, payload) => {
 
       case Constant.String.ADD_TO_QUEUE: {
         const result = await Controller.Music.add_to_queue(user_input);
-        await Controller.Twitch.update_channel_request(reward, id, result.success ? "FULFILLED" : "CANCELED");
+        await Controller.Twitch.update_channel_request(reward, id, result.success);
         client.say(channelName, result.message);
         break;
       }
