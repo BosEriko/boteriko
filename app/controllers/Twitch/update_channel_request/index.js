@@ -1,10 +1,10 @@
 const axios = require('axios');
 
-const delete_channel_request = async (reward, id) => {
+const update_channel_request = async (reward, id, status) => {
   try {
     await axios.patch(
       `https://api.twitch.tv/helix/channel_points/custom_rewards/redemptions`,
-      { status: "CANCELED" },
+      { status },
       {
         params: {
           broadcaster_id: Config.twitch.channel.id,
@@ -25,4 +25,4 @@ const delete_channel_request = async (reward, id) => {
   }
 };
 
-module.exports = delete_channel_request;
+module.exports = update_channel_request;

@@ -1,7 +1,7 @@
 const sendToDiscordUtility = require('@twitch/utilities/sendToDiscord');
 
 const exemptDomains = [
-  "open.spotify.com",
+  "open.spotify.com", // This avoid conflicts with Controller.Music.add_to_queue
 ];
 
 async function handleLinkUtility(user, client, message) {
