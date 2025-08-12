@@ -30,21 +30,31 @@ const searchSpotifyTrack = async (query, accessToken) => {
   return res.data.tracks.items[0] || null;
 };
 
+const getSpotifyTrackInfo = async (trackId, accessToken) => {
+  const res = await axios.get(`https://api.spotify.com/v1/tracks/${trackId}`, {
+    headers: { Authorization: `Bearer ${accessToken}` }
+  });
+  return res.data;
+};
+
 const add_to_queue = async (input) => {
   const accessToken = await get_access_token();
   let uri = null;
+  let displayName = null;
 
   if (spotifyPlaylistOrAlbumRegex.test(input) || youtubePlaylistRegex.test(input)) {
     return {
       success: false,
       code: "INVALID_LINK_TYPE",
-      message: "❌ Only Spotify/YouTube track links are supported. Playlists and albums are not supported.",
+      message: "❌ Only YouTube/Spotify video and track links are supported. Playlists and albums are not supported.",
     };
   }
 
   const spotifyTrackMatch = input.match(spotifyTrackRegex);
   if (spotifyTrackMatch) {
-    uri = `spotify:track:${spotifyTrackMatch[1]}`;
+    const trackInfo = await getSpotifyTrackInfo(spotifyTrackMatch[1], accessToken);
+    uri = trackInfo.uri;
+    displayName = `${trackInfo.name} by ${trackInfo.artists.map(a => a.name).join(', ')}`;
   }
 
   const youtubeMatch = input.match(youtubeVideoRegex);
@@ -58,6 +68,7 @@ const add_to_queue = async (input) => {
       return { success: false, code: "NO_RESULTS", message: `No results found for: "${title}"` };
     }
     uri = track.uri;
+    displayName = `${track.name} by ${track.artists.map(a => a.name).join(', ')}`;
   }
 
   if (!uri) {
@@ -66,6 +77,7 @@ const add_to_queue = async (input) => {
       return { success: false, code: "NO_RESULTS", message: `No results found for: "${input}"` };
     }
     uri = track.uri;
+    displayName = `${track.name} by ${track.artists.map(a => a.name).join(', ')}`;
   }
 
   try {
@@ -75,7 +87,7 @@ const add_to_queue = async (input) => {
       { headers: { Authorization: `Bearer ${accessToken}` } }
     );
 
-    return { success: true, code: "ADDED_TO_QUEUE", message: `✅ Added to queue: ${uri}` };
+    return { success: true, code: "ADDED_TO_QUEUE", message: `✅ Added to queue: ${displayName}` };
   } catch (err) {
     const errorData = err.response?.data;
     if (
