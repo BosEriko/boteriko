@@ -4,7 +4,7 @@ const CustomReward = [
   {
     is_enabled: true,
     title: String.ADD_TO_QUEUE,
-    prompt: "Add something to the music player — YouTube and Spotify links supported!",
+    prompt: "Add something to the music player — Spotify links supported!",
     is_user_input_required: true,
     cost: 50,
     background_color: "#1DB954",
