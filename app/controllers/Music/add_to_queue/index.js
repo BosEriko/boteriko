@@ -1,5 +1,5 @@
 const axios = require('axios');
-const ytdl = require("ytdl-core");
+const ytdl = require('@distube/ytdl-core');
 const get_access_token = require("../get_access_token");
 
 const spotifyTrackRegex = /(?:track\/|spotify:track:)([a-zA-Z0-9]{22})/;
@@ -11,9 +11,9 @@ const isYouTubePlaylistOnly = (url) => {
   return youtubePlaylistRegex.test(url) && !youtubeVideoRegex.test(url);
 };
 
-const getYouTubeTitle = async (videoId) => {
+const getYouTubeTitle = async (url) => {
   try {
-    const info = await ytdl.getInfo(videoId);
+    const info = await ytdl.getInfo(url);
     return info.videoDetails.title;
   } catch (err) {
     return null;
@@ -61,7 +61,7 @@ const add_to_queue = async (input) => {
 
   const youtubeMatch = input.match(youtubeVideoRegex);
   if (youtubeMatch) {
-    const title = await getYouTubeTitle(youtubeMatch[1]);
+    const title = await getYouTubeTitle(input);
     if (!title) {
       return { success: false, code: "YOUTUBE_FETCH_ERROR", message: "❌ Failed to retrieve YouTube title." };
     }
