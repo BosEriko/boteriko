@@ -2,9 +2,11 @@ const axios = require('axios');
 
 const create_custom_reward = async (parameters) => {
   try {
+    const { icon, ...validParams } = parameters;
+
     const response = await axios.post(
       `https://api.twitch.tv/helix/channel_points/custom_rewards`,
-      parameters,
+      validParams,
       {
         params: {
           broadcaster_id: Config.twitch.channel.id,
