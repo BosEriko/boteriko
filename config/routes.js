@@ -5,8 +5,6 @@ const path = require('path');
 
 const discordRouter = require('@api/authentication/discord');
 const twitchRouter = require('@api/authentication/twitch');
-const detailsRouter = require('@api/utilities/details');
-const tetrioProfileRouter = require('@api/profile/tetrio');
 
 const { setupWebSocket } = require('@global/utilities/websocket');
 
@@ -23,17 +21,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/public', express.static(path.join(__dirname, '..', 'public')));
 
 // Redirect root to client URL
-app.get('/', (req, res) => {
-  res.redirect(Config.app.clientUrl);
-});
+app.get('/', (req, res) => { res.redirect(Config.app.clientUrl) });
 
 // API routes
 app.use('/api/authentication/discord', discordRouter);
-app.use('/api/authentication/spotify/login', Controller.Music.authentication_login);
 app.use('/api/authentication/spotify/callback', Controller.Music.authentication_callback);
+app.use('/api/authentication/spotify/login', Controller.Music.authentication_login);
 app.use('/api/authentication/twitch', twitchRouter);
-app.use('/api/details', detailsRouter);
-app.use('/api/profile/tetrio', tetrioProfileRouter);
+app.use('/api/detail/tetrio', Controller.Detail.tetrio);
+app.use('/api/detail/twitch', Controller.Detail.twitch);
 
 const server = http.createServer(app);
 

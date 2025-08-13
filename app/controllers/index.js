@@ -1,13 +1,15 @@
 // Concerns
-const Concern = require("@controller/concerns");
+const Concern = require("./concerns");
 
 // Controllers
-const Link = require("@controller/Link");
-const Music = require("@controller/Music");
-const Twitch = require("@controller/Twitch");
+const Detail = require("./Detail");
+const Link = require("./Link");
+const Music = require("./Music");
+const Twitch = require("./Twitch");
 
 const Controller = {
   Concern,
+  Detail,
   Link,
   Music,
   Twitch,

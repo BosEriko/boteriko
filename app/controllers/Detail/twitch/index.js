@@ -1,8 +1,8 @@
 const express = require('express');
-const router = express.Router();
 const handleUserUtility = require('@global/utilities/user');
+const twitch = express.Router();
 
-router.get('/', async (req, res) => {
+twitch.get('/', async (req, res) => {
   const { username } = req.query;
 
   if (!username) {
@@ -18,4 +18,4 @@ router.get('/', async (req, res) => {
   return res.json(user);
 });
 
-module.exports = router;
+module.exports = twitch;

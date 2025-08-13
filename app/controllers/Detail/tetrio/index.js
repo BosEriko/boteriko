@@ -1,11 +1,11 @@
 const express = require('express');
-const router = express.Router();
+const tetrio = express.Router();
 
-router.get('/', async (req, res) => {
+tetrio.get('/', async (req, res) => {
   const { username } = req.query;
 
   if (!username) {
-    return res.status(400).json({ error: 'Missing `username` parameter' });
+    return res.status(400).json({ error: 'Missing username parameter' });
   }
 
   try {
@@ -23,4 +23,4 @@ router.get('/', async (req, res) => {
   }
 });
 
-module.exports = router;
+module.exports = tetrio;
