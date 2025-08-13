@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const http = require('http');
+const path = require('path');
 
 const discordRouter = require('@api/authentication/discord');
 const twitchRouter = require('@api/authentication/twitch');
@@ -17,6 +18,9 @@ app.use(cors());
 // Required for parsing JSON bodies (if needed by routes)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Serve static files from "public" folder
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Redirect root to client URL
 app.get('/', (req, res) => {
