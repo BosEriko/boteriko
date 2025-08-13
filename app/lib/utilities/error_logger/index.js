@@ -32,7 +32,7 @@ async function error_logger(message, data = null) {
 
     console.error(message, data);
 
-    if (!env?.discord?.webhook?.error) {
+    if (!Config?.discord?.webhook?.error) {
       console.warn('⚠️ Discord error webhook URL not defined');
       return;
     }
