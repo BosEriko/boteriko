@@ -12,22 +12,22 @@ const { setupWebSocket } = require('@global/utilities/websocket');
 
 const app = express();
 
-// Optional but recommended for Heroku CORS issues (especially if frontend is separate)
+// Optional but recommended for Heroku CORS issues
 app.use(cors());
 
-// Required for parsing JSON bodies (if needed by routes)
+// Parse JSON bodies
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Serve static files from "public" folder
-app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use('/public', express.static(path.join(__dirname, '..', 'public')));
 
 // Redirect root to client URL
 app.get('/', (req, res) => {
   res.redirect(Config.app.clientUrl);
 });
 
-// Route mounting
+// API routes
 app.use('/api/authentication/discord', discordRouter);
 app.use('/api/authentication/spotify/login', Controller.Music.authentication_login);
 app.use('/api/authentication/spotify/callback', Controller.Music.authentication_callback);
