@@ -81,7 +81,8 @@ function handleCronUtility(client) {
     state.isTodoVisible = false;
 
     // Music state
-    state.musicDetails = null;
+    state.music.details = null;
+    state.music.queue.clear();
 
     // Cache references
     state.caches.forEach(cache => cache._raw.clear());

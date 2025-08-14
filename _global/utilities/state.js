@@ -31,7 +31,10 @@ module.exports = {
   isTodoVisible: true,
 
   // Music state
-  musicDetails: null,
+  music: {
+    details: null,
+    queue: new Set()
+  },
 
   // Cache references
   caches: [],
