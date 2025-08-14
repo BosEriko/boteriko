@@ -58,7 +58,7 @@ const polling = async () => {
 
     state.music.details = simplifiedData;
     broadcastToClient({ type: 'MUSIC_DETAIL', musicDetails: simplifiedData });
-    broadcastToClient({ type: 'MUSIC_QUEUE', musicQueue: state.music.queue });
+    broadcastToClient({ type: 'MUSIC_QUEUE', musicQueue: Array.from(state.music.queue) });
   } catch (error) {
     await Utility.error_logger('Error fetching Spotify details:', error.response?.data || error.message);
   }
