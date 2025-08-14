@@ -80,6 +80,9 @@ function handleCronUtility(client) {
     // Todoist display toggle
     state.isTodoVisible = false;
 
+    // Music state
+    state.musicDetails = null;
+
     // Cache references
     state.caches.forEach(cache => cache._raw.clear());
   }

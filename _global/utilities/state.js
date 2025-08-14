@@ -30,6 +30,9 @@ module.exports = {
   // Todoist display toggle
   isTodoVisible: true,
 
+  // Music state
+  musicDetails: null,
+
   // Cache references
   caches: [],
 };

@@ -30,6 +30,7 @@ const get_details = async () => {
       albumCoverUrl: track.album.images?.[0]?.url || null
     };
 
+    state.musicDetails = simplifiedData;
     broadcastToClient({ type: 'MUSIC_DETAIL', data: simplifiedData });
   } catch (error) {
     await Utility.error_logger('Error fetching Spotify details:', error.response?.data || error.message);
