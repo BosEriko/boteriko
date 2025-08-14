@@ -5,6 +5,7 @@ const get_access_token = require("../get_access_token");
 
 const get_details = async () => {
   if (!state.isStreaming) return;
+
   try {
     const accessToken = await get_access_token();
 
@@ -19,7 +20,17 @@ const get_details = async () => {
       return;
     }
 
-    broadcastToClient({ type: 'MUSIC_DETAIL', data: response.data });
+    const track = response.data.item;
+    const simplifiedData = {
+      title: track.name,
+      singer: track.artists.map(artist => artist.name).join(', '),
+      length: track.duration_ms,
+      currentTime: response.data.progress_ms,
+      isPlaying: response.data.is_playing,
+      albumCoverUrl: track.album.images?.[0]?.url || null
+    };
+
+    broadcastToClient({ type: 'MUSIC_DETAIL', data: simplifiedData });
   } catch (error) {
     await Utility.error_logger('Error fetching Spotify details:', error.response?.data || error.message);
   }
