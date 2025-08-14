@@ -21,8 +21,8 @@ const saveToQueue = (track, username) => {
       title: track.name,
       singer: track.artists.map(artist => artist.name).join(', '),
       length: formatTime(track.duration_ms),
-      progress: Math.min((currentTimeMs / lengthMs) * 100, 100),
-      albumCoverUrl: track.album.images?.[0]?.url || null
+      albumCoverUrl: track.album.images?.[0]?.url || null,
+      spotifyUrl: track.external_urls?.spotify || null
     }
   });
 }
