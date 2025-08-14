@@ -9,7 +9,7 @@ const formatTime = (ms) => {
   return `${minutes}:${seconds.toString().padStart(2, "0")}`;
 };
 
-const get_details = async () => {
+const polling = async () => {
   if (!state.isStreaming) return;
 
   try {
@@ -49,6 +49,6 @@ const get_details = async () => {
   }
 };
 
-setInterval(get_details, 5000);
+setInterval(polling, 5000);
 
-module.exports = get_details;
+module.exports = polling;
