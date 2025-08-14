@@ -23,7 +23,7 @@ const getSpotifyTrackInfo = async (trackId, accessToken) => {
   return res.data;
 };
 
-const add_to_queue = async (input) => {
+const add_to_queue = async (input, username) => {
   const accessToken = await get_access_token();
   let uri = null;
   let displayName = null;
