@@ -45,6 +45,7 @@ client.on('join', (channel, username, self) => {
 
 Controller.Twitch.create_custom_rewards();
 Controller.Twitch.update_schedule();
+Controller.Music.get_details();
 handleCronUtility(client);
 handleEventUtility(client);
 handlePointUtility(client);
