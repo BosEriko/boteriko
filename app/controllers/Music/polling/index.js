@@ -9,6 +9,18 @@ const formatTime = (ms) => {
   return `${minutes}:${seconds.toString().padStart(2, "0")}`;
 };
 
+const updateQueue = (track) => {
+  const updatedQueue = new Set();
+  for (const item of state.music.queue) {
+    if (item.id === track.id && item.has_played === false) {
+      updatedQueue.add({ ...item, has_played: true });
+    } else {
+      updatedQueue.add(item);
+    }
+  }
+  state.music.queue = updatedQueue;
+}
+
 const polling = async () => {
   if (!state.isStreaming) return;
 
@@ -41,6 +53,8 @@ const polling = async () => {
       isPlaying: response.data.is_playing,
       albumCoverUrl: track.album.images?.[0]?.url || null
     };
+
+    updateQueue(track);
 
     state.music.details = simplifiedData;
     broadcastToClient({ type: 'MUSIC_DETAIL', musicDetails: simplifiedData });
