@@ -1,8 +1,31 @@
 const axios = require('axios');
 const get_access_token = require("../get_access_token");
+const state = require('@global/utilities/state');
 
 const spotifyTrackRegex = /(?:track\/|spotify:track:)([a-zA-Z0-9]{22})/;
 const spotifyPlaylistOrAlbumRegex = /(?:playlist\/|album\/|spotify:(?:playlist|album):)([a-zA-Z0-9]{22})/;
+
+const formatTime = (ms) => {
+  const minutes = Math.floor(ms / 60000);
+  const seconds = Math.floor((ms % 60000) / 1000);
+  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+};
+
+const saveToQueue = (track, username) => {
+  state.music.queue.add({
+    username,
+    id: track.id,
+    has_played: false,
+    timestamp: new Date().toISOString(),
+    music: {
+      title: track.name,
+      singer: track.artists.map(artist => artist.name).join(', '),
+      length: formatTime(track.duration_ms),
+      progress: Math.min((currentTimeMs / lengthMs) * 100, 100),
+      albumCoverUrl: track.album.images?.[0]?.url || null
+    }
+  });
+}
 
 const searchSpotifyTrack = async (query, accessToken) => {
   const res = await axios.get("https://api.spotify.com/v1/search", {
@@ -39,6 +62,7 @@ const add_to_queue = async (input, username) => {
   const spotifyTrackMatch = input.match(spotifyTrackRegex);
   if (spotifyTrackMatch) {
     const trackInfo = await getSpotifyTrackInfo(spotifyTrackMatch[1], accessToken);
+    saveToQueue(trackInfo, username);
     uri = trackInfo.uri;
     displayName = `${trackInfo.name} by ${trackInfo.artists.map(a => a.name).join(', ')}`;
   }
@@ -48,6 +72,7 @@ const add_to_queue = async (input, username) => {
     if (!track) {
       return { success: false, code: "NO_RESULTS", message: `No results found for: "${input}"` };
     }
+    saveToQueue(track, username);
     uri = track.uri;
     displayName = `${track.name} by ${track.artists.map(a => a.name).join(', ')}`;
   }
