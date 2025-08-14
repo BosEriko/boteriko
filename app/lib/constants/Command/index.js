@@ -14,6 +14,7 @@ const Command = [
   { command: 'lurk', parameter: false, availability: [TWITCH], restricted: false, description: 'Let the stream know you\'re watching quietly in the background.' },
   { command: 'ping', parameter: false, availability: [TWITCH, DISCORD], restricted: false, description: 'Check if the bot is online.' },
   { command: 'pomodoro', parameter: true, availability: [TWITCH], restricted: true, description: 'Set pomodoro sessions for focused work and break intervals.' },
+  { command: 'queue', parameter: false, availability: [TWITCH], restricted: false, description: 'Show a link to the queue.' },
   { command: 'raid', parameter: true, availability: [TWITCH], restricted: false, description: 'Start the raid process or send only the raid message.' },
   { command: 'schedule', parameter: false, availability: [TWITCH, DISCORD], restricted: false, description: 'Show the stream schedule.' },
   { command: 'setgame', parameter: true, availability: [TWITCH], restricted: true, description: 'Set the game/category.' },

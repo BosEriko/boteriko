@@ -1,7 +1,9 @@
-const twitch = require("./twitch");
+const queue = require("./queue");
+const steam = require("./steam");
 
 const Link = {
-  twitch,
+  queue,
+  steam,
 };
 
 module.exports = Link;
