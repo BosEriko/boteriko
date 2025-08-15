@@ -75,6 +75,22 @@ const add_to_queue = async (input, username) => {
     displayName = `${track.name} by ${track.artists.map(a => a.name).join(', ')}`;
   }
 
+  if (trackData.duration_ms > 10 * 60 * 1000) {
+    return {
+      success: false,
+      code: "TRACK_TOO_LONG",
+      message: "❌ This track is longer than 10 minutes and cannot be added to the queue.",
+    };
+  }
+
+  if (trackData.explicit) {
+    return {
+      success: false,
+      code: "EXPLICIT_TRACK",
+      message: "❌ Explicit tracks are not allowed in the queue.",
+    };
+  }
+
   try {
     await axios.post(
       `https://api.spotify.com/v1/me/player/queue?uri=${encodeURIComponent(uri)}`,
