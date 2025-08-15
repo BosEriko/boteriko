@@ -50,6 +50,7 @@ const add_to_queue = async (input, username) => {
   const accessToken = await get_access_token();
   let uri = null;
   let displayName = null;
+  let trackData = null;
 
   if (spotifyPlaylistOrAlbumRegex.test(input)) {
     return {
@@ -61,18 +62,15 @@ const add_to_queue = async (input, username) => {
 
   const spotifyTrackMatch = input.match(spotifyTrackRegex);
   if (spotifyTrackMatch) {
-    const trackInfo = await getSpotifyTrackInfo(spotifyTrackMatch[1], accessToken);
-    saveToQueue(trackInfo, username);
-    uri = trackInfo.uri;
-    displayName = `${trackInfo.name} by ${trackInfo.artists.map(a => a.name).join(', ')}`;
-  }
-
-  if (!uri) {
+    trackData = await getSpotifyTrackInfo(spotifyTrackMatch[1], accessToken);
+    uri = trackData.uri;
+    displayName = `${trackData.name} by ${trackData.artists.map(a => a.name).join(', ')}`;
+  } else {
     const track = await searchSpotifyTrack(input, accessToken);
     if (!track) {
       return { success: false, code: "NO_RESULTS", message: `No results found for: "${input}"` };
     }
-    saveToQueue(track, username);
+    trackData = track;
     uri = track.uri;
     displayName = `${track.name} by ${track.artists.map(a => a.name).join(', ')}`;
   }
@@ -84,6 +82,7 @@ const add_to_queue = async (input, username) => {
       { headers: { Authorization: `Bearer ${accessToken}` } }
     );
 
+    saveToQueue(trackData, username);
     return { success: true, code: "ADDED_TO_QUEUE", message: `✅ Added to queue: ${displayName}` };
   } catch (err) {
     const errorData = err.response?.data;
