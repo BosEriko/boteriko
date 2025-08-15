@@ -62,7 +62,8 @@ const polling = async () => {
       currentTime: formatTime(currentTimeMs),
       progress: Math.min((currentTimeMs / lengthMs) * 100, 100),
       isPlaying: response.data.is_playing,
-      albumCoverUrl: track.album.images?.[0]?.url || null
+      albumCoverUrl: track.album.images?.[0]?.url || null,
+      spotifyUrl: track.external_urls?.spotify || null
     };
 
     updateQueue(track.id);
