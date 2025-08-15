@@ -9,17 +9,28 @@ const formatTime = (ms) => {
   return `${minutes}:${seconds.toString().padStart(2, "0")}`;
 };
 
-const updateQueue = (track) => {
+const updateQueue = (currentId) => {
+  const queueArray = Array.from(state.music.queue);
+  queueArray.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+
+  let foundPlaying = false;
   const updatedQueue = new Set();
-  for (const item of state.music.queue) {
-    if (item.id === track.id && item.has_played === false) {
-      updatedQueue.add({ ...item, has_played: true });
+
+  for (const item of queueArray) {
+    if (item.id === currentId && !foundPlaying) {
+      updatedQueue.add({ ...item, status: "PLAYING" });
+      foundPlaying = true;
+    } else if (item.status === "PLAYING" && item.id !== currentId) {
+      updatedQueue.add({ ...item, status: "COMPLETED" });
+    } else if (item.id === currentId && foundPlaying) {
+      updatedQueue.add({ ...item, status: "QUEUED" });
     } else {
       updatedQueue.add(item);
     }
   }
+
   state.music.queue = updatedQueue;
-}
+};
 
 const polling = async () => {
   if (!state.isStreaming) return;
@@ -54,7 +65,7 @@ const polling = async () => {
       albumCoverUrl: track.album.images?.[0]?.url || null
     };
 
-    updateQueue(track);
+    updateQueue(track.id);
 
     state.music.details = simplifiedData;
     broadcastToClient({ type: 'MUSIC_DETAIL', musicDetails: simplifiedData });

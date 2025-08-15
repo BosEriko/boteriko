@@ -15,7 +15,7 @@ const saveToQueue = (track, username) => {
   state.music.queue.add({
     username,
     id: track.id,
-    has_played: false,
+    status: "QUEUED",
     timestamp: new Date().toISOString(),
     music: {
       title: track.name,
