@@ -24,7 +24,7 @@ const updateQueue = (currentId) => {
         playingAssigned = true;
         return { ...item, status: "PLAYING" };
       } else {
-        return { ...item, status: "COMPLETED" };
+        return { ...item, status: "QUEUED" };
       }
     }
 
