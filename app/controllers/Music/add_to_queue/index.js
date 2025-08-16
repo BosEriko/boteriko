@@ -25,7 +25,7 @@ const saveToQueue = (track, username) => {
       spotifyUrl: track.external_urls?.spotify || null
     }
   });
-}
+};
 
 const searchSpotifyTrack = async (query, accessToken) => {
   const res = await axios.get("https://api.spotify.com/v1/search", {
@@ -63,17 +63,15 @@ const add_to_queue = async (input, username) => {
   const spotifyTrackMatch = input.match(spotifyTrackRegex);
   if (spotifyTrackMatch) {
     trackData = await getSpotifyTrackInfo(spotifyTrackMatch[1], accessToken);
-    uri = trackData.uri;
-    displayName = `${trackData.name} by ${trackData.artists.map(a => a.name).join(', ')}`;
   } else {
-    const track = await searchSpotifyTrack(input, accessToken);
-    if (!track) {
+    trackData = await searchSpotifyTrack(input, accessToken);
+    if (!trackData) {
       return { success: false, code: "NO_RESULTS", message: `No results found for: "${input}"` };
     }
-    trackData = track;
-    uri = track.uri;
-    displayName = `${track.name} by ${track.artists.map(a => a.name).join(', ')}`;
   }
+
+  uri = trackData.uri;
+  displayName = `${trackData.name} by ${trackData.artists.map(a => a.name).join(', ')}`;
 
   if (trackData.duration_ms > 10 * 60 * 1000) {
     return {
