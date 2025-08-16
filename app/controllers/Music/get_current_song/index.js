@@ -1,5 +1,6 @@
 const axios = require('axios');
 
+const state = require('@global/utilities/state');
 const get_access_token = require("../get_access_token");
 
 const get_current_song = async () => {
@@ -26,7 +27,15 @@ const get_current_song = async () => {
     const artists = item.artists.map(artist => artist.name).join(', ');
     const url = item.external_urls.spotify;
 
-    return `🎵 ${title} by ${artists} — ${url}`;
+    let requester = "";
+    for (const track of state.music.queue) {
+      if (track.status === "PLAYING" && track.id === item.id) {
+        requester = track.username ? `Requested by: ${track.username}` : "";
+        break;
+      }
+    }
+
+    return `🎵 ${title} by ${artists}${requester ? ` — ${requester}` : ""} (${url})`;
   } catch (err) {
     if (err.response && err.response.status === 404) {
       return "⚠️ No active Spotify device detected.";
