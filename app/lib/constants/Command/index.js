@@ -4,6 +4,7 @@ const DISCORD = 'Discord';
 const Command = [
   { command: 'attack', parameter: true, availability: [TWITCH], restricted: false, streaming: false, description: 'Attack someone in Stream Avatar.' },
   { command: 'back', parameter: false, availability: [TWITCH], restricted: true, streaming: false, description: 'Go back to streaming.' },
+  { command: 'battleroyale ', parameter: false, availability: [TWITCH], restricted: false, streaming: false, description: 'Starts a battleroyale with all active avatars on Stream Avatar.' },
   { command: 'bomb', parameter: true, availability: [TWITCH], restricted: false, streaming: false, description: 'Use Bomb in Stream Avatar' },
   { command: 'brb', parameter: true, availability: [TWITCH], restricted: true, streaming: false, description: 'Set the stream to BRB mode.' },
   { command: 'censor', parameter: false, availability: [TWITCH], restricted: true, streaming: false, description: 'Toggle or manage censorship settings in the overlay.' },
