@@ -1,4 +1,4 @@
-const TitleGenerator = (initialTitle = "") => {
+const title_generator = (initialTitle = "") => {
   const parts = initialTitle.split(" | ");
   const baseTitle = parts[0];
   const extras = {};
@@ -29,4 +29,4 @@ const TitleGenerator = (initialTitle = "") => {
   };
 };
 
-module.exports = TitleGenerator;
+module.exports = title_generator;

@@ -3,12 +3,6 @@ const { broadcastToClient } = require('@global/utilities/websocket');
 const state = require('@global/utilities/state');
 const get_access_token = require("../get_access_token");
 
-const formatTime = (ms) => {
-  const minutes = Math.floor(ms / 60000);
-  const seconds = Math.floor((ms % 60000) / 1000);
-  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
-};
-
 const updateQueue = (currentId) => {
   const queueArray = Array.from(state.music.queue).sort(
     (a, b) => new Date(a.timestamp) - new Date(b.timestamp)
@@ -63,8 +57,8 @@ const polling = async () => {
       username: Array.from(state.music.queue).find(t => t.status === "PLAYING" && t.id === track.id)?.username || "",
       title: track.name,
       singer: track.artists.map(artist => artist.name).join(', '),
-      length: formatTime(lengthMs),
-      currentTime: formatTime(currentTimeMs),
+      length: Controller.Concern.format_time(lengthMs),
+      currentTime: Controller.Concern.format_time(currentTimeMs),
       progress: Math.min((currentTimeMs / lengthMs) * 100, 100),
       isPlaying: response.data.is_playing,
       albumCoverUrl: track.album.images?.[0]?.url || null,

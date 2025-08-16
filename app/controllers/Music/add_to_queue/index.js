@@ -5,12 +5,6 @@ const state = require('@global/utilities/state');
 const spotifyTrackRegex = /(?:track\/|spotify:track:)([a-zA-Z0-9]{22})/;
 const urlRegex = /^https?:\/\/[^\s]+$/;
 
-const formatTime = (ms) => {
-  const minutes = Math.floor(ms / 60000);
-  const seconds = Math.floor((ms % 60000) / 1000);
-  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
-};
-
 const saveToQueue = (track, username) => {
   state.music.queue.add({
     username,
@@ -20,7 +14,7 @@ const saveToQueue = (track, username) => {
     music: {
       title: track.name,
       singer: track.artists.map(artist => artist.name).join(', '),
-      length: formatTime(track.duration_ms),
+      length: Controller.Concern.format_time(track.duration_ms),
       albumCoverUrl: track.album.images?.[0]?.url || null,
       spotifyUrl: track.external_urls?.spotify || null
     }
@@ -67,7 +61,11 @@ const add_to_queue = async (input, username) => {
   } else {
     trackData = await searchSpotifyTrack(input, accessToken);
     if (!trackData) {
-      return { success: false, code: "NO_RESULTS", message: `No results found for: "${input}"` };
+      return {
+        success: false,
+        code: "NO_RESULTS",
+        message: `No results found for: "${input}"`
+      };
     }
   }
 

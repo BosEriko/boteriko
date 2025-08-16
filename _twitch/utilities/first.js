@@ -25,7 +25,7 @@ async function handleFirstUtility(isMod, isBroadcaster, user) {
   firstChatCache.set(today, firstChat, 'first-chat');
   state.winners.firstChat = firstChat;
 
-  const titleGenerator = Controller.Concern.TitleGenerator(stream.title);
+  const titleGenerator = Controller.Concern.title_generator(stream.title);
   const newTitle = titleGenerator.append("First Chatter", `@${firstChat}`);
 
   try {

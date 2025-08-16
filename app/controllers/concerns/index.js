@@ -1,7 +1,9 @@
-const TitleGenerator = require("@controller/concerns/title_generator");
+const format_time = require("./format_time");
+const title_generator = require("./title_generator");
 
 const Concern = {
-  TitleGenerator,
+  format_time,
+  title_generator,
 }
 
 module.exports = Concern;

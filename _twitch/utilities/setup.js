@@ -28,7 +28,7 @@ async function handleSetupUtility(client) {
   const gameId = await Controller.Twitch.read_category_id_by_name(category);
 
   const winnerData = await getLastTypingWinner();
-  const titleGenerator = Controller.Concern.TitleGenerator(title);
+  const titleGenerator = Controller.Concern.title_generator(title);
   let newTitle = titleGenerator.title();
 
   if (winnerData) {
