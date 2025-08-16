@@ -103,8 +103,10 @@ client.on('message', async (channel, tags, message, self) => {
   const channelName = Config.twitch.channel.username;
   const commandName = lowerMsg.split(' ')[0].replace('!', '');
   const commandArgs = msg.includes(' ') ? msg.slice(msg.indexOf(' ') + 1).trim() : '';
+
   const availableCommands = Constant.Command.map(c => c.command);
   const restrictedCommands = Constant.Command.filter(c => c.restricted).map(c => c.command);
+  const streamingCommands = Constant.Command.filter(c => c.streaming).map(c => c.command);
 
   // Check if the command is available
   if (!availableCommands.includes(commandName)) {
@@ -115,6 +117,12 @@ client.on('message', async (channel, tags, message, self) => {
   // Check if the command is restricted
   if (restrictedCommands.includes(commandName) && tags['display-name'] !== channelName) {
     client.say(channel, `Only ${channelName} can control the ${commandName} command. ❌`);
+    return;
+  }
+
+  // Check if the command requires streaming
+  if (streamingCommands.includes(commandName) && !state.isStreaming) {
+    client.say(channel, `The ${commandName} command only works when streaming. ⚠️`);
     return;
   }
 

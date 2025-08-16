@@ -13,14 +13,16 @@ function buildCommandEmbed(commands, page = 0) {
       .map(p => p === 'Discord' ? '🟦' : p === 'Twitch' ? '🟪' : '')
       .join(' ');
 
-    const name = `${accessIcon} **!${cmd.command}${cmd.parameter ? ' [param]' : ''}** ${platformIcons}`;
+    const streamingIcon = cmd.streaming ? '📺' : '';
+
+    const name = `${accessIcon} **!${cmd.command}${cmd.parameter ? ' [param]' : ''}** ${platformIcons} ${streamingIcon}`;
     const desc = cmd.description;
 
     return `${name}\n${desc}`;
   });
 
   // Add footer legend
-  lines.push('**Icons Legend:** \n👑 Admin Only   👥 Everyone   🟦 Discord   🟪 Twitch');
+  lines.push('**Icons Legend:** \n👑 Admin Only   👥 Everyone   🟦 Discord   🟪 Twitch   📺 Streaming Only');
 
   return new EmbedBuilder()
     .setTitle(`📜 Available Commands (Page ${page + 1}/${Math.ceil(commands.length / COMMANDS_PER_PAGE)})`)
