@@ -3,7 +3,7 @@ const get_access_token = require("../get_access_token");
 const state = require('@global/utilities/state');
 
 const spotifyTrackRegex = /(?:track\/|spotify:track:)([a-zA-Z0-9]{22})/;
-const spotifyPlaylistOrAlbumRegex = /(?:playlist\/|album\/|spotify:(?:playlist|album):)([a-zA-Z0-9]{22})/;
+const urlRegex = /^https?:\/\/[^\s]+$/;
 
 const formatTime = (ms) => {
   const minutes = Math.floor(ms / 60000);
@@ -30,11 +30,7 @@ const saveToQueue = (track, username) => {
 const searchSpotifyTrack = async (query, accessToken) => {
   const res = await axios.get("https://api.spotify.com/v1/search", {
     headers: { Authorization: `Bearer ${accessToken}` },
-    params: {
-      q: query,
-      type: 'track',
-      limit: 1,
-    },
+    params: { q: query, type: 'track', limit: 1 },
   });
   return res.data.tracks.items[0] || null;
 };
@@ -52,24 +48,21 @@ const add_to_queue = async (input, username) => {
       success: false,
       code: "NOT_STREAMING",
       message: "❌ You can only add songs while the stream is live.",
-    }
-  };
-
-  const accessToken = await get_access_token();
-  let uri = null;
-  let displayName = null;
-  let trackData = null;
-
-  if (spotifyPlaylistOrAlbumRegex.test(input)) {
-    return {
-      success: false,
-      code: "INVALID_LINK_TYPE",
-      message: "❌ Only Spotify track links are supported. Playlists and albums are not supported.",
     };
   }
 
-  const spotifyTrackMatch = input.match(spotifyTrackRegex);
-  if (spotifyTrackMatch) {
+  const accessToken = await get_access_token();
+  let trackData = null;
+
+  if (urlRegex.test(input)) {
+    const spotifyTrackMatch = input.match(spotifyTrackRegex);
+    if (!spotifyTrackMatch) {
+      return {
+        success: false,
+        code: "INVALID_LINK_TYPE",
+        message: "❌ Only Spotify track links are supported.",
+      };
+    }
     trackData = await getSpotifyTrackInfo(spotifyTrackMatch[1], accessToken);
   } else {
     trackData = await searchSpotifyTrack(input, accessToken);
@@ -78,8 +71,8 @@ const add_to_queue = async (input, username) => {
     }
   }
 
-  uri = trackData.uri;
-  displayName = `${trackData.name} by ${trackData.artists.map(a => a.name).join(', ')}`;
+  const uri = trackData.uri;
+  const displayName = `${trackData.name} by ${trackData.artists.map(a => a.name).join(', ')}`;
 
   if (trackData.duration_ms > 10 * 60 * 1000) {
     return {
@@ -108,10 +101,7 @@ const add_to_queue = async (input, username) => {
     return { success: true, code: "ADDED_TO_QUEUE", message: `✅ Added to queue: ${displayName}` };
   } catch (err) {
     const errorData = err.response?.data;
-    if (
-      errorData?.error?.reason === "NO_ACTIVE_DEVICE" ||
-      errorData?.error?.message?.includes("No active device")
-    ) {
+    if (errorData?.error?.reason === "NO_ACTIVE_DEVICE" || errorData?.error?.message?.includes("No active device")) {
       return {
         success: false,
         code: "NO_ACTIVE_DEVICE",
