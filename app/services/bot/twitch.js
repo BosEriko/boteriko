@@ -138,6 +138,7 @@ client.on('message', async (channel, tags, message, self) => {
   if (commandName === 'raid') await handleRaidCommand(client, commandArgs, isBroadcaster);
   if (commandName === 'schedule') client.say(channel, handleScheduleCommand());
   if (commandName === 'setgame') client.say(channel, await Controller.Twitch.update_game(commandArgs));
+  if (commandName === 'song') client.say(channel, await Controller.Music.get_current_song());
   if (commandName === 'steam') client.say(channel, Controller.Link.steam());
   if (commandName === 'time') client.say(channel, handleTimeCommand('time'));
   if (commandName === 'todo') await handleTodoCommand(client, commandArgs);
