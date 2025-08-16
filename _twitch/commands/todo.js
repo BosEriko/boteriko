@@ -196,11 +196,6 @@ function showTodos(client) {
 
 // --------------------------------------------- Commands ------------------------------------------
 async function handleTodoCommand(client, message) {
-  if (!state.isStreaming) {
-    client.say(channelName, 'Todo commands are only available while streaming 📺');
-    return;
-  }
-
   const args = message.trim().split(' ');
   const subcommand = args[0];
   const rest = args.slice(1).join(' ');
