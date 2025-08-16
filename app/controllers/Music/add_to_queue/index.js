@@ -47,6 +47,14 @@ const getSpotifyTrackInfo = async (trackId, accessToken) => {
 };
 
 const add_to_queue = async (input, username) => {
+  if (!state.isStreaming) {
+    return {
+      success: false,
+      code: "NOT_STREAMING",
+      message: "❌ You can only add songs while the stream is live.",
+    }
+  };
+
   const accessToken = await get_access_token();
   let uri = null;
   let displayName = null;
