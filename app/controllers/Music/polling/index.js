@@ -60,6 +60,7 @@ const polling = async () => {
     const currentTimeMs = response.data.progress_ms;
 
     const simplifiedData = {
+      username: Array.from(state.music.queue).find(t => t.status === "PLAYING" && t.id === track.id)?.username || "",
       title: track.name,
       singer: track.artists.map(artist => artist.name).join(', '),
       length: formatTime(lengthMs),
