@@ -10,26 +10,30 @@ const formatTime = (ms) => {
 };
 
 const updateQueue = (currentId) => {
-  const queueArray = Array.from(state.music.queue);
-  queueArray.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+  const queueArray = Array.from(state.music.queue).sort(
+    (a, b) => new Date(a.timestamp) - new Date(b.timestamp)
+  );
 
-  let foundPlaying = false;
-  const updatedQueue = new Set();
+  let playingAssigned = false;
 
-  for (const item of queueArray) {
-    if (item.id === currentId && !foundPlaying) {
-      updatedQueue.add({ ...item, status: "PLAYING" });
-      foundPlaying = true;
-    } else if (item.status === "PLAYING" && item.id !== currentId) {
-      updatedQueue.add({ ...item, status: "COMPLETED" });
-    } else if (item.id === currentId && foundPlaying) {
-      updatedQueue.add({ ...item, status: "QUEUED" });
-    } else {
-      updatedQueue.add(item);
+  const updatedArray = queueArray.map(item => {
+    if (item.status === "COMPLETED") return item;
+
+    if (item.id === currentId) {
+      if (!playingAssigned) {
+        playingAssigned = true;
+        return { ...item, status: "PLAYING" };
+      } else {
+        return { ...item, status: "COMPLETED" };
+      }
     }
-  }
 
-  state.music.queue = updatedQueue;
+    if (item.status === "PLAYING") return { ...item, status: "COMPLETED" };
+
+    return item;
+  });
+
+  state.music.queue = new Set(updatedArray);
 };
 
 const polling = async () => {
