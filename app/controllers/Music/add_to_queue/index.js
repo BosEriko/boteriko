@@ -1,4 +1,5 @@
 const axios = require('axios');
+const stringSimilarity = require("string-similarity");
 const get_access_token = require("../get_access_token");
 const state = require('@global/utilities/state');
 
@@ -24,9 +25,18 @@ const saveToQueue = (track, username) => {
 const searchSpotifyTrack = async (query, accessToken) => {
   const res = await axios.get("https://api.spotify.com/v1/search", {
     headers: { Authorization: `Bearer ${accessToken}` },
-    params: { q: query, type: 'track', limit: 1 },
+    params: { q: query, type: "track", limit: 10 },
   });
-  return res.data.tracks.items[0] || null;
+
+  const items = res.data.tracks.items || [];
+  if (!items.length) return null;
+
+  const texts = items.map(
+    track => `${track.name} ${track.artists.map(a => a.name).join(" ")}`
+  );
+
+  const { bestMatchIndex } = stringSimilarity.findBestMatch(query, texts);
+  return items[bestMatchIndex];
 };
 
 const getSpotifyTrackInfo = async (trackId, accessToken) => {
