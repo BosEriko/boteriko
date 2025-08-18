@@ -42,7 +42,7 @@ async function handleFirstUtility(isMod, isBroadcaster, user, client) {
         }
       }
     );
-    client.say(channelName, `Congratulations, @${firstChat}! You are the first chatter!`);
+    client.say(channelName, `Thanks for being the first chatter, @${firstChat}! Welcome to the stream!`);
   } catch (error) {
     await Utility.error_logger('Error updating stream title:', error);
   }
