@@ -25,6 +25,7 @@ app.get('/', (req, res) => { res.redirect(Config.app.clientUrl) });
 
 // Authentication Routes
 app.use('/api/authentication/discord', discordRouter);
+app.use('/api/authentication/discord/connect', Controller.Discord.authentication_connect);
 app.use('/api/authentication/spotify/callback', Controller.Music.authentication_callback);
 app.use('/api/authentication/spotify/login', Controller.Music.authentication_login);
 app.use('/api/authentication/twitch', twitchRouter);
