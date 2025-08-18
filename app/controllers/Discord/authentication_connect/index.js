@@ -12,12 +12,9 @@ const discordScopes = [
 ];
 
 authentication_connect.get('/', async (req, res) => {
-  const authHeader = req.headers['authorization'];
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(400).json({ error: 'Missing Bearer token' });
-  }
+  const firebaseToken = req.query.token;
+  if (!firebaseToken) return res.status(400).json({ error: 'Missing token' });
 
-  const firebaseToken = authHeader.split(' ')[1];
   const scopes = discordScopes.filter(scope => scope.isEnabled).map(scope => scope.name).join(' ');
   const params = new URLSearchParams({
     client_id: Config.discord.app.clientId,
