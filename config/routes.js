@@ -3,8 +3,6 @@ const cors = require('cors');
 const http = require('http');
 const path = require('path');
 
-const twitchRouter = require('@api/authentication/twitch');
-
 const { setupWebSocket } = require('@global/utilities/websocket');
 
 const app = express();
@@ -27,7 +25,7 @@ app.use('/api/authentication/discord/callback', Controller.Discord.authenticatio
 app.use('/api/authentication/discord/connect', Controller.Discord.authentication_connect);
 app.use('/api/authentication/spotify/callback', Controller.Music.authentication_callback);
 app.use('/api/authentication/spotify/login', Controller.Music.authentication_login);
-app.use('/api/authentication/twitch/callback', twitchRouter);
+app.use('/api/authentication/twitch/callback', Controller.Twitch.authentication_callback);
 app.use('/api/authentication/twitch/login', Controller.Twitch.authentication_login);
 
 // Detail Routes

@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-module.exports = async function exchangeCode(code) {
+const exchange_code = async (code) => {
   const response = await axios.post('https://id.twitch.tv/oauth2/token', null, {
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     params: {
@@ -14,3 +14,5 @@ module.exports = async function exchangeCode(code) {
 
   return response.data.access_token;
 };
+
+module.exports = exchange_code;

@@ -1,6 +1,6 @@
 const firebaseUtility = require('@global/utilities/firebase');
 
-module.exports = async function syncFirebaseUser(uid, twitchUser) {
+const sync_firebase_user = async (uid, twitchUser) => {
   if (!twitchUser.email) return;
 
   try {
@@ -22,3 +22,5 @@ module.exports = async function syncFirebaseUser(uid, twitchUser) {
     }
   }
 };
+
+module.exports = sync_firebase_user;

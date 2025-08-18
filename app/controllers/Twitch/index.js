@@ -1,3 +1,4 @@
+const authentication_callback = require("./authentication_callback");
 const authentication_login = require("./authentication_login");
 const create_custom_reward = require("./create_custom_reward");
 const create_custom_rewards = require("./create_custom_rewards");
@@ -10,14 +11,15 @@ const update_game = require("./update_game");
 const update_schedule = require("./update_schedule");
 
 const Twitch = {
+  authentication_callback,
   authentication_login,
   create_custom_reward,
   create_custom_rewards,
   create_schedule,
-  update_channel_request,
   delete_schedule,
   read_category_id_by_name,
   read_schedule,
+  update_channel_request,
   update_game,
   update_schedule,
 };

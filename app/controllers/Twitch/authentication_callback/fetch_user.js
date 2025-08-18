@@ -1,12 +1,14 @@
 const axios = require('axios');
 
-module.exports = async function fetchUser(accessToken) {
+const fetch_user = async (token) => {
   const response = await axios.get('https://api.twitch.tv/helix/users', {
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${token}`,
       'Client-Id': Config.twitch.app.clientId,
     },
   });
 
   return response.data.data[0];
 };
+
+module.exports = fetch_user;
