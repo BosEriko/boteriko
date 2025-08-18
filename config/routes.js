@@ -23,11 +23,14 @@ app.use('/public', express.static(path.join(__dirname, '..', 'public')));
 // Redirect root to client URL
 app.get('/', (req, res) => { res.redirect(Config.app.clientUrl) });
 
-// API routes
+// Authentication Routes
 app.use('/api/authentication/discord', discordRouter);
 app.use('/api/authentication/spotify/callback', Controller.Music.authentication_callback);
 app.use('/api/authentication/spotify/login', Controller.Music.authentication_login);
 app.use('/api/authentication/twitch', twitchRouter);
+app.use('/api/authentication/twitch/login', Controller.Twitch.authentication_login);
+
+// Detail Routes
 app.use('/api/detail/tetrio', Controller.Detail.tetrio);
 app.use('/api/detail/twitch', Controller.Detail.twitch);
 
