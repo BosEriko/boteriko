@@ -5,10 +5,12 @@ const handleStreamDetailUtility = require("@global/utilities/streamDetail");
 const axios = require('axios');
 const state = require('@global/utilities/state');
 
-const THIRTY_MINUTES_MS = 30 * 60 * 1000;
-const firstChatCache = cacheUtility(THIRTY_MINUTES_MS);
+const TWELVE_HOURS_MS = 12 * 60 * 60 * 1000;
+const firstChatCache = cacheUtility(TWELVE_HOURS_MS);
 
-async function handleFirstUtility(isMod, isBroadcaster, user) {
+const channelName = `#${Config.twitch.channel.username}`;
+
+async function handleFirstUtility(isMod, isBroadcaster, user, client) {
   const username = user.display_name || user.login;
   if (!username || isMod || isBroadcaster) return;
 
@@ -40,6 +42,7 @@ async function handleFirstUtility(isMod, isBroadcaster, user) {
         }
       }
     );
+    client.say(channelName, `Congratulations, @${firstChat}! You are the first chatter!`);
   } catch (error) {
     await Utility.error_logger('Error updating stream title:', error);
   }

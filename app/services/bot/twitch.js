@@ -68,7 +68,7 @@ client.on('message', async (channel, tags, message, self) => {
 
   // Utilities
   handleChatUtility(user, message, tags.emotes);
-  handleFirstUtility(isMod, isBroadcaster, user);
+  handleFirstUtility(isMod, isBroadcaster, user, client);
   if (!tags["custom-reward-id"]) handleLinkUtility(user, client, message);
   handleShoutoutUtility(isMod, isBroadcaster, user);
   handleTypingGame(client, channel, user, message);
