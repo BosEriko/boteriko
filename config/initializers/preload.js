@@ -1,5 +1,5 @@
-global.Constant = require("@constant");
-global.Controller = require("@controller");
 global.Config = require('@config/environments/base');
-global.Model = require("@model");
+global.Constant = require("@constant");
 global.Utility = require("@utility");
+global.Model = require("@model");
+global.Controller = require("@controller");

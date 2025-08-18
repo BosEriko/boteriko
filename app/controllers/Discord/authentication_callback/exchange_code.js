@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-module.exports = async function exchangeCode(code) {
+const exchange_code = async (code) => {
   const response = await axios.post(
     'https://discord.com/api/oauth2/token',
     new URLSearchParams({
@@ -15,3 +15,5 @@ module.exports = async function exchangeCode(code) {
 
   return response.data.access_token;
 };
+
+module.exports = exchange_code;

@@ -1,11 +1,13 @@
 const axios = require('axios');
 
-module.exports = async function fetchUser(accessToken) {
+const fetch_user = async (token) => {
   const response = await axios.get('https://discord.com/api/users/@me', {
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 
   return response.data;
 };
+
+module.exports = fetch_user;
