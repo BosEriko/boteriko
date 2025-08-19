@@ -118,23 +118,10 @@ class ActiveRecord {
     return matches[0] || null;
   }
 
-  static async find_or_create_by(conditions = {}, customId = null) {
-    const found = await this.find_by(conditions);
-    if (found) return found;
-    const instance = new this(conditions);
-    return await instance.save(customId);
-  }
-
-  static async find_or_initialize_by(conditions = {}) {
-    const found = await this.find_by(conditions);
-    if (found) return found;
-    return new this(conditions);
-  }
-
-  async update(attrs = {}, customId = null) {
+  async update(attrs = {}) {
     Object.assign(this.attributes, attrs);
     this.validate_field_types(schema[this.constructor.model_name].columns);
-    return await this.save(customId);
+    return await this.save();
   }
 
   async destroy() {
@@ -158,7 +145,6 @@ class ActiveRecord {
       await this.constructor.db.ref(`${this.constructor.collection_name}/${id}`).set(this.attributes);
     }
 
-    this.attributes.id = id;
     return this;
   }
 
