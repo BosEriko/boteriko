@@ -118,24 +118,17 @@ class ActiveRecord {
     return matches[0] || null;
   }
 
-  static async find_or_create_by(conditions = {}) {
+  static async find_or_create_by(conditions = {}, customId = null) {
     const found = await this.find_by(conditions);
     if (found) return found;
     const instance = new this(conditions);
-    return await instance.save();
+    return await instance.save(customId);
   }
 
   static async find_or_initialize_by(conditions = {}) {
     const found = await this.find_by(conditions);
     if (found) return found;
     return new this(conditions);
-  }
-
-  static async find_or_create_by_id(id, attributes = {}) {
-    const found = await this.find(id);
-    if (found) return found;
-    const instance = new this({ id, ...attributes });
-    return await instance.save();
   }
 
   async update(attrs = {}, customId = null) {
