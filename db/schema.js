@@ -2,9 +2,12 @@ module.exports = {
   users: {
     type: 'firestore',
     columns: {
-      name: { type: 'string', required: true },
-      email: { type: 'string' },
       age: { type: 'number', default: 0 },
+      discordId: { type: 'string' },
+      displayName: { type: 'string', required: true },
+      email: { type: 'string' },
+      isRegistered: { type: 'boolean' },
+      profileImage: { type: 'string' },
     },
   },
 
