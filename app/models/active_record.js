@@ -57,9 +57,9 @@ class ActiveRecord {
     return new this(attributes);
   }
 
-  static async create(attributes = {}) {
+  static async create(attributes = {}, customId = null) {
     const instance = new this(attributes);
-    await instance.save();
+    await instance.save(customId);
     return instance;
   }
 
@@ -138,10 +138,10 @@ class ActiveRecord {
     return await instance.save();
   }
 
-  async update(attrs = {}) {
+  async update(attrs = {}, customId = null) {
     Object.assign(this.attributes, attrs);
     this.validate_field_types(schema[this.constructor.model_name].columns);
-    return await this.save();
+    return await this.save(customId);
   }
 
   async destroy() {
