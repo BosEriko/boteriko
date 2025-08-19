@@ -156,8 +156,8 @@ class ActiveRecord {
     return true;
   }
 
-  async save() {
-    const id = this.attributes.id || this.constructor.generate_id();
+  async save(customId = null) {
+    const id = customId || this.attributes.id || this.constructor.generate_id();
 
     if (this.constructor.adapter === 'firestore') {
       await this.constructor.db.collection(this.constructor.collection_name).doc(id).set(this.attributes);

@@ -1,5 +1,5 @@
-const User = require("@model/user");
-const Wallet = require("@model/wallet");
+const User = require("./user");
+const Wallet = require("./wallet");
 
 const Model = {
   User,

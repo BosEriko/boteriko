@@ -1,4 +1,4 @@
-const ActiveRecord = require('@model/active_record');
+const ActiveRecord = require('./active_record');
 
 class ApplicationRecord extends ActiveRecord {}
 
