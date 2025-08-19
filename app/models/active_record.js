@@ -21,6 +21,12 @@ class ActiveRecord {
     this.id = id;
     this.attributes = {};
 
+    for (const key of Object.keys(attributes)) {
+      if (!modelSchema.columns[key]) {
+        throw new Error(`Unknown attribute '${key}' for model ${modelName}`);
+      }
+    }
+
     for (const [key, def] of Object.entries(modelSchema.columns)) {
       const value = attributes[key];
       if (value !== undefined) {
@@ -121,8 +127,16 @@ class ActiveRecord {
   }
 
   async update(attrs = {}) {
+    const modelSchema = schema[this.constructor.model_name];
+    for (const key of Object.keys(attrs)) {
+      if (!modelSchema.columns[key]) {
+        throw new Error(`Unknown attribute '${key}' for model ${this.constructor.model_name}`);
+      }
+    }
+
     Object.assign(this.attributes, attrs);
-    this.validate_field_types(schema[this.constructor.model_name].columns);
+    this.validate_field_types(modelSchema.columns);
+    this.validate_required_fields(modelSchema.columns);
     return await this.save();
   }
 
