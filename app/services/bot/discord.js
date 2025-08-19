@@ -64,9 +64,10 @@ client.on('messageCreate', async message => {
   // Commands
   if (commandName === 'commands') return await handleListCommand(message);
   if (commandName === 'date') return message.reply(handleTimeCommand('date'));
+  if (commandName === 'minecraft') return message.reply(Controller.Link.minecraft());
   if (commandName === 'ping') return message.reply(handlePingCommand());
   if (commandName === 'schedule') return message.reply(handleScheduleCommand());
-  if (commandName === 'steam') return message.reply(Controller.Link.twitch());
+  if (commandName === 'steam') return message.reply(Controller.Link.steam());
   if (commandName === 'time') return message.reply(handleTimeCommand('time'));
   if (commandName === 'todo') return await handlePrivateCommand(message, handleTodoCommand, commandArgs, 'Todo');
 });

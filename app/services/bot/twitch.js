@@ -132,6 +132,7 @@ client.on('message', async (channel, tags, message, self) => {
   if (commandName === 'censor') handleCensorCommand(client, channel);
   if (commandName === 'date') client.say(channel, handleTimeCommand('date'));
   if (commandName === 'lurk') client.say(channel, handleLurkCommand(tags.username));
+  if (commandName === 'minecraft') client.say(channel, Controller.Link.minecraft());
   if (commandName === 'ping') client.say(channel, handlePingCommand());
   if (commandName === 'pomodoro') handlePomodoroCommand(client, commandArgs);
   if (commandName === 'queue') client.say(channel, await Controller.Link.queue());

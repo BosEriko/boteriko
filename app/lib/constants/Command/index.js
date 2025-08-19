@@ -13,6 +13,7 @@ const Command = [
   { command: 'hug',             parameter: true,  availability: [TWITCH],           restricted: false,  streaming: false, description: 'Hug someone in Stream Avatar.' },
   { command: 'jump',            parameter: false, availability: [TWITCH],           restricted: false,  streaming: false, description: 'Jump on Stream Avatar' },
   { command: 'lurk',            parameter: false, availability: [TWITCH],           restricted: false,  streaming: false, description: 'Let the stream know you\'re watching quietly in the background.' },
+  { command: 'minecraft',       parameter: false, availability: [TWITCH, DISCORD],  restricted: false,  streaming: false, description: 'Download my Minecraft World.' },
   { command: 'ping',            parameter: false, availability: [TWITCH, DISCORD],  restricted: false,  streaming: false, description: 'Check if the bot is online.' },
   { command: 'pomodoro',        parameter: true,  availability: [TWITCH],           restricted: true,   streaming: true,  description: 'Set pomodoro sessions for focused work and break intervals.' },
   { command: 'queue',           parameter: false, availability: [TWITCH],           restricted: false,  streaming: true,  description: 'Show a link to the song queue.' },
