@@ -126,6 +126,19 @@ class ActiveRecord {
     return await this.save();
   }
 
+  static async find_or_upsert_by(attributes = {}, id) {
+    if (!id) throw new Error('ID is required for find_or_upsert_by');
+    let record = await this.find(id);
+
+    if (record) {
+      await record.update(attributes);
+    } else {
+      record = await this.create(attributes, id);
+    }
+
+    return record;
+  }
+
   async destroy() {
     if (!this.id) throw new Error('Cannot destroy record without ID');
 
