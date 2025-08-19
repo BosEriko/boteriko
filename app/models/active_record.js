@@ -13,11 +13,12 @@ if (!admin.apps.length) {
 }
 
 class ActiveRecord {
-  constructor(attributes = {}) {
+  constructor(attributes = {}, id = null) {
     const modelName = this.constructor.model_name;
     const modelSchema = schema[modelName];
     if (!modelSchema) throw new Error(`Schema not found for model: ${modelName}`);
 
+    this.id = id;
     this.attributes = {};
 
     for (const [key, def] of Object.entries(modelSchema.columns)) {
@@ -44,32 +45,33 @@ class ActiveRecord {
   }
 
   static get db() {
-    return this.adapter === 'firestore'
-      ? admin.firestore()
-      : admin.database();
+    return this.adapter === 'firestore' ? admin.firestore() : admin.database();
   }
 
   static get collection_name() {
     return this.model_name;
   }
 
-  static new(attributes = {}) {
-    return new this(attributes);
+  static new(attributes = {}, id = null) {
+    return new this(attributes, id);
   }
 
-  static async create(attributes = {}, customId = null) {
-    const instance = new this(attributes);
-    await instance.save(customId);
+  static async create(attributes = {}, id) {
+    if (!id) throw new Error('ID is required for create');
+    const instance = new this(attributes, id);
+    await instance.save();
     return instance;
   }
 
   static async find(id) {
+    if (!id) throw new Error('ID is required for find');
+
     if (this.adapter === 'firestore') {
       const doc = await this.db.collection(this.collection_name).doc(id).get();
-      return doc.exists ? new this({ id, ...doc.data() }) : null;
+      return doc.exists ? new this(doc.data(), id) : null;
     } else {
       const snapshot = await this.db.ref(`${this.collection_name}/${id}`).get();
-      return snapshot.exists() ? new this({ id, ...snapshot.val() }) : null;
+      return snapshot.exists() ? new this(snapshot.val(), id) : null;
     }
   }
 
@@ -79,14 +81,14 @@ class ActiveRecord {
     if (this.adapter === 'firestore') {
       const snapshot = await this.db.collection(this.collection_name).get();
       snapshot.forEach(doc => {
-        results.push(new this({ id: doc.id, ...doc.data() }));
+        results.push(new this(doc.data(), doc.id));
       });
     } else {
       const snapshot = await this.db.ref(this.collection_name).get();
       const data = snapshot.val();
       if (data) {
         for (const [id, value] of Object.entries(data)) {
-          results.push(new this({ id, ...value }));
+          results.push(new this(value, id));
         }
       }
     }
@@ -125,24 +127,24 @@ class ActiveRecord {
   }
 
   async destroy() {
-    if (!this.attributes.id) throw new Error('Cannot destroy record without ID');
+    if (!this.id) throw new Error('Cannot destroy record without ID');
 
     if (this.constructor.adapter === 'firestore') {
-      await this.constructor.db.collection(this.constructor.collection_name).doc(this.attributes.id).delete();
+      await this.constructor.db.collection(this.constructor.collection_name).doc(this.id).delete();
     } else {
-      await this.constructor.db.ref(`${this.constructor.collection_name}/${this.attributes.id}`).remove();
+      await this.constructor.db.ref(`${this.constructor.collection_name}/${this.id}`).remove();
     }
 
     return true;
   }
 
-  async save(customId = null) {
-    const id = customId || this.attributes.id || this.constructor.generate_id();
+  async save() {
+    if (!this.id) throw new Error('ID is required to save');
 
     if (this.constructor.adapter === 'firestore') {
-      await this.constructor.db.collection(this.constructor.collection_name).doc(id).set(this.attributes);
+      await this.constructor.db.collection(this.constructor.collection_name).doc(this.id).set(this.attributes);
     } else {
-      await this.constructor.db.ref(`${this.constructor.collection_name}/${id}`).set(this.attributes);
+      await this.constructor.db.ref(`${this.constructor.collection_name}/${this.id}`).set(this.attributes);
     }
 
     return this;
@@ -167,10 +169,6 @@ class ActiveRecord {
         );
       }
     }
-  }
-
-  static generate_id() {
-    return Math.random().toString(36).substring(2, 10);
   }
 }
 
