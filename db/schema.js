@@ -7,6 +7,7 @@ module.exports = {
       email: { type: 'string' },
       isRegistered: { type: 'boolean', default: false },
       profileImage: { type: 'string' },
+      coverPhoto: { type: 'string' },
     },
   },
 

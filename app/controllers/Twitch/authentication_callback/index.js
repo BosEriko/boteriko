@@ -19,8 +19,10 @@ authentication_callback.get('/', async (req, res) => {
     const customToken = await generate_custom_token(uid, twitchUser);
 
     await Model.User.find_or_upsert_by({
-      displayName: twitchUser.display_name,
-      profileImage: twitchUser.profile_image_url,
+      email: twitchUser?.email,
+      displayName: twitchUser?.display_name,
+      profileImage: twitchUser?.profile_image_url,
+      coverPhoto: twitchUser?.offline_image_url,
       isRegistered: true,
     }, uid);
 
