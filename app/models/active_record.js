@@ -12,7 +12,11 @@ if (!admin.apps.length) {
   });
 }
 
+const CACHE_TTL = 7 * 24 * 60 * 60 * 1000;
+
 class ActiveRecord {
+  static _cache = {};
+
   constructor(attributes = {}, id = null) {
     const modelName = this.constructor.model_name;
     const modelSchema = schema[modelName];
@@ -58,32 +62,63 @@ class ActiveRecord {
     return this.model_name;
   }
 
-  static new(attributes = {}, id = null) {
-    return new this(attributes, id);
+  static cacheKey(id) {
+    return `${this.collection_name}:${id}`;
   }
 
-  static async create(attributes = {}, id) {
-    if (!id) throw new Error('ID is required for create');
-    const instance = new this(attributes, id);
-    await instance.save();
-    return instance;
+  static getFromCache(key) {
+    const cached = this._cache[key];
+    if (cached && cached.expires > Date.now()) {
+      return cached.value;
+    }
+    delete this._cache[key];
+    return null;
+  }
+
+  static setCache(key, value) {
+    this._cache[key] = {
+      value,
+      expires: Date.now() + CACHE_TTL
+    };
+  }
+
+  static clearCache(key) {
+    delete this._cache[key];
   }
 
   static async find(id) {
     if (!id) throw new Error('ID is required for find');
+    const cacheKey = this.cacheKey(id);
 
+    const cached = this.getFromCache(cacheKey);
+    if (cached) {
+      return new this(cached, id);
+    }
+
+    let data;
     if (this.adapter === 'firestore') {
       const doc = await this.db.collection(this.collection_name).doc(id).get();
-      return doc.exists ? new this(doc.data(), id) : null;
+      if (!doc.exists) return null;
+      data = doc.data();
     } else {
       const snapshot = await this.db.ref(`${this.collection_name}/${id}`).get();
-      return snapshot.exists() ? new this(snapshot.val(), id) : null;
+      if (!snapshot.exists()) return null;
+      data = snapshot.val();
     }
+
+    this.setCache(cacheKey, data);
+    return new this(data, id);
   }
 
   static async all() {
-    const results = [];
+    const cacheKey = `${this.collection_name}:all`;
 
+    const cached = this.getFromCache(cacheKey);
+    if (cached) {
+      return cached.map(item => new this(item.attributes, item.id));
+    }
+
+    const results = [];
     if (this.adapter === 'firestore') {
       const snapshot = await this.db.collection(this.collection_name).get();
       snapshot.forEach(doc => {
@@ -99,70 +134,8 @@ class ActiveRecord {
       }
     }
 
+    this.setCache(cacheKey, results.map(r => ({ attributes: r.attributes, id: r.id })));
     return results;
-  }
-
-  static async where(conditions = {}) {
-    const allRecords = await this.all();
-    return allRecords.filter(record =>
-      Object.entries(conditions).every(([key, val]) => record.attributes[key] === val)
-    );
-  }
-
-  static async first(n = 1) {
-    const all = await this.all();
-    const slice = all.slice(0, n);
-    return n === 1 ? slice[0] || null : slice;
-  }
-
-  static async last(n = 1) {
-    const all = await this.all();
-    const slice = all.slice(-n);
-    return n === 1 ? slice[0] || null : slice;
-  }
-
-  static async find_by(conditions = {}) {
-    const matches = await this.where(conditions);
-    return matches[0] || null;
-  }
-
-  async update(attrs = {}) {
-    const modelSchema = schema[this.constructor.model_name];
-    for (const key of Object.keys(attrs)) {
-      if (!modelSchema.columns[key]) {
-        throw new Error(`Unknown attribute '${key}' for model ${this.constructor.model_name}`);
-      }
-    }
-
-    Object.assign(this.attributes, attrs);
-    this.validate_field_types(modelSchema.columns);
-    this.validate_required_fields(modelSchema.columns);
-    return await this.save();
-  }
-
-  static async find_or_upsert_by(attributes = {}, id) {
-    if (!id) throw new Error('ID is required for find_or_upsert_by');
-    let record = await this.find(id);
-
-    if (record) {
-      await record.update(attributes);
-    } else {
-      record = await this.create(attributes, id);
-    }
-
-    return record;
-  }
-
-  async destroy() {
-    if (!this.id) throw new Error('Cannot destroy record without ID');
-
-    if (this.constructor.adapter === 'firestore') {
-      await this.constructor.db.collection(this.constructor.collection_name).doc(this.id).delete();
-    } else {
-      await this.constructor.db.ref(`${this.constructor.collection_name}/${this.id}`).remove();
-    }
-
-    return true;
   }
 
   async save() {
@@ -174,7 +147,30 @@ class ActiveRecord {
       await this.constructor.db.ref(`${this.constructor.collection_name}/${this.id}`).set(this.attributes);
     }
 
+    this.constructor.setCache(this.constructor.cacheKey(this.id), this.attributes);
+    delete this.constructor._cache[`${this.constructor.collection_name}:all`];
+
     return this;
+  }
+
+  async update(attrs = {}) {
+    Object.assign(this.attributes, attrs);
+    return await this.save();
+  }
+
+  async destroy() {
+    if (!this.id) throw new Error('Cannot destroy record without ID');
+
+    if (this.constructor.adapter === 'firestore') {
+      await this.constructor.db.collection(this.constructor.collection_name).doc(this.id).delete();
+    } else {
+      await this.constructor.db.ref(`${this.constructor.collection_name}/${this.id}`).remove();
+    }
+
+    this.constructor.clearCache(this.constructor.cacheKey(this.id));
+    delete this.constructor._cache[`${this.constructor.collection_name}:all`];
+
+    return true;
   }
 
   validate_required_fields(columns) {
@@ -189,11 +185,8 @@ class ActiveRecord {
     for (const [key, def] of Object.entries(columns)) {
       const expected = def.type;
       const actual = typeof this.attributes[key];
-
       if (this.attributes[key] !== undefined && actual !== expected) {
-        throw new TypeError(
-          `Invalid type for field '${key}': expected '${expected}', got '${actual}'`
-        );
+        throw new TypeError(`Invalid type for field '${key}': expected '${expected}', got '${actual}'`);
       }
     }
   }
