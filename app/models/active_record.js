@@ -13,9 +13,11 @@ if (!admin.apps.length) {
 }
 
 const CACHE_TTL = 7 * 24 * 60 * 60 * 1000;
+const CACHE_LIMIT = 100;
 
 class ActiveRecord {
   static _cache = {};
+  static _cacheOrder = [];
 
   constructor(attributes = {}, id = null) {
     const modelName = this.constructor.model_name;
@@ -69,13 +71,33 @@ class ActiveRecord {
   static getFromCache(key) {
     const cached = this._cache[key];
     if (cached && cached.expires > Date.now()) {
+      const index = this._cacheOrder.indexOf(key);
+      if (index > -1) {
+        this._cacheOrder.splice(index, 1);
+        this._cacheOrder.push(key);
+      }
       return cached.value;
     }
     delete this._cache[key];
+    const index = this._cacheOrder.indexOf(key);
+    if (index > -1) this._cacheOrder.splice(index, 1);
     return null;
   }
 
   static setCache(key, value) {
+    if (!this._cache[key]) {
+      this._cacheOrder.push(key);
+      if (this._cacheOrder.length > CACHE_LIMIT) {
+        const oldestKey = this._cacheOrder.shift();
+        delete this._cache[oldestKey];
+      }
+    } else {
+      const index = this._cacheOrder.indexOf(key);
+      if (index > -1) {
+        this._cacheOrder.splice(index, 1);
+        this._cacheOrder.push(key);
+      }
+    }
     this._cache[key] = {
       value,
       expires: Date.now() + CACHE_TTL
@@ -84,6 +106,8 @@ class ActiveRecord {
 
   static clearCache(key) {
     delete this._cache[key];
+    const index = this._cacheOrder.indexOf(key);
+    if (index > -1) this._cacheOrder.splice(index, 1);
   }
 
   static async find(id) {
