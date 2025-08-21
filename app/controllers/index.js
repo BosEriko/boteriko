@@ -6,6 +6,7 @@ const Detail = require("./Detail");
 const Discord = require("./Discord");
 const Link = require("./Link");
 const Music = require("./Music");
+const Tetrio = require("./Tetrio");
 const Twitch = require("./Twitch");
 
 const Controller = {
@@ -14,6 +15,7 @@ const Controller = {
   Discord,
   Link,
   Music,
+  Tetrio,
   Twitch,
 }
 

@@ -11,6 +11,14 @@ module.exports = {
     },
   },
 
+  connections: {
+    type: 'firestore',
+    columns: {
+      discord: { type: 'string' },
+      tetrio: { type: 'string' },
+    },
+  },
+
   wallets: {
     type: 'realtime',
     columns: {
