@@ -2,20 +2,15 @@ const firebaseUtility = require('@global/utilities/firebase');
 const dailyUtility = require('@global/utilities/daily');
 const statisticUtility = require('@global/utilities/statistic');
 const walletUtility = require('@global/utilities/wallet');
-const getTwitchIdUtility = require('@discord/utilities/getTwitchId');
-
-async function saveToRealtimeDatabase(discordId) {
-  const rtdb = firebaseUtility.database();
-  const twitchId = await getTwitchIdUtility(discordId);
-  if (!twitchId) return;
-
-  await statisticUtility(rtdb, twitchId, { discordMessageCount: 1 });
-  await walletUtility(rtdb, twitchId, { coins: 1 });
-  await dailyUtility(rtdb, twitchId, 'discordMessageCount');
-}
 
 async function handleChatUtility(discordId) {
-  await saveToRealtimeDatabase(discordId);
+  const rtdb = firebaseUtility.database();
+  const connection = await Model.Connection.find_by({ discord: discordId });
+  if (!connection) return;
+
+  await statisticUtility(rtdb, connection.id, { discordMessageCount: 1 });
+  await walletUtility(rtdb, connection.id, { coins: 1 });
+  await dailyUtility(rtdb, connection.id, 'discordMessageCount');
 }
 
 module.exports = handleChatUtility;

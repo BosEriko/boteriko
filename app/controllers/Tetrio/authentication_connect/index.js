@@ -1,6 +1,4 @@
 const express = require("express");
-
-const axios = require("axios");
 const verify_firebase_token = require("../../concerns/verify_firebase_token");
 
 const authentication_connect = express.Router();
@@ -17,21 +15,24 @@ authentication_connect.post("/", async (req, res) => {
     const token = await verify_firebase_token(authHeader.split(" ")[1]);
     const uid = token.uid;
 
-    const tetrioRes = await axios.get(`https://ch.tetr.io/api/users/${username}`, {
-      headers: {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
-        "Accept": "application/json",
-      },
-    });
-    const tetrioData = tetrioRes.data;
+    const tetrioRes = await fetch(`https://ch.tetr.io/api/users/${username}`);
+
+    if (!tetrioRes.ok) {
+      return res.status(tetrioRes.status).json({
+        success: false,
+        message: `Failed to fetch TETR.IO user data. Status: ${tetrioRes.status}`,
+      });
+    }
+
+    const tetrioData = await tetrioRes.json();
 
     if (!tetrioData.success) {
       return res.status(400).json({ success: false, message: "Failed to fetch TETR.IO user data." });
     }
 
     const user = tetrioData.data;
-
     const twitchConnection = user.connections?.twitch;
+
     if (!twitchConnection || !twitchConnection.id) {
       return res.status(400).json({
         success: false,
@@ -46,9 +47,7 @@ authentication_connect.post("/", async (req, res) => {
       });
     }
 
-    await Model.Connection.find_or_upsert_by({
-      tetrio: user._id,
-    }, uid);
+    await Model.Connection.find_or_upsert_by({ tetrio: user._id }, uid);
 
     return res.json({
       success: true,
@@ -56,7 +55,7 @@ authentication_connect.post("/", async (req, res) => {
     });
 
   } catch (err) {
-    await Utility.error_logger('TETR.IO Connection error:', err.response?.data || err.message);
+    await Utility.error_logger("TETR.IO Connection error:", err?.response?.data || err.message);
     res.status(500).json({ success: false, message: "TETR.IO connection failed." });
   }
 });

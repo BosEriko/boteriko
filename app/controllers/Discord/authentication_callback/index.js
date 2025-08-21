@@ -3,7 +3,6 @@ const express = require('express');
 const verify_firebase_token = require('../../concerns/verify_firebase_token');
 const exchange_code = require('./exchange_code');
 const fetch_user = require('./fetch_user');
-const update_user_discord_id = require('./update_user_discord_id');
 
 const authentication_callback = express.Router();
 
@@ -20,7 +19,7 @@ authentication_callback.get('/', async (req, res) => {
     const accessToken = await exchange_code(code);
     const discordUser = await fetch_user(accessToken);
 
-    await update_user_discord_id(uid, discordUser.id);
+    await Model.Connection.find_or_upsert_by({ discord: discordUser.id }, uid);
 
     return res.redirect(`${Config.app.clientUrl}/?discord_connected=1`);
   } catch (err) {

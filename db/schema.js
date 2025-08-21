@@ -3,7 +3,6 @@ module.exports = {
     type: 'firestore',
     columns: {
       age: { type: 'number' },
-      discordId: { type: 'string' },
       displayName: { type: 'string', required: true },
       email: { type: 'string' },
       isRegistered: { type: 'boolean', default: false },
