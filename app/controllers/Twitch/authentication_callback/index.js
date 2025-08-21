@@ -2,7 +2,7 @@ const express = require('express');
 
 const exchange_code = require('./exchange_code');
 const fetch_user = require('./fetch_user');
-const sync_firebase_user = require('./sync_firebase_user');
+const sync_firebase_user = require('../../concerns/sync_firebase_user');
 const generate_custom_token = require('./generate_custom_token');
 
 const authentication_callback = express.Router();
@@ -15,7 +15,7 @@ authentication_callback.get('/', async (req, res) => {
     const twitchUser = await fetch_user(accessToken);
 
     const uid = twitchUser.id;
-    await sync_firebase_user(uid, twitchUser);
+    await sync_firebase_user(twitchUser);
     const customToken = await generate_custom_token(uid, twitchUser);
 
     await Model.User.find_or_upsert_by({
