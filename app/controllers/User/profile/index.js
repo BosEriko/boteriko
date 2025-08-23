@@ -31,6 +31,15 @@ profile.get('/:uid', async (req, res) => {
     const connection = await Model.Connection.find(uid);
     if (connection) data.connection = connection;
 
+    const wallet = await Model.Wallet.find(uid);
+    if (wallet) data.wallet = wallet;
+
+    const statistic = await Model.Statistic.find(uid);
+    if (statistic) data.statistic = statistic;
+
+    const daily  = await Model.Daily.find(uid);
+    if (daily) data.daily = daily;
+
     cache[uid] = {
       data,
       timestamp: Date.now(),

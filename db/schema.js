@@ -25,4 +25,19 @@ module.exports = {
       coins: { type: 'number', default: 0 },
     },
   },
+
+  statistics: {
+    type: 'realtime',
+    columns: {
+      discordMessageCount: { type: 'number' },
+      twitchMessageCount: { type: 'number' },
+    },
+  },
+
+  dailies: {
+    type: 'realtime',
+    columns: {
+      content: { type: 'object' },
+    },
+  },
 };

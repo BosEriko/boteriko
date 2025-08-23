@@ -1,4 +1,4 @@
-const ApplicationRecord = require('./application_record');
+const ApplicationRecord = require('../ApplicationRecord');
 
 class User extends ApplicationRecord {}
 

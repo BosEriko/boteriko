@@ -1,5 +1,6 @@
 const admin = require('firebase-admin');
 const schema = require('@db/schema');
+const pluralize = require('pluralize');
 
 if (!admin.apps.length) {
   admin.initializeApp({
@@ -41,7 +42,7 @@ class ActiveRecord {
   }
 
   static get model_name() {
-    return this.name.toLowerCase() + 's';
+    return pluralize(this.name.toLowerCase());
   }
 
   static get adapter() {
@@ -233,13 +234,27 @@ class ActiveRecord {
 
   validate_field_types(columns) {
     for (const [key, def] of Object.entries(columns)) {
-      const expected = def.type;
-      const actual = typeof this.attributes[key];
+      const value = this.attributes[key];
+      if (value === undefined) continue;
 
-      if (this.attributes[key] !== undefined && actual !== expected) {
-        throw new TypeError(
-          `Invalid type for field '${key}': expected '${expected}', got '${actual}'`
-        );
+      if (def.type === 'array') {
+        if (!Array.isArray(value)) {
+          throw new TypeError(
+            `Invalid type for field '${key}': expected 'array', got '${typeof value}'`
+          );
+        }
+      } else if (def.type === 'object') {
+        if (typeof value !== 'object' || value === null || Array.isArray(value)) {
+          throw new TypeError(
+            `Invalid type for field '${key}': expected 'object', got '${typeof value}'`
+          );
+        }
+      } else {
+        if (typeof value !== def.type) {
+          throw new TypeError(
+            `Invalid type for field '${key}': expected '${def.type}', got '${typeof value}'`
+          );
+        }
       }
     }
   }
