@@ -8,6 +8,7 @@ const Link = require("./Link");
 const Music = require("./Music");
 const Tetrio = require("./Tetrio");
 const Twitch = require("./Twitch");
+const User = require("./User");
 
 const Controller = {
   Concern,
@@ -17,6 +18,7 @@ const Controller = {
   Music,
   Tetrio,
   Twitch,
+  User,
 }
 
 module.exports = Controller;

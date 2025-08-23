@@ -33,6 +33,9 @@ app.use('/api/authentication/twitch/login', Controller.Twitch.authentication_log
 app.use('/api/detail/tetrio', Controller.Detail.tetrio);
 app.use('/api/detail/twitch', Controller.Detail.twitch);
 
+// User Routes
+app.use('/api/user/profile', Controller.User.profile);
+
 const server = http.createServer(app);
 
 setupWebSocket(server);

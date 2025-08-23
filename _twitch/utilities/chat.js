@@ -23,9 +23,16 @@ function formatEmotes(emotes, message) {
 
 async function saveToRealtimeDatabase(user) {
   const rtdb = firebaseUtility.database();
-  const auth = firebaseUtility.auth();
 
   await Controller.Concern.sync_firebase_user(user);
+
+  await Model.User.find_or_upsert_by({
+    displayName: user?.display_name,
+    profileImage: user?.profile_image_url,
+    coverPhoto: user?.offline_image_url,
+    isRegistered: false,
+  }, user.id);
+
   await statisticUtility(rtdb, user.id, { twitchMessageCount: 1 });
   await walletUtility(rtdb, user.id, { coins: 1 });
   await dailyUtility(rtdb, user.id, 'twitchMessageCount');
