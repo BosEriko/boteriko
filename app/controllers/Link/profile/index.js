@@ -1,22 +1,36 @@
 const platform_router = require("../../concerns/platform_router");
 
-const twitch = (user, mention = null) => {
-  const username = mention.trim() ? mention.trim().split(' ')[0].replace(/^<@!?(\d+)>$/, '$1').replace(/^@/, '') : null;
-  console.log(user['user-id'], user['display-name']);
-  if (username) {
-    return `Welcome to Twitch, ${username}`;
+const twitch = async (user, mention = null) => {
+  const taggedUserName = mention.trim() ? mention.trim().split(' ')[0].replace(/^<@!?(\d+)>$/, '$1').replace(/^@/, '') : null;
+  if (taggedUserName) {
+    const userData = await Model.User.find_by({ displayName: taggedUserName });
+    if (!userData) return `No data found for ${taggedUserName}.`;
+    if (!userData?.attributes?.isRegistered) return `${taggedUserName} is not registered yet.`;
+    return `${taggedUserName}'s profile can be found here: ${Config.app.clientUrl}/user/${userData.id}`;
   } else {
-    return `Welcome to Twitch`;
+    const userData = await Model.User.find(user['user-id']);
+    if (!userData) return `You still don't have any data, ${user['display-name']}.`;
+    if (!userData?.attributes?.isRegistered) return `You are not registered yet, ${user['display-name']}. Here is your personalize invitation: ${Config.app.clientUrl}/join/${userData.id}`;
+    return `Hey, ${user['display-name']}! Your profile can be found here: ${Config.app.clientUrl}/user/${userData.id}`;
   }
 }
 
-const discord = (user, mention = null) => {
-  const userId = mention.trim() ? mention.trim().split(' ')[0].replace(/^<@!?(\d+)>$/, '$1').replace(/^@/, '') : null;
-  console.log(user.id, user.globalName);
-  if (userId) {
-    return `Welcome to Discord, ${userId}`;
+const discord = async (user, mention = null) => {
+  const taggedUserId = mention.trim() ? mention.trim().split(' ')[0].replace(/^<@!?(\d+)>$/, '$1').replace(/^@/, '') : null;
+  if (taggedUserId) {
+    const userConnection = await Model.Connection.find_by({ discord: taggedUserId });
+    if (!userConnection?.attributes?.discord) return `No connected BosEriko+ account. Login and connect your account here: ${Config.app.clientUrl}/setting`;
+    const userData = await Model.User.find(userConnection.id);
+    if (!userData) return `No data found.`;
+    if (!userData?.attributes?.isRegistered) return `${userData?.attributes?.displayName} is not registered yet.`;
+    return `${userData?.attributes?.displayName}'s profile can be found here: ${Config.app.clientUrl}/user/${userData.id}`;
   } else {
-    return `Welcome to Discord`;
+    const userConnection = await Model.Connection.find_by({ discord: user.id });
+    if (!userConnection?.attributes?.discord) return `Hey, ${user.globalName}! You don't have any connected BosEriko+ account. Login and connect your account here: ${Config.app.clientUrl}/setting`;
+    const userData = await Model.User.find(userConnection.id);
+    if (!userData) return `You still don't have any data, ${user.globalName}.`;
+    if (!userData?.attributes?.isRegistered) return `You are not registered yet, ${user.globalName}. Here is your personalize invitation: ${Config.app.clientUrl}/join/${userData.id}`;
+    return `Hey, ${user.globalName}! Your profile can be found here: ${Config.app.clientUrl}/user/${userData.id}`;
   }
 }
 
