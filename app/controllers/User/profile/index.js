@@ -1,18 +1,17 @@
 const express = require('express');
 const profile = express.Router();
+const cacheUtility = require('@global/utilities/cache');
 
-const cache = {};
-const CACHE_DURATION = 15 * 60 * 1000;
+const CACHE_DURATION = 30 * 60 * 1000;
+const profileCache = cacheUtility(CACHE_DURATION);
 
 profile.get('/:uid', async (req, res) => {
   const { uid } = req.params;
 
-  const cached = cache[uid];
-  if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
-    return res.json(cached.data);
-  }
-
   try {
+    const cached = profileCache.get(uid, 'profile');
+    if (cached) return res.json(cached);
+
     const user = await Model.User.find(uid);
 
     if (!user) {
@@ -25,7 +24,7 @@ profile.get('/:uid', async (req, res) => {
 
     const data = {
       success: true,
-      cacheExpiresAt: Date.now() + CACHE_DURATION,
+      cacheExpiresIn: CACHE_DURATION,
       user,
     };
 
@@ -41,10 +40,7 @@ profile.get('/:uid', async (req, res) => {
     const daily = await Model.Daily.find(uid);
     if (daily) data.daily = daily;
 
-    cache[uid] = {
-      data,
-      timestamp: Date.now(),
-    };
+    profileCache.set(uid, data, 'profile');
 
     res.json(data);
   } catch (err) {
