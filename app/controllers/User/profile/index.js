@@ -25,6 +25,7 @@ profile.get('/:uid', async (req, res) => {
 
     const data = {
       success: true,
+      cacheExpiresAt: Date.now() + CACHE_DURATION,
       user,
     };
 
@@ -37,7 +38,7 @@ profile.get('/:uid', async (req, res) => {
     const statistic = await Model.Statistic.find(uid);
     if (statistic) data.statistic = statistic;
 
-    const daily  = await Model.Daily.find(uid);
+    const daily = await Model.Daily.find(uid);
     if (daily) data.daily = daily;
 
     cache[uid] = {
