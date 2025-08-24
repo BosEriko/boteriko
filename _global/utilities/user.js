@@ -3,8 +3,11 @@ const cacheUtility = require('@global/utilities/cache');
 
 const twitchUserCache = cacheUtility();
 
-async function handleUserUtility(username) {
-  const cachedUser = twitchUserCache.get(username, 'twitch-user');
+async function handleUserUtility(identifier) {
+  const isId = /^\d+$/.test(identifier);
+
+  const cacheKey = isId ? `id:${identifier}` : `username:${identifier}`;
+  const cachedUser = twitchUserCache.get(cacheKey, 'twitch-user');
   if (cachedUser) return cachedUser;
 
   try {
@@ -13,16 +16,16 @@ async function handleUserUtility(username) {
         'Client-ID': Config.twitch.bot.clientId,
         'Authorization': `Bearer ${Config.twitch.bot.accessToken}`,
       },
-      params: { login: username },
+      params: isId ? { id: identifier } : { login: identifier },
     });
 
     const user = res.data.data[0];
     if (user) {
-      twitchUserCache.set(username, user, 'twitch-user');
+      twitchUserCache.set(cacheKey, user, 'twitch-user');
       return user;
     }
   } catch (err) {
-    console.warn(`Failed to fetch Twitch user for ${username}: ${err.message}`);
+    console.warn(`Failed to fetch Twitch user for ${identifier}: ${err.message}`);
   }
 
   return null;

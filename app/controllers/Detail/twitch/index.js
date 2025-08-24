@@ -3,19 +3,24 @@ const handleUserUtility = require('@global/utilities/user');
 const twitch = express.Router();
 
 twitch.get('/', async (req, res) => {
-  const { username } = req.query;
+  const { username, id } = req.query;
 
-  if (!username) {
-    return res.status(400).json({ error: 'Missing username parameter' });
+  if (!username && !id) {
+    return res.status(400).json({ error: 'Missing username or id parameter' });
   }
 
-  const user = await handleUserUtility(username);
+  try {
+    const user = await handleUserUtility(username || id);
 
-  if (!user) {
-    return res.status(404).json({ error: 'Twitch user not found' });
+    if (!user) {
+      return res.status(404).json({ error: 'Twitch user not found' });
+    }
+
+    return res.json(user);
+  } catch (err) {
+    console.error('Error fetching Twitch user:', err);
+    return res.status(500).json({ error: 'Internal server error' });
   }
-
-  return res.json(user);
 });
 
 module.exports = twitch;
