@@ -30,7 +30,6 @@ async function saveToRealtimeDatabase(user) {
     displayName: user?.display_name,
     profileImage: user?.profile_image_url,
     coverPhoto: user?.offline_image_url,
-    isRegistered: false,
   }, user.id);
 
   await statisticUtility(rtdb, user.id, { twitchMessageCount: 1 });
