@@ -27,7 +27,6 @@ const Command = [
   { command: 'time',            parameter: false, availability: [TWITCH, DISCORD],  restricted: false,  streaming: false, description: 'Display the current time based on timezone.' },
   { command: 'todo',            parameter: true,  availability: [TWITCH],           restricted: true,   streaming: true,  description: 'Set tasks when working.' },
   { command: 'top',             parameter: false, availability: [TWITCH],           restricted: false,  streaming: false, description: 'Get the top players of the Typing Game.' },
-  { command: 'wallet',          parameter: false, availability: [TWITCH],           restricted: false,  streaming: false, description: 'Get the amount of Bos Coins that you have.' },
   { command: 'winner',          parameter: false, availability: [TWITCH],           restricted: false,  streaming: false, description: 'Get the winner of the previous Typing Game.' },
 ];
 
