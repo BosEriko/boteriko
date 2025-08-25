@@ -51,6 +51,7 @@ authentication_connect.post("/", async (req, res) => {
 
     return res.json({
       success: true,
+      id: user._id,
       message: "TETR.IO account connected!"
     });
 
