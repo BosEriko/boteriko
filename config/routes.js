@@ -36,6 +36,9 @@ app.use('/api/detail/twitch', Controller.Detail.twitch);
 // User Routes
 app.use('/api/user/profile', Controller.User.profile);
 
+// Data Routes
+app.use('/api/data/initial', Controller.Data.initial);
+
 const server = http.createServer(app);
 
 setupWebSocket(server);

@@ -2,6 +2,7 @@
 const Concern = require("./concerns");
 
 // Controllers
+const Data = require("./Data");
 const Detail = require("./Detail");
 const Discord = require("./Discord");
 const Link = require("./Link");
@@ -11,7 +12,11 @@ const Twitch = require("./Twitch");
 const User = require("./User");
 
 const Controller = {
+  // Concerns
   Concern,
+
+  // Controllers
+  Data,
   Detail,
   Discord,
   Link,
