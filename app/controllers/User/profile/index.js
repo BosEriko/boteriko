@@ -10,7 +10,12 @@ profile.get('/:uid', async (req, res) => {
 
   try {
     const cached = profileCache.get(uid, 'profile');
-    if (cached) return res.json(cached);
+    if (cached) {
+      const now = Date.now();
+      const timeElapsed = now - cached.cachedAt;
+      const remaining = Math.max(CACHE_DURATION - timeElapsed, 0);
+      return res.json({ ...cached, cacheExpiresIn: remaining });
+    }
 
     const user = await Model.User.find(uid);
 
@@ -24,7 +29,7 @@ profile.get('/:uid', async (req, res) => {
 
     const data = {
       success: true,
-      cacheExpiresIn: CACHE_DURATION,
+      cachedAt: Date.now(),
       user,
     };
 
@@ -54,7 +59,7 @@ profile.get('/:uid', async (req, res) => {
 
     profileCache.set(uid, data, 'profile');
 
-    res.json(data);
+    res.json({ ...data, cacheExpiresIn: CACHE_DURATION });
   } catch (err) {
     await Utility.error_logger('Failed to fetch profile:', err);
     res.status(500).json({ success: false, message: 'Server error' });

@@ -19,7 +19,12 @@ initial.get('/', async (req, res) => {
     const uid = token.uid;
 
     const cached = initialDataCache.get(uid, 'initial-data');
-    if (cached) return res.json(cached);
+    if (cached) {
+      const now = Date.now();
+      const timeElapsed = now - cached.cachedAt;
+      const remaining = Math.max(CACHE_DURATION - timeElapsed, 0);
+      return res.json({ ...cached, cacheExpiresIn: remaining });
+    }
 
     const user = await Model.User.find(uid);
 
@@ -33,7 +38,7 @@ initial.get('/', async (req, res) => {
 
     const data = {
       success: true,
-      cacheExpiresIn: CACHE_DURATION,
+      cachedAt: Date.now(),
       user,
     }
 
@@ -42,7 +47,7 @@ initial.get('/', async (req, res) => {
 
     initialDataCache.set(uid, data, 'initial-data');
 
-    res.json(data);
+    res.json({ ...data, cacheExpiresIn: CACHE_DURATION });
   } catch (err) {
     await Utility.error_logger("Initial Data fetching error:", err?.response?.data || err.message);
     res.status(500).json({ success: false, message: "Fetching of Initial Data failed." });
