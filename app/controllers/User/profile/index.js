@@ -29,7 +29,19 @@ profile.get('/:uid', async (req, res) => {
     };
 
     const connection = await Model.Connection.find(uid);
-    if (connection) data.connection = connection;
+    if (connection) {
+      data.connection = connection;
+      if (connection.attributes?.tetrio) {
+        const response = await fetch(`https://ch.tetr.io/api/users/${connection.attributes?.tetrio}`);
+        const json = await response.json();
+
+        if (!json.success) {
+          data.tetrio = {};
+        } else {
+          data.tetrio = json.data;
+        }
+      }
+    }
 
     const wallet = await Model.Wallet.find(uid);
     if (wallet) data.wallet = wallet;
