@@ -14,8 +14,8 @@ module.exports = {
   connections: {
     type: 'firestore',
     columns: {
-      discord: { type: 'string' },
-      tetrio: { type: 'string' },
+      discord: { type: 'string', nullable: true },
+      tetrio: { type: 'string', nullable: true },
     },
   },
 

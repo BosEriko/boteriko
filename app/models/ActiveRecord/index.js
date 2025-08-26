@@ -237,6 +237,8 @@ class ActiveRecord {
       const value = this.attributes[key];
       if (value === undefined) continue;
 
+      if (value === null && def.nullable) continue;
+
       if (def.type === 'array') {
         if (!Array.isArray(value)) {
           throw new TypeError(
