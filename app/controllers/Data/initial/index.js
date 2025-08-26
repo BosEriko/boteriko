@@ -4,7 +4,7 @@ const cacheUtility = require('@global/utilities/cache');
 
 const initial = express.Router();
 
-const CACHE_DURATION = 30 * 60 * 1000;
+const CACHE_DURATION = 7 * 24 * 60 * 60 * 1000;
 const initialDataCache = cacheUtility(CACHE_DURATION);
 
 initial.get('/', async (req, res) => {

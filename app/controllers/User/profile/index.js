@@ -2,7 +2,7 @@ const express = require('express');
 const profile = express.Router();
 const cacheUtility = require('@global/utilities/cache');
 
-const CACHE_DURATION = 30 * 60 * 1000;
+const CACHE_DURATION = 5 * 60 * 1000;
 const profileCache = cacheUtility(CACHE_DURATION);
 
 profile.get('/:uid', async (req, res) => {
