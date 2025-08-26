@@ -34,10 +34,17 @@ app.use('/api/detail/tetrio', Controller.Detail.tetrio);
 app.use('/api/detail/twitch', Controller.Detail.twitch);
 
 // User Routes
+app.use('/api/user/deactivate', Controller.User.deactivate);
 app.use('/api/user/profile', Controller.User.profile);
 
 // Data Routes
 app.use('/api/data/initial', Controller.Data.initial);
+
+// TETR.IO Routes
+app.use('/api/tetrio/disconnect', Controller.Tetrio.disconnect);
+
+// Discord Routes
+app.use('/api/discord/disconnect', Controller.Discord.disconnect);
 
 const server = http.createServer(app);
 
