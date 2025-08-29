@@ -5,6 +5,7 @@ const RaidMessage = [
   `📸 Instagram: http://instagram.boseriko.com`,
   `🎵 TikTok: http://tiktok.boseriko.com`,
   `📺 YouTube: http://youtube.boseriko.com`,
+  `🌐 BosEriko+: https://plus.boseriko.com`,
   `💬 Join the community on Discord: http://discord.boseriko.com`,
   `❤️ Enjoyed the stream? Don't forget to follow so you don't miss the next one!`,
 ];
