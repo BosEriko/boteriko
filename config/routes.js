@@ -46,6 +46,9 @@ app.use('/api/tetrio/disconnect', Controller.Tetrio.disconnect);
 // Discord Routes
 app.use('/api/discord/disconnect', Controller.Discord.disconnect);
 
+// Game Routes
+app.use('/api/game/search', Controller.Game.search);
+
 const server = http.createServer(app);
 
 setupWebSocket(server);

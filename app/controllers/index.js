@@ -5,6 +5,7 @@ const Concern = require("./concerns");
 const Data = require("./Data");
 const Detail = require("./Detail");
 const Discord = require("./Discord");
+const Game = require("./Game");
 const Link = require("./Link");
 const Music = require("./Music");
 const Tetrio = require("./Tetrio");
@@ -19,6 +20,7 @@ const Controller = {
   Data,
   Detail,
   Discord,
+  Game,
   Link,
   Music,
   Tetrio,
