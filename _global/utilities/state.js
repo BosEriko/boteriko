@@ -28,7 +28,7 @@ module.exports = {
   lastMessageTimestamp: Date.now(),
 
   // Todoist display toggle
-  isTodoVisible: true,
+  isTodoVisible: false,
 
   // Music state
   music: {
