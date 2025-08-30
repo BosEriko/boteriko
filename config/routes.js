@@ -37,6 +37,15 @@ app.use('/api/detail/twitch', Controller.Detail.twitch);
 app.use('/api/user/deactivate', Controller.User.deactivate);
 app.use('/api/user/profile', Controller.User.profile);
 
+// Game Routes
+app.use('/api/game/profile', Controller.Game.profile);
+
+// Anime Routes
+app.use('/api/anime/profile', Controller.Anime.profile);
+
+// Manga Routes
+app.use('/api/manga/profile', Controller.Manga.profile);
+
 // Data Routes
 app.use('/api/data/initial', Controller.Data.initial);
 app.use('/api/data/search', Controller.Data.search);
