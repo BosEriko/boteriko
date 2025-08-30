@@ -25,7 +25,7 @@ search.post('/', async (req, res) => {
       return res.status(400).json({ success: false, message: "User is not registered" });
     }
 
-    const searchQuery = req.query.search;
+    const searchQuery = req.query.query;
     if (!searchQuery || searchQuery.trim() === "") {
       return res.status(400).json({ success: false, message: "Search query is required." });
     }
@@ -48,8 +48,11 @@ search.post('/', async (req, res) => {
     const accessToken = tokenResponse.data.access_token;
 
     const igdbResponse = await axios.post(
-      `https://api.igdb.com/v4/search`,
-      `search "${searchQuery}"; fields name; limit 10;`,
+      `https://api.igdb.com/v4/games`,
+      `fields name, slug, cover.url, first_release_date, summary, parent_game;
+      where name ~ *"${searchQuery}"* & parent_game = null;
+      sort first_release_date desc;
+      limit 10;`,
       {
         headers: {
           "Client-ID": clientId,
