@@ -3,11 +3,13 @@ const verify_firebase_token = require("../../concerns/verify_firebase_token");
 const search_games = require("./game");
 const search_anime = require("./anime");
 const search_manga = require("./manga");
+const cacheUtility = require("@global/utilities/cache");
 
 const search = express.Router();
 
-const searchCache = new Map();
-const CACHE_TTL = 30 * 60 * 1000;
+const THIRTY_MINUTES_MS = 30 * 60 * 1000;
+const searchCache = cacheUtility(THIRTY_MINUTES_MS);
+
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const search_all = async (searchQuery) => {
@@ -57,11 +59,10 @@ search.post("/", async (req, res) => {
     }
 
     const cacheKey = searchQuery.toLowerCase();
-    const cached = searchCache.get(cacheKey);
-    const now = Date.now();
+    const cached = searchCache.get(cacheKey, "search-results");
 
-    if (cached && now - cached.timestamp < CACHE_TTL) {
-      return res.json({ success: true, results: cached.data });
+    if (cached) {
+      return res.json({ success: true, results: cached });
     }
 
     let games, anime, manga;
@@ -80,7 +81,7 @@ search.post("/", async (req, res) => {
 
     const results = { games, anime, manga };
 
-    searchCache.set(cacheKey, { timestamp: now, data: results });
+    searchCache.set(cacheKey, results, "search-results");
 
     res.json({ success: true, results });
   } catch (err) {
