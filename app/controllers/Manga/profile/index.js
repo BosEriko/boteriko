@@ -12,7 +12,6 @@ profile.get('/:id', async (req, res) => {
 
   try {
     const authHeader = req.headers.authorization;
-    const cached = mangaCache.get(id, 'manga');
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).json({ success: false, message: "Unauthorized" });
@@ -31,6 +30,7 @@ profile.get('/:id', async (req, res) => {
       return res.status(400).json({ success: false, message: "User is not registered" });
     }
 
+    const cached = mangaCache.get(id, 'manga');
     if (cached) {
       const now = Date.now();
       const timeElapsed = now - cached.cachedAt;
