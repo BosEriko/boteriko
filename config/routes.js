@@ -39,15 +39,13 @@ app.use('/api/user/profile', Controller.User.profile);
 
 // Data Routes
 app.use('/api/data/initial', Controller.Data.initial);
+app.use('/api/data/search', Controller.Data.search);
 
 // TETR.IO Routes
 app.use('/api/tetrio/disconnect', Controller.Tetrio.disconnect);
 
 // Discord Routes
 app.use('/api/discord/disconnect', Controller.Discord.disconnect);
-
-// Game Routes
-app.use('/api/game/search', Controller.Game.search);
 
 const server = http.createServer(app);
 
