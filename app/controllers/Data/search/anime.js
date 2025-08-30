@@ -8,11 +8,18 @@ const search_anime = async (searchQuery) => {
   const response = await axios.get(`https://api.jikan.moe/v4/anime`, {
     params: {
       q: searchQuery,
-      limit: 10,
+      limit: 5,
     },
   });
 
-  return response.data.data || [];
+  const animeList = response.data.data || [];
+
+  return animeList.map((anime) => ({
+    id: anime.mal_id,
+    name: anime.title,
+    thumbnail: anime.images?.jpg?.small_image_url || anime.images?.jpg?.image_url || null,
+    year: anime.aired?.from ? new Date(anime.aired.from).getFullYear() : "N/A"
+  }));
 };
 
 module.exports = search_anime;

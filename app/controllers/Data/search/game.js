@@ -20,10 +20,10 @@ const search_games = async (searchQuery) => {
 
   const igdbResponse = await axios.post(
     `https://api.igdb.com/v4/games`,
-    `fields name, slug, cover.url, first_release_date, summary, parent_game;
+    `fields name, cover.url, first_release_date, parent_game;
      where name ~ *"${searchQuery}"* & parent_game = null;
      sort first_release_date desc;
-     limit 10;`,
+     limit 5;`,
     {
       headers: {
         "Client-ID": clientId,
@@ -33,7 +33,14 @@ const search_games = async (searchQuery) => {
     }
   );
 
-  return igdbResponse.data || [];
+  const games = igdbResponse.data || [];
+
+  return games.map((game) => ({
+    id: game.id,
+    name: game.name,
+    thumbnail: game.cover?.url ? game.cover.url.replace("t_thumb", "t_cover_big") : null,
+    year: game.first_release_date ? new Date(game.first_release_date * 1000).getFullYear() : "N/A"
+  }));
 };
 
 module.exports = search_games;

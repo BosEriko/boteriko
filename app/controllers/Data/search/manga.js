@@ -8,11 +8,18 @@ const search_manga = async (searchQuery) => {
   const response = await axios.get(`https://api.jikan.moe/v4/manga`, {
     params: {
       q: searchQuery,
-      limit: 10,
+      limit: 5,
     },
   });
 
-  return response.data.data || [];
+  const mangaList = response.data.data || [];
+
+  return mangaList.map((manga) => ({
+    id: manga.mal_id,
+    name: manga.title,
+    thumbnail: manga.images?.jpg?.image_url || null,
+    year: manga.published?.from ? new Date(manga.published.from).getFullYear() : "N/A"
+  }));
 };
 
 module.exports = search_manga;

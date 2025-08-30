@@ -8,6 +8,29 @@ const search = express.Router();
 
 const searchCache = new Map();
 const CACHE_TTL = 30 * 60 * 1000;
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const search_all = async (searchQuery) => {
+  return await Promise.all([
+    search_games(searchQuery),
+    search_anime(searchQuery),
+    search_manga(searchQuery),
+  ]);
+};
+
+const fetchSearchResults = async (searchQuery) => {
+  try {
+    return await search_all(searchQuery);
+  } catch (err) {
+    if (err?.response?.status === 429) {
+      console.warn(`[Rate Limit Hit] Retrying after 3s cooldown...`);
+      await delay(3000);
+      return await search_all(searchQuery);
+    }
+
+    throw err;
+  }
+};
 
 search.post("/", async (req, res) => {
   try {
@@ -41,27 +64,27 @@ search.post("/", async (req, res) => {
       return res.json({ success: true, results: cached.data });
     }
 
-    const [games, anime, manga] = await Promise.all([
-      search_games(searchQuery),
-      search_anime(searchQuery),
-      search_manga(searchQuery),
-    ]);
+    let games, anime, manga;
+    try {
+      [games, anime, manga] = await fetchSearchResults(searchQuery);
+    } catch (err) {
+      if (err?.response?.status === 429) {
+        return res.status(429).json({
+          success: false,
+          message: "You're being rate-limited by the API. Please try again later.",
+        });
+      }
+
+      throw err;
+    }
 
     const results = { games, anime, manga };
 
-    // Save to cache
     searchCache.set(cacheKey, { timestamp: now, data: results });
 
     res.json({ success: true, results });
   } catch (err) {
     await Utility.error_logger("Game/Anime/Manga Search error:", err?.response?.data || err.message);
-
-    if (err?.response?.status === 429) {
-      return res.status(429).json({
-        success: false,
-        message: "You're being rate-limited by the Jikan API. Please try again in a few seconds.",
-      });
-    }
 
     res.status(500).json({ success: false, message: "Searching failed." });
   }
