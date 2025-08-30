@@ -12,7 +12,7 @@ profile.get('/:id', async (req, res) => {
 
   try {
     const authHeader = req.headers.authorization;
-    const cached = mangaCache.get(uid, 'manga');
+    const cached = mangaCache.get(id, 'manga');
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).json({ success: false, message: "Unauthorized" });
@@ -43,7 +43,7 @@ profile.get('/:id', async (req, res) => {
       cachedAt: Date.now(),
     };
 
-    mangaCache.set(uid, data, 'manga');
+    mangaCache.set(id, data, 'manga');
 
     res.json({ ...data, cacheExpiresIn: CACHE_DURATION });
   } catch (err) {

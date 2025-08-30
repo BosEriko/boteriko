@@ -12,7 +12,7 @@ profile.get('/:id', async (req, res) => {
 
   try {
     const authHeader = req.headers.authorization;
-    const cached = animeCache.get(uid, 'anime');
+    const cached = animeCache.get(id, 'anime');
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).json({ success: false, message: "Unauthorized" });
@@ -41,9 +41,10 @@ profile.get('/:id', async (req, res) => {
     const data = {
       success: true,
       cachedAt: Date.now(),
+
     };
 
-    animeCache.set(uid, data, 'anime');
+    animeCache.set(id, data, 'anime');
 
     res.json({ ...data, cacheExpiresIn: CACHE_DURATION });
   } catch (err) {
