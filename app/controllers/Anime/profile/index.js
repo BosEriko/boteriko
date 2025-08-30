@@ -45,14 +45,21 @@ profile.get('/:id', async (req, res) => {
       return res.status(404).json({ success: false, message: "Anime not found" });
     }
 
+    const anime = response.data.data;
     const data = {
       success: true,
       cachedAt: Date.now(),
-      anime: response.data.data
+      information: {
+        id: anime.mal_id,
+        name: anime.title,
+        description: anime.synopsis || "No description available",
+        releaseDate: anime.aired?.from || null,
+        coverPhoto: anime.images?.jpg?.large_image_url || anime.images?.jpg?.image_url || null,
+        displayPicture: anime.images?.jpg?.image_url || null
+      }
     };
 
     animeCache.set(id, data, 'anime');
-
     res.json({ ...data, cacheExpiresIn: CACHE_DURATION });
   } catch (err) {
     await Utility.error_logger('Failed to fetch Anime profile:', err);

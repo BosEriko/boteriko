@@ -58,7 +58,7 @@ profile.get('/:id', async (req, res) => {
 
     const response = await axios.post(
       "https://api.igdb.com/v4/games",
-      `fields id, name, slug, cover.url, genres.name, first_release_date, summary, rating, involved_companies.company.name;
+      `fields id, name, cover.url, first_release_date, summary;
        where id = ${id};`,
       {
         headers: {
@@ -73,14 +73,21 @@ profile.get('/:id', async (req, res) => {
       return res.status(404).json({ success: false, message: "Game not found" });
     }
 
+    const game = response.data[0];
     const data = {
       success: true,
       cachedAt: Date.now(),
-      game: response.data[0]
+      information: {
+        id: game.id,
+        name: game.name,
+        description: game.summary || "No description available",
+        releaseDate: game.first_release_date ? new Date(game.first_release_date * 1000).toISOString() : null,
+        coverPhoto: game.cover?.url ? game.cover.url.replace("t_thumb", "t_1080p") : null,
+        displayPicture: game.cover?.url ? game.cover.url.replace("t_thumb", "t_cover_big") : null
+      }
     };
 
     gameCache.set(id, data, 'game');
-
     res.json({ ...data, cacheExpiresIn: CACHE_DURATION });
   } catch (err) {
     await Utility.error_logger('Failed to fetch Game profile:', err);

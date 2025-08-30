@@ -45,14 +45,21 @@ profile.get('/:id', async (req, res) => {
       return res.status(404).json({ success: false, message: "Manga not found" });
     }
 
+    const manga = response.data.data;
     const data = {
       success: true,
       cachedAt: Date.now(),
-      manga: response.data.data
+      information: {
+        id: manga.mal_id,
+        name: manga.title,
+        description: manga.synopsis || "No description available",
+        releaseDate: manga.published?.from || null,
+        coverPhoto: manga.images?.jpg?.large_image_url || manga.images?.jpg?.image_url || null,
+        displayPicture: manga.images?.jpg?.image_url || null
+      }
     };
 
     mangaCache.set(id, data, 'manga');
-
     res.json({ ...data, cacheExpiresIn: CACHE_DURATION });
   } catch (err) {
     await Utility.error_logger('Failed to fetch Manga profile:', err);
