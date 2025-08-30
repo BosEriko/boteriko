@@ -1,4 +1,5 @@
 const express = require('express');
+const axios = require('axios');
 const verify_firebase_token = require("../../concerns/verify_firebase_token");
 
 const profile = express.Router();
@@ -38,9 +39,16 @@ profile.get('/:id', async (req, res) => {
       return res.json({ ...cached, cacheExpiresIn: remaining });
     }
 
+    const response = await axios.get(`https://api.jikan.moe/v4/anime/${id}`);
+
+    if (!response.data || !response.data.data) {
+      return res.status(404).json({ success: false, message: "Anime not found" });
+    }
+
     const data = {
       success: true,
       cachedAt: Date.now(),
+      anime: response.data.data
     };
 
     animeCache.set(id, data, 'anime');

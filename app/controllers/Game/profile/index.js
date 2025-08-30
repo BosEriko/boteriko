@@ -1,4 +1,5 @@
 const express = require('express');
+const axios = require('axios');
 const verify_firebase_token = require("../../concerns/verify_firebase_token");
 
 const profile = express.Router();
@@ -38,9 +39,44 @@ profile.get('/:id', async (req, res) => {
       return res.json({ ...cached, cacheExpiresIn: remaining });
     }
 
+    const clientId = Config.twitch.app.clientId;
+    const clientSecret = Config.twitch.app.clientSecret;
+
+    const tokenResponse = await axios.post(
+      `https://id.twitch.tv/oauth2/token`,
+      null,
+      {
+        params: {
+          client_id: clientId,
+          client_secret: clientSecret,
+          grant_type: "client_credentials",
+        },
+      }
+    );
+
+    const accessToken = tokenResponse.data.access_token;
+
+    const response = await axios.post(
+      "https://api.igdb.com/v4/games",
+      `fields id, name, slug, cover.url, genres.name, first_release_date, summary, rating, involved_companies.company.name;
+       where id = ${id};`,
+      {
+        headers: {
+          "Client-ID": clientId,
+          "Authorization": `Bearer ${accessToken}`,
+          "Accept": "application/json",
+        },
+      }
+    );
+
+    if (!response.data || response.data.length === 0) {
+      return res.status(404).json({ success: false, message: "Game not found" });
+    }
+
     const data = {
       success: true,
       cachedAt: Date.now(),
+      game: response.data[0]
     };
 
     gameCache.set(id, data, 'game');
