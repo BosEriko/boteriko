@@ -103,8 +103,20 @@ class ActiveRecord {
     return results;
   }
 
-  static async where(conditions = {}) {
+  static async where(conditions = {}, id = null) {
     if (this.adapter === 'firestore') {
+      if (id) {
+        const userDoc = await this.db.collection(this.collection_name).doc(id).get();
+        if (!userDoc.exists) return [];
+
+        const data = userDoc.data();
+        const entries = Array.isArray(data.entries) ? data.entries : [];
+
+        return entries.filter(entry =>
+          Object.entries(conditions).every(([key, value]) => entry[key] === value)
+        );
+      }
+
       let query = this.db.collection(this.collection_name);
 
       for (const [key, value] of Object.entries(conditions)) {
@@ -118,6 +130,18 @@ class ActiveRecord {
     }
 
     if (this.adapter === 'realtime') {
+      if (id) {
+        const snapshot = await this.db.ref(`${this.collection_name}/${id}`).get();
+        if (!snapshot.exists()) return [];
+
+        const data = snapshot.val();
+        const entries = Array.isArray(data.entries) ? data.entries : [];
+
+        return entries.filter(entry =>
+          Object.entries(conditions).every(([key, value]) => entry[key] === value)
+        );
+      }
+
       const keys = Object.keys(conditions);
 
       if (keys.length === 1) {
@@ -168,8 +192,8 @@ class ActiveRecord {
     return n === 1 ? slice[0] || null : slice;
   }
 
-  static async find_by(conditions = {}) {
-    const matches = await this.where(conditions);
+  static async find_by(conditions = {}, id = null) {
+    const matches = await this.where(conditions, id);
     return matches[0] || null;
   }
 
