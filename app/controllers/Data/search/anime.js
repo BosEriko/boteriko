@@ -18,7 +18,8 @@ const search_anime = async (searchQuery) => {
     id: anime.mal_id,
     name: anime.title,
     thumbnail: anime.images?.jpg?.small_image_url || anime.images?.jpg?.image_url || null,
-    year: anime.aired?.from ? new Date(anime.aired.from).getFullYear() : "N/A"
+    year: anime.aired?.from ? new Date(anime.aired.from).getFullYear() : "N/A",
+    nsfw: anime.nsfw === "black"
   }));
 };
 

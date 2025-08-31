@@ -18,7 +18,8 @@ const search_manga = async (searchQuery) => {
     id: manga.mal_id,
     name: manga.title,
     thumbnail: manga.images?.jpg?.image_url || null,
-    year: manga.published?.from ? new Date(manga.published.from).getFullYear() : "N/A"
+    year: manga.published?.from ? new Date(manga.published.from).getFullYear() : "N/A",
+    nsfw: manga.nsfw === "black"
   }));
 };
 

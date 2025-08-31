@@ -39,7 +39,8 @@ const search_games = async (searchQuery) => {
     id: game.id,
     name: game.name,
     thumbnail: game.cover?.url ? game.cover.url.replace("t_thumb", "t_cover_big") : null,
-    year: game.first_release_date ? new Date(game.first_release_date * 1000).getFullYear() : "N/A"
+    year: game.first_release_date ? new Date(game.first_release_date * 1000).getFullYear() : "N/A",
+    nsfw: game.age_ratings?.some(r => [6, 11].includes(r.rating)) || false
   }));
 };
 
