@@ -56,7 +56,7 @@ profile.get('/:id', async (req, res) => {
         releaseDate: anime.aired?.from || null,
         coverPhoto: anime.images?.jpg?.large_image_url || anime.images?.jpg?.image_url || null,
         displayPicture: anime.images?.jpg?.image_url || null,
-        nsfw: anime.nsfw === "black"
+        nsfw: anime.nsfw === "black" || anime.genres?.some(g => g.name === "Hentai") || anime.themes?.some(t => t.name === "Hentai")
       }
     };
 

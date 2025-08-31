@@ -19,7 +19,7 @@ const search_anime = async (searchQuery) => {
     name: anime.title,
     thumbnail: anime.images?.jpg?.small_image_url || anime.images?.jpg?.image_url || null,
     year: anime.aired?.from ? new Date(anime.aired.from).getFullYear() : "N/A",
-    nsfw: anime.nsfw === "black"
+    nsfw: anime.nsfw === "black" || anime.genres?.some(g => g.name === "Hentai") || anime.themes?.some(t => t.name === "Hentai")
   }));
 };
 
