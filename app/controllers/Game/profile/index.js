@@ -83,7 +83,8 @@ profile.get('/:id', async (req, res) => {
         description: game.summary || "No description available",
         releaseDate: game.first_release_date ? new Date(game.first_release_date * 1000).toISOString() : null,
         coverPhoto: game.cover?.url ? game.cover.url.replace("t_thumb", "t_1080p") : null,
-        displayPicture: game.cover?.url ? game.cover.url.replace("t_thumb", "t_cover_big") : null
+        displayPicture: game.cover?.url ? game.cover.url.replace("t_thumb", "t_cover_big") : null,
+        nsfw: game.age_ratings?.some(rating => [6, 11].includes(rating.rating)) || false
       }
     };
 

@@ -55,7 +55,8 @@ profile.get('/:id', async (req, res) => {
         description: manga.synopsis || "No description available",
         releaseDate: manga.published?.from || null,
         coverPhoto: manga.images?.jpg?.large_image_url || manga.images?.jpg?.image_url || null,
-        displayPicture: manga.images?.jpg?.image_url || null
+        displayPicture: manga.images?.jpg?.image_url || null,
+        nsfw: manga.nsfw === "black"
       }
     };
 

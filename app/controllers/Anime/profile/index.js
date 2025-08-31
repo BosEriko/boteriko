@@ -55,7 +55,8 @@ profile.get('/:id', async (req, res) => {
         description: anime.synopsis || "No description available",
         releaseDate: anime.aired?.from || null,
         coverPhoto: anime.images?.jpg?.large_image_url || anime.images?.jpg?.image_url || null,
-        displayPicture: anime.images?.jpg?.image_url || null
+        displayPicture: anime.images?.jpg?.image_url || null,
+        nsfw: anime.nsfw === "black"
       }
     };
 
