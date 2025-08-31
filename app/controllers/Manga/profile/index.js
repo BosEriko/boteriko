@@ -12,23 +12,21 @@ profile.get('/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
+    let user = null;
     const authHeader = req.headers.authorization;
 
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({ success: false, message: "Unauthorized" });
+    if (authHeader?.startsWith("Bearer ")) {
+      try {
+        const token = await verify_firebase_token(authHeader.split(" ")[1]);
+        const uid = token.uid;
+        user = await Model.User.find(uid);
+      } catch (error) {
+        return res.status(401).json({ success: false, message: "Invalid token" });
+      }
     }
 
-    const token = await verify_firebase_token(authHeader.split(" ")[1]);
-    const uid = token.uid;
-
-    const user = await Model.User.find(uid);
-
-    if (!user) {
-      return res.status(404).json({ success: false, message: "User doesn't exist" });
-    }
-
-    if (!user.attributes?.isRegistered) {
-      return res.status(400).json({ success: false, message: "User is not registered" });
+    if (user) {
+      // Fetch the User's Progress
     }
 
     const cached = mangaCache.get(id, 'manga');
