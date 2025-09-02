@@ -27,7 +27,7 @@ profile.get('/:id', async (req, res) => {
     }
 
     let list;
-    if (user) list = await Model.AnimeList.where({ id }, user.id);
+    if (user) list = await Model.AnimeList.find_by({ id }, user.id);
 
     const cached = animeCache.get(id, 'anime');
     if (cached) return res.json({ ...cached, list, cacheExpiresIn: Math.max(CACHE_DURATION - (Date.now() - cached.cachedAt), 0) });

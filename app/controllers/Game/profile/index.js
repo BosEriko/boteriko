@@ -27,7 +27,7 @@ profile.get('/:id', async (req, res) => {
     }
 
     let list;
-    if (user) list = await Model.GameList.where({ id }, user.id);
+    if (user) list = await Model.GameList.find_by({ id }, user.id);
 
     const cached = gameCache.get(id, 'game');
     if (cached) return res.json({ ...cached, list, cacheExpiresIn: Math.max(CACHE_DURATION - (Date.now() - cached.cachedAt), 0) });
