@@ -51,6 +51,7 @@ module.exports = {
   game_profiles: {
     type: 'firestore',
     columns: {
+      timestamp: { type: 'number' },
       id: { type: 'string' },
       name: { type: 'string' },
       thumbnail: { type: 'string' },
@@ -69,6 +70,7 @@ module.exports = {
   anime_profiles: {
     type: 'firestore',
     columns: {
+      timestamp: { type: 'number' },
       id: { type: 'string' },
       name: { type: 'string' },
       thumbnail: { type: 'string' },
@@ -87,6 +89,7 @@ module.exports = {
   manga_profiles: {
     type: 'firestore',
     columns: {
+      timestamp: { type: 'number' },
       id: { type: 'string' },
       name: { type: 'string' },
       thumbnail: { type: 'string' },
