@@ -39,6 +39,7 @@ app.use('/api/user/profile', Controller.User.profile);
 
 // Game Routes
 app.use('/api/game/profile', Controller.Game.profile);
+app.use('/api/game/update_list', Controller.Game.update_list);
 
 // Anime Routes
 app.use('/api/anime/profile', Controller.Anime.profile);
