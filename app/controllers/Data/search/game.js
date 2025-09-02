@@ -1,4 +1,7 @@
 const axios = require("axios");
+const https = require("https");
+
+const httpsAgent = new https.Agent({ family: 4 });
 
 const search_games = async (searchQuery) => {
   const clientId = Config.twitch.app.clientId;
@@ -13,6 +16,7 @@ const search_games = async (searchQuery) => {
         client_secret: clientSecret,
         grant_type: "client_credentials",
       },
+      httpsAgent,
     }
   );
 

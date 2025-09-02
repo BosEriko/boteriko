@@ -1,6 +1,9 @@
 const axios = require("axios");
+const https = require("https");
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const httpsAgent = new https.Agent({ family: 4 });
 
 const search_manga = async (searchQuery) => {
   await delay(150);
@@ -10,6 +13,7 @@ const search_manga = async (searchQuery) => {
       q: searchQuery,
       limit: 5,
     },
+    httpsAgent,
   });
 
   const mangaList = response.data.data || [];
