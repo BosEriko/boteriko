@@ -42,7 +42,7 @@ class ActiveRecord {
   }
 
   static get model_name() {
-    return pluralize(this.name.toLowerCase());
+    return pluralize(this.name.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase());
   }
 
   static get adapter() {

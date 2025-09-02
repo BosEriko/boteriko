@@ -40,4 +40,58 @@ module.exports = {
       content: { type: 'object' },
     },
   },
+
+  game_lists: {
+    type: 'realtime',
+    columns: {
+      content: { type: 'object' },
+    },
+  },
+
+  game_profiles: {
+    type: 'firestore',
+    columns: {
+      id: { type: 'string' },
+      name: { type: 'string' },
+      thumbnail: { type: 'string' },
+      year: { type: 'number' },
+      nsfw: { type: 'boolean' },
+    },
+  },
+
+  anime_lists: {
+    type: 'realtime',
+    columns: {
+      content: { type: 'object' },
+    },
+  },
+
+  anime_profiles: {
+    type: 'firestore',
+    columns: {
+      id: { type: 'string' },
+      name: { type: 'string' },
+      thumbnail: { type: 'string' },
+      year: { type: 'number' },
+      nsfw: { type: 'boolean' },
+    },
+  },
+
+  manga_lists: {
+    type: 'realtime',
+    columns: {
+      content: { type: 'object' },
+    },
+  },
+
+  manga_profiles: {
+    type: 'firestore',
+    columns: {
+      id: { type: 'string' },
+      name: { type: 'string' },
+      thumbnail: { type: 'string' },
+      year: { type: 'number' },
+      nsfw: { type: 'boolean' },
+    },
+  },
 };
