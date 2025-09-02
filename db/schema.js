@@ -59,7 +59,6 @@ module.exports = {
       name: { type: 'string' },
       nsfw: { type: 'boolean' },
       releaseDate: { type: 'string' },
-      year: { type: 'number' },
     },
   },
 
@@ -81,7 +80,6 @@ module.exports = {
       name: { type: 'string' },
       nsfw: { type: 'boolean' },
       releaseDate: { type: 'string' },
-      year: { type: 'number' },
     },
   },
 
@@ -103,7 +101,6 @@ module.exports = {
       name: { type: 'string' },
       nsfw: { type: 'boolean' },
       releaseDate: { type: 'string' },
-      year: { type: 'number' },
     },
   },
 };

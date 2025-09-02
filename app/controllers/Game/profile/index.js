@@ -6,6 +6,7 @@ const profile = express.Router();
 const cacheUtility = require('@global/utilities/cache');
 
 const CACHE_DURATION = 60 * 60 * 1000;
+const DB_CACHE_DURATION = 7 * 24 * 60 * 60 * 1000;
 const gameCache = cacheUtility(CACHE_DURATION);
 
 profile.get('/:id', async (req, res) => {
@@ -30,11 +31,28 @@ profile.get('/:id', async (req, res) => {
     }
 
     const cached = gameCache.get(id, 'game');
-    if (cached) {
-      const now = Date.now();
-      const timeElapsed = now - cached.cachedAt;
-      const remaining = Math.max(CACHE_DURATION - timeElapsed, 0);
-      return res.json({ ...cached, cacheExpiresIn: remaining });
+    if (cached) return res.json({ ...cached, cacheExpiresIn: Math.max(CACHE_DURATION - (Date.now() - cached.cachedAt), 0) });
+
+    let dbProfile = await Model.GameProfile.find(id);
+    const now = Date.now();
+
+    if (dbProfile && now - dbProfile.attributes.timestamp < DB_CACHE_DURATION) {
+      const data = {
+        success: true,
+        cachedAt: dbProfile.attributes.timestamp,
+        information: {
+          id: dbProfile.attributes.id,
+          name: dbProfile.attributes.name,
+          description: dbProfile.attributes.description,
+          releaseDate: dbProfile.attributes.releaseDate,
+          coverPhoto: dbProfile.attributes.coverPhoto,
+          displayPicture: dbProfile.attributes.displayPicture,
+          nsfw: dbProfile.attributes.nsfw,
+        },
+      };
+
+      gameCache.set(id, data, 'game');
+      return res.json({ ...data, cacheExpiresIn: Math.max(DB_CACHE_DURATION - (Date.now() - dbProfile.attributes.timestamp), 0) });
     }
 
     const clientId = Config.twitch.app.clientId;
@@ -56,7 +74,7 @@ profile.get('/:id', async (req, res) => {
 
     const response = await axios.post(
       "https://api.igdb.com/v4/games",
-      `fields id, name, cover.url, first_release_date, summary;
+      `fields id, name, cover.url, first_release_date, summary, age_ratings.rating;
        where id = ${id};`,
       {
         headers: {
@@ -74,7 +92,7 @@ profile.get('/:id', async (req, res) => {
     const game = response.data[0];
     const data = {
       success: true,
-      cachedAt: Date.now(),
+      cachedAt: now,
       information: {
         id: game.id,
         name: game.name,
@@ -85,6 +103,17 @@ profile.get('/:id', async (req, res) => {
         nsfw: game.age_ratings?.some(rating => [6, 11].includes(rating.rating)) || false
       }
     };
+
+    await Model.GameProfile.find_or_upsert_by({
+      timestamp: now,
+      id: data.information.id,
+      name: data.information.name,
+      description: data.information.description,
+      releaseDate: data.information.releaseDate,
+      coverPhoto: data.information.coverPhoto,
+      displayPicture: data.information.displayPicture,
+      nsfw: data.information.nsfw,
+    }, id);
 
     gameCache.set(id, data, 'game');
     res.json({ ...data, cacheExpiresIn: CACHE_DURATION });
