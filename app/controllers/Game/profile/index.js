@@ -26,12 +26,11 @@ profile.get('/:id', async (req, res) => {
       }
     }
 
-    if (user) {
-      // Fetch the User's Progress
-    }
+    let list;
+    if (user) list = await Model.GameList.where({ id }, user.id);
 
     const cached = gameCache.get(id, 'game');
-    if (cached) return res.json({ ...cached, cacheExpiresIn: Math.max(CACHE_DURATION - (Date.now() - cached.cachedAt), 0) });
+    if (cached) return res.json({ ...cached, list, cacheExpiresIn: Math.max(CACHE_DURATION - (Date.now() - cached.cachedAt), 0) });
 
     let dbProfile = await Model.GameProfile.find(id);
     const now = Date.now();
@@ -52,7 +51,7 @@ profile.get('/:id', async (req, res) => {
       };
 
       gameCache.set(id, data, 'game');
-      return res.json({ ...data, cacheExpiresIn: Math.max(DB_CACHE_DURATION - (Date.now() - dbProfile.attributes.timestamp), 0) });
+      return res.json({ ...data, list, cacheExpiresIn: Math.max(DB_CACHE_DURATION - (Date.now() - dbProfile.attributes.timestamp), 0) });
     }
 
     const clientId = Config.twitch.app.clientId;
@@ -116,7 +115,7 @@ profile.get('/:id', async (req, res) => {
     }, id);
 
     gameCache.set(id, data, 'game');
-    res.json({ ...data, cacheExpiresIn: CACHE_DURATION });
+    res.json({ ...data, list, cacheExpiresIn: CACHE_DURATION });
   } catch (err) {
     await Utility.error_logger('Failed to fetch Game profile:', err);
     res.status(500).json({ success: false, message: 'Server error' });
