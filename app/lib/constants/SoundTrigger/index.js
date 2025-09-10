@@ -9,6 +9,7 @@ const SoundTrigger = {
     JOKE: ["jk", "joke", "kidding", "lol", "haha", "hehe", "hahaha", "hehehe"],
     NICE_TRY: ["nt"],
     PROFANITY: Profanity,
+    WAZZUP: ["wassup", "wazzup"],
 };
 
 module.exports = SoundTrigger;
