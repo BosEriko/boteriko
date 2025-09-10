@@ -77,18 +77,7 @@ client.on('message', async (channel, tags, message, self) => {
   const lowerMsg = msg.toLowerCase();
 
   // Sound Alert
-  const soundTriggers = {
-    BOO: ["boo", "jumpscare"],
-    DING_DONG: ["dingdong"],
-    GOTTEM: ["gottem"],
-    HELLO: ["hi", "hello"],
-    HUH: ["huh"],
-    JOKE: ["jk", "joke", "kidding", "lol", "haha", "hehe", "hahaha", "hehehe"],
-    NICE_TRY: ["nt"],
-    PROFANITY: Constant.Profanity,
-  };
-
-  for (const [sound, keywords] of Object.entries(soundTriggers)) {
+  for (const [sound, keywords] of Object.entries(Constant.SoundTrigger)) {
     if (keywords.some(word => lowerMsg.split(' ').includes(word))) {
       handleSoundCommand(sound);
       break;
