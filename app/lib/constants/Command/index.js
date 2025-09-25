@@ -18,7 +18,6 @@ const GlobalCommand = [
   { command: 'date',            parameter: false, availability: [TWITCH, DISCORD],  restricted: false,  streaming: false, description: 'Display today\'s date based on timezone.' },
   { command: 'discord',         parameter: false, availability: [TWITCH, DISCORD],  restricted: false,  streaming: false, description: 'Show the Discord link.' },
   { command: 'lurk',            parameter: false, availability: [TWITCH],           restricted: false,  streaming: false, description: 'Let the stream know you\'re watching quietly in the background.' },
-  { command: 'minecraft',       parameter: false, availability: [TWITCH, DISCORD],  restricted: false,  streaming: false, description: 'Download my Minecraft World.' },
   { command: 'ping',            parameter: false, availability: [TWITCH, DISCORD],  restricted: false,  streaming: false, description: 'Check if the bot is online.' },
   { command: 'pomodoro',        parameter: true,  availability: [TWITCH],           restricted: true,   streaming: true,  description: 'Set pomodoro sessions for focused work and break intervals.' },
   { command: 'profile',         parameter: true,  availability: [TWITCH, DISCORD],  restricted: false,  streaming: false, description: 'Show the BosEriko+ Profile link.' },
