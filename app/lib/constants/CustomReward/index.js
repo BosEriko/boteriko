@@ -115,27 +115,6 @@ const CustomReward = [
   {
     is_enabled: true,
     // General Information
-    title: String.FIGHT_ME,
-    prompt: "No more talking, now we fight!",
-    is_user_input_required: false,
-    cost: 10000,
-    // Reward Icon
-    icon: icon("FIGHT_ME"),
-    // Background Color
-    background_color: "#CE4A48",
-    // Skip Reward Requests Queue
-    should_redemptions_skip_request_queue: false,
-    // Cooldown & Limits
-    is_global_cooldown_enabled: false,
-    global_cooldown_seconds: 0,
-    is_max_per_stream_enabled: false,
-    max_per_stream: 0,
-    is_max_per_user_per_stream_enabled: false,
-    max_per_user_per_stream: 0
-  },
-  {
-    is_enabled: true,
-    // General Information
     title: String.STREAM_WEBSITE_DEVELOPMENT,
     prompt: "Give me ideas what to make and let's do it!",
     is_user_input_required: true,
