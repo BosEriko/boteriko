@@ -1,11 +1,11 @@
 const Schedule = {
-  Monday: { title: "Minecraft Monday 🌍⛏️", category: "Minecraft" },
-  Tuesday: { title: "Minecraft Tuesday 🌍⛏️", category: "Minecraft" },
-  Wednesday: { title: "Minecraft Wednesday 🌍⛏️", category: "Minecraft" },
-  Thursday: { title: "Minecraft Thursday 🌍⛏️", category: "Minecraft" },
-  Friday: { title: "Minecraft Friday 🌍⛏️", category: "Minecraft" },
-  Saturday: { title: "Minecraft Saturday 🌍⛏️", category: "Minecraft" },
-  Sunday: { title: "Minecraft Sunday 🌍⛏️", category: "Minecraft" },
+  Monday: { title: "Fortnite Monday", category: "Fortnite" },
+  Tuesday: { title: "Fortnite Tuesday", category: "Fortnite" },
+  Wednesday: { title: "Fortnite Wednesday", category: "Fortnite" },
+  Thursday: { title: "Fortnite Thursday", category: "Fortnite" },
+  Friday: { title: "Fortnite Friday", category: "Fortnite" },
+  Saturday: { title: "Fortnite Saturday", category: "Fortnite" },
+  Sunday: { title: "Fortnite Sunday", category: "Fortnite" },
 };
 
 module.exports = Schedule;
