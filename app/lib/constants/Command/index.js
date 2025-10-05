@@ -25,6 +25,7 @@ const GlobalCommand = [
   { command: 'raid',            parameter: true,  availability: [TWITCH],           restricted: false,  streaming: false, description: 'Start the raid process or send only the raid message.' },
   { command: 'schedule',        parameter: false, availability: [TWITCH, DISCORD],  restricted: false,  streaming: false, description: 'Show the stream schedule.' },
   { command: 'setgame',         parameter: true,  availability: [TWITCH],           restricted: true,   streaming: false, description: 'Set the game/category.' },
+  { command: 'settitle',        parameter: true,  availability: [TWITCH],           restricted: true,   streaming: false, description: 'Set the title.' },
   { command: 'song',            parameter: false, availability: [TWITCH],           restricted: false,  streaming: true,  description: 'Show information on the currently playing song.' },
   { command: 'steam',           parameter: false, availability: [TWITCH, DISCORD],  restricted: false,  streaming: false, description: 'Get the steam link.' },
   { command: 'time',            parameter: false, availability: [TWITCH, DISCORD],  restricted: false,  streaming: false, description: 'Display the current time based on timezone.' },
