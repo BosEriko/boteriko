@@ -33,7 +33,7 @@ const update_title = async (title) => {
 
     return `✅ Twitch title updated to "${newTitle}"`;
   } catch (err) {
-    await Utility.error_logger(`❌ Failed to update title to "${newTitle}":`, err.message);
+    await Utility.error_logger(`❌ Failed to update title to "${title}":`, err.message);
   }
 }
 
