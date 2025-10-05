@@ -9,6 +9,7 @@ const read_schedule = require("./read_schedule");
 const update_channel_request = require("./update_channel_request");
 const update_game = require("./update_game");
 const update_schedule = require("./update_schedule");
+const update_title = require("./update_title");
 
 const Twitch = {
   authentication_callback,
@@ -22,6 +23,7 @@ const Twitch = {
   update_channel_request,
   update_game,
   update_schedule,
+  update_title,
 };
 
 module.exports = Twitch;
