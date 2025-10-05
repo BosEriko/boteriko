@@ -1,19 +1,23 @@
 const axios = require("axios");
 
-const state = require('@global/utilities/state');
 const title_generator = require("../../concerns/title_generator");
+const typing_winner = require("./typing_winner");
+const first_chat = require("./first_chat");
 
 const update_title = async (title) => {
   try {
+    const typingWinner = await typing_winner();
+    const firstChat = await first_chat();
+
     const titleGenerator = title_generator(title);
     let newTitle = titleGenerator.title();
 
-    if (state.winners.typing) {
-      newTitle = titleGenerator.append("Previous Typing Winner", `@${state.winners.typing}`);
+    if (typingWinner) {
+      newTitle = titleGenerator.append("Previous Typing Winner", `@${typingWinner.winner}`);
     }
 
-    if (state.winners.firstChat) {
-      newTitle = titleGenerator.append("First Chatter", `@${state.winners.firstChat}`);
+    if (firstChat) {
+      newTitle = titleGenerator.append("First Chatter", `@${firstChat}`);
     }
 
     await axios.patch(
@@ -29,7 +33,7 @@ const update_title = async (title) => {
 
     return `✅ Twitch title updated to "${newTitle}"`;
   } catch (err) {
-    await Utility.error_logger(`❌ Failed to update title to "${newTitle}":`, err.message);
+    await Utility.error_logger(`❌ Failed to update title to "${title}":`, err.message);
   }
 }
 
