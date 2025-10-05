@@ -1,12 +1,13 @@
 const axios = require("axios");
 
-const state = require('@global/utilities/state');
 const title_generator = require("../../concerns/title_generator");
 const typing_winner = require("./typing_winner");
+const first_chat = require("./first_chat");
 
 const update_title = async (title) => {
   try {
     const typingWinner = await typing_winner();
+    const firstChat = await first_chat();
 
     const titleGenerator = title_generator(title);
     let newTitle = titleGenerator.title();
@@ -15,8 +16,8 @@ const update_title = async (title) => {
       newTitle = titleGenerator.append("Previous Typing Winner", `@${typingWinner.winner}`);
     }
 
-    if (state.winners.firstChat) {
-      newTitle = titleGenerator.append("First Chatter", `@${state.winners.firstChat}`);
+    if (firstChat) {
+      newTitle = titleGenerator.append("First Chatter", `@${firstChat}`);
     }
 
     await axios.patch(
