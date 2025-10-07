@@ -1,4 +1,4 @@
-const firebaseUtility = require('@global/utilities/firebase');
+const firebase_admin = require('../../concerns/firebase_admin');
 const cacheUtility = require('@global/utilities/cache');
 const cache = cacheUtility();
 
@@ -8,7 +8,7 @@ async function typing_winner() {
   const cached = cache.get(today, "typing-winner");
   if (cached) return cached;
 
-  const ref = firebaseUtility.database().ref('typings');
+  const ref = firebase_admin.database().ref('typings');
   const snapshot = await ref.once('value');
   const allDatesData = snapshot.val();
 
