@@ -1,9 +1,11 @@
+const firebase_admin = require("./firebase_admin");
 const format_time = require("./format_time");
 const platform_router = require("./platform_router");
 const sync_firebase_user = require("./sync_firebase_user");
 const title_generator = require("./title_generator");
 
 const Concern = {
+  firebase_admin,
   format_time,
   platform_router,
   sync_firebase_user,
