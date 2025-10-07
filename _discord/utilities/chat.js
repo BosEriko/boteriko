@@ -1,10 +1,9 @@
-const firebaseUtility = require('@global/utilities/firebase');
 const dailyUtility = require('@global/utilities/daily');
 const statisticUtility = require('@global/utilities/statistic');
 const walletUtility = require('@global/utilities/wallet');
 
 async function handleChatUtility(discordId) {
-  const rtdb = firebaseUtility.database();
+  const rtdb = Controller.Concern.firebase_admin.database();
   const connection = await Model.Connection.find_by({ discord: discordId });
   if (!connection) return;
 

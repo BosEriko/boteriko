@@ -1,9 +1,7 @@
-const firebaseUtility = require('@global/utilities/firebase');
-
 async function handleTypingTopCommand(client, channel) {
   const MAX_ENTRIES = 5;
   const today = new Date().toISOString().slice(0, 10);
-  const ref = firebaseUtility.database().ref(`typings/${today}`);
+  const ref = Controller.Concern.firebase_admin.database().ref(`typings/${today}`);
 
   const snapshot = await ref.once('value');
   const data = snapshot.val();

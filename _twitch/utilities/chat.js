@@ -1,5 +1,4 @@
 const { broadcastToClient } = require('@global/utilities/websocket');
-const firebaseUtility = require('@global/utilities/firebase');
 const dailyUtility = require('@global/utilities/daily');
 const statisticUtility = require('@global/utilities/statistic');
 const walletUtility = require('@global/utilities/wallet');
@@ -22,7 +21,7 @@ function formatEmotes(emotes, message) {
 }
 
 async function saveToRealtimeDatabase(user) {
-  const rtdb = firebaseUtility.database();
+  const rtdb = Controller.Concern.firebase_admin.database();
 
   await Controller.Concern.sync_firebase_user(user);
 

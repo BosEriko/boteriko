@@ -1,5 +1,4 @@
 const { broadcastToClient } = require('@global/utilities/websocket');
-const firebaseUtility = require('@global/utilities/firebase');
 const walletUtility = require('@global/utilities/wallet');
 const typingUtility = require('@global/utilities/typing');
 
@@ -39,7 +38,7 @@ async function handleTypingGame(client, channel, user, message) {
   client.say(channel, `✅ @${username} typed "${msg}" correctly!`);
   activeWords.splice(matchIndex, 1);
 
-  const rtdb = firebaseUtility.database();
+  const rtdb = Controller.Concern.firebase_admin.database();
   await walletUtility(rtdb, twitchId, { coins: REWARD_POINTS });
   await typingUtility(rtdb, username, 1);
 
