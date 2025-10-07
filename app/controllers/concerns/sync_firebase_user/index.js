@@ -1,15 +1,15 @@
-const firebaseUtility = require('@global/utilities/firebase');
+const firebase_admin = require("../firebase_admin");
 
 const sync_firebase_user = async (user) => {
   try {
-    await firebaseUtility.auth().updateUser(user.id, {
+    await firebase_admin.auth().updateUser(user.id, {
       email: user?.email,
       displayName: user?.display_name,
       photoURL: user?.profile_image_url,
     });
   } catch (err) {
     if (err.code === 'auth/user-not-found') {
-      await firebaseUtility.auth().createUser({
+      await firebase_admin.auth().createUser({
         uid: user.id,
         email: user?.email,
         displayName: user?.display_name,

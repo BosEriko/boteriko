@@ -1,4 +1,3 @@
-const firebaseUtility = require('@global/utilities/firebase');
 const cacheUtility = require('@global/utilities/cache');
 const firstUtility = require('@global/utilities/first');
 const handleStreamDetailUtility = require("@global/utilities/streamDetail");
@@ -22,7 +21,7 @@ async function handleFirstUtility(isMod, isBroadcaster, user, client) {
   const stream = await handleStreamDetailUtility();
   if (!stream) return;
 
-  const firstChat = await firstUtility(firebaseUtility.database(), username, !!stream);
+  const firstChat = await firstUtility(Controller.Concern.firebase_admin.database(), username, !!stream);
 
   firstChatCache.set(today, firstChat, 'first-chat');
   state.winners.firstChat = firstChat;

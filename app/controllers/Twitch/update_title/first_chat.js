@@ -1,8 +1,8 @@
-const firebaseUtility = require('@global/utilities/firebase');
+const firebase_admin = require('../../concerns/firebase_admin');
 
 async function first_chat() {
   const today = new Date().toISOString().slice(0, 10);
-  const ref = firebaseUtility.database().ref(`streams/${today}/firstChat`);
+  const ref = firebase_admin.database().ref(`streams/${today}/firstChat`);
   const snap = await ref.once('value');
   return snap.val();
 }

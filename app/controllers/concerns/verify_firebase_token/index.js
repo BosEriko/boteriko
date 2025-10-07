@@ -1,7 +1,7 @@
-const firebaseUtility = require('@global/utilities/firebase');
+const firebase_admin = require("../firebase_admin");
 
 const verify_firebase_token = async (token) => {
-  return await firebaseUtility.auth().verifyIdToken(token);
+  return await firebase_admin.auth().verifyIdToken(token);
 };
 
 module.exports = verify_firebase_token;
