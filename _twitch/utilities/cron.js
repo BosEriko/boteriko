@@ -62,6 +62,9 @@ function handleCronUtility(client) {
 
   // Clear Daily State Cache Function
   function clearDailyStateCache() {
+    // Stream-related state
+    state.raidDestination = "TwisWua";
+
     // Ad-related state
     state.hasRunStartingAd = false;
     state.hasSkippedFirstAd = false;
@@ -122,7 +125,7 @@ function handleCronUtility(client) {
   // Every end of stream
   const streamEndHour = parseInt(Config.stream.start, 10) + parseInt(Config.stream.duration, 10);
   cron.schedule(`0 ${streamEndHour} * * *`, () => {
-    if (state.isStreaming) handleRaidUtility(client, "TwisWua", true);
+    if (state.isStreaming) handleRaidUtility(client, state.raidDestination, true);
   }, { timezone });
 }
 
