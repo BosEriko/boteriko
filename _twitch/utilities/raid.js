@@ -50,7 +50,7 @@ async function handleRaidUtility(client, user, isBroadcaster) {
   }
 
   if (isBroadcaster) {
-    const username = user.trim() ? user.trim().split(' ')[0].replace(/^@/, '') : 'TwisWua';
+    const username = user.trim() ? user.trim().split(' ')[0].replace(/^@/, '') : state.raidDestination;
     const toChannelId = await getUserId(username);
 
     if (!toChannelId) {
