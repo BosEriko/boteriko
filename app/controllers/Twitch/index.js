@@ -1,5 +1,6 @@
 const authentication_callback = require("./authentication_callback");
 const authentication_login = require("./authentication_login");
+const auto_raid = require("./auto_raid");
 const create_custom_reward = require("./create_custom_reward");
 const create_custom_rewards = require("./create_custom_rewards");
 const create_schedule = require("./create_schedule");
@@ -14,6 +15,7 @@ const update_title = require("./update_title");
 const Twitch = {
   authentication_callback,
   authentication_login,
+  auto_raid,
   create_custom_reward,
   create_custom_rewards,
   create_schedule,

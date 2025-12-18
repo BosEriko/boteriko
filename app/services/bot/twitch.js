@@ -115,6 +115,7 @@ client.on('message', async (channel, tags, message, self) => {
   }
 
   // Commands
+  if (commandName === 'autoraid') client.say(channel, await Controller.Twitch.auto_raid(commandArgs));
   if (commandName === 'back') handleBackCommand(client, channel);
   if (commandName === 'brb') handleBrbCommand(client, channel, commandArgs);
   if (commandName === 'censor') handleCensorCommand(client, channel);
