@@ -11,7 +11,7 @@ const StreamAvatarCommand = [
 ];
 
 const GlobalCommand = [
-  { command: 'autoraid',        parameter: true,  availability: [TWITCH],           restricted: true,   streaming: true,  description: 'Toggle auto raid on/off or set the destination.' },
+  { command: 'autoraid',        parameter: true,  availability: [TWITCH],           restricted: true,   streaming: false, description: 'Toggle auto raid on/off or set the destination.' },
   { command: 'back',            parameter: false, availability: [TWITCH],           restricted: true,   streaming: true,  description: 'Go back to streaming.' },
   { command: 'brb',             parameter: true,  availability: [TWITCH],           restricted: true,   streaming: true,  description: 'Set the stream to BRB mode.' },
   { command: 'censor',          parameter: false, availability: [TWITCH],           restricted: true,   streaming: true,  description: 'Toggle or manage censorship settings in the overlay.' },
