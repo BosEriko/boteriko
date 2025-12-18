@@ -17,8 +17,9 @@ const auto_raid = (input) => {
         return '⛔ Auto raid turned off';
     }
 
-    state.raidDestination = input;
-    return `🎯 Raid destination set to "${input}"`;
+    const username = input.trim().split(' ')[0].replace(/^@/, '');
+    state.raidDestination = username;
+    return `🎯 Raid destination set to "${username}"`;
 };
 
 module.exports = auto_raid;
