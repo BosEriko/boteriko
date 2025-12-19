@@ -12,6 +12,7 @@ const Manga = require("./Manga");
 const Music = require("./Music");
 const Tetrio = require("./Tetrio");
 const Twitch = require("./Twitch");
+const Typing = require("./Typing");
 const User = require("./User");
 
 const Controller = {
@@ -29,6 +30,7 @@ const Controller = {
   Music,
   Tetrio,
   Twitch,
+  Typing,
   User,
 }
 

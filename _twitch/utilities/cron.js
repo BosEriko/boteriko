@@ -60,6 +60,20 @@ function handleCronUtility(client) {
     if (success) state.hasRunStartingAd = true;
   }
 
+  // Top Typer Function
+  async function topTyper() {
+    const topTyper = await Controller.Typing.top_typer();
+    const noScoreMessage = `No one has scored yet! Snatch the top spot and be the first! ⌨️`;
+
+    if (!topTyper) {
+      client.say(`#${Config.twitch.channel.username}`, noScoreMessage);
+      return;
+    }
+
+    const leaderMessage = `${topTyper.username} is currently leading the typing game with a score of ${topTyper.score}! 🔥`;
+    client.say(`#${Config.twitch.channel.username}`, leaderMessage);
+  }
+
   // Clear Daily State Cache Function
   function clearDailyStateCache() {
     // Stream-related state
@@ -111,6 +125,7 @@ function handleCronUtility(client) {
   // Every 30 minutes
   cron.schedule('*/30 * * * *', async () => {
     if (state.isStreaming) await handleAdUtility(client);
+    if (state.isStreaming) await topTyper();
   }, { timezone });
 
   // Every day 1 hour before stream start
