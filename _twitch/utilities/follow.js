@@ -1,6 +1,10 @@
 const axios = require('axios');
 const state = require('@global/utilities/state');
 const { broadcastToClient } = require('@global/utilities/websocket');
+const handleUserUtility = require('@global/utilities/user');
+
+const QUICK_ADD_URL = 'https://api.todoist.com/sync/v9/quick/add';
+const TODOIST_HEADERS = { Authorization: `Bearer ${Config.other.todoist.apiToken}` };
 
 async function handleFollowUtility(client) {
   try {
@@ -34,6 +38,24 @@ async function handleFollowUtility(client) {
 
       state.knownFollowerIds.add(followerId);
       state.latestFollowTimestamp = followedAt.toISOString();
+
+      // -------------------- Save to Todoist --------------------
+      let user = null;
+      try {
+        user = await handleUserUtility(followerId);
+      } catch (userErr) {
+        await Utility.error_logger('Failed to fetch user details:', userErr.message);
+      }
+
+      if (user && ['affiliate', 'partner'].includes(user.broadcaster_type)) {
+        try {
+          const todoContent = `New follower: [${user.display_name}](https://www.twitch.tv/${user.login}) @new-followers`;
+          await axios.post(QUICK_ADD_URL, { text: todoContent }, { headers: TODOIST_HEADERS });
+        } catch (todoErr) {
+          await Utility.error_logger('Failed to add follower to Todoist:', todoErr.response?.data || todoErr.message);
+        }
+      }
+      // ---------------------------------------------------------------
 
       const message = `${follower.user_name} just followed!`;
       broadcastToClient({ type: 'FEED', feed_type: 'event', message });
