@@ -1,13 +1,9 @@
-const discord = require("./discord");
+const general = require("./general");
 const profile = require("./profile");
-const queue = require("./queue");
-const steam = require("./steam");
 
 const Link = {
-  discord,
+  general,
   profile,
-  queue,
-  steam,
 };
 
 module.exports = Link;
