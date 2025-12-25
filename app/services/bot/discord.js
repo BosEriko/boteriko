@@ -65,12 +65,19 @@ client.on('messageCreate', async message => {
   if (commandName === 'commands') return await handleListCommand(message);
   if (commandName === 'date') return message.reply(handleTimeCommand('date'));
   if (commandName === 'discord') return message.reply(Controller.Link.general("discord"));
+  if (commandName === 'facebook') return message.reply(Controller.Link.general("facebook"));
+  if (commandName === 'instagram') return message.reply(Controller.Link.general("instagram"));
   if (commandName === 'ping') return message.reply(handlePingCommand());
+  if (commandName === 'plus') return message.reply(Controller.Link.general("plus"));
   if (commandName === 'profile') return message.reply(await Controller.Link.profile[D](message.author, commandArgs));
   if (commandName === 'schedule') return message.reply(handleScheduleCommand());
   if (commandName === 'steam') return message.reply(Controller.Link.general("steam"));
+  if (commandName === 'tiktok') return message.reply(Controller.Link.general("tiktok"));
   if (commandName === 'time') return message.reply(handleTimeCommand('time'));
   if (commandName === 'todo') return await handlePrivateCommand(message, handleTodoCommand, commandArgs, 'Todo');
+  if (commandName === 'twitch') return message.reply(Controller.Link.general("twitch"));
+  if (commandName === 'x') return message.reply(Controller.Link.general("x"));
+  if (commandName === 'youtube') return message.reply(Controller.Link.general("youtube"));
 });
 
 client.login(Config.discord.bot.token);

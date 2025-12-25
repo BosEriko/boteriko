@@ -121,8 +121,11 @@ client.on('message', async (channel, tags, message, self) => {
   if (commandName === 'censor') handleCensorCommand(client, channel);
   if (commandName === 'date') client.say(channel, handleTimeCommand('date'));
   if (commandName === 'discord') client.say(channel, Controller.Link.general("discord"));
+  if (commandName === 'facebook') client.say(channel, Controller.Link.general("facebook"));
+  if (commandName === 'instagram') client.say(channel, Controller.Link.general("instagram"));
   if (commandName === 'lurk') client.say(channel, handleLurkCommand(tags.username));
   if (commandName === 'ping') client.say(channel, handlePingCommand());
+  if (commandName === 'plus') client.say(channel, Controller.Link.general("plus"));
   if (commandName === 'pomodoro') handlePomodoroCommand(client, commandArgs);
   if (commandName === 'profile') client.say(channel, await Controller.Link.profile[T](tags, commandArgs));
   if (commandName === 'queue') client.say(channel, await Controller.Link.general("queue"));
@@ -132,8 +135,12 @@ client.on('message', async (channel, tags, message, self) => {
   if (commandName === 'settitle') client.say(channel, await Controller.Twitch.update_title(commandArgs));
   if (commandName === 'song') client.say(channel, await Controller.Music.get_current_song());
   if (commandName === 'steam') client.say(channel, Controller.Link.general("steam"));
+  if (commandName === 'tiktok') client.say(channel, Controller.Link.general("tiktok"));
   if (commandName === 'time') client.say(channel, handleTimeCommand('time'));
   if (commandName === 'todo') await handleTodoCommand(client, commandArgs);
   if (commandName === 'top') await handleTypingTopCommand(client, channel);
+  if (commandName === 'twitch') client.say(channel, Controller.Link.general("twitch"));
   if (commandName === 'winner') await handleTypingWinnerCommand(client, channel);
+  if (commandName === 'x') client.say(channel, Controller.Link.general("x"));
+  if (commandName === 'youtube') client.say(channel, Controller.Link.general("youtube"));
 });
