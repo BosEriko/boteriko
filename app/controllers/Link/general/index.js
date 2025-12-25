@@ -7,7 +7,7 @@ const general = (id) => {
     case "queue": return "🎵 Check out the queue here: https://plus.boseriko.com/widget/music_queue";
     case "steam": return "🎮 Add me on Steam: http://steam.boseriko.com (180065630)";
     case "tiktok": return "🎶 Follow me on TikTok: http://tiktok.boseriko.com";
-    case "twitch": return "🎥 Watch me live on Twitch: https://twitch.boseriko.com";
+    case "twitch": return "🎥 Watch me live on Twitch: http://twitch.boseriko.com";
     case "x": return "🐦 Follow me on X (Twitter): http://x.boseriko.com";
     case "youtube": return "▶️ Subscribe on YouTube: http://youtube.boseriko.com";
     default: return "❓ Unknown link.";
