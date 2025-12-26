@@ -1,11 +1,25 @@
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
 const http = require('http');
 const path = require('path');
 
 const { setupWebSocket } = require('@global/utilities/websocket');
 
 const app = express();
+
+// Security middleware - must be first
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      scriptSrc: ["'self'"],
+      imgSrc: ["'self'", "data:", "https:"],
+    },
+  },
+  crossOriginEmbedderPolicy: false, // Disable for WebSocket compatibility
+}));
 
 // Optional but recommended for Heroku CORS issues
 app.use(cors());
