@@ -1,9 +1,9 @@
 const Schedule = {
-  Monday: { title: "Minecraft Monday 🌍⛏️", category: "Minecraft" },
+  Monday: { title: "Fortnite Monday 🌍⛏️", category: "Fortnite" },
   Tuesday: { title: "Tech Tuesday 💻⚙️", category: "Software and Game Development" },
-  Wednesday: { title: "Waifu Wednesday 💞⚔️", category: "Wuthering Waves" },
+  Wednesday: { title: "Fortnite Wednesday 🌍⛏️", category: "Fortnite" },
   Thursday: { title: "Tech Thursday 💻⚙️", category: "Software and Game Development" },
-  Friday: { title: "Frets Friday 🎸🔥", category: "Clone Hero" },
+  Friday: { title: "Fortnite Friday 🌍⛏", category: "Fortnite" },
   Saturday: { title: "Side Quest Saturday 💬🎯", category: "Just Chatting" },
   Sunday: { title: "Slow Down Sunday 💻🎮", category: "Just Chatting" },
 };
