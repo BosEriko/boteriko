@@ -10,6 +10,7 @@ const Game = require("./Game");
 const Link = require("./Link");
 const Manga = require("./Manga");
 const Music = require("./Music");
+const Steam = require("./Steam");
 const Tetrio = require("./Tetrio");
 const Twitch = require("./Twitch");
 const Typing = require("./Typing");
@@ -28,6 +29,7 @@ const Controller = {
   Link,
   Manga,
   Music,
+  Steam,
   Tetrio,
   Twitch,
   Typing,
