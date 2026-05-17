@@ -5,12 +5,12 @@ const channelName = `#${Config.twitch.channel.username}`;
 
 const update_game = async (client) => {
   const currentGame = await get_game();
-  if (!currentGame || state.lastGame === currentGame) return;
+  if (!currentGame || state.lastGameUpdate === currentGame) return;
 
   await Controller.Twitch.update_game(currentGame);
 
   client.say(channelName, `🎮 Game updated to ${currentGame}`);
-  state.lastGame = currentGame;
+  state.lastGameUpdate = currentGame;
 };
 
 module.exports = update_game;
