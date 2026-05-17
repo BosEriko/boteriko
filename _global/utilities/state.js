@@ -2,6 +2,7 @@ module.exports = {
   // Stream-related state
   isStreaming: false,
   streamDetail: null,
+  lastGame: null,
   autoRaid: false,
   raidDestination: "TwisWua",
 
@@ -29,7 +30,6 @@ module.exports = {
     message: Date.now(),
     clip: null,
     follow: null,
-    updateGame: Date.now(),
   },
 
   // Todoist display toggle
