@@ -19,15 +19,17 @@ module.exports = {
   // Follower-related state
   isFollowerInitialized: false,
   knownFollowerIds: new Set(),
-  latestFollowTimestamp: null,
 
   // Clip-related state
   isClipInitialized: false,
   knownClipIds: new Set(),
-  latestClipTimestamp: null,
 
-  // Chat and interaction state
-  lastMessageTimestamp: Date.now(),
+  // Timestamps
+  timestamp: {
+    message: Date.now(),
+    clip: null,
+    follow: null,
+  },
 
   // Todoist display toggle
   isTodoVisible: false,

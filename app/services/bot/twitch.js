@@ -56,7 +56,7 @@ client.on('message', async (channel, tags, message, self) => {
   if (self) return;
 
   // Update the timestamp
-  state.lastMessageTimestamp = Date.now();
+  state.timestamp.message = Date.now();
 
   // Fetch Twitch user information
   const user = await handleUserUtility(tags['display-name']);

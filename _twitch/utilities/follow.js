@@ -27,17 +27,17 @@ async function handleFollowUtility(client) {
 
       if (!state.isFollowerInitialized) {
         state.knownFollowerIds.add(followerId);
-        if (!state.latestFollowTimestamp || followedAt > new Date(state.latestFollowTimestamp)) {
-          state.latestFollowTimestamp = followedAt.toISOString();
+        if (!state.timestamp.follow || followedAt > new Date(state.timestamp.follow)) {
+          state.timestamp.follow = followedAt.toISOString();
         }
         continue;
       }
 
       if (state.knownFollowerIds.has(followerId)) continue;
-      if (new Date(state.latestFollowTimestamp) >= followedAt) continue;
+      if (new Date(state.timestamp.follow) >= followedAt) continue;
 
       state.knownFollowerIds.add(followerId);
-      state.latestFollowTimestamp = followedAt.toISOString();
+      state.timestamp.follow = followedAt.toISOString();
 
       // -------------------- Save to Todoist --------------------
       let user = null;

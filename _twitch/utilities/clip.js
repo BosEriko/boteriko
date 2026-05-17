@@ -9,7 +9,7 @@ async function handleClipUtility() {
       params: {
         broadcaster_id: Config.twitch.channel.id,
         first: 20,
-        started_at: state.latestClipTimestamp || new Date(Date.now() - 1000 * 60 * 60).toISOString()
+        started_at: state.timestamp.clip || new Date(Date.now() - 1000 * 60 * 60).toISOString()
       },
       headers: {
         'Client-ID': Config.twitch.bot.clientId,
@@ -32,17 +32,17 @@ async function handleClipUtility() {
 
       if (!state.isClipInitialized) {
         state.knownClipIds.add(clipId);
-        if (!state.latestClipTimestamp || createdAt > new Date(state.latestClipTimestamp)) {
-          state.latestClipTimestamp = createdAt.toISOString();
+        if (!state.timestamp.clip || createdAt > new Date(state.timestamp.clip)) {
+          state.timestamp.clip = createdAt.toISOString();
         }
         continue;
       }
 
       if (state.knownClipIds.has(clipId)) continue;
-      if (new Date(state.latestClipTimestamp) >= createdAt) continue;
+      if (new Date(state.timestamp.clip) >= createdAt) continue;
 
       state.knownClipIds.add(clipId);
-      state.latestClipTimestamp = createdAt.toISOString();
+      state.timestamp.clip = createdAt.toISOString();
 
       const user = await handleUserUtility(clip.creator_name);
       await sendToDiscordUtility(user, `${clip.title} → ${clip.url}`, Config.discord.webhook.clip);
