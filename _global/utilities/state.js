@@ -29,6 +29,7 @@ module.exports = {
     message: Date.now(),
     clip: null,
     follow: null,
+    updateGame: Date.now(),
   },
 
   // Todoist display toggle
