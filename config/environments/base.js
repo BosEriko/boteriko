@@ -10,6 +10,9 @@ const Config = {
         duration: process.env.STREAM_DURATION,
         days: process.env.STREAM_DAYS?.split(',').map(d => d.trim().toLowerCase()) || []
     },
+    steam: {
+        apiKey: process.env.STEAM_API_KEY,
+    },
     twitch: {
         channel: {
             id: process.env.TWITCH_CHANNEL_ID,
