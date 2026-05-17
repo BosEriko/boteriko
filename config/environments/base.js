@@ -12,6 +12,9 @@ const Config = {
     },
     steam: {
         apiKey: process.env.STEAM_API_KEY,
+        profile: {
+          id: process.env.STEAM_PROFILE_ID,
+        }
     },
     twitch: {
         channel: {
