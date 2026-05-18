@@ -7,9 +7,8 @@ const update_game = async (client) => {
   const currentGame = await get_game();
   if (!currentGame || state.lastGameUpdate === currentGame) return;
 
-  await Controller.Twitch.update_game(currentGame);
+  client.say(channelName, await Controller.Twitch.update_game(currentGame));
 
-  client.say(channelName, `🎮 Game updated to ${currentGame}`);
   state.lastGameUpdate = currentGame;
 };
 
