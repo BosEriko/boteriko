@@ -23,17 +23,10 @@ const title_generator = (initialTitle = "") => {
   };
 
   const title = () => {
-    const extrasStr = Object.entries(extras)
-      .map(([label, value]) => `${label}: ${value}`)
-      .join(" | ");
-
+    const extrasStr = Object.entries(extras).map(([label, value]) => `${label}: ${value}`).join(" | ");
     const extrasWithSeparator = extrasStr ? ` | ${extrasStr}` : "";
-
-    const allowedBaseLength =
-      MAX_TITLE_LENGTH - extrasWithSeparator.length;
-
+    const allowedBaseLength = MAX_TITLE_LENGTH - extrasWithSeparator.length;
     const finalBaseTitle = truncate(baseTitle, allowedBaseLength);
-
     return `${finalBaseTitle}${extrasWithSeparator}`;
   };
 
