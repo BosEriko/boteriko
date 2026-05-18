@@ -1,3 +1,10 @@
+const MAX_TITLE_LENGTH = 140;
+
+const truncate = (text, maxLength) => {
+  if (text.length <= maxLength) return text;
+  return `${text.slice(0, maxLength - 3)}...`;
+};
+
 const title_generator = (initialTitle = "") => {
   const parts = initialTitle.split(" | ");
   const baseTitle = parts[0];
@@ -16,11 +23,11 @@ const title_generator = (initialTitle = "") => {
   };
 
   const title = () => {
-    const extrasStr = Object.entries(extras)
-      .map(([label, value]) => `${label}: ${value}`)
-      .join(" | ");
-
-    return [baseTitle, extrasStr].filter(Boolean).join(" | ");
+    const extrasStr = Object.entries(extras).map(([label, value]) => `${label}: ${value}`).join(" | ");
+    const extrasWithSeparator = extrasStr ? ` | ${extrasStr}` : "";
+    const allowedBaseLength = MAX_TITLE_LENGTH - extrasWithSeparator.length;
+    const finalBaseTitle = truncate(baseTitle, allowedBaseLength);
+    return `${finalBaseTitle}${extrasWithSeparator}`;
   };
 
   return {
