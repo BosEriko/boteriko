@@ -2,7 +2,7 @@ module.exports = {
   // Stream-related state
   isStreaming: false,
   streamDetail: null,
-  lastGameUpdate: null,
+  lastGame: null,
   autoRaid: false,
   raidDestination: "TwisWua",
 

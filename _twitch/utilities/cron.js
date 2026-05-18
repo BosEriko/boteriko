@@ -111,7 +111,7 @@ function handleCronUtility(client) {
   // Every 1 minute
   cron.schedule('* * * * *', async () => {
     await loadStreamDetails();
-    if (state.isStreaming) await Controller.Steam.update_game(client);
+    if (state.isStreaming) await Controller.Steam.update_twitch(client);
     if (state.isStreaming) await handleFollowUtility(client);
     if (state.isStreaming) handleTypingWords();
     if (state.isStreaming && !state.hasRunStartingAd) await initialAd();
