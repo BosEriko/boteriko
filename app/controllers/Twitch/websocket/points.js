@@ -2,7 +2,11 @@ const { broadcastToClient } = require('@global/utilities/websocket');
 const channelName = Config.twitch.channel.username;
 const axios = require('axios');
 
-async function connect(userId, sessionId, clientId, accessToken) {
+const accessToken = Config.twitch.channel.accessToken;
+const clientId = Config.twitch.channel.clientId;
+const userId = Config.twitch.channel.id;
+
+async function connect(sessionId) {
   await axios.post('https://api.twitch.tv/helix/eventsub/subscriptions', {
     type: 'channel.channel_points_custom_reward_redemption.add',
     version: '1',

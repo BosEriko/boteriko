@@ -9,10 +9,6 @@ let lastPing = Date.now();
 let heartbeatInterval = null;
 
 function websocket(client) {
-  const accessToken = Config.twitch.channel.accessToken;
-  const clientId = Config.twitch.channel.clientId;
-  const userId = Config.twitch.channel.id;
-
   const connect = (url = 'wss://eventsub.wss.twitch.tv/ws') => {
     if (ws) {
       ws.removeAllListeners();
@@ -34,14 +30,14 @@ function websocket(client) {
 
         switch (metadata.message_type) {
           case 'session_welcome': {
-            const sessionId = eventPayload.session.id;
-            console.log(await points.connect(userId, sessionId, clientId, accessToken));
+            console.log(await points.connect(eventPayload.session.id));
+            console.log(await ads.connect(eventPayload.session.id));
             break;
           }
 
           case 'notification': {
             await points.trigger(client, eventPayload.event);
-            await ads(client, eventPayload.event);
+            await ads.trigger(client, eventPayload.event);
             break;
           }
 
