@@ -18,6 +18,7 @@ const auto_raid = (input) => {
     }
 
     const username = input.trim().split(' ')[0].replace(/^@/, '');
+    state.autoRaid = true;
     state.raidDestination = username;
     return `🎯 Raid destination set to "${username}"`;
 };
