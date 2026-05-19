@@ -1,3 +1,4 @@
+// DOCS: https://dev.twitch.tv/docs/eventsub/eventsub-subscription-types/#channelad_breakbegin
 const { broadcastToClient } = require('@global/utilities/websocket');
 const channelName = Config.twitch.channel.username;
 const axios = require('axios');
@@ -6,65 +7,47 @@ const accessToken = Config.twitch.channel.accessToken;
 const clientId = Config.twitch.channel.clientId;
 const userId = Config.twitch.channel.id;
 
-let adRunning = false;
-let adTimeout = null;
-
 async function connect(sessionId) {
-  await axios.post(
-    'https://api.twitch.tv/helix/eventsub/subscriptions',
-    {
-      type: 'channel.ad_break.begin',
-      version: '1',
-      condition: { broadcaster_user_id: userId },
-      transport: { method: 'websocket', session_id: sessionId }
-    },
-    {
-      headers: {
-        'Client-ID': clientId,
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json'
-      }
+  await axios.post('https://api.twitch.tv/helix/eventsub/subscriptions', {
+    type: 'channel.ad_break.begin',
+    version: '1',
+    condition: { broadcaster_user_id: userId },
+    transport: { method: 'websocket', session_id: sessionId }
+  }, {
+    headers: {
+      'Client-ID': clientId,
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type': 'application/json'
     }
-  );
-
+  });
   return '✅ Connected to Ads WebSocket.';
 }
 
+let adRunning = false;
+let adTimeout = null;
+
 async function trigger(client, payload) {
   try {
-    const eventType = payload?.type || payload?.event_type || payload?.event?.type;
+    if (!payload?.duration_seconds) return;
 
-    if (eventType === 'channel.ad_start' || eventType === 'ad_start') {
-      adRunning = true;
+    adRunning = true;
 
-      const duration = payload?.duration || payload?.event?.duration || null;
+    const duration = payload.duration_seconds;
 
-      broadcastToClient({ type: 'AD_START', duration });
-      client.say(channelName, `📺 Running an ad now!`);
+    broadcastToClient({ type: 'AD_START', duration });
+    client.say(channelName, '📺 Running an ad now!');
 
-      if (adTimeout) clearTimeout(adTimeout);
+    if (adTimeout) clearTimeout(adTimeout);
 
-      if (duration) {
-        adTimeout = setTimeout(() => {
-          adRunning = false;
-          broadcastToClient({ type: 'AD_END'});
-          client.say(channelName, "✅ The ad has ended!");
-        }, duration * 1000);
-      }
-    }
-
-    if (eventType === 'channel.ad_end' || eventType === 'ad_end') {
+    adTimeout = setTimeout(() => {
       adRunning = false;
-
-      if (adTimeout) clearTimeout(adTimeout);
-
       broadcastToClient({ type: 'AD_END' });
-      client.say(channelName, "✅ The ad has ended!");
-    }
+      client.say(channelName, '✅ The ad has ended!');
+    }, duration * 1000);
   } catch (err) {
     await Utility.error_logger('Error handling ads:', err);
   }
-};
+}
 
 const ads = {
   connect,

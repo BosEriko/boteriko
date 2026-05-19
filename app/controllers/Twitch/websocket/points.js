@@ -1,3 +1,4 @@
+// DOCS: https://dev.twitch.tv/docs/eventsub/eventsub-subscription-types#channelchannel_points_custom_reward_redemptionadd
 const { broadcastToClient } = require('@global/utilities/websocket');
 const channelName = Config.twitch.channel.username;
 const axios = require('axios');
@@ -19,7 +20,7 @@ async function connect(sessionId) {
       'Content-Type': 'application/json'
     }
   });
-  return "✅ Connected to Channel Points WebSocket.";
+  return '✅ Connected to Channel Points WebSocket.';
 }
 
 async function trigger(client, payload) {
