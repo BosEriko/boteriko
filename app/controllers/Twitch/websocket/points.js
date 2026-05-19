@@ -1,7 +1,24 @@
 const { broadcastToClient } = require('@global/utilities/websocket');
 const channelName = Config.twitch.channel.username;
+const axios = require('axios');
 
-async function points(client, payload) {
+async function connect(userId, sessionId, clientId, accessToken) {
+  await axios.post('https://api.twitch.tv/helix/eventsub/subscriptions', {
+    type: 'channel.channel_points_custom_reward_redemption.add',
+    version: '1',
+    condition: { broadcaster_user_id: userId },
+    transport: { method: 'websocket', session_id: sessionId }
+  }, {
+    headers: {
+      'Client-ID': clientId,
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type': 'application/json'
+    }
+  });
+  return "✅ Connected to Channel Points WebSocket.";
+}
+
+async function trigger(client, payload) {
   const { reward, user_id, user_name, user_input, id } = payload;
 
   try {
@@ -40,6 +57,11 @@ async function points(client, payload) {
   } catch (err) {
     await Utility.error_logger(`Error handling reward "${reward.title}" for ${user_name}:`, err);
   }
+};
+
+const points = {
+  connect,
+  trigger,
 };
 
 module.exports = points;

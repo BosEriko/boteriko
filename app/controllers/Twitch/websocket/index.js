@@ -1,5 +1,4 @@
 const WebSocket = require('ws');
-const axios = require('axios');
 
 const points = require('./points');
 const ads = require('./ads');
@@ -36,27 +35,12 @@ function websocket(client) {
         switch (metadata.message_type) {
           case 'session_welcome': {
             const sessionId = eventPayload.session.id;
-
-            // Subscribe to channel points redemption
-            const response = await axios.post('https://api.twitch.tv/helix/eventsub/subscriptions', {
-              type: 'channel.channel_points_custom_reward_redemption.add',
-              version: '1',
-              condition: { broadcaster_user_id: userId },
-              transport: { method: 'websocket', session_id: sessionId }
-            }, {
-              headers: {
-                'Client-ID': clientId,
-                'Authorization': `Bearer ${accessToken}`,
-                'Content-Type': 'application/json'
-              }
-            });
-
-            console.log('✅ Connected to Channel Points WebSocket.');
+            console.log(await points.connect(userId, sessionId, clientId, accessToken));
             break;
           }
 
           case 'notification': {
-            await points(client, eventPayload.event);
+            await points.trigger(client, eventPayload.event);
             await ads(client, eventPayload.event);
             break;
           }
