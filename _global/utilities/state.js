@@ -2,7 +2,6 @@ module.exports = {
   // Stream-related state
   isStreaming: false,
   streamDetail: null,
-  lastGame: null,
   autoRaid: false,
   raidDestination: "TwisWua",
 
@@ -19,6 +18,12 @@ module.exports = {
   // Clip-related state
   isClipInitialized: false,
   knownClipIds: new Set(),
+
+  // Steam state
+  steam: {
+    gameName: null,
+    gameId: null,
+  },
 
   // Timestamps
   timestamp: {
