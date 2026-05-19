@@ -6,11 +6,6 @@ module.exports = {
   autoRaid: false,
   raidDestination: "TwisWua",
 
-  // Ad-related state
-  hasRunStartingAd: false,
-  hasSkippedFirstAd: false,
-  adCount: 0,
-
   // Stream Winners
   winners: {
     firstChat: null,

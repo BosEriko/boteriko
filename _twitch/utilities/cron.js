@@ -3,7 +3,6 @@ const state = require('@global/utilities/state');
 
 // Utilities
 const { broadcastToClient } = require('@global/utilities/websocket');
-const { handleAdUtility, runAd } = require('@twitch/utilities/ad');
 const { handleTypingWords } = require('@twitch/games/typing');
 const handleClipUtility = require('@twitch/utilities/clip');
 const handleFollowUtility = require('@twitch/utilities/follow');
@@ -52,12 +51,6 @@ function handleCronUtility(client) {
     } else {
       callback();
     }
-  }
-
-  // Initial Ad Function
-  async function initialAd() {
-    const success = await runAd();
-    if (success) state.hasRunStartingAd = true;
   }
 
   // Top Typer Function
@@ -114,7 +107,6 @@ function handleCronUtility(client) {
     if (state.isStreaming) await Controller.Steam.update_twitch(client);
     if (state.isStreaming) await handleFollowUtility(client);
     if (state.isStreaming) handleTypingWords();
-    if (state.isStreaming && !state.hasRunStartingAd) await initialAd();
   }, { timezone });
 
   // Every 10 minutes
@@ -125,7 +117,6 @@ function handleCronUtility(client) {
 
   // Every 30 minutes
   cron.schedule('*/30 * * * *', async () => {
-    if (state.isStreaming) await handleAdUtility(client);
     if (state.isStreaming) await topTyper();
   }, { timezone });
 
