@@ -36,8 +36,8 @@ function websocket(client) {
           }
 
           case 'notification': {
-            await points.trigger(client, eventPayload.event);
-            await ads.trigger(client, eventPayload.event);
+            await points.trigger(client, eventPayload);
+            await ads.trigger(client, eventPayload);
             break;
           }
 
