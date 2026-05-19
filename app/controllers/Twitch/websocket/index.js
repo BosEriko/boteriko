@@ -1,6 +1,8 @@
 const WebSocket = require('ws');
 const axios = require('axios');
+
 const points = require('./points');
+const ads = require('./ads');
 
 let ws;
 let reconnectUrl = null;
@@ -55,6 +57,7 @@ function websocket(client) {
 
           case 'notification': {
             await points(client, eventPayload.event);
+            await ads(client, eventPayload.event);
             break;
           }
 
