@@ -8,7 +8,6 @@ const handleCronUtility = require('@twitch/utilities/cron');
 const handleEventUtility = require('@twitch/utilities/event');
 const handleFirstUtility = require('@twitch/utilities/first');
 const handleLinkUtility = require('@twitch/utilities/link');
-const handlePointUtility = require('@twitch/utilities/point');
 const handleShoutoutUtility = require('@twitch/utilities/shoutout');
 const handleUserUtility = require('@global/utilities/user');
 
@@ -47,7 +46,7 @@ Controller.Twitch.update_schedule();
 Controller.Music.polling();
 handleCronUtility(client);
 handleEventUtility(client);
-handlePointUtility(client);
+Controller.Twitch.websocket(client);
 
 // ----------------------------------------- Chat Commands -----------------------------------------
 

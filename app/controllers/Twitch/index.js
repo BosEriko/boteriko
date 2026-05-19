@@ -11,6 +11,7 @@ const update_channel_request = require("./update_channel_request");
 const update_game = require("./update_game");
 const update_schedule = require("./update_schedule");
 const update_title = require("./update_title");
+const websocket = require("./websocket");
 
 const Twitch = {
   authentication_callback,
@@ -26,6 +27,7 @@ const Twitch = {
   update_game,
   update_schedule,
   update_title,
+  websocket,
 };
 
 module.exports = Twitch;

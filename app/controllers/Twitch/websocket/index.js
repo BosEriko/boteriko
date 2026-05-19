@@ -50,7 +50,7 @@ const handleChannelPoints = async (client, payload) => {
   }
 };
 
-function handlePointUtility(client) {
+function websocket(client) {
   const accessToken = Config.twitch.channel.accessToken;
   const clientId = Config.twitch.channel.clientId;
   const userId = Config.twitch.channel.id;
@@ -181,4 +181,4 @@ function handlePointUtility(client) {
   });
 }
 
-module.exports = handlePointUtility;
+module.exports = websocket;
