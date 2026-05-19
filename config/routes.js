@@ -50,6 +50,7 @@ app.use('/api/manga/profile', Controller.Manga.profile);
 // Data Routes
 app.use('/api/data/initial', Controller.Data.initial);
 app.use('/api/data/search', Controller.Data.search);
+app.use('/api/data/overlay', Controller.Data.overlay);
 
 // TETR.IO Routes
 app.use('/api/tetrio/disconnect', Controller.Tetrio.disconnect);
