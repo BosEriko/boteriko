@@ -5,7 +5,6 @@ const state = require('@global/utilities/state');
 const { broadcastToClient } = require('@global/utilities/websocket');
 const { handleTypingWords } = require('@twitch/games/typing');
 const handleClipUtility = require('@twitch/utilities/clip');
-const handleFollowUtility = require('@twitch/utilities/follow');
 const handleInformationUtility = require('@twitch/utilities/information');
 const handleRaidUtility = require('@twitch/utilities/raid');
 const handleSetupUtility = require('@twitch/utilities/setup');
@@ -105,7 +104,6 @@ function handleCronUtility(client) {
   cron.schedule('* * * * *', async () => {
     await loadStreamDetails();
     if (state.isStreaming) await Controller.Steam.update_twitch(client);
-    if (state.isStreaming) await handleFollowUtility(client);
     if (state.isStreaming) handleTypingWords();
   }, { timezone });
 
