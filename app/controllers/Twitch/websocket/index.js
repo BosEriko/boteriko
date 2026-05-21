@@ -2,6 +2,7 @@ const WebSocket = require('ws');
 
 const points = require('./points');
 const ads = require('./ads');
+const follows = require('./follows');
 
 let ws;
 let reconnectUrl = null;
@@ -32,12 +33,16 @@ function websocket(client) {
           case 'session_welcome': {
             console.log(await points.connect(eventPayload.session.id));
             console.log(await ads.connect(eventPayload.session.id));
+            console.log(await follows.connect(eventPayload.session.id));
             break;
           }
 
           case 'notification': {
-            await points.trigger(client, eventPayload);
-            await ads.trigger(client, eventPayload);
+            await Promise.allSettled([
+              points.trigger(client, eventPayload),
+              ads.trigger(client, eventPayload),
+              follows.trigger(client, eventPayload)
+            ]);
             break;
           }
 
