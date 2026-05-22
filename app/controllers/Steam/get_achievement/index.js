@@ -1,3 +1,5 @@
+const state = require('@global/utilities/state');
+
 const get_achievement = async (id) => {
   const [schemaRes, playerRes] = await Promise.all([
     fetch(`https://api.steampowered.com/ISteamUserStats/GetSchemaForGame/v2/?key=${Config.steam.apiKey}&appid=${id}`),
