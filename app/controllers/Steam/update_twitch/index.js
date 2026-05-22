@@ -7,7 +7,7 @@ const channelName = `#${Config.twitch.channel.username}`;
 
 const update_twitch = async (client) => {
   const currentGame = await get_game();
-  if (!currentGame) return;
+  if (!currentGame || state.steam.gameName === currentGame) return;
   client.say(channelName, await Controller.Twitch.update_game(currentGame));
   state.steam.gameName = currentGame;
 
