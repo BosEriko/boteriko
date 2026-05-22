@@ -66,6 +66,18 @@ function handleCronUtility(client) {
     client.say(`#${Config.twitch.channel.username}`, leaderMessage);
   }
 
+  // Get Achievement Function
+  async function getAchievement() {
+    if (!state.steam.gameId) {
+      return;
+    }
+
+    const progress = await Controller.Steam.get_achievement(state.steam.gameId);
+    const message = `${Config.twitch.channel.username} has ${progress}% progress on ${state.steam.gameName}. Check more details at https://steamcommunity.com/id/BosEriko/stats/${state.steam.gameId}/achievements/`;
+
+    client.say(`#${Config.twitch.channel.username}`, message);
+  }
+
   // Clear Daily State Cache Function
   function clearDailyStateCache() {
     // Stream-related state
@@ -115,6 +127,7 @@ function handleCronUtility(client) {
   // Every 30 minutes
   cron.schedule('*/30 * * * *', async () => {
     if (state.isStreaming) await topTyper();
+    if (state.isStreaming) await getAchievement();
   }, { timezone });
 
   // Every day 1 hour before stream start
