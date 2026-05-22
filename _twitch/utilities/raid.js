@@ -70,7 +70,14 @@ async function handleRaidUtility(client, user, isBroadcaster) {
     }
   }
 
-  client.say(channelName, "BosEriko Raid SUBtember BosEriko Raid TwitchConHYPE BosEriko Raid DinoDance BosEriko Raid PewPewPew BosEriko Raid BangbooBounce BosEriko Raid GoldPLZ BosEriko Raid MechaCharge BosEriko Raid EWCcrush BosEriko Raid");
+  const message = [
+    "BosEriko Raid SUBtember",
+    "BosEriko Raid TwitchConHYPE",
+    "BosEriko Raid DinoDance",
+    "BosEriko Raid PewPewPew",
+    "BosEriko Raid GoldPLZ",
+  ].join(" ");
+  client.say(channelName, message);
 }
 
 module.exports = handleRaidUtility;
