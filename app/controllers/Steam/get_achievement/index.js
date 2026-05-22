@@ -14,10 +14,11 @@ const get_achievement = async (id) => {
   }
 
   const playerAchievements = playerJson?.playerstats?.achievements ?? [];
-
   const unlocked = playerAchievements.filter((achievement) => achievement.achieved === 1).length;
+  const progress = Math.round((unlocked / achievements.length) * 100);
+  state.steam.gamePercent = progress;
 
-  return Math.round((unlocked / achievements.length) * 100);
+  return progress;
 };
 
 module.exports = get_achievement;
