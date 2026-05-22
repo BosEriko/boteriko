@@ -69,28 +69,26 @@ function handleCronUtility(client) {
   // Clear Daily State Cache Function
   function clearDailyStateCache() {
     // Stream-related state
-    state.autoRaid = false;
+    state.autoRaid = true;
     state.raidDestination = "TwisWua";
-
-    // Ad-related state
-    state.hasRunStartingAd = false;
-    state.hasSkippedFirstAd = false;
-    state.adCount = 0;
-
-    // Follower-related state
-    state.isFollowerInitialized = false;
-    state.knownFollowerIds.clear();
-    state.latestFollowTimestamp = null;
 
     // Clip-related state
     state.isClipInitialized = false;
     state.knownClipIds.clear();
-    state.latestClipTimestamp = null;
 
-    // Todoist display toggle
+    // Steam-related state
+    state.steam.gameName = null;
+    state.steam.gameId = null;
+    state.steam.gamePercent = null;
+
+    // Timestamp-related state
+    state.timestamp.message = Date.now();
+    state.timestamp.clip = null;
+
+    // Todoist-related state
     state.isTodoVisible = false;
 
-    // Music state
+    // Music-related state
     state.music.details = null;
     state.music.queue.clear();
 

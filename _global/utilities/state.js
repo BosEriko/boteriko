@@ -19,6 +19,7 @@ module.exports = {
   steam: {
     gameName: null,
     gameId: null,
+    gamePercent: null,
   },
 
   // Timestamps
