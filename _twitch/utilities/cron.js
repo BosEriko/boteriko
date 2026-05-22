@@ -79,6 +79,7 @@ function handleCronUtility(client) {
     // Steam-related state
     state.steam.gameName = null;
     state.steam.gameId = null;
+    state.steam.gameDescription = null;
     state.steam.gamePercent = null;
 
     // Timestamp-related state
