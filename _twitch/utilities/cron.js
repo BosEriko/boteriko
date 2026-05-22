@@ -69,9 +69,7 @@ function handleCronUtility(client) {
 
   // Get Achievement Function
   async function getAchievement() {
-    if (!state.steam.gameId) {
-      return;
-    }
+    if (!state.steam.gameId) return;
 
     const progress = await Controller.Steam.get_achievement(state.steam.gameId);
     const message = `${Config.twitch.channel.username} has ${progress}% progress on ${state.steam.gameName}. Check more details at https://steamcommunity.com/id/${Config.twitch.channel.username}/stats/${state.steam.gameId}/achievements`;
