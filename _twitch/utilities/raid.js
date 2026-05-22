@@ -69,15 +69,6 @@ async function handleRaidUtility(client, user, isBroadcaster) {
       client.say(channelName, `Failed to start raid to ${username}.`);
     }
   }
-
-  const message = [
-    "BosEriko Raid SUBtember",
-    "BosEriko Raid TwitchConHYPE",
-    "BosEriko Raid DinoDance",
-    "BosEriko Raid PewPewPew",
-    "BosEriko Raid GoldPLZ",
-  ].join(" ");
-  client.say(channelName, message);
 }
 
 module.exports = handleRaidUtility;

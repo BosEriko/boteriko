@@ -8,6 +8,13 @@ const RaidMessage = [
   `🌐 BosEriko+: https://plus.boseriko.com`,
   `💬 Join the community on Discord: http://discord.boseriko.com`,
   `❤️ Enjoyed the stream? Don't forget to follow so you don't miss the next one!`,
+  [
+    "BosEriko Raid SUBtember",
+    "BosEriko Raid TwitchConHYPE",
+    "BosEriko Raid DinoDance",
+    "BosEriko Raid PewPewPew",
+    "BosEriko Raid GoldPLZ",
+  ].join(" "),
 ];
 
 module.exports = RaidMessage;
