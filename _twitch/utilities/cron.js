@@ -33,6 +33,7 @@ function handleCronUtility(client) {
           firstChat: state.winners.firstChat,
           typing: typingWinner,
         },
+        steam: state.steam,
       });
     } catch (error) {
       state.streamDetail = null;
