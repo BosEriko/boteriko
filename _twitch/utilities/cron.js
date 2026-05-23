@@ -112,8 +112,8 @@ function handleCronUtility(client) {
 
   // Every 1 minute
   cron.schedule('* * * * *', async () => {
-    await loadStreamDetails();
     if (state.isStreaming) await Controller.Steam.update_twitch(client);
+    await loadStreamDetails();
     if (state.isStreaming) handleTypingWords();
   }, { timezone });
 
