@@ -1,4 +1,5 @@
 const state = require('@global/utilities/state');
+const get_achievement = require('../get_achievement/');
 const get_description = require('../get_description');
 const get_game = require('../get_game');
 const get_id = require('../get_id');
@@ -21,6 +22,7 @@ const update_twitch = async (client) => {
   const currentId = await get_id(currentGame);
   if (!currentId) return;
   state.steam.gameId = currentId;
+  state.steam.gamePercent = await get_achievement(currentId);
 
   const currentDescription = await get_description(currentId);
   if (!currentDescription) return;
