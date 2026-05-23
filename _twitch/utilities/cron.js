@@ -67,13 +67,11 @@ function handleCronUtility(client) {
     client.say(`#${Config.twitch.channel.username}`, leaderMessage);
   }
 
-  // Get Achievement Function
-  async function getAchievement() {
-    if (!state.steam.gameId) {
-      return;
-    }
+  // Announce Achievement Function
+  async function announceAchievement() {
+    if (!state.steam.gamePercent) return;
 
-    const progress = await Controller.Steam.get_achievement(state.steam.gameId);
+    const progress = state.steam.gamePercent;
     const message = `${Config.twitch.channel.username} has ${progress}% progress on ${state.steam.gameName}. Check more details at https://steamcommunity.com/id/${Config.twitch.channel.username}/stats/${state.steam.gameId}/achievements`;
 
     client.say(`#${Config.twitch.channel.username}`, message);
@@ -128,7 +126,7 @@ function handleCronUtility(client) {
   // Every 30 minutes
   cron.schedule('*/30 * * * *', async () => {
     if (state.isStreaming) await topTyper();
-    if (state.isStreaming) await getAchievement();
+    if (state.isStreaming) await announceAchievement();
   }, { timezone });
 
   // Every day 1 hour before stream start
