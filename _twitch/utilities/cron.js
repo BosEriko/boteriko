@@ -88,7 +88,7 @@ function handleCronUtility(client) {
 
   // :15 every hour
   cron.schedule('15 * * * *', async () => {
-    if (state.isStreaming) await announceTopTyper();
+    if (state.isStreaming) await announceAchievement();
   }, { timezone });
 
   // Every 30 minutes
@@ -98,7 +98,7 @@ function handleCronUtility(client) {
 
   // :45 every hour
   cron.schedule('45 * * * *', async () => {
-    if (state.isStreaming) await announceAchievement();
+    if (state.isStreaming) await announceTopTyper();
   }, { timezone });
 
   // Every day 1 hour before stream start
