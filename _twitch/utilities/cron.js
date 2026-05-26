@@ -55,7 +55,7 @@ function handleCronUtility(client) {
   }
 
   // Top Typer Function
-  async function topTyper() {
+  async function announceTopTyper() {
     const topTyper = await Controller.Typing.top_typer();
     const noScoreMessage = `No one has scored yet! Snatch the top spot and be the first! ⌨️`;
 
@@ -87,16 +87,20 @@ function handleCronUtility(client) {
     if (state.isStreaming) handleTypingWords();
   }, { timezone });
 
-  // Every 10 minutes
-  cron.schedule('*/10 * * * *', async () => {
+  // :00 every hour
+  cron.schedule('0 * * * *', async () => {
+    if (state.isStreaming) await announceAchievement();
+  }, { timezone });
+
+  // :20 every hour
+  cron.schedule('20 * * * *', async () => {
     if (state.isStreaming) handleInformationUtility(client);
     await handleClipUtility();
   }, { timezone });
 
-  // Every 30 minutes
-  cron.schedule('*/30 * * * *', async () => {
-    if (state.isStreaming) await topTyper();
-    if (state.isStreaming) await announceAchievement();
+  // :40 every hour
+  cron.schedule('40 * * * *', async () => {
+    if (state.isStreaming) await announceTopTyper();
   }, { timezone });
 
   // Every day 1 hour before stream start
