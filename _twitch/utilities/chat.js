@@ -3,7 +3,7 @@ const dailyUtility = require('@global/utilities/daily');
 const statisticUtility = require('@global/utilities/statistic');
 const walletUtility = require('@global/utilities/wallet');
 const sendToDiscordUtility = require('@twitch/utilities/sendToDiscord');
-const state = require('@global/utilities/state');
+const { state } = require('@global/utilities/state');
 
 function formatEmotes(emotes, message) {
   const result = {};

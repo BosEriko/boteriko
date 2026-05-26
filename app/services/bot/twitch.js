@@ -1,5 +1,5 @@
 const client = require('@twitch/utilities/client');
-const state = require('@global/utilities/state');
+const { state } = require('@global/utilities/state');
 
 // Utilities
 const { handleTypingGame } = require('@twitch/games/typing');

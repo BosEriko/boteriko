@@ -1,5 +1,5 @@
 const cron = require('node-cron');
-const state = require('@global/utilities/state');
+const { state, resetState, resetSection } = require('@global/utilities/state');
 
 // Utilities
 const { broadcastToClient } = require('@global/utilities/websocket');
@@ -24,7 +24,7 @@ function handleCronUtility(client) {
       state.streamDetail = streamDetail || null;
       state.isStreaming = !!streamDetail;
       state.winners.typing = typingWinner;
-      if (!streamDetail) state.resetSection("steam");
+      if (!streamDetail) resetSection("steam");
       broadcastToClient({
         type: 'STREAM_DETAIL',
         streamDetail: streamDetail || null,
@@ -106,7 +106,7 @@ function handleCronUtility(client) {
   const oneHourBeforeStream = (streamStartHour + 23) % 24;
   cron.schedule(`0 ${oneHourBeforeStream} * * *`, () => {
     retryWhenOffline(() => {
-      state.reset();
+      resetState();
       handleSetupUtility(client);
     });
   }, { timezone });

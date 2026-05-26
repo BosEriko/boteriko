@@ -1,6 +1,6 @@
 const axios = require('axios');
 const { broadcastToClient } = require('@global/utilities/websocket');
-const state = require('@global/utilities/state');
+const { state } = require('@global/utilities/state');
 const get_access_token = require("../get_access_token");
 
 const updateQueue = (currentId) => {

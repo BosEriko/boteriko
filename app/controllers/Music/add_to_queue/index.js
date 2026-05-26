@@ -1,7 +1,7 @@
 const axios = require('axios');
 const stringSimilarity = require("string-similarity");
 const get_access_token = require("../get_access_token");
-const state = require('@global/utilities/state');
+const { state } = require('@global/utilities/state');
 
 const spotifyTrackRegex = /(?:track\/|spotify:track:)([a-zA-Z0-9]{22})/;
 const urlRegex = /^https?:\/\/[^\s]+$/;

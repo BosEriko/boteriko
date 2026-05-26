@@ -2,7 +2,7 @@ const cacheUtility = require('@global/utilities/cache');
 const firstUtility = require('@global/utilities/first');
 const handleStreamDetailUtility = require("@global/utilities/streamDetail");
 const axios = require('axios');
-const state = require('@global/utilities/state');
+const { state } = require('@global/utilities/state');
 
 const TWELVE_HOURS_MS = 12 * 60 * 60 * 1000;
 const firstChatCache = cacheUtility(TWELVE_HOURS_MS);

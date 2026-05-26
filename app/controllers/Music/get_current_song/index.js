@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const state = require('@global/utilities/state');
+const { state } = require('@global/utilities/state');
 const get_access_token = require("../get_access_token");
 
 const get_current_song = async () => {

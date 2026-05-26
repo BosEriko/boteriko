@@ -39,21 +39,19 @@ const createInitialState = () => ({
 
 const state = createInitialState();
 
-state.reset = function reset() {
+function resetState() {
   const fresh = createInitialState();
-  const reset = state.reset;
-  const resetSection = state.resetSection;
   Object.keys(state).forEach((key) => delete state[key]);
   Object.assign(state, fresh);
-  state.reset = reset;
-  state.resetSection = resetSection;
-};
+}
 
-state.resetSection = function resetSection(sectionName) {
+function resetSection(sectionName) {
   const fresh = createInitialState()[sectionName];
   if (fresh === undefined) return;
 
-  if (typeof fresh !== 'object' || fresh === null) {
+  const current = state[sectionName];
+
+  if (!current || typeof current !== "object") {
     state[sectionName] = fresh;
     return;
   }
@@ -63,15 +61,8 @@ state.resetSection = function resetSection(sectionName) {
     return;
   }
 
-  const target = state[sectionName];
+  Object.keys(current).forEach((key) => delete current[key]);
+  Object.assign(current, fresh);
+}
 
-  if (!target || typeof target !== 'object') {
-    state[sectionName] = fresh;
-    return;
-  }
-
-  Object.keys(target).forEach((key) => delete target[key]);
-  Object.assign(target, fresh);
-};
-
-module.exports = state;
+module.exports = { state, resetState, resetSection };

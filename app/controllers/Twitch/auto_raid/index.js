@@ -1,4 +1,4 @@
-const state = require('@global/utilities/state');
+const { state } = require('@global/utilities/state');
 
 const auto_raid = (input) => {
     if (!input) {
