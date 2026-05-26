@@ -1,4 +1,4 @@
-module.exports = {
+const createInitialState = () => ({
   // Stream-related state
   isStreaming: false,
   streamDetail: null,
@@ -40,4 +40,14 @@ module.exports = {
 
   // Cache references
   caches: [],
+});
+
+const state = createInitialState();
+
+state.reset = function reset() {
+  const fresh = createInitialState();
+  Object.keys(state).forEach((key) => delete state[key]);
+  Object.assign(state, fresh);
 };
+
+module.exports = state;

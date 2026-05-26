@@ -77,37 +77,6 @@ function handleCronUtility(client) {
     client.say(`#${Config.twitch.channel.username}`, message);
   }
 
-  // Clear Daily State Cache Function
-  function clearDailyStateCache() {
-    // Stream-related state
-    state.autoRaid = true;
-    state.raidDestination = "TwisWua";
-
-    // Clip-related state
-    state.isClipInitialized = false;
-    state.knownClipIds.clear();
-
-    // Steam-related state
-    state.steam.gameName = null;
-    state.steam.gameId = null;
-    state.steam.gameDescription = null;
-    state.steam.gamePercent = null;
-
-    // Timestamp-related state
-    state.timestamp.message = Date.now();
-    state.timestamp.clip = null;
-
-    // Todoist-related state
-    state.isTodoVisible = false;
-
-    // Music-related state
-    state.music.details = null;
-    state.music.queue.clear();
-
-    // Cache references
-    state.caches.forEach(cache => cache._raw.clear());
-  }
-
   // ------------------------------------------- Cron Jobs -------------------------------------------
 
   // Every 1 minute
@@ -134,7 +103,7 @@ function handleCronUtility(client) {
   const oneHourBeforeStream = (streamStartHour + 23) % 24;
   cron.schedule(`0 ${oneHourBeforeStream} * * *`, () => {
     retryWhenOffline(() => {
-      clearDailyStateCache();
+      state.reset();
       handleSetupUtility(client);
     });
   }, { timezone });
