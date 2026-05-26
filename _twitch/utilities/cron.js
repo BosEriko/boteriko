@@ -86,19 +86,19 @@ function handleCronUtility(client) {
     if (state.isStreaming) handleTypingWords();
   }, { timezone });
 
-  // :00 every hour
-  cron.schedule('0 * * * *', async () => {
-    if (state.isStreaming) await announceAchievement();
+  // :15 every hour
+  cron.schedule('15 * * * *', async () => {
+    if (state.isStreaming) await announceTopTyper();
   }, { timezone });
 
-  // :20 every hour
-  cron.schedule('20 * * * *', async () => {
+  // Every 30 minutes
+  cron.schedule('*/30 * * * *', async () => {
     if (state.isStreaming) handleInformationUtility(client);
   }, { timezone });
 
-  // :40 every hour
-  cron.schedule('40 * * * *', async () => {
-    if (state.isStreaming) await announceTopTyper();
+  // :45 every hour
+  cron.schedule('45 * * * *', async () => {
+    if (state.isStreaming) await announceAchievement();
   }, { timezone });
 
   // Every day 1 hour before stream start
