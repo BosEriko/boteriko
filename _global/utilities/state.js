@@ -50,4 +50,12 @@ state.reset = function reset() {
   Object.assign(state, fresh);
 };
 
+state.resetSection = function resetSection(sectionName) {
+  const fresh = createInitialState()[sectionName];
+  if (!fresh) return;
+  const target = state[sectionName];
+  Object.keys(target).forEach((key) => delete target[key]);
+  Object.assign(target, fresh);
+};
+
 module.exports = state;

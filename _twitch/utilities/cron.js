@@ -25,6 +25,7 @@ function handleCronUtility(client) {
       state.streamDetail = streamDetail || null;
       state.isStreaming = !!streamDetail;
       state.winners.typing = typingWinner;
+      if (!streamDetail) state.resetSection("steam");
       broadcastToClient({
         type: 'STREAM_DETAIL',
         streamDetail: streamDetail || null,
