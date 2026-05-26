@@ -4,7 +4,6 @@ const state = require('@global/utilities/state');
 // Utilities
 const { broadcastToClient } = require('@global/utilities/websocket');
 const { handleTypingWords } = require('@twitch/games/typing');
-const handleClipUtility = require('@twitch/utilities/clip');
 const handleInformationUtility = require('@twitch/utilities/information');
 const handleRaidUtility = require('@twitch/utilities/raid');
 const handleSetupUtility = require('@twitch/utilities/setup');
@@ -95,7 +94,6 @@ function handleCronUtility(client) {
   // :20 every hour
   cron.schedule('20 * * * *', async () => {
     if (state.isStreaming) handleInformationUtility(client);
-    await handleClipUtility();
   }, { timezone });
 
   // :40 every hour

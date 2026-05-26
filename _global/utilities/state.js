@@ -11,10 +11,6 @@ const createInitialState = () => ({
     typing: null,
   },
 
-  // Clip-related state
-  isClipInitialized: false,
-  knownClipIds: new Set(),
-
   // Steam state
   steam: {
     gameName: null,
@@ -26,7 +22,6 @@ const createInitialState = () => ({
   // Timestamps
   timestamp: {
     message: Date.now(),
-    clip: null,
   },
 
   // Todoist display toggle
