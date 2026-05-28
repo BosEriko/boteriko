@@ -25,9 +25,9 @@
     "ws": "^8.18.2"
   },
   "_moduleAliases": {
-    "@discord": "_discord",
-    "@global": "_global",
-    "@twitch": "_twitch",
+    "@discord": "legacy/discord",
+    "@global": "legacy/global",
+    "@twitch": "legacy/twitch",
     "@config": "config",
     "@constant": "app/lib/constants",
     "@controller": "app/controllers",
