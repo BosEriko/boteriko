@@ -7,7 +7,7 @@ const create_clip = async (user) => {
       `https://api.twitch.tv/helix/clips?broadcaster_id=${Config.twitch.channel.id}`, null,
       {
         headers: {
-          "Authorization": `Bearer ${Config.twitch.channel.accessToken}`
+          "Authorization": `Bearer ${Config.twitch.channel.accessToken}`,
           "Client-ID": Config.twitch.channel.clientId,
         },
       }
