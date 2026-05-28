@@ -118,7 +118,7 @@ client.on('message', async (channel, tags, message, self) => {
   if (commandName === 'back') handleBackCommand(client, channel);
   if (commandName === 'brb') handleBrbCommand(client, channel, commandArgs);
   if (commandName === 'censor') handleCensorCommand(client, channel);
-  if (commandName === 'clip') client.say(channel, await Controller.Twitch.create_clip(client, commandArgs, channel));
+  if (commandName === 'clip') client.say(channel, await Controller.Twitch.create_clip(user));
   if (commandName === 'date') client.say(channel, handleTimeCommand('date'));
   if (commandName === 'discord') client.say(channel, Controller.Link.general("discord"));
   if (commandName === 'facebook') client.say(channel, Controller.Link.general("facebook"));
