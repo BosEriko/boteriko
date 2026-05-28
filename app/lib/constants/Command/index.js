@@ -15,6 +15,7 @@ const GlobalCommand = [
   { command: 'back',            parameter: false, availability: [TWITCH],           restricted: true,   streaming: true,  description: 'Go back to streaming.' },
   { command: 'brb',             parameter: true,  availability: [TWITCH],           restricted: true,   streaming: true,  description: 'Set the stream to BRB mode.' },
   { command: 'censor',          parameter: false, availability: [TWITCH],           restricted: true,   streaming: true,  description: 'Toggle or manage censorship settings in the overlay.' },
+  { command: 'clip',            parameter: false, availability: [TWITCH],           restricted: false,  streaming: true,  description: 'Creates a clip from the broadcaster\'s stream.' },
   { command: 'commands',        parameter: false, availability: [DISCORD],          restricted: false,  streaming: false, description: 'Get the list of commands for both Twitch and Discord.' },
   { command: 'date',            parameter: false, availability: [TWITCH, DISCORD],  restricted: false,  streaming: false, description: 'Display today\'s date based on timezone.' },
   { command: 'discord',         parameter: false, availability: [TWITCH, DISCORD],  restricted: false,  streaming: false, description: 'Show the Discord link.' },
