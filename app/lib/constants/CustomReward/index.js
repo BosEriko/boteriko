@@ -31,6 +31,27 @@ const CustomReward = [
   {
     is_enabled: true,
     // General Information
+    title: String.AD_BREAK,
+    prompt: "Run an Ad.",
+    is_user_input_required: false,
+    cost: 100,
+    // Reward Icon
+    icon: icon("AD_BREAK"),
+    // Background Color
+    background_color: "#DAA520",
+    // Skip Reward Requests Queue
+    should_redemptions_skip_request_queue: true,
+    // Cooldown & Limits
+    is_global_cooldown_enabled: true,
+    global_cooldown_seconds: 1800,
+    is_max_per_stream_enabled: false,
+    max_per_stream: 0,
+    is_max_per_user_per_stream_enabled: false,
+    max_per_user_per_stream: 0
+  },
+  {
+    is_enabled: true,
+    // General Information
     title: String.BLINK,
     prompt: "Make me blink!",
     is_user_input_required: false,
