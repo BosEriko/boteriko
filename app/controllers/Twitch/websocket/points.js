@@ -57,6 +57,11 @@ async function trigger(client, payload) {
         break;
       }
 
+      case Constant.String.AD_BREAK: {
+        client.say(channelName, await Controller.Twitch.trigger_ad());
+        break;
+      }
+
       default:
         console.warn(`⚠️ Unhandled reward: "${reward.title}"`);
         break;
