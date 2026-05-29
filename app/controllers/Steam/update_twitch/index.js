@@ -18,12 +18,18 @@ const update_twitch = async (client) => {
   
   const currentId = await get_id(currentGame);
   if (currentId) {
-    state.steam.gamePercent = await get_achievement(currentId);
-    
-    if (state.steam.gameName !== currentGame) {
+    if (state.steam.gameName === currentGame) {
+      const currentProgress = await get_achievement(currentId);
+      const previousProgress = state.steam.gamePercent;
+      if (previousProgress !== currentProgress) {
+        client.say(channelName, await `${Config.twitch.channel.username} has increased his progress on ${state.steam.gameName} from ${previousProgress}% to ${currentProgress}%! Check more details at https://steamcommunity.com/id/${Config.twitch.channel.username}/stats/${state.steam.gameId}/achievements`);
+        state.steam.gamePercent = currentProgress;
+      }
+    } else {
       client.say(channelName, await Controller.Twitch.update_game(currentGame));
       state.steam.gameName = currentGame;
       state.steam.gameId = currentId;
+      state.steam.gamePercent = await get_achievement(currentId);
       
       const currentDescription = await get_description(currentId);
       if (currentDescription) {
