@@ -5,7 +5,7 @@ const trigger_ad = async () => {
   try {
     const response = await axios.post(
       'https://api.twitch.tv/helix/channels/commercial',
-      { broadcaster_id: Config.twitch.channel.id, 90 },
+      { broadcaster_id: Config.twitch.channel.id, length: 90 },
       {
         headers: {
           "Authorization": `Bearer ${Config.twitch.channel.accessToken}`,
