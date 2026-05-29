@@ -8,6 +8,7 @@ const create_schedule = require("./create_schedule");
 const delete_schedule = require("./delete_schedule");
 const read_category_id_by_name = require("./read_category_id_by_name");
 const read_schedule = require("./read_schedule");
+const trigger_ad = require("./trigger_ad");
 const update_channel_request = require("./update_channel_request");
 const update_game = require("./update_game");
 const update_schedule = require("./update_schedule");
@@ -25,6 +26,7 @@ const Twitch = {
   delete_schedule,
   read_category_id_by_name,
   read_schedule,
+  trigger_ad,
   update_channel_request,
   update_game,
   update_schedule,
