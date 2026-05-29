@@ -1,3 +1,4 @@
+// DOCS: https://dev.twitch.tv/docs/api/reference#create-clip
 const axios = require('axios');
 const sendToDiscordUtility = require('@twitch/utilities/sendToDiscord');
 
