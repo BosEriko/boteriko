@@ -1,7 +1,12 @@
 // DOCS: https://dev.twitch.tv/docs/api/reference#start-commercial
 const axios = require('axios');
+const { state } = require('@global/utilities/state');
 
 const trigger_ad = async () => {
+  if (!state.isStreaming) {
+    return "❌ Failed to start commercial. Stream is offline.";
+  }
+
   try {
     const response = await axios.post(
       'https://api.twitch.tv/helix/channels/commercial',
