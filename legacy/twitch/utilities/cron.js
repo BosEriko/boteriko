@@ -5,7 +5,6 @@ const { state, resetState, resetSection } = require('@global/utilities/state');
 const { broadcastToClient } = require('@global/utilities/websocket');
 const { handleTypingWords } = require('@twitch/games/typing');
 const handleInformationUtility = require('@twitch/utilities/information');
-const handleRaidUtility = require('@twitch/utilities/raid');
 const handleSetupUtility = require('@twitch/utilities/setup');
 
 // Data
@@ -113,7 +112,7 @@ function handleCronUtility(client) {
   // Every end of stream
   const streamEndHour = parseInt(Config.stream.start, 10) + parseInt(Config.stream.duration, 10);
   cron.schedule(`0 ${streamEndHour} * * *`, () => {
-    if (state.isStreaming && state.autoRaid) handleRaidUtility(client, state.raidDestination);
+    if (state.isStreaming && state.autoRaid) Controller.Twitch.create_raid(client, state.raidDestination);
   }, { timezone });
 }
 
