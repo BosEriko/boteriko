@@ -5,6 +5,7 @@ const create_clip = require("./create_clip");
 const create_commercial = require("./create_commercial");
 const create_custom_reward = require("./create_custom_reward");
 const create_custom_rewards = require("./create_custom_rewards");
+const create_raid = require("./create_raid");
 const create_schedule = require("./create_schedule");
 const delete_schedule = require("./delete_schedule");
 const read_category_id_by_name = require("./read_category_id_by_name");
@@ -25,6 +26,7 @@ const Twitch = {
   create_commercial,
   create_custom_reward,
   create_custom_rewards,
+  create_raid,
   create_schedule,
   delete_schedule,
   read_category_id_by_name,
