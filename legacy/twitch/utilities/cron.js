@@ -17,9 +17,9 @@ function handleCronUtility(client) {
   // Check Stream Availability Function
   async function loadStreamDetails() {
     try {
-      const streamDetail = await Controller.Twitch.read_streams_detail()[0];
+      const streamDetail = (await Controller.Twitch.read_streams_detail())[0];
       const typingWinner = await getLastTypingWinner();
-      state.streamDetail = streamDetail || null;
+      state.streamDetail = streamDetail;
       state.isStreaming = !!streamDetail;
       state.winners.typing = typingWinner;
       if (!streamDetail) resetSection("steam");
