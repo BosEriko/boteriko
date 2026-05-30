@@ -27,7 +27,7 @@ const GlobalCommand = [
   { command: 'pomodoro',        parameter: true,  availability: [TWITCH],           restricted: true,   streaming: true,  description: 'Set pomodoro sessions for focused work and break intervals.' },
   { command: 'profile',         parameter: true,  availability: [TWITCH, DISCORD],  restricted: false,  streaming: false, description: 'Show the BosEriko+ Profile link.' },
   { command: 'queue',           parameter: false, availability: [TWITCH],           restricted: false,  streaming: true,  description: 'Show a link to the song queue.' },
-  { command: 'raid',            parameter: true,  availability: [TWITCH],           restricted: false,  streaming: false, description: 'Start the raid process or send only the raid message.' },
+  { command: 'raid',            parameter: true,  availability: [TWITCH],           restricted: true,   streaming: true,  description: 'Start the raid process.' },
   { command: 'schedule',        parameter: false, availability: [TWITCH, DISCORD],  restricted: false,  streaming: false, description: 'Show the stream schedule.' },
   { command: 'setgame',         parameter: true,  availability: [TWITCH],           restricted: true,   streaming: false, description: 'Set the game/category.' },
   { command: 'settitle',        parameter: true,  availability: [TWITCH],           restricted: true,   streaming: false, description: 'Set the title.' },
