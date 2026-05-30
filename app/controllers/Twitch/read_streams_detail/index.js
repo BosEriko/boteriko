@@ -1,10 +1,11 @@
 // DOCS: https://dev.twitch.tv/docs/api/reference#get-streams
 const axios = require('axios');
 
-const read_streams_detail = async (username = Config.twitch.channel.username) => {
+const read_streams_detail = async (usernames = [Config.twitch.channel.username]) => {
   try {
+    const query = usernames.map((username) => `user_login=${encodeURIComponent(username)}`).join('&');
     const response = await axios.get(
-      `https://api.twitch.tv/helix/streams?user_login=${username}`,
+      `https://api.twitch.tv/helix/streams?${query}`,
       {
         headers: {
             'Client-ID': Config.twitch.bot.clientId,
@@ -13,7 +14,7 @@ const read_streams_detail = async (username = Config.twitch.channel.username) =>
       }
     );
 
-    return response.data.data?.[0];
+    return response.data.data;
   } catch (err) {
     await Utility.error_logger("Error fetching stream details:", err);
   }

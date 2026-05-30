@@ -15,7 +15,7 @@ const create_raid = async (client, user, threshold = state.raidThreshold) => {
     return;
   }
 
-  if (!(await Controller.Twitch.read_streams_detail(username))) {
+  if (!(await Controller.Twitch.read_streams_detail([username])[0])) {
     client.say(channelName, `❌ ${username} is currently offline.`);
     return;
   }
