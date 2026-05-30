@@ -58,7 +58,7 @@ async function trigger(client, payload) {
       }
 
       case Constant.String.AD_BREAK: {
-        client.say(channelName, await Controller.Twitch.trigger_ad());
+        client.say(channelName, await Controller.Twitch.create_commercial());
         break;
       }
 

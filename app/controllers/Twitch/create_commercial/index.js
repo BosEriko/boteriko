@@ -2,7 +2,7 @@
 const axios = require('axios');
 const { state } = require('@global/utilities/state');
 
-const trigger_ad = async () => {
+const create_commercial = async () => {
   if (!state.isStreaming) {
     return "❌ Failed to start commercial. Stream is offline.";
   }
@@ -40,4 +40,4 @@ const trigger_ad = async () => {
   }
 }
 
-module.exports = trigger_ad;
+module.exports = create_commercial;
