@@ -22,6 +22,11 @@ const create_raid = async (client, user, threshold = state.raidThreshold) => {
     return;
   }
 
+  if (!channelDetails) {
+    client.say(channelName, `❌ You are currently offline and cannot raid.`);
+    return;
+  }
+
   const currentViews = channelDetails?.viewer_count ?? 0;
   if (currentViews < threshold) {
     client.say(channelName, `❌ You don't have enough viewers to raid. You currently have ${currentViews} but you need ${threshold}.`);
