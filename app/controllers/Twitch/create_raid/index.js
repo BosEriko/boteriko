@@ -6,7 +6,7 @@ const { state } = require('@global/utilities/state');
 
 const channelName = `#${Config.twitch.channel.username}`;
 
-const create_raid = async (client, user, threshold = 1) => {
+const create_raid = async (client, user, threshold = state.raidThreshold) => {
   const username = user.trim() ? user.trim().split(' ')[0].replace(/^@/, '') : state.raidDestination;
   const toChannelId = await read_user_id(username);
 

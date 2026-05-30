@@ -4,6 +4,7 @@ const createInitialState = () => ({
   streamDetail: null,
   autoRaid: true,
   raidDestination: "TwisWua",
+  raidThreshold: 5,
 
   // Stream Winners
   winners: {
