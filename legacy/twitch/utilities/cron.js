@@ -113,7 +113,7 @@ function handleCronUtility(client) {
   // Every end of stream
   const streamEndHour = parseInt(Config.stream.start, 10) + parseInt(Config.stream.duration, 10);
   cron.schedule(`0 ${streamEndHour} * * *`, () => {
-    if (state.isStreaming && state.autoRaid) handleRaidUtility(client, state.raidDestination, true);
+    if (state.isStreaming && state.autoRaid) handleRaidUtility(client, state.raidDestination);
   }, { timezone });
 }
 

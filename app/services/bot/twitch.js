@@ -129,7 +129,7 @@ client.on('message', async (channel, tags, message, self) => {
   if (commandName === 'pomodoro') handlePomodoroCommand(client, commandArgs);
   if (commandName === 'profile') client.say(channel, await Controller.Link.profile[T](tags, commandArgs));
   if (commandName === 'queue') client.say(channel, await Controller.Link.general("queue"));
-  if (commandName === 'raid') await handleRaidUtility(client, commandArgs, isBroadcaster);
+  if (commandName === 'raid') await handleRaidUtility(client, commandArgs);
   if (commandName === 'schedule') client.say(channel, handleScheduleCommand());
   if (commandName === 'setgame') client.say(channel, await Controller.Twitch.update_game(commandArgs));
   if (commandName === 'settitle') client.say(channel, await Controller.Twitch.update_title(commandArgs));

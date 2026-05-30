@@ -43,31 +43,24 @@ async function triggerRaid(toChannelId) {
   }
 }
 
-async function handleRaidUtility(client, user, isBroadcaster) {
-  if (!state.isStreaming) {
-    client.say(channelName, 'Raid command is only available while streaming 📺');
+async function handleRaidUtility(client, user) {
+  const username = user.trim() ? user.trim().split(' ')[0].replace(/^@/, '') : state.raidDestination;
+  const toChannelId = await getUserId(username);
+
+  if (!toChannelId) {
+    client.say(channelName, `Cannot find user: ${username}`);
     return;
   }
 
-  if (isBroadcaster) {
-    const username = user.trim() ? user.trim().split(' ')[0].replace(/^@/, '') : state.raidDestination;
-    const toChannelId = await getUserId(username);
-
-    if (!toChannelId) {
-      client.say(channelName, `Cannot find user: ${username}`);
-      return;
-    }
-
-    try {
-      await triggerRaid(toChannelId);
-      const message = `Raiding ${username}!`;
-      client.say(channelName, message);
-      Constant.RaidMessage.forEach((msg, i) => setTimeout(() => client.say(channelName, msg), i * 1000));
-      broadcastToClient({ type: 'TICKER', message, isVisible: true });
-      broadcastToClient({ type: 'MUSIC', id: 'JEREMY_BLAKE_POWERUP', isPlaying: true });
-    } catch (err) {
-      client.say(channelName, `Failed to start raid to ${username}.`);
-    }
+  try {
+    await triggerRaid(toChannelId);
+    const message = `Raiding ${username}!`;
+    client.say(channelName, message);
+    Constant.RaidMessage.forEach((msg, i) => setTimeout(() => client.say(channelName, msg), i * 1000));
+    broadcastToClient({ type: 'TICKER', message, isVisible: true });
+    broadcastToClient({ type: 'MUSIC', id: 'JEREMY_BLAKE_POWERUP', isPlaying: true });
+  } catch (err) {
+    client.say(channelName, `Failed to start raid to ${username}.`);
   }
 }
 
