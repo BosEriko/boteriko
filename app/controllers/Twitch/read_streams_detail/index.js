@@ -14,7 +14,7 @@ const read_streams_detail = async (usernames = [Config.twitch.channel.username])
       }
     );
 
-    return response.data.data;
+    return usernames.map((username) => response.data.data.find((stream) => stream.user_login.toLowerCase() === username.toLowerCase()) || null);
   } catch (err) {
     await Utility.error_logger("Error fetching stream details:", err);
   }
