@@ -15,13 +15,16 @@ const create_raid = async (client, user, threshold = state.raidThreshold) => {
     return;
   }
 
-  if (!(await Controller.Twitch.read_streams_detail([username])[0])) {
+  const [channelDetails, userDetails] = await Controller.Twitch.read_streams_detail([Config.twitch.channel.username, username]);
+
+  if (!userDetails) {
     client.say(channelName, `❌ ${username} is currently offline.`);
     return;
   }
 
-  if (state.streamDetail?.viewer_count < threshold) {
-    client.say(channelName, `❌ You don't have enough viewers to raid. You currently have ${state.streamDetail?.viewer_count} but you need ${threshold}.`);
+  const currentViews = channelDetails?.viewer_count ?? 0;
+  if (currentViews < threshold) {
+    client.say(channelName, `❌ You don't have enough viewers to raid. You currently have ${currentViews} but you need ${threshold}.`);
     return;
   }
 
