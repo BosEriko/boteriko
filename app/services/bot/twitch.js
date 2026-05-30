@@ -18,7 +18,7 @@ const handleCensorCommand = require("@twitch/commands/censor");
 const handleLurkCommand = require("@twitch/commands/lurk");
 const handlePingCommand = require("@global/commands/ping");
 const handlePomodoroCommand = require('@twitch/commands/pomodoro');
-const handleRaidCommand = require('@twitch/commands/raid');
+const handleRaidUtility = require('@twitch/utilities/raid');
 const handleScheduleCommand = require("@global/commands/schedule");
 const handleSoundCommand = require('@twitch/commands/sound');
 const handleTimeCommand = require('@global/commands/time');
@@ -129,7 +129,7 @@ client.on('message', async (channel, tags, message, self) => {
   if (commandName === 'pomodoro') handlePomodoroCommand(client, commandArgs);
   if (commandName === 'profile') client.say(channel, await Controller.Link.profile[T](tags, commandArgs));
   if (commandName === 'queue') client.say(channel, await Controller.Link.general("queue"));
-  if (commandName === 'raid') await handleRaidCommand(client, commandArgs, isBroadcaster);
+  if (commandName === 'raid') await handleRaidUtility(client, commandArgs, isBroadcaster);
   if (commandName === 'schedule') client.say(channel, handleScheduleCommand());
   if (commandName === 'setgame') client.say(channel, await Controller.Twitch.update_game(commandArgs));
   if (commandName === 'settitle') client.say(channel, await Controller.Twitch.update_title(commandArgs));
