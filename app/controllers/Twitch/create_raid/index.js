@@ -15,6 +15,16 @@ const create_raid = async (client, user, threshold = 1) => {
     return;
   }
 
+  if (!(await Controller.Twitch.read_stream_details(username))) {
+    client.say(channelName, `❌ ${username} is currently offline.`);
+    return;
+  }
+
+  if (state.streamDetail?.viewer_count < threshold) {
+    client.say(channelName, `❌ You don't have enough viewers to raid. You currently have ${state.streamDetail?.viewer_count} but you need ${threshold}.`);
+    return;
+  }
+
   try {
     await axios.post(
       `https://api.twitch.tv/helix/raids?from_broadcaster_id=${Config.twitch.channel.id}&to_broadcaster_id=${toChannelId}`, null,
