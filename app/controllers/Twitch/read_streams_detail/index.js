@@ -1,7 +1,7 @@
 // DOCS: https://dev.twitch.tv/docs/api/reference#get-streams
 const axios = require('axios');
 
-const read_stream_details = async (username = Config.twitch.channel.username) => {
+const read_streams_detail = async (username = Config.twitch.channel.username) => {
   try {
     const response = await axios.get(
       `https://api.twitch.tv/helix/streams?user_login=${username}`,
@@ -19,4 +19,4 @@ const read_stream_details = async (username = Config.twitch.channel.username) =>
   }
 }
 
-module.exports = read_stream_details;
+module.exports = read_streams_detail;

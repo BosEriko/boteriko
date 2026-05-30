@@ -10,7 +10,7 @@ const create_schedule = require("./create_schedule");
 const delete_schedule = require("./delete_schedule");
 const read_category_id_by_name = require("./read_category_id_by_name");
 const read_schedule = require("./read_schedule");
-const read_stream_details = require("./read_stream_details");
+const read_streams_detail = require("./read_streams_detail");
 const read_users_id = require("./read_users_id");
 const update_channel_request = require("./update_channel_request");
 const update_game = require("./update_game");
@@ -31,7 +31,7 @@ const Twitch = {
   delete_schedule,
   read_category_id_by_name,
   read_schedule,
-  read_stream_details,
+  read_streams_detail,
   read_users_id,
   update_channel_request,
   update_game,

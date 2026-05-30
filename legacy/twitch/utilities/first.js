@@ -17,7 +17,7 @@ async function handleFirstUtility(isMod, isBroadcaster, user, client) {
   const cachedFirst = firstChatCache.get(today, 'first-chat');
   if (cachedFirst) return;
 
-  const stream = await Controller.Twitch.read_stream_details();
+  const stream = await Controller.Twitch.read_streams_detail();
   if (!stream) return;
 
   const firstChat = await firstUtility(Controller.Concern.firebase_admin.database(), username, !!stream);
