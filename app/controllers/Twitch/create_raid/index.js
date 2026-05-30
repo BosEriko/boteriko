@@ -1,6 +1,6 @@
 // DOCS: https://dev.twitch.tv/docs/api/reference#start-a-raid
 const axios = require('axios');
-const read_user_id = require('../read_user_id');
+const read_users_id = require('../read_users_id');
 const { broadcastToClient } = require('@global/utilities/websocket');
 const { state } = require('@global/utilities/state');
 
@@ -8,7 +8,7 @@ const channelName = `#${Config.twitch.channel.username}`;
 
 const create_raid = async (client, user, threshold = state.raidThreshold) => {
   const username = user.trim() ? user.trim().split(' ')[0].replace(/^@/, '') : state.raidDestination;
-  const toChannelId = await read_user_id(username);
+  const toChannelId = await read_users_id([username])[0];
 
   if (!toChannelId) {
     client.say(channelName, `❌ Cannot find user: ${username}`);

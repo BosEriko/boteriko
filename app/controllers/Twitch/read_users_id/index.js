@@ -1,10 +1,11 @@
 // DOCS: https://dev.twitch.tv/docs/api/reference#get-users
 const axios = require('axios');
 
-const read_user_id = async (username = Config.twitch.channel.username) => {
+const read_users_id = async (usernames = [Config.twitch.channel.username]) => {
   try {
+    const query = usernames.map((username) => `login=${encodeURIComponent(username)}`).join('&');
     const response = await axios.get(
-      `https://api.twitch.tv/helix/users?login=${username}`,
+      `https://api.twitch.tv/helix/users?${query}`,
       {
         headers: {
             'Client-ID': Config.twitch.bot.clientId,
@@ -13,11 +14,11 @@ const read_user_id = async (username = Config.twitch.channel.username) => {
       }
     );
 
-    return response.data.data[0]?.id;
+    return response.data.data?.map((user) => user.id);
   } catch (err) {
     await Utility.error_logger('Failed to fetch user ID:', err.response?.data || err.message);
     return null;
   }
 }
 
-module.exports = read_user_id;
+module.exports = read_users_id;
