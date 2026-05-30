@@ -1,6 +1,5 @@
 const cacheUtility = require('@global/utilities/cache');
 const firstUtility = require('@global/utilities/first');
-const handleStreamDetailUtility = require("@global/utilities/streamDetail");
 const axios = require('axios');
 const { state } = require('@global/utilities/state');
 
@@ -18,7 +17,7 @@ async function handleFirstUtility(isMod, isBroadcaster, user, client) {
   const cachedFirst = firstChatCache.get(today, 'first-chat');
   if (cachedFirst) return;
 
-  const stream = await handleStreamDetailUtility();
+  const stream = await Controller.Twitch.read_stream_details();
   if (!stream) return;
 
   const firstChat = await firstUtility(Controller.Concern.firebase_admin.database(), username, !!stream);

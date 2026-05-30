@@ -7,7 +7,6 @@ const { handleTypingWords } = require('@twitch/games/typing');
 const handleInformationUtility = require('@twitch/utilities/information');
 const handleRaidUtility = require('@twitch/utilities/raid');
 const handleSetupUtility = require('@twitch/utilities/setup');
-const handleStreamDetailUtility = require("@global/utilities/streamDetail");
 
 // Data
 const getLastTypingWinner = require('@twitch/utilities/typingWinner');
@@ -19,7 +18,7 @@ function handleCronUtility(client) {
   // Check Stream Availability Function
   async function loadStreamDetails() {
     try {
-      const streamDetail = await handleStreamDetailUtility();
+      const streamDetail = await Controller.Twitch.read_stream_details();
       const typingWinner = await getLastTypingWinner();
       state.streamDetail = streamDetail || null;
       state.isStreaming = !!streamDetail;
