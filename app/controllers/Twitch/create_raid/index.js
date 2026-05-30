@@ -8,7 +8,7 @@ const channelName = `#${Config.twitch.channel.username}`;
 
 const create_raid = async (client, user, threshold = state.raidThreshold) => {
   const username = user.trim() ? user.trim().split(' ')[0].replace(/^@/, '') : state.raidDestination;
-  const toChannelId = await read_users_id([username])[0];
+  const toChannelId = (await read_users_id([username]))[0];
 
   if (!toChannelId) {
     client.say(channelName, `❌ Cannot find user: ${username}`);
