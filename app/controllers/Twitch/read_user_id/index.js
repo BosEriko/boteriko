@@ -16,6 +16,7 @@ const read_user_id = async (username = Config.twitch.channel.username) => {
     return response.data.data[0]?.id;
   } catch (err) {
     await Utility.error_logger('Failed to fetch user ID:', err.response?.data || err.message);
+    return null;
   }
 }
 
