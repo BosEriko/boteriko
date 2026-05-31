@@ -154,8 +154,7 @@ async function delete_task(client, indexStr) {
 }
 
 // -------------------------------------------- Hide Todo ------------------------------------------
-// TODO: FIX
-function hideTodos(client) {
+function hide_list(client) {
   try {
     state.isTodoVisible = false;
     broadcastTodoState();
@@ -167,8 +166,7 @@ function hideTodos(client) {
 }
 
 // -------------------------------------------- Show Todo ------------------------------------------
-// TODO: FIX
-function showTodos(client) {
+function show_list(client) {
   try {
     state.isTodoVisible = true;
     broadcastTodoState();
@@ -198,10 +196,10 @@ async function handleTodoCommand(client, message) {
         await count_tasks(client);
         break;
       case 'hide':
-        hideTodos(client);
+        hide_list(client);
         break;
       case 'show':
-        showTodos(client);
+        show_list(client);
         break;
       case 'read':
         await read_task(client, args[1]);
