@@ -92,7 +92,7 @@ async function create_task(client, task) {
     await axios.post("https://api.todoist.com/api/v1/tasks/quick", { text: content }, { headers: TODOIST_HEADERS });
 
     await broadcastTodoState();
-    client.say(channelName, `Added task to "${state.streamDetail?.game_name}": "${task}" ✅`);
+    client.say(channelName, `Added task to "${labelName}": "${task}" ✅`);
   } catch (err) {
     await Utility.error_logger("Failed to add todo:", err);
     client.say(channelName, 'Failed to add the todo ❌');
