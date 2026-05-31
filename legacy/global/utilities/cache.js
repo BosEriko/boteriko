@@ -4,13 +4,17 @@ const DEFAULT_TTL_MS = 24 * 60 * 60 * 1000;
 const MAX_ITEMS = 100;
 
 function cacheUtility(ttlMs = DEFAULT_TTL_MS) {
-  const cache = new Map();
+  function getCache() {
+    return state.caches;
+  }
 
   function getKey(id, namespace = '') {
     return namespace ? `${namespace}:${id}` : `${id}`;
   }
 
   function set(id, value, namespace = '') {
+    const cache = getCache();
+
     const key = getKey(id, namespace);
     const expiresAt = Date.now() + ttlMs;
 
@@ -23,6 +27,8 @@ function cacheUtility(ttlMs = DEFAULT_TTL_MS) {
   }
 
   function get(id, namespace = '') {
+    const cache = getCache();
+
     const key = getKey(id, namespace);
     const cached = cache.get(key);
 
@@ -34,9 +40,7 @@ function cacheUtility(ttlMs = DEFAULT_TTL_MS) {
     return null;
   }
 
-  const instance = { set, get, _raw: cache };
-  state.caches.push(instance);
-
+  const instance = { set, get };
   return instance;
 }
 

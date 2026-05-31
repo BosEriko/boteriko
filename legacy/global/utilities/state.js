@@ -35,7 +35,7 @@ const createInitialState = () => ({
   },
 
   // Cache references
-  caches: [],
+  caches: new Map(),
 });
 
 const state = createInitialState();
