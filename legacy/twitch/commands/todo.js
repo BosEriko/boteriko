@@ -60,6 +60,7 @@ async function read_todos() {
 }
 
 // --------------------------------------- Broadcast to Client -------------------------------------
+// TODO: FIX
 async function broadcastTodoState() {
   try {
     const todos = await read_todos();
@@ -74,6 +75,7 @@ async function broadcastTodoState() {
 }
 
 // --------------------------------------------- Add Todo ------------------------------------------
+// TODO: FIX
 async function addTodo(client, task) {
   try {
     if (!task) {
@@ -99,10 +101,10 @@ async function addTodo(client, task) {
 }
 
 // -------------------------------------------- Count Todo -----------------------------------------
-async function countTodos(client) {
+async function count_todo(client) {
   try {
     const todos = await read_todos();
-    client.say(channelName, `Total Todos for "${state.streamDetail?.game_name}": ${todos.length} ✅`);
+    client.say(channelName, `Total Todos for "${state.streamDetail?.game_name || 'general'}": ${todos.length} ✅`);
   } catch (err) {
     await Utility.error_logger("Failed to count todos:", err);
     client.say(channelName, 'Failed to count todos ❌');
@@ -110,6 +112,7 @@ async function countTodos(client) {
 }
 
 // --------------------------------------------- Read Todo -----------------------------------------
+// TODO: FIX
 async function readTodo(client, indexStr) {
   try {
     const todos = await read_todos();
@@ -130,6 +133,7 @@ async function readTodo(client, indexStr) {
 }
 
 // -------------------------------------------- Check Todo -----------------------------------------
+// TODO: FIX
 async function checkTodo(client, indexStr) {
   try {
     const todos = await read_todos();
@@ -153,6 +157,7 @@ async function checkTodo(client, indexStr) {
 }
 
 // -------------------------------------------- Hide Todo ------------------------------------------
+// TODO: FIX
 function hideTodos(client) {
   try {
     state.isTodoVisible = false;
@@ -165,6 +170,7 @@ function hideTodos(client) {
 }
 
 // -------------------------------------------- Show Todo ------------------------------------------
+// TODO: FIX
 function showTodos(client) {
   try {
     state.isTodoVisible = true;
@@ -177,6 +183,7 @@ function showTodos(client) {
 }
 
 // --------------------------------------------- Commands ------------------------------------------
+// TODO: FIX
 async function handleTodoCommand(client, message) {
   const args = message.trim().split(' ');
   const subcommand = args[0];
@@ -191,7 +198,7 @@ async function handleTodoCommand(client, message) {
         await checkTodo(client, args[1]);
         break;
       case 'count':
-        await countTodos(client);
+        await count_todo(client);
         break;
       case 'hide':
         hideTodos(client);
