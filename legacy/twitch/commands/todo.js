@@ -100,7 +100,7 @@ async function create_task(client, task) {
 }
 
 // -------------------------------------------- Count Todo -----------------------------------------
-async function count_todo(client) {
+async function count_tasks(client) {
   try {
     const todos = await read_todos();
     client.say(channelName, `Total Todos for "${state.streamDetail?.game_name || 'general'}": ${todos.length} ✅`);
@@ -196,7 +196,7 @@ async function handleTodoCommand(client, message) {
         await delete_task(client, args[1]);
         break;
       case 'count':
-        await count_todo(client);
+        await count_tasks(client);
         break;
       case 'hide':
         hideTodos(client);
