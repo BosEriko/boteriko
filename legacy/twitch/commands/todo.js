@@ -76,8 +76,7 @@ async function broadcastTodoState() {
 }
 
 // --------------------------------------------- Add Todo ------------------------------------------
-// TODO: FIX
-async function addTodo(client, task) {
+async function create_task(client, task) {
   try {
     if (!task) {
       client.say(channelName, 'Please provide a task: !todo add <task>');
@@ -193,7 +192,7 @@ async function handleTodoCommand(client, message) {
   try {
     switch (subcommand) {
       case 'add':
-        await addTodo(client, rest);
+        await create_task(client, rest);
         break;
       case 'check':
         await checkTodo(client, args[1]);
