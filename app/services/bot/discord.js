@@ -5,7 +5,6 @@ const handleListCommand = require('@discord/commands/list');
 const handlePingCommand = require("@global/commands/ping");
 const handleScheduleCommand = require("@global/commands/schedule");
 const handleTimeCommand = require('@global/commands/time');
-const handleTodoCommand = require('@discord/commands/todo');
 
 // Utilities
 const handleChatUtility = require('@discord/utilities/chat');
