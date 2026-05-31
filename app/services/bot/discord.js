@@ -74,7 +74,6 @@ client.on('messageCreate', async message => {
   if (commandName === 'steam') return message.reply(Controller.Link.general("steam"));
   if (commandName === 'tiktok') return message.reply(Controller.Link.general("tiktok"));
   if (commandName === 'time') return message.reply(handleTimeCommand('time'));
-  if (commandName === 'todo') return await handlePrivateCommand(message, handleTodoCommand, commandArgs, 'Todo');
   if (commandName === 'twitch') return message.reply(Controller.Link.general("twitch"));
   if (commandName === 'x') return message.reply(Controller.Link.general("x"));
   if (commandName === 'youtube') return message.reply(Controller.Link.general("youtube"));

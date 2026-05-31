@@ -35,7 +35,7 @@ const GlobalCommand = [
   { command: 'steam',           parameter: false, availability: [TWITCH, DISCORD],  restricted: false,  streaming: false, description: 'Get the steam link.' },
   { command: 'tiktok',          parameter: false, availability: [TWITCH, DISCORD],  restricted: false,  streaming: false, description: 'Show the TikTok link.' },
   { command: 'time',            parameter: false, availability: [TWITCH, DISCORD],  restricted: false,  streaming: false, description: 'Display the current time based on timezone.' },
-  { command: 'todo',            parameter: true,  availability: [TWITCH],           restricted: true,   streaming: true,  description: 'Set tasks when working.' },
+  { command: 'todo',            parameter: true,  availability: [TWITCH],           restricted: true,   streaming: true,  description: 'Set tasks when streaming.' },
   { command: 'top',             parameter: false, availability: [TWITCH],           restricted: false,  streaming: false, description: 'Get the top players of the Typing Game.' },
   { command: 'twitch',          parameter: false, availability: [TWITCH, DISCORD],  restricted: false,  streaming: false, description: 'Show the Twitch channel link.' },
   { command: 'winner',          parameter: false, availability: [TWITCH],           restricted: false,  streaming: false, description: 'Get the winner of the previous Typing Game.' },
