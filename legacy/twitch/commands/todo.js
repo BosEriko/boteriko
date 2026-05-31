@@ -14,39 +14,25 @@ const TODOIST_HEADERS = { Authorization: `Bearer ${Config.other.todoist.apiToken
 // ----------------------------------- Label Creation or Fetching ----------------------------------
 const labelNameCache = cacheUtility();
 
-async function getOrCreateLabelName(maxRetries = 5, delayMs = 300) {
-  const labelName = kebabCase(state.streamDetail?.game_name || 'general');
-
+async function get_label(labelName = 'general') {
   const cachedLabel = labelNameCache.get(labelName, 'label-name');
   if (cachedLabel) return cachedLabel;
 
   try {
-    const res = await axios.get(`https://api.todoist.com/api/v1/labels/search?query=${labelName}&limit=1`, { headers: TODOIST_HEADERS });
+    const searchLabel = await axios.get(`https://api.todoist.com/api/v1/labels/search?query=${labelName}&limit=1`, { headers: TODOIST_HEADERS });
 
-    const existing = res.data.results?.[0]?.name;
+    const existing = searchLabel.data.results?.[0]?.name;
 
     if (existing) {
       labelNameCache.set(labelName, labelName, 'label-name');
       return labelName;
     }
 
-    await axios.post(`${TODOIST_API_URL}/labels`, { name: labelName }, { headers: TODOIST_HEADERS });
+    const createLabel = await axios.post(`https://api.todoist.com/api/v1/labels`, { name: labelName }, { headers: TODOIST_HEADERS });
 
-    for (let attempt = 1; attempt <= maxRetries; attempt++) {
-      await new Promise((res) => setTimeout(res, delayMs));
-
-      const confirm = await axios.get(`${TODOIST_API_URL}/labels`, {
-        headers: TODOIST_HEADERS,
-      });
-
-      const confirmed = confirm.data.find(
-        (label) => label.name.toLowerCase() === labelName.toLowerCase()
-      );
-
-      if (confirmed) {
-        labelNameCache.set(labelName, labelName, 'label-name');
-        return labelName;
-      }
+    if (createLabel.statusText === "OK") {
+      labelNameCache.set(labelName, labelName, 'label-name');
+      return labelName;
     }
 
     return null;
@@ -58,8 +44,7 @@ async function getOrCreateLabelName(maxRetries = 5, delayMs = 300) {
 
 // ------------------------------------------ Todo Fetching ----------------------------------------
 async function fetchTodos() {
-  const labelName = await getOrCreateLabelName();
-  if (!labelName) return [];
+  const labelName = await get_label(state.streamDetail?.game_name);
 
   try {
     const res = await axios.get(`${TODOIST_API_URL}/tasks`, {
@@ -96,7 +81,7 @@ async function addTodo(client, task) {
       return;
     }
 
-    const labelName = await getOrCreateLabelName();
+    const labelName = await get_label(state.streamDetail?.game_name);
     if (!labelName) {
       client.say(channelName, 'Could not verify label creation ❌');
       return;
