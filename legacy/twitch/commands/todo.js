@@ -111,8 +111,7 @@ async function count_tasks(client) {
 }
 
 // --------------------------------------------- Read Todo -----------------------------------------
-// TODO: FIX
-async function readTodo(client, indexStr) {
+async function read_task(client, indexStr) {
   try {
     const todos = await read_list();
     const index = parseInt(indexStr, 10) - 1;
@@ -205,7 +204,7 @@ async function handleTodoCommand(client, message) {
         showTodos(client);
         break;
       case 'read':
-        await readTodo(client, args[1]);
+        await read_task(client, args[1]);
         break;
       default:
         client.say(channelName, 'Usage: !todo [read|add|check|count|hide|show]');
