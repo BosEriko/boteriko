@@ -91,6 +91,7 @@ async function create_task(client, task) {
     const content = `${task} today @${labelName}`;
     await axios.post("https://api.todoist.com/api/v1/tasks/quick", { text: content }, { headers: TODOIST_HEADERS });
 
+    state.isTodoVisible = true;
     await broadcastTodoState();
     client.say(channelName, `Added task to "${labelName}": "${task}" ✅`);
   } catch (err) {
