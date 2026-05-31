@@ -7,7 +7,6 @@ const channelName = `#${Config.twitch.channel.username}`;
 const { kebabCase } = require('change-case');
 
 // ------------------------------------------ API Variables ----------------------------------------
-const TODOIST_API_URL = 'https://api.todoist.com/rest/v2';
 const TODOIST_HEADERS = { Authorization: `Bearer ${Config.other.todoist.apiToken}` };
 
 // ----------------------------------- Label Creation or Fetching ----------------------------------
@@ -133,8 +132,7 @@ async function readTodo(client, indexStr) {
 }
 
 // -------------------------------------------- Check Todo -----------------------------------------
-// TODO: FIX
-async function checkTodo(client, indexStr) {
+async function delete_task(client, indexStr) {
   try {
     const todos = await read_todos();
     const index = parseInt(indexStr, 10) - 1;
@@ -146,7 +144,7 @@ async function checkTodo(client, indexStr) {
 
     const todo = todos[index];
 
-    await axios.post(`${TODOIST_API_URL}/tasks/${todo.id}/close`, null, { headers: TODOIST_HEADERS });
+    await axios.post(`https://api.todoist.com/api/v1/tasks/${todo.id}/close`, null, { headers: TODOIST_HEADERS });
 
     await broadcastTodoState();
     client.say(channelName, `Marked task ${index + 1} as done ✅`);
@@ -195,7 +193,7 @@ async function handleTodoCommand(client, message) {
         await create_task(client, rest);
         break;
       case 'check':
-        await checkTodo(client, args[1]);
+        await delete_task(client, args[1]);
         break;
       case 'count':
         await count_todo(client);
