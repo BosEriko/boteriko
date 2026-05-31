@@ -12,6 +12,7 @@ const read_category_id_by_name = require("./read_category_id_by_name");
 const read_schedule = require("./read_schedule");
 const read_streams_detail = require("./read_streams_detail");
 const read_users_id = require("./read_users_id");
+const todo = require("./todo");
 const update_channel_request = require("./update_channel_request");
 const update_game = require("./update_game");
 const update_schedule = require("./update_schedule");
@@ -33,6 +34,7 @@ const Twitch = {
   read_schedule,
   read_streams_detail,
   read_users_id,
+  todo,
   update_channel_request,
   update_game,
   update_schedule,

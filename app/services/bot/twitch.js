@@ -21,7 +21,6 @@ const handlePomodoroCommand = require('@twitch/commands/pomodoro');
 const handleScheduleCommand = require("@global/commands/schedule");
 const handleSoundCommand = require('@twitch/commands/sound');
 const handleTimeCommand = require('@global/commands/time');
-const handleTodoCommand = require('@twitch/commands/todo');
 const handleTypingTopCommand = require('@twitch/commands/typingTop');
 const handleTypingWinnerCommand = require('@twitch/commands/typingWinner');
 
@@ -136,7 +135,7 @@ client.on('message', async (channel, tags, message, self) => {
   if (commandName === 'steam') client.say(channel, Controller.Link.general("steam"));
   if (commandName === 'tiktok') client.say(channel, Controller.Link.general("tiktok"));
   if (commandName === 'time') client.say(channel, handleTimeCommand('time'));
-  if (commandName === 'todo') await handleTodoCommand(client, commandArgs);
+  if (commandName === 'todo') await Controller.Twitch.todo(client, commandArgs);
   if (commandName === 'top') await handleTypingTopCommand(client, channel);
   if (commandName === 'twitch') client.say(channel, Controller.Link.general("twitch"));
   if (commandName === 'winner') await handleTypingWinnerCommand(client, channel);

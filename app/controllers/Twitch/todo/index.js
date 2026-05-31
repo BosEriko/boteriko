@@ -174,8 +174,7 @@ function show_list(client) {
 }
 
 // --------------------------------------------- Commands ------------------------------------------
-// TODO: FIX
-async function handleTodoCommand(client, message) {
+async function todo(client, message) {
   const args = message.trim().split(' ');
   const subcommand = args[0];
   const rest = args.slice(1).join(' ');
@@ -209,4 +208,4 @@ async function handleTodoCommand(client, message) {
   }
 }
 
-module.exports = handleTodoCommand;
+module.exports = todo;
