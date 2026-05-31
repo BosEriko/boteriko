@@ -14,7 +14,7 @@ const TODOIST_HEADERS = { Authorization: `Bearer ${Config.other.todoist.apiToken
 // ----------------------------------- Label Creation or Fetching ----------------------------------
 const labelNameCache = cacheUtility();
 
-async function get_label(labelName = 'general') {
+async function read_label(labelName = 'general') {
   const cachedLabel = labelNameCache.get(labelName, 'label-name');
   if (cachedLabel) return cachedLabel;
 
@@ -43,16 +43,16 @@ async function get_label(labelName = 'general') {
 }
 
 // ------------------------------------------ Todo Fetching ----------------------------------------
-async function fetchTodos() {
-  const labelName = await get_label(state.streamDetail?.game_name);
+async function read_todos() {
+  const labelName = await read_label(state.streamDetail?.game_name);
 
   try {
-    const res = await axios.get(`${TODOIST_API_URL}/tasks`, {
-      headers: TODOIST_HEADERS,
-      params: { filter: `@${labelName}&today` },
+    const tasks = await axios.get('https://api.todoist.com/api/v1/tasks/filter', {
+      params: { query: `today & @${labelName}` },
+      headers: TODOIST_HEADERS
     });
 
-    return res.data;
+    return tasks.data.results;
   } catch (err) {
     await Utility.error_logger("Failed to fetch todos:", err);
     return [];
@@ -62,7 +62,7 @@ async function fetchTodos() {
 // --------------------------------------- Broadcast to Client -------------------------------------
 async function broadcastTodoState() {
   try {
-    const todos = await fetchTodos();
+    const todos = await read_todos();
     broadcastToClient({
       type: 'TODO',
       todos,
@@ -81,7 +81,7 @@ async function addTodo(client, task) {
       return;
     }
 
-    const labelName = await get_label(state.streamDetail?.game_name);
+    const labelName = await read_label(state.streamDetail?.game_name);
     if (!labelName) {
       client.say(channelName, 'Could not verify label creation ❌');
       return;
@@ -101,7 +101,7 @@ async function addTodo(client, task) {
 // -------------------------------------------- Count Todo -----------------------------------------
 async function countTodos(client) {
   try {
-    const todos = await fetchTodos();
+    const todos = await read_todos();
     client.say(channelName, `Total Todos for "${state.streamDetail?.game_name}": ${todos.length} ✅`);
   } catch (err) {
     await Utility.error_logger("Failed to count todos:", err);
@@ -112,7 +112,7 @@ async function countTodos(client) {
 // --------------------------------------------- Read Todo -----------------------------------------
 async function readTodo(client, indexStr) {
   try {
-    const todos = await fetchTodos();
+    const todos = await read_todos();
     const index = parseInt(indexStr, 10) - 1;
 
     if (isNaN(index) || index < 0 || index >= todos.length) {
@@ -132,7 +132,7 @@ async function readTodo(client, indexStr) {
 // -------------------------------------------- Check Todo -----------------------------------------
 async function checkTodo(client, indexStr) {
   try {
-    const todos = await fetchTodos();
+    const todos = await read_todos();
     const index = parseInt(indexStr, 10) - 1;
 
     if (isNaN(index) || index < 0 || index >= todos.length) {
