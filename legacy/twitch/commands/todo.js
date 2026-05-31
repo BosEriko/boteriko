@@ -60,15 +60,10 @@ async function read_list() {
 }
 
 // --------------------------------------- Broadcast to Client -------------------------------------
-// TODO: FIX
-async function broadcastTodoState() {
+async function broadcast_todo() {
   try {
     const todos = await read_list();
-    broadcastToClient({
-      type: 'TODO',
-      todos,
-      isVisible: state.isTodoVisible,
-    });
+    broadcastToClient({ type: 'TODO', todos, isVisible: state.isTodoVisible });
   } catch (err) {
     await Utility.error_logger("Failed to broadcast todo state:", err);
   }
@@ -92,7 +87,7 @@ async function create_task(client, task) {
     await axios.post("https://api.todoist.com/api/v1/tasks/quick", { text: content }, { headers: TODOIST_HEADERS });
 
     state.isTodoVisible = true;
-    await broadcastTodoState();
+    await broadcast_todo();
     client.say(channelName, `Added task to "${labelName}": "${task}" ✅`);
   } catch (err) {
     await Utility.error_logger("Failed to add todo:", err);
@@ -124,7 +119,7 @@ async function read_task(client, indexStr) {
 
     const todo = todos[index];
     client.say(channelName, `Todo #${index + 1}: ${todo.content} ✅`);
-    await broadcastTodoState();
+    await broadcast_todo();
   } catch (err) {
     await Utility.error_logger("Failed to read todo:", err);
     client.say(channelName, 'Failed to read the todo ❌');
@@ -146,7 +141,7 @@ async function delete_task(client, indexStr) {
 
     await axios.post(`https://api.todoist.com/api/v1/tasks/${todo.id}/close`, null, { headers: TODOIST_HEADERS });
 
-    await broadcastTodoState();
+    await broadcast_todo();
     client.say(channelName, `Marked task ${index + 1} as done ✅`);
   } catch (err) {
     await Utility.error_logger("Failed to check todo:", err);
@@ -158,7 +153,7 @@ async function delete_task(client, indexStr) {
 function hide_list(client) {
   try {
     state.isTodoVisible = false;
-    broadcastTodoState();
+    broadcast_todo();
     client.say(channelName, 'Todo list hidden 👀');
   } catch (err) {
     handleErrorUtility("Failed to hide todos:", err);
@@ -170,7 +165,7 @@ function hide_list(client) {
 function show_list(client) {
   try {
     state.isTodoVisible = true;
-    broadcastTodoState();
+    broadcast_todo();
     client.say(channelName, 'Todo list visible 📋');
   } catch (err) {
     handleErrorUtility("Failed to show todos:", err);
