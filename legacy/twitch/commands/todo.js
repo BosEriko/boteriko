@@ -14,7 +14,9 @@ const TODOIST_HEADERS = { Authorization: `Bearer ${Config.other.todoist.apiToken
 // ----------------------------------- Label Creation or Fetching ----------------------------------
 const labelNameCache = cacheUtility();
 
-async function read_label(labelName = 'general') {
+async function read_label() {
+  const labelName = state.streamDetail?.game_name || "general";
+
   const cachedLabel = labelNameCache.get(labelName, 'label-name');
   if (cachedLabel) return cachedLabel;
 
@@ -44,7 +46,7 @@ async function read_label(labelName = 'general') {
 
 // ------------------------------------------ Todo Fetching ----------------------------------------
 async function read_todos() {
-  const labelName = await read_label(state.streamDetail?.game_name);
+  const labelName = await read_label();
 
   try {
     const tasks = await axios.get('https://api.todoist.com/api/v1/tasks/filter', {
@@ -83,7 +85,7 @@ async function addTodo(client, task) {
       return;
     }
 
-    const labelName = await read_label(state.streamDetail?.game_name);
+    const labelName = await read_label();
     if (!labelName) {
       client.say(channelName, 'Could not verify label creation ❌');
       return;
