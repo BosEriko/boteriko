@@ -43,7 +43,7 @@ async function read_label() {
 }
 
 // ------------------------------------------ Todo Fetching ----------------------------------------
-async function read_todos() {
+async function read_list() {
   const labelName = await read_label();
 
   try {
@@ -63,7 +63,7 @@ async function read_todos() {
 // TODO: FIX
 async function broadcastTodoState() {
   try {
-    const todos = await read_todos();
+    const todos = await read_list();
     broadcastToClient({
       type: 'TODO',
       todos,
@@ -102,7 +102,7 @@ async function create_task(client, task) {
 // -------------------------------------------- Count Todo -----------------------------------------
 async function count_tasks(client) {
   try {
-    const todos = await read_todos();
+    const todos = await read_list();
     client.say(channelName, `Total Todos for "${state.streamDetail?.game_name || 'general'}": ${todos.length} ✅`);
   } catch (err) {
     await Utility.error_logger("Failed to count todos:", err);
@@ -114,7 +114,7 @@ async function count_tasks(client) {
 // TODO: FIX
 async function readTodo(client, indexStr) {
   try {
-    const todos = await read_todos();
+    const todos = await read_list();
     const index = parseInt(indexStr, 10) - 1;
 
     if (isNaN(index) || index < 0 || index >= todos.length) {
@@ -134,7 +134,7 @@ async function readTodo(client, indexStr) {
 // -------------------------------------------- Check Todo -----------------------------------------
 async function delete_task(client, indexStr) {
   try {
-    const todos = await read_todos();
+    const todos = await read_list();
     const index = parseInt(indexStr, 10) - 1;
 
     if (isNaN(index) || index < 0 || index >= todos.length) {
