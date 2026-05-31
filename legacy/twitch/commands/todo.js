@@ -8,7 +8,6 @@ const { kebabCase } = require('change-case');
 
 // ------------------------------------------ API Variables ----------------------------------------
 const TODOIST_API_URL = 'https://api.todoist.com/rest/v2';
-const QUICK_ADD_URL = 'https://api.todoist.com/sync/v9/quick/add';
 const TODOIST_HEADERS = { Authorization: `Bearer ${Config.other.todoist.apiToken}` };
 
 // ----------------------------------- Label Creation or Fetching ----------------------------------
@@ -92,7 +91,7 @@ async function addTodo(client, task) {
     }
 
     const content = `${task} today @${labelName}`;
-    await axios.post(QUICK_ADD_URL, { text: content }, { headers: TODOIST_HEADERS });
+    await axios.post("https://api.todoist.com/api/v1/tasks/quick", { text: content }, { headers: TODOIST_HEADERS });
 
     await broadcastTodoState();
     client.say(channelName, `Added task to "${state.streamDetail?.game_name}": "${task}" ✅`);
