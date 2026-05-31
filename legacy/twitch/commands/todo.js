@@ -4,6 +4,7 @@ const cacheUtility = require('@global/utilities/cache');
 const { broadcastToClient } = require('@global/utilities/websocket');
 const { state } = require('@global/utilities/state');
 const channelName = `#${Config.twitch.channel.username}`;
+const { kebabCase } = require('change-case');
 
 // ------------------------------------------ API Variables ----------------------------------------
 const TODOIST_API_URL = 'https://api.todoist.com/rest/v2';
@@ -13,12 +14,8 @@ const TODOIST_HEADERS = { Authorization: `Bearer ${Config.other.todoist.apiToken
 // ----------------------------------- Label Creation or Fetching ----------------------------------
 const labelNameCache = cacheUtility();
 
-function getKebabCaseLabel() {
-  return (state.streamDetail?.game_name || 'general').toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, '-');
-}
-
 async function getOrCreateLabelName(maxRetries = 5, delayMs = 300) {
-  const labelName = getKebabCaseLabel();
+  const labelName = kebabCase(state.streamDetail?.game_name || 'general');
 
   const cachedLabel = labelNameCache.get(labelName, 'label-name');
   if (cachedLabel) return cachedLabel;
