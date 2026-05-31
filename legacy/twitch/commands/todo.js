@@ -21,9 +21,9 @@ async function getOrCreateLabelName(maxRetries = 5, delayMs = 300) {
   if (cachedLabel) return cachedLabel;
 
   try {
-    const res = await axios.get(`${TODOIST_API_URL}/labels`, { headers: TODOIST_HEADERS });
+    const res = await axios.get(`https://api.todoist.com/api/v1/labels/search?query=${labelName}&limit=1`, { headers: TODOIST_HEADERS });
 
-    const existing = res.data.find((label) => label.name.toLowerCase() === labelName.toLowerCase());
+    const existing = res.data.results?.[0]?.name;
 
     if (existing) {
       labelNameCache.set(labelName, labelName, 'label-name');
