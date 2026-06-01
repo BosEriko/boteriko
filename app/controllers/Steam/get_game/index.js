@@ -5,8 +5,9 @@ const get_game = async () => {
   const player = data.response.players[0];
 
   const currentGame = player.gameextrainfo ?? null;
+  const currentId = player.gameid ?? null;
 
-  return currentGame;
+  return { currentGame, currentId };
 };
 
 module.exports = get_game;

@@ -2,12 +2,12 @@ const { state } = require('@global/utilities/state');
 const get_achievement = require('../get_achievement/');
 const get_description = require('../get_description');
 const get_game = require('../get_game');
-const get_id = require('../get_id');
+const verify_id = require('../verify_id');
 
 const channelName = `#${Config.twitch.channel.username}`;
 
 const update_twitch = async (client) => {
-  const currentGame = await get_game();
+  const { currentGame, currentId } = await get_game();
   if (!currentGame) {
     state.steam.gameName = null;
     state.steam.gameId = null;
@@ -15,9 +15,9 @@ const update_twitch = async (client) => {
     state.steam.gamePercent = null;
     return;
   }
-  
-  const currentId = await get_id(currentGame);
-  if (currentId) {
+
+  const isSteamGame = await verify_id(currentId);
+  if (isSteamGame) {
     if (state.steam.gameName === currentGame) {
       const currentProgress = await get_achievement(currentId);
       const previousProgress = state.steam.gamePercent;
