@@ -8,15 +8,8 @@ const channelName = `#${Config.twitch.channel.username}`;
 
 const update_twitch = async (client) => {
   const { currentGame, currentId } = await get_game();
-  if (!currentGame) {
-    state.steam.gameName = null;
-    state.steam.gameId = null;
-    state.steam.gameDescription = null;
-    state.steam.gamePercent = null;
-    return;
-  }
-
   const isSteamGame = await verify_id(currentId);
+
   if (isSteamGame) {
     if (state.steam.gameName === currentGame) {
       const currentProgress = await get_achievement(currentId);
@@ -42,6 +35,11 @@ const update_twitch = async (client) => {
         state.steam.gameDescription = null;
       };
     };
+  } else {
+    state.steam.gameName = null;
+    state.steam.gameId = null;
+    state.steam.gameDescription = null;
+    state.steam.gamePercent = null;
   }
 };
 
