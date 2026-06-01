@@ -38,14 +38,34 @@ async function trigger(client, payload) {
 
     const duration = duration_seconds;
 
-    broadcastToClient({ type: 'AD_START', duration });
+    broadcastToClient({
+      type: 'SCREENSAVER',
+      ticker: {
+        message: "Ad Break",
+        isVisible: true
+      },
+      music: {
+        id: 'THE_GRAND_AFFAIR_COUPE',
+        isPlaying: true
+      }
+    });
     client.say(channelName, `📺 Running an ad now! (${duration}s)`);
 
     if (adTimeout) clearTimeout(adTimeout);
 
     adTimeout = setTimeout(() => {
       adRunning = false;
-      broadcastToClient({ type: 'AD_END' });
+      broadcastToClient({
+        type: 'SCREENSAVER',
+        ticker: {
+          message: null,
+          isVisible: false
+        },
+        music: {
+          id: null,
+          isPlaying: false
+        }
+      });
       client.say(channelName, '✅ The ad has ended!');
     }, duration * 1000);
   } catch (err) {
