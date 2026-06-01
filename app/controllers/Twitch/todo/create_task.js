@@ -24,7 +24,7 @@ async function create_task(client, task) {
 
     state.isTodoVisible = true;
     await broadcast_todo();
-    client.say(channelName, `Added task to "${labelName}": "${task}" ✅`);
+    client.say(channelName, `Added task to "${state.streamDetail?.game_name || 'General'}": "${task}" ✅`);
   } catch (err) {
     await Utility.error_logger("Failed to add todo:", err);
     client.say(channelName, 'Failed to add the todo ❌');
