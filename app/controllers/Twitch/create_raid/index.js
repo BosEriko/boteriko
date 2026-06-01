@@ -47,8 +47,17 @@ const create_raid = async (client, user, threshold = state.raidThreshold) => {
     const message = `Raiding ${username}!`;
     client.say(channelName, message);
     Constant.RaidMessage.forEach((msg, i) => setTimeout(() => client.say(channelName, msg), i * 1000));
-    broadcastToClient({ type: 'TICKER', message, isVisible: true });
-    broadcastToClient({ type: 'MUSIC', id: 'JEREMY_BLAKE_POWERUP', isPlaying: true });
+    broadcastToClient({
+      type: 'SCREENSAVER',
+      ticker: {
+        message,
+        isVisible: true
+      },
+      music: {
+        id: 'JEREMY_BLAKE_POWERUP',
+        isPlaying: true
+      }
+    });
   } catch (err) {
     client.say(channelName, `❌ Failed to start raid to ${username}.`);
   }
