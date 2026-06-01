@@ -44,7 +44,7 @@ const create_raid = async (client, user, threshold = state.raidThreshold) => {
       }
     );
 
-    const message = `Raiding ${username}!`;
+    const message = `Raiding ${username} with ${currentViews} viewers!`;
     client.say(channelName, message);
     Constant.RaidMessage.forEach((msg, i) => setTimeout(() => client.say(channelName, msg), i * 1000));
     broadcastToClient({
