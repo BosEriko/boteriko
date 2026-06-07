@@ -20,11 +20,6 @@ const createInitialState = () => ({
     gamePercent: null,
   },
 
-  // Timestamps
-  timestamp: {
-    message: Date.now(),
-  },
-
   // Todoist display toggle
   isTodoVisible: false,
 

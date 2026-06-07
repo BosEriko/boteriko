@@ -52,9 +52,6 @@ client.on('message', async (channel, tags, message, self) => {
   // Ignore messages from the bot itself
   if (self) return;
 
-  // Update the timestamp
-  state.timestamp.message = Date.now();
-
   // Fetch Twitch user information
   const user = await handleUserUtility(tags['display-name']);
 
