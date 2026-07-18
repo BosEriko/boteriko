@@ -1,4 +1,5 @@
 const WebSocket = require('ws');
+const { getVoiceState, subscribe } = require('../../discord/utilities/voice_state');
 
 let wss = null;
 
@@ -9,6 +10,7 @@ function setupWebSocket(server) {
     console.log("✅ Connected to Websocket Server.");
 
     ws.isAlive = true;
+    ws._voiceUnsub = null;
 
     ws.on('pong', () => {
       ws.isAlive = true;
@@ -19,12 +21,37 @@ function setupWebSocket(server) {
 
       try {
         const data = JSON.parse(msg);
+
         if (data.type === 'ping') {
           ws.send(JSON.stringify({ type: 'pong' }));
+        }
+
+        if (data.type === 'subscribe_voice_status' && data.discordId) {
+          if (ws._voiceUnsub) ws._voiceUnsub();
+
+          const initialState = getVoiceState(data.discordId);
+          ws.send(JSON.stringify({ type: 'voice_status', ...initialState }));
+
+          ws._voiceUnsub = subscribe(data.discordId, (state) => {
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({ type: 'voice_status_update', ...state }));
+            }
+          });
+        }
+
+        if (data.type === 'unsubscribe_voice_status') {
+          if (ws._voiceUnsub) {
+            ws._voiceUnsub();
+            ws._voiceUnsub = null;
+          }
         }
       } catch (e) {
         await Utility.error_logger('❌ Error parsing message:', e);
       }
+    });
+
+    ws.on('close', () => {
+      if (ws._voiceUnsub) ws._voiceUnsub();
     });
   });
 
