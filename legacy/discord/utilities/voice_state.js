@@ -1,7 +1,7 @@
 const client = require('./client');
+const { broadcastToClient } = require('../../global/utilities/websocket');
 
 const voiceStates = new Map();
-const subscribers = new Map();
 
 function getVoiceState(discordId) {
   return voiceStates.get(discordId) || {
@@ -10,31 +10,6 @@ function getVoiceState(discordId) {
     isDeafened: false,
     isSpeaking: false,
   };
-}
-
-function subscribe(discordId, callback) {
-  if (!subscribers.has(discordId)) {
-    subscribers.set(discordId, new Set());
-  }
-  subscribers.get(discordId).add(callback);
-
-  return () => {
-    const subs = subscribers.get(discordId);
-    if (subs) {
-      subs.delete(callback);
-      if (subs.size === 0) {
-        subscribers.delete(discordId);
-      }
-    }
-  };
-}
-
-function notifySubscribers(discordId) {
-  const subs = subscribers.get(discordId);
-  if (!subs) return;
-
-  const state = getVoiceState(discordId);
-  subs.forEach(callback => callback(state));
 }
 
 client.on('voiceStateUpdate', (oldState, newState) => {
@@ -55,18 +30,16 @@ client.on('voiceStateUpdate', (oldState, newState) => {
   }
 
   voiceStates.set(discordId, state);
-  notifySubscribers(discordId);
+  broadcastToClient({ type: 'voice_status_update', discordId, ...state });
 });
 
 client.on('speakingUpdate', (oldState, newState) => {
   const discordId = newState.member?.id;
   if (!discordId) return;
 
-  const isSpeaking = newState.speaking;
   const state = getVoiceState(discordId);
-
-  voiceStates.set(discordId, { ...state, isSpeaking });
-  notifySubscribers(discordId);
+  voiceStates.set(discordId, { ...state, isSpeaking: newState.speaking });
+  broadcastToClient({ type: 'voice_status_update', discordId, ...state });
 });
 
-module.exports = { getVoiceState, subscribe };
+module.exports = { getVoiceState };
