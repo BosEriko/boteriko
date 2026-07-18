@@ -5,10 +5,11 @@ const authentication_connect = express.Router();
 const discordScopes = [
   { name: 'connections', isEnabled: false },
   { name: 'email', isEnabled: false },
-  { name: 'guilds.join', isEnabled: false },
   { name: 'guilds', isEnabled: false },
+  { name: 'guilds.join', isEnabled: false },
   { name: 'identify', isEnabled: true },
   { name: 'messages.read', isEnabled: false },
+  { name: 'rpc', isEnabled: true },
 ];
 
 authentication_connect.get('/', async (req, res) => {
