@@ -1,1 +1,1 @@
-web: node bin/start.js
+web: tsx bin/start.js
