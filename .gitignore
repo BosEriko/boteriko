@@ -1,4 +1,48 @@
-.env
+# Dependencies
 node_modules
-package-lock.json
-yarn-error.log
+
+# Compiled output
+/dist
+
+# Lock files
+yarn.lock
+pnpm-lock.yaml
+
+# Environment
+.env*
+
+# Deployment
+.github/workflows/fly.yml
+fly.toml
+
+# Backups
+backups
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+
+# Tests
+/coverage
+/.nyc_output
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
