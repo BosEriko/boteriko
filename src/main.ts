@@ -19,12 +19,14 @@ export async function bootstrap() {
   );
 
   // Import and mount existing Express app at root
-  const expressApp = require('../config/routes.js');
-  app.use(expressApp);
+  const routes = require('../config/routes.js');
+  app.use(routes.express);
 
   const PORT = process.env.PORT || 3000;
   await app.listen(PORT, '0.0.0.0');
   console.log(`✅ Connected to API Server. PORT: ${PORT}`);
+
+  routes.socket(app.getHttpServer());
 }
 if (require.main === module) {
   bootstrap();

@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const http = require('http');
 const path = require('path');
 
 const { setupWebSocket } = require('@global/utilities/websocket');
@@ -58,8 +57,4 @@ app.use('/legacy/tetrio/disconnect', Controller.Tetrio.disconnect);
 // Discord Routes
 app.use('/legacy/discord/disconnect', Controller.Discord.disconnect);
 
-const server = http.createServer(app);
-
-setupWebSocket(server);
-
-module.exports = app;
+module.exports = { express: app, socket: setupWebSocket };
